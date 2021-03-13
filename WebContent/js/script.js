@@ -1,13 +1,7 @@
 /*Elegir usuario*/
-if(document.getElementById("particularLog") != null || document.getElementById("empresaLog") !=null){
-document.getElementById("particularLog").addEventListener("click", function(){
-    document.querySelector(".registro").querySelector("form").action = "http://localhost:8080/abastos/particular";
-	
-});
-document.getElementById("empresaLog").addEventListener("click", function(){
-    document.querySelector(".registro").querySelector("form").action = "http://localhost:8080/abastos/empresa";
-	
-});}
+
+
+
 
 /*cerrar ventanas*/
 if(document.getElementsByClassName("cerrarLabel")[0] !=null){
@@ -21,7 +15,6 @@ function cerrar(){
     document.getElementById("registro").checked = false;
     document.getElementById("logIn").checked = false;
 };
-
 
 
 /*puntuación estrellas*/

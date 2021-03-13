@@ -12,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.abastos.dao.jdbc.CategoriaDAOImpl;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
@@ -24,30 +23,31 @@ import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
+import com.abastos.service.ParticularService;
 import com.abastos.service.TiendaService;
 import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
+import com.abastos.service.impl.ParticularServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 
-/**
- * Servlet implementation class EmpresaServlet
- */
-@WebServlet("/empresa")
-public class EmpresaServlet extends HttpServlet {
-	private static Logger logger = LogManager.getLogger(EmpresaServlet.class);
 
-	
-	
+@WebServlet("/usuario")
+public class UsuarioServlet extends HttpServlet {
+
+	private static Logger logger = LogManager.getLogger(UsuarioServlet.class);
+
 	private EmpresaService empresaService;
 	private TiendaService tiendaService;
 	private CategoriaService categoriaService;
-	public EmpresaServlet() {
-		categoriaService = new CategoriaServiceImpl();
-		tiendaService = new TiendaServiceImpl();
+	public UsuarioServlet() {
 		empresaService = new EmpresaServiceImpl();
-
+		tiendaService = new TiendaServiceImpl();
+		categoriaService = new CategoriaServiceImpl();
 	}
+
+
+
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(logger.isDebugEnabled()) {
@@ -56,12 +56,15 @@ public class EmpresaServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
-		//forward a resultado de tiendas de una empresa
-		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
-			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
-			try {
-				Empresa empresa = empresaService.findById(Long.valueOf(idEmpresa));
-				if(empresa !=null) {
+		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
+			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
+			if(ActionNames.EMPRESA.equalsIgnoreCase(tipUsuario)) {
+				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
+				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
+				usuario = email == null? usuario: null;
+				String password = request.getParameter(ParameterNames.PASSWORD);
+				try {
+					Empresa empresa = empresaService.login(email,usuario, password);
 					List<Tienda> tienda = tiendaService.findByIdEmpresa(empresa.getId());
 					List<Categoria> categoria = categoriaService.findRoot("es");
 					request.setAttribute(AttributesNames.EMPRESA, empresa);
@@ -69,14 +72,13 @@ public class EmpresaServlet extends HttpServlet {
 					request.setAttribute(AttributesNames.CATEGORIAS, categoria);
 					request.setAttribute(AttributesNames.LOCALIDAD, empresa.getDireccion().getIdLocalidad());
 					target = ViewPaths.EMPRESA_RESULTS_TIENDAS;
-					
-				
+				} catch (DataException | ServiceException e) {
+					logger.warn(e.getMessage(),e);
 				}
-			} catch (DataException e) {
-
-				logger.warn(e.getMessage(),e);
 			}
-			
+
+		}
+		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
 			
 		}
 		if(redirect) { 
@@ -87,9 +89,8 @@ public class EmpresaServlet extends HttpServlet {
 			logger.info("Forwarding to..." + target);
 			request.getRequestDispatcher(target).forward(request, response);
 		}
-	
-	}
 
+	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		doGet(request, response);

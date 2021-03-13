@@ -11,21 +11,21 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
-	href="http://localhost:8080/abastos/css/estilo.css">
+	href="<%=request.getContextPath()%>/css/estilo.css">
 <link rel="stylesheet" media="(min-width: 800px)"
-	href="http://localhost:8080/abastos/css/prueba.css">
+	href="<%=request.getContextPath()%>/css/prueba.css">
 <script defer src="js/script.js"></script>
 </head>
 <body>
 	<header class="sectionTiendas">
 		<figure>
 			<img
-				src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg"
+				src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg"
 				alt="">
 		</figure>
 		<section>
 			<h1>Todos los ayuntamientos</h1>
-			<form action="http://localhost:8080/abastos/tienda" method="post">
+			<form action="<%=request.getContextPath()%>/tienda" method="post">
 				<input type="hidden" name="action" value="buscar" /> <input
 					type="text" name="nombre"> <input class="Buscar header"
 					type="submit" value="buscar">
@@ -40,7 +40,7 @@
 
 			<div>
 				<figure>
-					<img src="http://localhost:8080/abastos/imgs/tiendas/<%=tienda.getId()%>-principal.jpg" alt="">
+					<img src="<%=request.getContextPath()%>/imgs/tiendas/<%=tienda.getId()%>-principal.jpg" alt="">
 					<figcaption>
 						<span><%=tienda.getPuntuacionMedia().getValoracionMedia()%></span>
 					</figcaption>
@@ -103,7 +103,7 @@
 						</ol></li>
 					<li><a>categoria 6</a></li>
 					<li><a>categoria 7</a></li>
-					<form action="http://localhost:8080/abastos/producto" method="post">
+					<form action="<%=request.getContextPath()%>/producto" method="post">
 						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> <input
 							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde"><br>
 						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta"><br>
@@ -139,8 +139,8 @@
                     <input type="radio" id="prueba3" name="sli">
                     <ul>
                     <%Producto p = (Producto)request.getAttribute(AttributesNames.PRODUCTO);%>
-                        <li><img src="http://localhost:8080/abastos/imgs/productos/<%=p.getId()%>-principal.jpg" alt="" class="img1"></li>
-                        <li><img src="http://localhost:8080/abastos/imgs/productos/<%=p.getId()%>-galeria.jpg" alt="" class="img2"></li>
+                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-principal.jpg" alt="" class="img1"></li>
+                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-galeria.jpg" alt="" class="img2"></li>
                        
                     </ul>
                     <figcaption>
@@ -148,8 +148,8 @@
                         <label for="prueba2"></label>
                         <label for="prueba1"></label>
                   <ul>
-                            <li><label for="prueba1"><img src="http://localhost:8080/abastos/imgs/productos/<%=p.getId()%>-principal.jpg" alt="" class="img2"></label></li>
-                            <li><label for="prueba2"><img src="http://localhost:8080/abastos/imgs/productos/<%=p.getId()%>-galeria.jpg" alt="" class="img2"></label></li>
+                            <li><label for="prueba1"><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-principal.jpg" alt="" class="img2"></label></li>
+                            <li><label for="prueba2"><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-galeria.jpg" alt="" class="img2"></label></li>
                           
                 </ul> 
                     </figcaption>
@@ -191,7 +191,7 @@
 
 			
 			<button class="cerrarLabel"></button>
-			<form action="http://localhost:8080/abastos/particular" method="post">
+			<form action="<%=request.getContextPath()%>/particular" method="post">
 				<input type="hidden" name="action" value="logIn"/>
 				<label for="particularLog">Particular</label> <input type="radio"
 				id="particularLog" name="perfil" value="1" checked> <label for="empresaLog">Empresa</label><br>
@@ -268,13 +268,13 @@
 
 			</form>
 		</div>
-		 <div class="registro">
+		         <div class="registro">
 			<button class="cerrarLabel"></button>
-			<form action="http://localhost:8080/abastos/particular" method="post">
-				<input type="hidden" name="action" value="logIn"/>
+			<form action="<%=request.getContextPath()%>/usuario" method="post">
+				<input type="hidden" name="<%=ActionNames.ACTION%>" value="logIn"/>
 				<label for="particularLog">Particular</label> <input type="radio"
-				id="particularLog" name="perfil" value="1" checked> <label for="empresaLog">Empresa</label>
-			<input type="radio" id="empresaLog" value="2" name="perfil"><br>
+				id="particularLog" name="tipUsuario" value="particular" checked> <label for="empresaLog">Empresa</label>
+			<input type="radio" id="empresaLog" value="empresa" name="tipUsuario"><br>
 			<label for="usuario">Usuario o email</label><br>
 				 <input
 					type="text" name=<%=ParameterNames.NOMBRE_USUARIO%>><br> <label for="password" >Contraseña</label><br>
@@ -287,11 +287,11 @@
 				type="radio" id="ingles" name="idioma">
 		</div>
 		<figure>
-			<img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 			<h1>Todos los ayuntamientos</h1>
-			<form action="http://localhost:8080/abastos/tienda" method="post">
+			<form action="<%=request.getContextPath()%>/tienda" method="post">
 				<input type="hidden" name="action" value="buscar" /> <input
 					type="text" name="nombre"> <input class="Buscar header"
 					type="submit" value="buscar">

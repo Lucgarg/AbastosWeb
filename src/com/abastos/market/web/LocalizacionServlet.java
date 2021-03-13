@@ -9,8 +9,12 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.ParameterNames;
+import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.model.ComunidadAutonoma;
 import com.abastos.model.Localidad;
 import com.abastos.model.Provincia;
@@ -27,14 +31,14 @@ import com.google.gson.Gson;
  * Servlet implementation class Localizacion
  */
 @WebServlet("/localizacion")
-public class Localizacion extends HttpServlet {
-
+public class LocalizacionServlet extends HttpServlet {
+	private static Logger logger = LogManager.getLogger(LocalizacionServlet.class);
 	private ComunidadAutonomaService comServ = null;
 	private LocalidadService locServ = null;
 	private ProvinciaService proServ = null;
  
   
-    public Localizacion() {
+    public LocalizacionServlet() {
         super();
         comServ = new ComunidadAutonomaServiceImpl();
         locServ = new LocalidadServiceImpl();
@@ -44,23 +48,22 @@ public class Localizacion extends HttpServlet {
 
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		if(logger.isDebugEnabled()) {
+			logger.debug(ParameterUtils.print(request.getParameterMap()));
+		}
 		String action = request.getParameter(ActionNames.ACTION);
 		
 		if(ActionNames.PAIS.equalsIgnoreCase(action)) {
 			String pais = request.getParameter(ParameterNames.PAIS);
-			System.out.println(pais);
-			
 			try {
-				
 				List<ComunidadAutonoma> comunidadAutonoma = comServ.findByIdPais(Long.valueOf(pais));
-				
 				Gson gson = new Gson();
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(comunidadAutonoma));
-				
 			
 			} catch (NumberFormatException | DataException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.COMUNIDAD.equalsIgnoreCase(action)) {
@@ -71,7 +74,7 @@ public class Localizacion extends HttpServlet {
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(provincias));
 			} catch (NumberFormatException | DataException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.PROVINCIA.equalsIgnoreCase(action)) {
@@ -82,7 +85,7 @@ public class Localizacion extends HttpServlet {
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(localidades));
 			} catch (NumberFormatException | DataException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
 		}
 		

@@ -11,9 +11,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
+import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.DireccionDto;
@@ -38,7 +42,7 @@ import com.abastos.service.impl.TiendaServiceImpl;
  */
 @WebServlet("/tienda")
 public class TiendaServlet extends HttpServlet {
-
+	private static Logger logger = LogManager.getLogger(TiendaServlet.class);
 
 	private TiendaService tiendaService;
 	private ProductoService productoService;
@@ -53,7 +57,12 @@ public class TiendaServlet extends HttpServlet {
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException  {
+		if(logger.isDebugEnabled()) {
+			logger.debug(ParameterUtils.print(request.getParameterMap()));
+		}
 		String action = request.getParameter(ActionNames.ACTION);
+		String target = null;
+		boolean redirect = false;
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
 			String envioDomicilio = request.getParameter(ParameterNames.ENVIO_DOMICILIO);
 			String localidad = request.getParameter(ParameterNames.LOCALIDAD);
@@ -78,31 +87,31 @@ public class TiendaServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 				request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
-				request.getRequestDispatcher(ViewPaths.HTML_TIENDA_RESULTS_TIENDA_JSP).forward(request, response);
+				target = ViewPaths.TIENDA_RESULTS;
 			} catch (DataException e) {
 
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
+			
 		}
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
-			String idStr = request.getParameter(ParameterNames.ID_TIENDA);
-			Long id = Long.valueOf(idStr);
+			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
+			Long id = Long.valueOf(idTienda);
 			ProductoCriteria productoCrit = new ProductoCriteria();
 			productoCrit.setIdTienda(id);
 			Tienda tienda = new Tienda();
 			try {
 				List<Producto> results = productoService.findBy(productoCrit, "es");
-
 				tienda = tiendaService.findById(id);
 				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),"es");
 				request.setAttribute(AttributesNames.PRODUCTO, results);
 				request.setAttribute(AttributesNames.TIENDA, tienda);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
-				request.getRequestDispatcher(ViewPaths.HTML_PRODUCTO_RESULTS_PRODUCTO_JSP).forward(request, response);
+				target = ViewPaths.PRODUCTO_RESULTS;
 			} catch (DataException e) {
-
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
+			
 		}
 		else if(ActionNames.CREAR.equalsIgnoreCase(action)) {
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
@@ -148,11 +157,13 @@ public class TiendaServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.EMPRESA, empresa);
 				request.setAttribute(AttributesNames.RESULTS_TIENDA, tiendas);
 				request.setAttribute(AttributesNames.CATEGORIAS, cat);
-				request.getRequestDispatcher(ViewPaths.HTML_EMPRESA_RESULTS_TIENDAS_JSP).forward(request, response);
+				target = ViewPaths.EMPRESA_RESULTS_TIENDAS;
 			} catch (DataException | ServiceException e) {
+				logger.warn(e.getMessage(),e);
 			}
+			
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		
 	}
 
 

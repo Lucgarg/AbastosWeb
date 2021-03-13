@@ -1,21 +1,20 @@
-s<%@page import="com.abastos.market.web.util.AttributesNames"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*" %>
+<%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://localhost:8080/abastos/css/estilo.css">
-<link rel="stylesheet" media="(min-width: 800px)" href="http://localhost:8080/abastos/css/prueba.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/estilo.css">
+<link rel="stylesheet" media="(min-width: 800px)" href="<%=request.getContextPath()%>/css/prueba.css">
 <script defer src="js/script.js"></script>
 </head>
 <body>
 	<header class="sectionTiendas">
 		<figure>
-			<img src="http://localhost:8080/abastos/img/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/img/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 		</section>
@@ -62,7 +61,7 @@ s<%@page import="com.abastos.market.web.util.AttributesNames"%>
 			<% } %>
 		</div>
 			<%String idEmpresa = (String)request.getAttribute(AttributesNames.EMPRESA); %>
-		<button><a href="http://localhost:8080/abastos/precreate?action=oferta&idEmpresa=<%=idEmpresa%>"> Crear oferta</a></button>
+		<button><a href="<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_EMPRESA%><%=idEmpresa%>"> Crear oferta</a></button>
 	</section>
 	<input type="radio" id="null" name="seleccion" checked>
 	<input type="radio" id="foNav" name="seleccion">
@@ -74,9 +73,10 @@ s<%@page import="com.abastos.market.web.util.AttributesNames"%>
 
 		<div>
 	
-				<label primerBloque="p"for=registro><a href="http://localhost:8080/abastos/empresa?action=buscar&idEmpresa=<%=idEmpresa%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn"><a href="http://localhost:8080/abastos/oferta?action=buscar&idEmpresa=<%=idEmpresa%>">Mis ofertas
+<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=idEmpresa%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
+				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=idEmpresa%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="http://localhost:8080/abastos/producto?action=buscar&idEmpresa=<%=idEmpresa%>">Mis productos</a></label>
+				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=idEmpresa%>">Mis productos</a></label>
 		</div>
 		
 		<div class="idiomas">
@@ -85,7 +85,7 @@ s<%@page import="com.abastos.market.web.util.AttributesNames"%>
 				type="radio" id="ingles" name="idioma">
 		</div>
 		<figure>
-			<img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 			

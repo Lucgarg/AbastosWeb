@@ -1,6 +1,5 @@
-<%@page import="com.abastos.market.web.util.ParameterNames"%>
-<%@page import="com.abastos.market.web.util.ActionNames"%>
-<%@page import="com.abastos.market.web.util.AttributesNames"%>
+<%@page import="com.abastos.market.web.util.*"%>
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*" %>
@@ -10,19 +9,19 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://localhost:8080/abastos/css/estilo.css">
-<link rel="stylesheet" media="(min-width: 800px)" href="http://localhost:8080/abastos/css/prueba.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/estilo.css">
+<link rel="stylesheet" media="(min-width: 800px)" href="<%=request.getContextPath()%>/css/prueba.css">
 <script defer src="js/script.js"></script>
 </head>
 <body>
 	<header class="sectionTiendas">
 		<figure>
-			<img src="http://localhost:8080/abastos/img/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/img/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 		<% Empresa empresa = (Empresa) request.getAttribute(AttributesNames.EMPRESA);%>
 			<h1>Todos los ayuntamientos</h1>
-			<form action="http://localhost:8080/abastos/tienda" method="post">
+			<form action="<%=request.getContextPath()%>/tienda" method="post">
 			<input type="hidden" name="idEmpresa" value=<%=empresa.getId()%>>
 			<input type="hidden" name="action" value="buscar"/>
 			<input type="text" name="nombre">
@@ -42,9 +41,9 @@
 					<%List<Categoria> catServ = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
 					<%for(Categoria cat: catServ){%>
 					
-					<li><a href="http://localhost:8080/abastos/tienda?action=buscar&categoria=<%=cat.getId()%>&idEmpresa=<%=empresa.getId()%>"><%=cat.getNombre()%></a></li>
+					<li><a href="<%=request.getContextPath()%>/tienda?action=buscar&categoria=<%=cat.getId()%>&idEmpresa=<%=empresa.getId()%>"><%=cat.getNombre()%></a></li>
 					<%}%>
-					<form action="http://localhost:8080/abastos/tienda" method="post">
+					<form action="<%=request.getContextPath()%>/tienda" method="post">
 					<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>/>
 					
 					<input type="hidden" name=<%=ActionNames.EMPRESA%> value=<%=empresa.getId()%>>
@@ -69,10 +68,10 @@
 		
 			<div>
 				<figure>
-					<a href="productos.html"><img src="http://localhost:8080/abastos/imgs/tiendas/<%=t.getId()%>-principal.jpg" alt="">
+					<a href="productos.html"><img src="<%=request.getContextPath()%>/imgs/tiendas/<%=t.getId()%>-principal.jpg" alt="">
 				</figure>
 				<p>
-					<a href="http://localhost:8080/abastos/tienda?action=detalle&id=<%=t.getId()%>"><%=t.getNombre()%></a>
+					<a href="<%=request.getContextPath()%>/tienda?action=detalle&id=<%=t.getId()%>"><%=t.getNombre()%></a>
 				</p>
 				<p><%=t.getDireccionDto().getLocalidad()%></p>
 				<span><%=t.getPuntuacionMedia().getValoracionMedia()%></span>
@@ -81,7 +80,7 @@
 			}
 		%>
 		</div>
-		<button><a href="http://localhost:8080/abastos/precreate?action=empresa&idEmpresa=<%=empresa.getId()%>"> Crear tienda</a></button>
+		<button><a href="<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_EMPRESA%><%=empresa.getId()%>"> Crear tienda</a></button>
 	</section>
 	<input type="radio" id="null" name="seleccion" checked>
 	<input type="radio" id="foNav" name="seleccion">
@@ -92,9 +91,10 @@
 	<div class="footerNav">
 
 		<div>
-			<label primerBloque="p"for=registro><a href="http://localhost:8080/abastos/empresa?action=buscar&idEmpresa=<%=empresa.getId()%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn"><a href="http://localhost:8080/abastos/oferta?action=buscar&idEmpresa=<%=empresa.getId()%>">Mis ofertas
+			<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=empresa.getId()%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
+				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=empresa.getId()%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="http://localhost:8080/abastos/producto?action=buscar&idEmpresa=<%=empresa.getId()%>">Mis productos</a></label>
+				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=empresa.getId()%>">Mis productos</a></label>
 		</div>
 		
 		<div class="idiomas">
@@ -103,11 +103,11 @@
 				type="radio" id="ingles" name="idioma">
 		</div>
 		<figure>
-			<img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 			<h1>Todos los ayuntamientos</h1>
-			<form action="http://localhost:8080/abastos/tienda" method="post">
+			<form action="<%=request.getContextPath()%>/tienda" method="post">
 				<input type="hidden" name="idEmpresa" value=<%=empresa.getId()%>>
 			<input type="hidden" name="action" value="buscar"/>
 			<input type="text" name="nombre">

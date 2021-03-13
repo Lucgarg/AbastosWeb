@@ -4,7 +4,7 @@ public class ParameterNames {
 
 	public static final String PASSWORD = "password";
 	public static final String NOMBRE_USUARIO = "nombre";
-	public static final String ID_EMPRESA = "idEmpresa";
+	public static final String ID_EMPRESA = "empresa";
 	public static final String PROVINCIA = "provincia";
 	public static final String COMUNIDAD = "comunidad";
 	public static final String PAIS = "pais";
@@ -22,8 +22,8 @@ public class ParameterNames {
 	public static final String CARACT_CASTELLANO = "caractCastellano";
 	public static final String NOMBRE_INGLES = "nombreIngles";
 	public static final String NOMBRE_CASTELLANO = "nombreCastellano";
-	public static final String ID_PRODUCTO = "idProducto";
-	public static final String ID_TIENDA = "idTienda";
+	public static final String ID_PRODUCTO = "producto";
+	public static final String ID_TIENDA = "tienda";
 	public static final String IDIOMA = "idioma";
 	public static final String CATEGORIA = "categoria";
 	public static final String OFERTA = "oferta";
@@ -42,4 +42,5 @@ public class ParameterNames {
 	public static final String ENVIO_DOMICILIO = "envioDomicilio";
 	public static final String CODIGO_POSTAL = "codigoPostal";
 	public static final String NOMBRE_OFERTA = "nombreOferta";
+	public static final String TIP_USUARIO = "tipUsuario";
 }

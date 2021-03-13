@@ -27,7 +27,7 @@ function getDetails(e){
 		return;
 	}
 	
-	var url="http://localhost:8080/abastos/localizacion?action="+ e.currentTarget.id + "&"+ e.currentTarget.id + "=" + e.currentTarget.value;
+	var url= createUrl() + "/localizacion?action="+ e.currentTarget.id + "&"+ e.currentTarget.id + "=" + e.currentTarget.value;
 
 request.open("GET", url, true);
 	let guardar = e.currentTarget;
@@ -87,4 +87,11 @@ function remove(valor){
 	for(let i = valor.options.length-1; i >= 1 ; i--){
 		valor.options[i].remove();
 	}
+	function createUrl(){
+let origin  = location.origin;
+let host = location.host;
+let pathname = location.pathname.split("/")[1];
+let url =   origin +  "/" +  pathname;
+return url;
+}
 }

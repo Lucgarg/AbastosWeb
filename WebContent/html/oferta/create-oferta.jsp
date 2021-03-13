@@ -1,24 +1,21 @@
-<%@page import="com.abastos.market.web.util.ActionNames"%>
-<%@page import="com.abastos.market.web.util.ParameterNames"%>
-<%@page import="com.abastos.market.web.util.AttributesNames"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
-<%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*" %>
+<%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://localhost:8080/abastos/css/estilo.css">
-<link rel="stylesheet" media="(min-width: 800px)" href="http://localhost:8080/abastos/css/prueba.css">
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/estilo.css">
+<link rel="stylesheet" media="(min-width: 800px)" href="<%=request.getContextPath()%>/css/prueba.css">
 <script defer src="js/script.js"></script>
 </head>
 <body>
 
 	<header class="sectionTiendas">
 		<figure>
-			<img src="http://localhost:8080/abastos/img/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/img/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 		</section>
@@ -31,7 +28,7 @@
 		</nav>
 	</section>
 	<section class ="productoDetalle"><div>
-                <form action="http://localhost:8080/abastos/oferta" method="post">
+                <form action="<%=request.getContextPath()%>/oferta" method="post">
                 
                 <%String id = (String) request.getAttribute(AttributesNames.EMPRESA); %>
                 
@@ -78,9 +75,10 @@
 	<div class="footerNav">
 
 		<div>
-				<label primerBloque="p"for=registro><a href="http://localhost:8080/abastos/empresa?action=buscar&idEmpresa=<%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn"><a href="http://localhost:8080/abastos/oferta?action=buscar&idEmpresa=<%=id%>">Mis ofertas
+		<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
+				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=id%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="http://localhost:8080/abastos/producto?action=buscar&idEmpresa=<%=id%>">Mis productos</a></label>
+				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=id%>">Mis productos</a></label>
 		</div>
 		
 		<div class="idiomas">
@@ -89,7 +87,7 @@
 				type="radio" id="ingles" name="idioma">
 		</div>
 		<figure>
-			<img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 	

@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
@@ -47,18 +50,17 @@ import com.abastos.service.impl.TipoOfertaServiceImpl;
  */
 @WebServlet("/precreate")
 public class PrecreateServlet extends HttpServlet {
-
+	private static Logger logger = LogManager.getLogger(PrecreateServlet.class);
 	private CategoriaService categoriaService = null;
 	private PaisService paisService = null;
 	private ComunidadAutonomaService comunidadAutonoma = null;
 	private LocalidadService localidad = null;
 	private ProvinciaService provincia = null;
-	private Map<String, String> categoriasJson= null;
 	private TipoOfertaService tipOfert = null;
 	private TiendaService tiendaService = null;
 	private OfertaService ofertaService = null;
 	public PrecreateServlet() {
-		categoriasJson = new HashMap<String, String>();
+	
 		categoriaService = new CategoriaServiceImpl();
 		paisService = new PaisServiceImpl();
 		localidad = new LocalidadServiceImpl();
@@ -73,37 +75,32 @@ public class PrecreateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ActionNames.ACTION);
+		String target = null;
+		boolean redirect = false;
 		if(ActionNames.EMPRESA.equalsIgnoreCase(action)) {
 			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
-
 			try {
 				List<Categoria> categorias = categoriaService.findRoot("es");
 				List<Pais> paises = paisService.findByAll();
 				List<Provincia> provincias = provincia.findByIdComunidad(1L);
 				List<Localidad> local = localidad.findByIdProvincia(1L);
 				List<ComunidadAutonoma> comAut = comunidadAutonoma.findByIdPais(1L);
-
-
 				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PAISES, paises);
-		
-
-				request.getRequestDispatcher(ViewPaths.HTML_EMPRESA_CREATE_TIENDA_JSP).forward(request, response);
+				target = ViewPaths.EMPRESA_CREATE_TIENDA;
 			} catch (DataException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
 		}else if(ActionNames.OFERTA.equalsIgnoreCase(action)){
 			String empresa = request.getParameter(ParameterNames.ID_EMPRESA);
-
 			try {
 				List<TipoOferta> tipoOferta = tipOfert.findAll();
-
 				request.setAttribute(AttributesNames.EMPRESA, empresa);
 				request.setAttribute(AttributesNames.TIPO, tipoOferta);
-				request.getRequestDispatcher(ViewPaths.HTML_OFERTA_CREATE_OFERTA_JSP).forward(request, response);
+				target = ViewPaths.OFERTA_CREATE;
 			} catch (NumberFormatException | DataException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.PRODUCTO.equalsIgnoreCase(action)) {
@@ -117,12 +114,19 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.RESULTS_TIENDA, listTienda);
 				request.setAttribute(AttributesNames.OFERTAS, listOferta);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
-				request.getRequestDispatcher(ViewPaths.HTML_PRODUCTO_CREATE_PRODUCTO_JSP).forward(request, response);
+				target = ViewPaths.PRODUCTO_CREATE;
 			} catch (DataException e) {
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
 			}
 		}
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		if(redirect) { 
+			logger.info("Redirect to..." + target);
+			response.sendRedirect(request.getContextPath() + target);
+		}
+		else {
+			logger.info("Forwarding to..." + target);
+			request.getRequestDispatcher(target).forward(request, response);
+		}
 	}
 
 

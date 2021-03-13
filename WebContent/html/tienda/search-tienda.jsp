@@ -8,18 +8,18 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="http://localhost:8080/abastos/css/estilo.css">
-<link rel="stylesheet" media="(min-width: 800px)" href="http://localhost:8080/abastos/css/prueba.css">
-<script defer src="http://localhost:8080/abastos/js/script.js"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/css/estilo.css">
+<link rel="stylesheet" media="(min-width: 800px)" href="<%=request.getContextPath()%>/css/prueba.css">
+<script defer src="<%=request.getContextPath()%>/js/script.js"></script>
 <script defer src="js/request.js"></script>
 </head>
 <body>
 
   <header class="logo">
-           <figure><img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt=""></figure>
+           <figure><img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt=""></figure>
        </header>
        <section class="localizacion">
-           <form action="http://localhost:8080/abastos/tienda" method="post">
+           <form action="<%=request.getContextPath()%>/tienda" method="post">
            <input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>/>
             <label class="select" for="1">
                <select name=<%=ParameterNames.PROVINCIA%> id="provincia">
@@ -138,11 +138,11 @@
            </div>
            <div class="registro">
 			<button class="cerrarLabel"></button>
-			<form action="http://localhost:8080/abastos/particular" method="post">
-				<input type="hidden" name="action" value="logIn"/>
+			<form action="<%=request.getContextPath()%>/usuario" method="post">
+				<input type="hidden" name="<%=ActionNames.ACTION%>" value="logIn"/>
 				<label for="particularLog">Particular</label> <input type="radio"
-				id="particularLog" name="perfil" value="1" checked> <label for="empresaLog">Empresa</label>
-			<input type="radio" id="empresaLog" value="2" name="perfil"><br>
+				id="particularLog" name="tipUsuario" value="particular" checked> <label for="empresaLog">Empresa</label>
+			<input type="radio" id="empresaLog" value="empresa" name="tipUsuario"><br>
 			<label for="usuario">Usuario o email</label><br>
 				 <input
 					type="text" name=<%=ParameterNames.NOMBRE_USUARIO%>><br> <label for="password" >Contraseña</label><br>
@@ -155,7 +155,7 @@
                <label for="ingles">Inglés</label>
                <input type="radio" id="ingles" name="idioma">
            </div>
-           <figure><img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt=""></figure>
+           <figure><img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt=""></figure>
            <section>
                <h1>Todos los ayuntamientos</h1>
               

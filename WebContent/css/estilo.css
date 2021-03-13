@@ -11,14 +11,14 @@
 -------------------------------------------------------------------------------*/
 @font-face {
 	font-family: 'icomoon';
-	src: url('http://localhost:8080/abastos/fonts/icomoon.eot?99hqda');
-	src: url('http://localhost:8080/abastos/fonts/icomoon.eot?99hqda#iefix')
+	src: url('/fonts/icomoon.eot?99hqda');
+	src: url('/fonts/icomoon.eot?99hqda#iefix')
 		format('embedded-opentype'),
-		url('http://localhost:8080/abastos/fonts/icomoon.ttf?99hqda')
+		url('/abastos/fonts/icomoon.ttf?99hqda')
 		format('truetype'),
-		url('http://localhost:8080/abastos/fonts/icomoon.woff?99hqda')
+		url('/fonts/icomoon.woff?99hqda')
 		format('woff'),
-		url('http://localhost:8080/abastos/fonts/icomoon.svg?99hqda#icomoon')
+		url('/fonts/icomoon.svg?99hqda#icomoon')
 		format('svg');
 	font-weight: normal;
 	font-style: normal;

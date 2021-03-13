@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, com.abastos.model.*"%>
+<%@page import="com.abastos.market.web.util.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,21 +9,21 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
-	href="http://localhost:8080/abastos/css/estilo.css">
+	href="<%=request.getContextPath()%>/css/estilo.css">
 <link rel="stylesheet" media="(min-width: 800px)"
-	href="http://localhost:8080/abastos/css/prueba.css">
+	href="<%=request.getContextPath()%>/css/prueba.css">
 <script defer src="js/script.js"></script>
 </head>
 <body>
 	<header class="sectionTiendas">
 		<figure>
 			<img
-				src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg"
+				src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg"
 				alt="">
 		</figure>
 		<section>
 			<h1>Todos los ayuntamientos</h1>
-			<form action="http://localhost:8080/abastos/tienda" method="post">
+			<form action="<%=request.getContextPath()%>/tienda" method="post">
 				<input type="hidden" name="action" value="buscar" /> <input
 					type="text" name="nombre"> <input class="Buscar header"
 					type="submit" value="buscar">
@@ -66,9 +67,10 @@
 	<div class="footerNav">
 	<%String id = (String)request.getAttribute("idEmpresa"); %>
 		<div>
-			<label primerBloque="p"for=registro><a href="http://localhost:8080/abastos/empresa?action=buscar&idEmpresa=<%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn"><a href="http://localhost:8080/abastos/oferta?action=buscar&idEmpresa=<%=id%>">Mis ofertas
+			<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
+				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=id%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="http://localhost:8080/abastos/producto?action=buscar&idEmpresa=<%=id%>">Mis productos</a></label>
+				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=id%>">Mis productos</a></label>
 		</div>
 		<div class="forma">
 
@@ -159,11 +161,11 @@
 				type="radio" id="ingles" name="idioma">
 		</div>
 		<figure>
-			<img src="http://localhost:8080/abastos/imgs/logo_Mesa de trabajo 1.jpg" alt="">
+			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
 		</figure>
 		<section>
 			<h1>Todos los ayuntamientos</h1>
-			<form action="http://localhost:8080/abastos/tienda" method="post">
+			<form action="<%=request.getContextPath()%>/tienda" method="post">
 				<input type="hidden" name="action" value="buscar" /> <input
 					type="text" name="nombre"> <input class="Buscar header"
 					type="submit" value="buscar">
