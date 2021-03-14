@@ -10,6 +10,7 @@ public class ViewPaths {
 	public static final String EMPRESA_REGISTRO = "/html/empresa/registrar.jsp";
 	public static final String PARTICULAR_ACTION_REGISTRO = "/particular?action=registrar";
 	public static final String PARTICULAR_REGISTRO = "/html/particular/registrar.jsp";
+	public static final String PARTICULAR_LOGIN = "/html/particular/particular-search-tienda.jsp";
 	public static final String OFERTA_ACTION_BUSCAR = "/oferta?action=buscar&empresa=";
 	public static final String OFERTA_CREATE = "/html/oferta/create-oferta.jsp";
 	public static final String OFERTA_RESULTS = "/html/oferta/results-ofertas.jsp";

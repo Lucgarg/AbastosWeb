@@ -1023,6 +1023,17 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	vertical-align: top;
 	padding-right: 10px;
 }
+/*perfil particular mis pedidos*/
+.footerNav>div:nth-child(1)>label:nth-child(6) {
+	width: 10%;
+	font-size: 0.8rem;
+	text-align: center;
+	display: inline-block;
+	margin-left: 0;
+	vertical-align: top;
+	padding-right: 10px;
+}
+
 
 /*iciono registro*/
 .footerNav>div:nth-child(1)>label:nth-child(1)::before {
@@ -1051,7 +1062,15 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	text-align: center;
 	color: orange;
 }
-
+/*icono misPedidos*/
+.footerNav>div:nth-child(1)>label:nth-child(6)::before {
+	content: attr(quintoBloque);
+	font-family: "icomoon";
+	font-size: 1.9rem;
+	display: block;
+	text-align: center;
+	color: orange;
+}
 #foNav:checked ~ .footerNav>div>label:nth-child(4)>div:before, #registro:checked 
 	~ .footerNav>div>label:nth-child(4)>div:before, #Idiomas:checked ~
 	.footerNav>div>label:nth-child(4)>div:before, #logIn:checked ~

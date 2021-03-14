@@ -42,9 +42,9 @@
 					<li><a href="<%=request.getContextPath()%><%=ViewPaths.TIENDA_ACTION_BUSCAR%><%=cat.getId()%>&localidad=<%=localidad%>"><%=cat.getNombre()%></a></li>
 					<%}%>
 					<form action="<%=request.getContextPath()%>/tienda" method="post">
-					<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>/>
+					<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
 					
-					<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=localidad%>>
+					<input type="hidden" name=<%=ParameterNames.LOCALIDAD%> value=<%=localidad%>>
 						<label>Envio a domicilio</label>
 						<input type="checkbox" name=<%=ParameterNames.ENVIO_DOMICILIO%> value="true">
 						<h5>Categoria</h5>

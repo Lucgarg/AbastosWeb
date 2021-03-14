@@ -19,16 +19,19 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
+import com.abastos.model.Pais;
 import com.abastos.model.Particular;
 import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
+import com.abastos.service.PaisService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.TiendaService;
 import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
+import com.abastos.service.impl.PaisServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 
@@ -42,7 +45,9 @@ public class UsuarioServlet extends HttpServlet {
 	private ParticularService particularService;
 	private TiendaService tiendaService;
 	private CategoriaService categoriaService;
+	private PaisService paisService;
 	public UsuarioServlet() {
+		paisService = new PaisServiceImpl();
 		particularService = new ParticularServiceImpl();
 		empresaService = new EmpresaServiceImpl();
 		tiendaService = new TiendaServiceImpl();
@@ -86,8 +91,10 @@ public class UsuarioServlet extends HttpServlet {
 				String password = request.getParameter(ParameterNames.PASSWORD);
 				try {
 					Particular particular = particularService.login(email,usuario, password);
-					target = ViewPaths.PRECREATE_ACTION_INDEX;
-					redirect = true;
+					List<Pais> paises = paisService.findByAll();
+					request.setAttribute(AttributesNames.PAISES, paises);
+					target = ViewPaths.PARTICULAR_LOGIN;
+					
 				} catch (DataException | ServiceException e) {
 					logger.warn(e.getMessage(),e);
 				}

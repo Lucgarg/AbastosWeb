@@ -69,7 +69,8 @@ public class TiendaServlet extends HttpServlet {
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
 			TiendaCriteria tienda = new TiendaCriteria();
-			if(localidad != "0") {
+			if(!"0".equals(localidad)) {
+				
 				tienda.setIdLocalidad(Long.valueOf(localidad));
 			}
 			if(categoria != null) {
