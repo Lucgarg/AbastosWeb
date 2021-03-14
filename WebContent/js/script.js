@@ -1,7 +1,11 @@
-/*Elegir usuario*/
 
 
-
+/*creacion de elementos*/
+let buttonBack = document.createElement("button");
+buttonBack.innerHTML = "atras";
+buttonBack.setAttribute("class", "back");
+buttonBack.setAttribute("type", "button");
+buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
 
 /*cerrar ventanas*/
 if(document.getElementsByClassName("cerrarLabel")[0] !=null){
@@ -19,11 +23,6 @@ function cerrar(){
 /*funciones para paginar registro*/
 if(document.querySelector(".next") != null){
 let forma = document.querySelector(".productoDetalle").querySelector("div").querySelectorAll("form");
-let buttonBack = document.createElement("button");
-buttonBack.innerHTML = "atras";
-buttonBack.setAttribute("class", "back");
-buttonBack.setAttribute("type", "button");
-buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
 
 forma.forEach(element => {
     element.querySelector(".next").addEventListener("click", function () { next(element) });

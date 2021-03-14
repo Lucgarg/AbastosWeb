@@ -1,6 +1,6 @@
+<%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-    <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +31,7 @@
 	</section>
        <section class="productoDetalle">
         	<div>
-          <form action=<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_REGISTRAR%> method="post">
+          <form action=<%=request.getContextPath()%><%=ViewPaths.PARTICULAR_ACTION_REGISTRO%> method="post">
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">
           		<fieldset>
           		<label>Nombre usuario</label><br>
@@ -44,14 +44,12 @@
           		<fieldset>
           		<label>Contraseña</label>
           		<input type="password" name=<%=ParameterNames.PASSWORD%>>
-          		</fieldset>
-          		<fieldset>
-          		<label>CIF</label><br>
-          		<input type="text" name="<%=ParameterNames.CIF%>"><br>
-          		<label>Razón social</label><br>
-          		<input type="text" name="<%=ParameterNames.RAZON_SOCIAL%>"><br>
-          		<label>Email</label><br>
-          		<input type="text" name="<%=ParameterNames.EMAIL%>"><br>
+          			<label>Número de teléfono</label>
+          		<input type="text" name=<%=ParameterNames.TELEFONO%>>
+          			<labe>Número de móvil</label>
+          		<input type="text" name=<%=ParameterNames.MOVIL%>>
+          		<label>Correo electrónico</label><br>
+          		<input type="email" name="<%=ParameterNames.EMAIL%>"><br>
           		</fieldset>
           		<fieldset>
           		<label>Calle</label><br>
@@ -64,7 +62,7 @@
           		<input type="text" name="<%=ParameterNames.CODIGO_POSTAL%>"><br>
           		</fieldset>
           		<fieldset>
-          		 <label>Pais  </label><br>
+          		 <label>Pais</label><br>
                 <select  name=<%=ParameterNames.PAIS%> id="pais">
                 <option disabled selected value>--selecciona un pais--</option>
                 <%List<Pais> paises = (List<Pais>) request.getAttribute(AttributesNames.PAISES); 

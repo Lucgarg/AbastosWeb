@@ -80,7 +80,7 @@
 			}
 		%>
 		</div>
-		<button><a href="<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_EMPRESA%><%=empresa.getId()%>"> Crear tienda</a></button>
+		<button><a href="<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_TIENDA%><%=empresa.getId()%>"> Crear tienda</a></button>
 	</section>
 	<input type="radio" id="null" name="seleccion" checked>
 	<input type="radio" id="foNav" name="seleccion">

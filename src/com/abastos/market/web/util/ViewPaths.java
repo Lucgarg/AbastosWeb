@@ -15,6 +15,7 @@ public class ViewPaths {
 	public static final String OFERTA_CREATE = "/html/oferta/create-oferta.jsp";
 	public static final String OFERTA_RESULTS = "/html/oferta/results-ofertas.jsp";
 	public static final String PRECREATE_ACTION_PRODUCTO = "/precreate?action=producto&empresa=";
+	public static final String PRECREATE_ACTION_TIENDA = 	"/precreate?action=empresa&empresa=";
 	public static final String PRECREATE_ACTION_EMPRESA = 	"/precreate?action=oferta&empresa=";
 	public static final String PRECREATE_ACTION_REGISTRO_EMPRESA = "/precreate?action=registrar&tipUsuario=empresa";
 	public static final String PRECREATE_ACTION_REGISTRO_PARTICULAR = "/precreate?action=registrar&tipUsuario=particular";
@@ -29,4 +30,5 @@ public class ViewPaths {
 	public static final String TIENDA_ACTION_BUSCAR =  "/tienda?action=buscar&categoria=";
 	public static final String TIENDA_ACTION_DETALLE =  "/tienda?action=detalle&tienda=";
 	public static final String TIENDA_BUSQUEDA =  "/html/tienda/search-tienda.jsp";
+	public static final String TIENDA_CREATE =  "/html/tienda/crear.jsp";
 }

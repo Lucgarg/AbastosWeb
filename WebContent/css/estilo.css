@@ -971,6 +971,7 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	vertical-align: middle;
 	position: absolute;
 	bottom: 35%;
+	
 }
 /*carrito*/
 .footerNav>div:nth-child(1)>label:nth-child(4)>div {

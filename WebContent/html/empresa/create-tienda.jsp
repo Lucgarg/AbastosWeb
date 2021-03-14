@@ -35,7 +35,7 @@
                 
                 <%String id = (String) request.getAttribute(AttributesNames.EMPRESA);%>
                 <input type="hidden" name=<%=ActionNames.EMPRESA%> value="<%=id%>">
-                <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
+                <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 <label>Nombre de la tienda</label><br>
                 <input type="text" name=<%=ParameterNames.NOMBRE_TIENDA%>><br>
                 <label>Móvil</label><br>
