@@ -22,9 +22,11 @@
 		<section>
 		</section>
 	</header>
+	
 	<section class="tiendas">
 		<div class="tiendas2">
 	</section>
+	
 	<section>
 		<nav>
 		</nav>

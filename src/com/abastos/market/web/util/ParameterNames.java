@@ -43,4 +43,8 @@ public class ParameterNames {
 	public static final String CODIGO_POSTAL = "codigoPostal";
 	public static final String NOMBRE_OFERTA = "nombreOferta";
 	public static final String TIP_USUARIO = "tipUsuario";
+	public static final String AlIAS = "alias";
+	public static final String APELLIDOS = "apellidos";
+	public static final String CIF = "CIF";
+	public static final String RAZON_SOCIAL = "razonSocial";
 }

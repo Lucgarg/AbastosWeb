@@ -16,6 +16,73 @@ function cerrar(){
     document.getElementById("logIn").checked = false;
 };
 
+/*funciones para paginar registro*/
+if(document.querySelector(".next") != null){
+let forma = document.querySelector(".productoDetalle").querySelector("div").querySelectorAll("form");
+let buttonBack = document.createElement("button");
+buttonBack.innerHTML = "atras";
+buttonBack.setAttribute("class", "back");
+buttonBack.setAttribute("type", "button");
+buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
+
+forma.forEach(element => {
+    element.querySelector(".next").addEventListener("click", function () { next(element) });
+   
+});
+}
+function next(valor) {
+
+    let campo = valor.querySelectorAll("fieldset");
+
+    for (let i = 0; i < campo.length; i++) {
+
+        if (campo[i].style.display != "none") {
+
+            if (campo[0].style.display != "none") {
+
+                valor.insertBefore(buttonBack, valor.querySelectorAll("button")[0]);
+            }
+            campo[i].style.display = "none";
+            if (i <= 3) {
+                campo[i + 1].style.display = "initial";
+            }
+            if ((i + 1) == campo.length - 1) {
+
+                valor.querySelectorAll("button")[1].style.display = "none";
+            }
+
+            i = campo.length;
+        }
+    }
+}
+function back(valor) {
+
+
+    let campo = valor.querySelectorAll("fieldset");
+
+    for (let i = 0; i < campo.length; i++) {
+
+        if (campo[i].style.display != "none") {
+            if (campo[1].style.display != "none") {
+               
+                buttonBack.remove();
+            }
+            campo[i].style.display = "none";
+
+            campo[i - 1].style.display = "initial";
+
+
+            if ((i - 1) == campo.length - 2) {
+
+                valor.querySelector(".next").style.display = "initial";
+            }
+
+            i = campo.length;
+
+        }
+    }
+}
+
 
 /*puntuación estrellas*/
 

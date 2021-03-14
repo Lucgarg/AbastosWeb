@@ -658,6 +658,10 @@ select {
 	pointer-events: none;
 	padding: 5% 5% 7% 5%;
 }
+/*seccion registro*/
+.registro{
+	width: 50%;
+}
 /*seccion tiendas*/
 .sectionTiendas+.tiendas {
 	padding-bottom: 0;
@@ -1056,7 +1060,7 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	display: block;
 }
 /*mostrar campos ocultos*/
-#registro:checked ~ .footerNav>.forma {
+#registro:checked ~ .footerNav>.tipUsuario {
 	display: block;
 }
 
@@ -1077,34 +1081,41 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	text-align: center;
 	display: none;
 }
-/*campos de registro*/
-.footerNav>.forma {
+/*eleccion tipo de usuario*/
+	.footerNav> .tipUsuario{
+	
+	display:none;
+	}
+	
+
+/*
+.localizacion>.forma {
 	text-align: center;
 	max-height: 450px;
 	overflow-y: scroll;
 	display: none;
 }
 
-.footerNav>.forma>form>input {
+.localizacion>.forma>form>input {
 	margin: 2% 0 2% 0;
 }
 
-.footerNav>.forma>form {
+.localizacion>.forma>form {
 	display: none;
 	margin-top: 4%;
 }
 
-.footerNav>.forma    #particular:checked+label+input+button+form {
+.localizacion>.forma    #particular:checked+label+input+button+form {
 	display: block;
 }
 
-.footerNav>.forma    #empresa:checked+button+form  ~ form {
+.localizacion>.forma    #empresa:checked+button+form  ~ form {
 	display: block;
 }
 
-.footerNav #particular {
+.localizacion #particular {
 	margin-right: 25%;
-}
+}*/
 
 .localizacion {
 	display: inline-block;

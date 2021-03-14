@@ -18,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
+import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.ComunidadAutonoma;
@@ -60,7 +61,7 @@ public class PrecreateServlet extends HttpServlet {
 	private TiendaService tiendaService = null;
 	private OfertaService ofertaService = null;
 	public PrecreateServlet() {
-	
+
 		categoriaService = new CategoriaServiceImpl();
 		paisService = new PaisServiceImpl();
 		localidad = new LocalidadServiceImpl();
@@ -77,6 +78,9 @@ public class PrecreateServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+		if(logger.isDebugEnabled()) {
+			logger.debug(ParameterUtils.print(request.getParameterMap()));
+		}
 		if(ActionNames.EMPRESA.equalsIgnoreCase(action)) {
 			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
 			try {
@@ -115,6 +119,33 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.OFERTAS, listOferta);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				target = ViewPaths.PRODUCTO_CREATE;
+			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
+			}
+		}
+		//se recuperan la lista de paises para la direccion en el registro de usuarios
+		else if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
+			String tipUser = request.getParameter(ParameterNames.TIP_USUARIO);
+			try {
+				List<Pais> paises = paisService.findByAll();
+				request.setAttribute(AttributesNames.PAISES, paises);
+				//dependiendo del tipo de usuario se hace forward a la página correspondiente
+				if(ActionNames.EMPRESA.equalsIgnoreCase(tipUser)) {
+					target = ViewPaths.EMPRESA_REGISTRO;
+				}
+				else if(ActionNames.PARTICULAR.equalsIgnoreCase(tipUser)){
+					target = ViewPaths.PARTICULAR_REGISTRO;
+				}
+			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
+			}
+		}
+		else if(ActionNames.INICIO.equalsIgnoreCase(action)) {
+			List<Pais> paises;
+			try {
+				paises = paisService.findByAll();
+				request.setAttribute(AttributesNames.PAISES, paises);
+				target = ViewPaths.TIENDA_BUSQUEDA;
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}

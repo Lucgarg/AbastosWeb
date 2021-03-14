@@ -18,10 +18,10 @@ public static final String print(Map<String, String[]> parameters) {
 		for(Map.Entry<String, String[]> values : parameters.entrySet()) {
 			sb.append(values.getKey()).append("={");
 			for(String va:values.getValue()) {
-				sb.append(va).append(",");
+				sb.append(va).append("}");
 			}
 		}
-		return sb.delete(sb.length()-1, sb.length()).toString();
+		return  sb.toString();
 }
 }
 		

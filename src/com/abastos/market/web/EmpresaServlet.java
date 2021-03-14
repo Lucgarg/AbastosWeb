@@ -19,6 +19,7 @@ import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
+import com.abastos.model.DireccionDto;
 import com.abastos.model.Empresa;
 import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
@@ -79,6 +80,46 @@ public class EmpresaServlet extends HttpServlet {
 			
 			
 		}
+		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
+				
+				String nombreUsuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
+				String apellidos = request.getParameter(ParameterNames.APELLIDOS);
+				String alias = request.getParameter(ParameterNames.AlIAS);
+				String CIF = request.getParameter(ParameterNames.CIF);
+				String razonSocial = request.getParameter(ParameterNames.RAZON_SOCIAL);
+				String email = request.getParameter(ParameterNames.EMAIL);
+				String calle = request.getParameter(ParameterNames.CALLE);
+				String numero = request.getParameter(ParameterNames.NUMERO);
+				String piso = request.getParameter(ParameterNames.CODIGO_POSTAL);
+				String localidad = request.getParameter(ParameterNames.LOCALIDAD);
+				String pasword = request.getParameter(ParameterNames.PASSWORD);
+				String codigoPostal = request.getParameter(ParameterNames.CODIGO_POSTAL);
+				Empresa empresa = new Empresa();
+				empresa.setNombre(nombreUsuario);
+				empresa.setApellidos(apellidos);
+				empresa.setAlias(alias);
+				empresa.setCif(CIF);
+				empresa.setRazonSocial(razonSocial);
+				empresa.setCorreoElectronico(email);
+				empresa.setContrasena(pasword);
+				DireccionDto direccionDto = new DireccionDto();
+				direccionDto.setCalle(calle);
+				direccionDto.setNumero(Integer.valueOf(numero));
+				direccionDto.setPiso(piso);
+				direccionDto.setIdLocalidad(Long.valueOf(localidad));
+				direccionDto.setIdTipoDireccion(2);
+				direccionDto.setCodigoPostal(codigoPostal);
+				empresa.setDireccion(direccionDto);
+				
+				try {
+					empresaService.registrar(empresa);
+					target = ViewPaths.TIENDA_BUSQUEDA;
+					redirect = true;
+				} catch (DataException | ServiceException e) {
+					logger.warn(e.getMessage(),e);
+				}
+			}
+		
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(request.getContextPath() + target);

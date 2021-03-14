@@ -16,7 +16,7 @@ html {
 	top: 0;
 	z-index: 20;
 	display: flex;
-
+	
 }
 
 .footerNav>div {
@@ -27,6 +27,16 @@ html {
 /*buscador header*/
 .Buscar.header {
 	padding: 0.5% 5% 0.5% 5%;
+}
+/*eleccion tipo usuario*/
+body > div > div.tipUsuario{
+	position:fixed;
+	width: 25%;
+	padding: 2%;
+	right: 40%;
+	top: 50%;
+	background-color: white;
+		box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
 }
 /*registro*/
 .footerNav>div:nth-child(1)>label:nth-child(1) {
@@ -70,6 +80,16 @@ html {
 .footerNav>div:nth-child(1)>label:nth-child(3)>div {
 	display: none;
 }
+/*seccion registro*/
+/*ocultar fieldset*/
+
+.productoDetalle > div   form  fieldset  {
+    display: none ;
+}
+.productoDetalle > div > form > fieldset:nth-child(2) {
+    display: initial;
+}
+
 /*logo header para pantallas*/
 .footerNav>figure {
 	width: 100px;

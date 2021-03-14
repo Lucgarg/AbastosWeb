@@ -21,13 +21,20 @@ function createRequest(){
 		return request;
 	
 }
+function createUrl(){
+let origin  = location.origin;
+let host = location.host;
+let pathname = location.pathname.split("/")[1];
+let cont =   origin +  "/" +  pathname;
+return cont;
+}
 function getDetails(e){
 	request = createRequest();
 	if(request == null){
 		return;
 	}
-	
-	var url= createUrl() + "/localizacion?action="+ e.currentTarget.id + "&"+ e.currentTarget.id + "=" + e.currentTarget.value;
+	let cont = createUrl();
+	var url= cont + "/localizacion?action="+ e.currentTarget.id + "&"+ e.currentTarget.id + "=" + e.currentTarget.value;
 
 request.open("GET", url, true);
 	let guardar = e.currentTarget;
@@ -87,11 +94,5 @@ function remove(valor){
 	for(let i = valor.options.length-1; i >= 1 ; i--){
 		valor.options[i].remove();
 	}
-	function createUrl(){
-let origin  = location.origin;
-let host = location.host;
-let pathname = location.pathname.split("/")[1];
-let url =   origin +  "/" +  pathname;
-return url;
-}
+
 }

@@ -19,6 +19,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
+import com.abastos.model.Particular;
 import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
@@ -38,9 +39,11 @@ public class UsuarioServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(UsuarioServlet.class);
 
 	private EmpresaService empresaService;
+	private ParticularService particularService;
 	private TiendaService tiendaService;
 	private CategoriaService categoriaService;
 	public UsuarioServlet() {
+		particularService = new ParticularServiceImpl();
 		empresaService = new EmpresaServiceImpl();
 		tiendaService = new TiendaServiceImpl();
 		categoriaService = new CategoriaServiceImpl();
@@ -76,11 +79,23 @@ public class UsuarioServlet extends HttpServlet {
 					logger.warn(e.getMessage(),e);
 				}
 			}
+			else if(ActionNames.PARTICULAR.equalsIgnoreCase(tipUsuario)) {
+				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
+				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
+				usuario = email == null? usuario: null;
+				String password = request.getParameter(ParameterNames.PASSWORD);
+				try {
+					Particular particular = particularService.login(email,usuario, password);
+					target = ViewPaths.PRECREATE_ACTION_INDEX;
+					redirect = true;
+				} catch (DataException | ServiceException e) {
+					logger.warn(e.getMessage(),e);
+				}
+			}
 
 		}
-		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
-			
-		}
+		
+		
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(request.getContextPath() + target);

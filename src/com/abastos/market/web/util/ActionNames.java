@@ -14,5 +14,7 @@ public class ActionNames {
 	public static final String OFERTA = "oferta";
 	public static final String EMPRESA = "empresa";
 	public static final String DETALLE = "detalle";
+	public static final String PARTICULAR = "particular";
+	public static final String INICIO = "index";
 
 }
