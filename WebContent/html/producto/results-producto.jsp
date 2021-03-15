@@ -160,7 +160,9 @@
 				 <%}%>
 				
 					<p><%=p.getPrecioFinal()%></p>
-					<p class="carritoCompra"></p>
+					<form action="">
+					<button type="submit" class="carritoCompra"></button>
+					</form>
 				<span><%=p.getValoracion()%></span>
 			</div>
 			<%}%>

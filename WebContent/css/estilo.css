@@ -583,8 +583,13 @@ nav>label  input {
 .carritoCompra:hover{
 	background-color: orange;
 	border-radius:100%;
-	padding:6%;
+	padding:40%;
 	margin-bottom: 8%;
+		
+}
+.carritoCompra{
+	background-color: white;
+	border:none;
 	
 }
 .carritoCompra:hover:after{

@@ -12,6 +12,7 @@ if(document.getElementById("esp") != null){
 document.getElementById("esp").onclick = submit;}
 if(document.getElementById("en") != null){
 document.getElementById("en").onclick = submit;}
+
 function submit(e){
 e.currentTarget.parentElement.submit();
 }
