@@ -149,11 +149,11 @@ nav .menu>ul  input[type=submit] {
 	width: 100%;
 }
 /*sección información tienda*/
-.sectionTiendas+.tiendas {
+header+.tiendas {
 	min-height: 500px;
 }
 
-.sectionTiendas+.tiendas>.tiendas2>div {
+header+.tiendas>.tiendas2>div {
 	display: initial;
 }
 
@@ -167,25 +167,25 @@ nav .menu>ul  input[type=submit] {
 	text-align: center;
 }
 
-.sectionTiendas+.tiendas>.tiendas2>div>.informacionTienda>p {
+header+.tiendas>.tiendas2>div>.informacionTienda>p {
 	text-align: center;
 }
 
-.sectionTiendas+.tiendas>.tiendas2>div>figure {
+header+.tiendas>.tiendas2>div>figure {
 	height: auto;
 	margin: 0 auto;
 	width: 50%;
 }
 
-.sectionTiendas+.tiendas>.tiendas2>div {
+header+.tiendas>.tiendas2>div {
 	width: 70%;
 }
 
-.sectionTiendas+.tiendas>.tiendas2 h1 {
+header+.tiendas>.tiendas2 h1 {
 	width: 70%;
 }
 
-.sectionTiendas+.tiendas>.tiendas2>div>figure>figcaption {
+header+.tiendas>.tiendas2>div>figure>figcaption {
 	text-align: center;
 }
 
@@ -413,7 +413,7 @@ nav .menu>ul  input[type=submit] {
 	color: orange;
 }
 /*eleccion tipo usuario*/
-body>div>div.tipUsuario {
+.footerNav   .tipUsuario {
 	position: fixed;
 	width: 25%;
 	padding: 1% 1% 1% 1%;
@@ -424,13 +424,24 @@ body>div>div.tipUsuario {
 	box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
-body>div>div.tipUsuario>label {
+.footerNav .tipUsuario>label {
 	display: block;
 	margin-bottom: 5%;
 }
 
 /*ventana emergente registro*/
 .footerNav>.registro {
+	position: fixed;
+	top: 50%;
+	right: 37.5%;
+	width: 25%;
+	padding: 1% 1% 1% 2%;
+	background-color: white;
+	-webkit-box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
+	box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
+}
+.footerNav>.idiomas{
 	position: fixed;
 	top: 50%;
 	right: 37.5%;
@@ -448,4 +459,8 @@ body>div>div.tipUsuario>label {
 	.footerNav>div>label:nth-child(4)>div:before {
 	content: "\7a";
 	display: block;
+}
+/*footer*/
+footer{
+	order:5;
 }

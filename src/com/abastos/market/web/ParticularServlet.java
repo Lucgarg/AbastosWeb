@@ -1,6 +1,8 @@
 package com.abastos.market.web;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +16,17 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.DireccionDto;
 import com.abastos.model.Particular;
+import com.abastos.service.ContenidoService;
 import com.abastos.service.DataException;
+import com.abastos.service.MailService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.exceptions.ServiceException;
+import com.abastos.service.impl.ContenidoServiceImpl;
+import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 
 /**
@@ -28,13 +35,14 @@ import com.abastos.service.impl.ParticularServiceImpl;
 @WebServlet("/particular")
 public class ParticularServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ParticularServlet.class);
-	private ParticularService particularService = new ParticularServiceImpl();
-       
-    
+	private ParticularService particularService = null;
+    private ContenidoService contenidoService = null;
+    private MailService mailService = null;
     public ParticularServlet() {
         super();
         particularService = new ParticularServiceImpl();
-       
+        contenidoService = new ContenidoServiceImpl();
+        mailService = new MailServiceImpl();
     }
 
 	
@@ -76,6 +84,10 @@ public class ParticularServlet extends HttpServlet {
 			particular.add(direccion);
 			try {
 				particularService.registrar(particular);
+				Map<String,Object> valores = new HashMap<String,Object>();
+				valores.put("user", particular);
+				valores.put("enlace", UrlBuilder.builder(request, "precreate?action=index"));
+				mailService.sendMail(valores,3L, particular.getEmail());
 				target = ViewPaths.TIENDA_BUSQUEDA;
 				redirect = true;
 			} catch (DataException | ServiceException e) {

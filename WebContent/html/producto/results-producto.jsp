@@ -1,34 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.service.impl.*, com.abastos.market.web.util.*"%>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/css/estilo.css">
-<link rel="stylesheet" media="(min-width: 800px)"
-	href="<%=request.getContextPath()%>/css/prueba.css">
-<script defer src="js/script.js"></script>
-</head>
-<body>
-	<header class="sectionTiendas">
-		<figure>
-			<img
-				src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg"
-				alt="">
-		</figure>
-		<section>
-			<h1>Todos los ayuntamientos</h1>
-			<form action="<%=request.getContextPath()%>/tienda" method="post">
-				<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> <input
-					type="text" name="nombre"> <input class="Buscar header"
-					type="submit" value="buscar">
-			</form>
-		</section>
-	</header>
+	<%@include file= "/html/commons/usuario/header.jsp"%>
 	<section class="tiendas">
 		<div class="tiendas2">
 			<input type="checkbox">
@@ -67,11 +38,22 @@
 			<label class="menu" for="menu"> <input type="checkbox" />
 				<div></div>
 				<ul>
+				<%String categParameter = request.getParameter(ParameterNames.CATEGORIA);%>
+				<%String precioDesde = request.getParameter(ParameterNames.PRECIO_DESDE);%>
+				<%String precioHasta = request.getParameter(ParameterNames.PRECIO_HASTA);%>
+				<%String oferta = request.getParameter(ParameterNames.OFERTA);%>
+				<%String origen = request.getParameter(ParameterNames.ORIGEN);%>
 					<%List<Categoria> cat = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
-					<%for(Categoria c: cat) {%>
+					<%for(Categoria c: cat) {
 					
+					if(String.valueOf(c.getId()).equals(categParameter)){%>
+						<li style="background-Color:grey"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_CATEGORIA%><%=c.getId()%>&tienda=<%=tienda.getId()%>"><%=c.getNombre()%></a>
+					<%}else{
+						
+					
+					%>
 					<li><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_CATEGORIA%><%=c.getId()%>&tienda=<%=tienda.getId()%>"><%=c.getNombre()%></a>
-					<%if(c.getCategorias().size() > 0) {%>
+					<%}if(c.getCategorias().size() > 0) {%>
 					<ol><% }%>
 					<%for(Categoria categoriaProducto: c.getCategorias()) {%>
 						
@@ -85,19 +67,19 @@
 					
 					<form action="<%=request.getContextPath()%>/producto" method="post">
 						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> <input
-							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde"><br>
-						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta"><br>
+							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde" value=<%=precioDesde!=null?precioDesde:""%>><br>
+						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta" value=<%=precioHasta!=null?precioHasta:""%>><br>
 						<h5>origen</h5>
 						<label for="origenN">Nacional</label> <input type="radio"
-							name=<%=ParameterNames.ORIGEN%> id="origenN" value="N"><br> <label
+							name=<%=ParameterNames.ORIGEN%> id="origenN" value="N" <%if("N".equals(origen)){%>checked<%}%>><br> <label
 							for="origenI">Internacional</label> <input type="radio"
-							name=<%=ParameterNames.ORIGEN%> id="origenI" value="I"><br> <label
+							name=<%=ParameterNames.ORIGEN%> id="origenI" value="I" <%if("I".equals(origen)){%>checked<%}%>><br> <label
 							for="origenL">Local</label> <input type="radio" name=<%=ParameterNames.ORIGEN%>
-							id="origenL" value="L"><br>
+							id="origenL" value="L"  <%if("L".equals(origen)){%>checked<%}%>><br>
 
 						<h5>Oferta</h5>
 						<label for="true">si</label> <input type="checkbox" name=<%=ParameterNames.OFERTA%>
-							value="true">
+							value="true" <%if("true".equals(oferta)){%>checked<%}%>>
 
 						<h5>Idioma</h5>
 						<select name=<%=ParameterNames.IDIOMA%>>
@@ -185,50 +167,4 @@
 		
 		</div>
 	</section>
-	<input type="radio" id="null" name="seleccion" checked>
-	<input type="radio" id="foNav" name="seleccion">
-	<input type="radio" id="registro" name="seleccion">
-	<input type="radio" id="Idiomas" name="seleccion">
-	<input type="radio" id="logIn" name="seleccion">
-
-	<div class="footerNav">
-
-		
-		<div>
-			<label primerBloque="a"for=registro>Registrarse</label><label segundoBloque="l" for="logIn">Inicio
-				Sesión</label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="z"></div></label><label
-				cuartoBloque="b"for="Idiomas">Idioma</label>
-		</div>
-		              <div class="registro">
-			<button class="cerrarLabel"></button>
-			<form action="<%=request.getContextPath()%>/usuario" method="post">
-				<input type="hidden" name="<%=ActionNames.ACTION%>" value="logIn"/>
-				<label for="particularLog">Particular</label> <input type="radio"
-				id="particularLog" name="tipUsuario" value="particular" checked> <label for="empresaLog">Empresa</label>
-			<input type="radio" id="empresaLog" value="empresa" name="tipUsuario"><br>
-			<label for="usuario">Usuario o email</label><br>
-				 <input
-					type="text" name=<%=ParameterNames.NOMBRE_USUARIO%>><br> <label for="password" >Contraseña</label><br>
-				<input type="password" name=<%=ParameterNames.PASSWORD %>><br> <input type="submit">
-			</form>
-		</div>
-		<div class="idiomas">
-			<label for="espanol">Español</label> <input type="radio" id="espanol"
-				name="idioma"> <label for="ingles">Inglés</label> <input
-				type="radio" id="ingles" name="idioma">
-		</div>
-		<figure>
-			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
-		</figure>
-		<section>
-			<h1>Todos los ayuntamientos</h1>
-			<form action="<%=request.getContextPath()%>/tienda" method="post">
-				<input type="hidden" name="action" value="buscar" /> <input
-					type="text" name="nombre"> <input class="Buscar header"
-					type="submit" value="buscar">
-			</form>
-		</section>
-	</div>
-
-</body>
-</html>
+	<%@include file="/html/commons/usuario/footer.jsp"%>

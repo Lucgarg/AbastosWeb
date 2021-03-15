@@ -7,6 +7,14 @@ buttonBack.setAttribute("class", "back");
 buttonBack.setAttribute("type", "button");
 buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
 
+/*submit function*/
+if(document.getElementById("esp") != null){
+document.getElementById("esp").onclick = submit;}
+if(document.getElementById("en") != null){
+document.getElementById("en").onclick = submit;}
+function submit(e){
+e.currentTarget.parentElement.submit();
+}
 /*cerrar ventanas*/
 if(document.getElementsByClassName("cerrarLabel")[0] !=null){
 document.getElementsByClassName("cerrarLabel")[0].onclick = cerrar;
@@ -14,10 +22,14 @@ document.getElementsByClassName("cerrarLabel")[0].onclick = cerrar;
 if(document.getElementsByClassName("cerrarLabel")[1] != null){
 document.getElementsByClassName("cerrarLabel")[1].onclick = cerrar;
 }
+if(document.getElementsByClassName("cerrarLabel")[2] != null){
+document.getElementsByClassName("cerrarLabel")[2].onclick = cerrar;
+}
 
 function cerrar(){
     document.getElementById("registro").checked = false;
     document.getElementById("logIn").checked = false;
+    document.getElementById("Idiomas").checked = false;
 };
 
 /*funciones para paginar registro*/

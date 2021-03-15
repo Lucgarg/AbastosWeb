@@ -1,7 +1,9 @@
 package com.abastos.market.web;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.abastos.dao.jdbc.CategoriaDAOImpl;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.DireccionDto;
@@ -25,10 +27,12 @@ import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
+import com.abastos.service.MailService;
 import com.abastos.service.TiendaService;
 import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
+import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 
 /**
@@ -43,10 +47,12 @@ public class EmpresaServlet extends HttpServlet {
 	private EmpresaService empresaService;
 	private TiendaService tiendaService;
 	private CategoriaService categoriaService;
+	private MailService mailService;
 	public EmpresaServlet() {
 		categoriaService = new CategoriaServiceImpl();
 		tiendaService = new TiendaServiceImpl();
 		empresaService = new EmpresaServiceImpl();
+		mailService = new MailServiceImpl();
 
 	}
 
@@ -113,6 +119,10 @@ public class EmpresaServlet extends HttpServlet {
 				
 				try {
 					empresaService.registrar(empresa);
+					Map<String,Object> valores = new HashMap<String,Object>();
+					valores.put("user", empresa);
+					valores.put("enlace", UrlBuilder.builder(request, "precreate?action=index"));
+					mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
 					target = ViewPaths.TIENDA_BUSQUEDA;
 					redirect = true;
 				} catch (DataException | ServiceException e) {

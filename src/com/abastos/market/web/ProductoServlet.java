@@ -115,6 +115,7 @@ public class ProductoServlet extends HttpServlet {
 					categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()), "es");
 					request.setAttribute(ParameterNames.CATEGORIA, categorias);
 					request.setAttribute(AttributesNames.TIENDA, tienda);
+					
 					target = ViewPaths.PRODUCTO_RESULTS;
 				}
 				/*si el idEmpresa no es null entonces buscamos las tiendas que pertenecen a esa empresa*/
