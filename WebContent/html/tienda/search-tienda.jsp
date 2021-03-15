@@ -64,7 +64,8 @@
 				cuartoBloque="b"for="Idiomas">Idioma</label>
                </div>
            	<div class="tipUsuario">
-           		<label>Elige el tipo de perfil</label><br>
+           	<button class="cerrarLabel"></button>
+           		<label>Elige el tipo de perfil</label>
            		<a href=<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_REGISTRO_EMPRESA%>><button type="button">Empresa</button></a>
            		<a href=<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_REGISTRO_PARTICULAR%>><button type="button">Particular</button></a>
            	

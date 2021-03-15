@@ -16,7 +16,6 @@ html {
 	top: 0;
 	z-index: 20;
 	display: flex;
-	
 }
 
 .footerNav>div {
@@ -28,16 +27,7 @@ html {
 .Buscar.header {
 	padding: 0.5% 5% 0.5% 5%;
 }
-/*eleccion tipo usuario*/
-body > div > div.tipUsuario{
-	position:fixed;
-	width: 25%;
-	padding: 2%;
-	right: 40%;
-	top: 50%;
-	background-color: white;
-		box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
-}
+
 /*registro*/
 .footerNav>div:nth-child(1)>label:nth-child(1) {
 	width: 10%;
@@ -83,12 +73,12 @@ body > div > div.tipUsuario{
 }
 /*seccion registro*/
 /*ocultar fieldset*/
-
-.productoDetalle > div   form  fieldset  {
-    display: none ;
+.productoDetalle>div   form  fieldset {
+	display: none;
 }
-.productoDetalle > div > form > fieldset:nth-child(2) {
-    display: initial;
+
+.productoDetalle>div>form>fieldset:nth-child(2) {
+	display: initial;
 }
 
 /*logo header para pantallas*/
@@ -409,25 +399,43 @@ nav .menu>ul  input[type=submit] {
 	background-color: transparent;
 	border: none;
 	display: initial;
-	position: absolute;
-	right: 4%;
-	top: 2%;
+	position: relative;
+	padding: 0;
+	margin-left: 90%;
 }
 
 .cerrarLabel::after {
 	content: "\31";
 	font-family: "icomoon";
-	font-size: 1.9rem;
+	font-size: 0.9rem;
 	display: block;
 	text-align: center;
 	color: orange;
 }
-
-.footerNav>.registro {
-	position: absolute;
-	top: 300%;
-	left: 40%;
+/*eleccion tipo usuario*/
+body>div>div.tipUsuario {
+	position: fixed;
 	width: 25%;
+	padding: 1% 1% 1% 1%;
+	right: 37.5%;
+	top: 50%;
+	text-align: center;
+	background-color: white;
+	box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+body>div>div.tipUsuario>label {
+	display: block;
+	margin-bottom: 5%;
+}
+
+/*ventana emergente registro*/
+.footerNav>.registro {
+	position: fixed;
+	top: 50%;
+	right: 37.5%;
+	width: 25%;
+	padding: 1% 1% 1% 2%;
 	background-color: white;
 	-webkit-box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
@@ -435,7 +443,7 @@ nav .menu>ul  input[type=submit] {
 }
 
 #foNav:checked ~ .footerNav>div>label:nth-child(4)>div:before, #registro:checked 
-	~ .footerNav>div>label:nth-child(4)>div:before, #Idiomas:checked ~
+	 ~ .footerNav>div>label:nth-child(4)>div:before, #Idiomas:checked ~
 	.footerNav>div>label:nth-child(4)>div:before, #logIn:checked ~
 	.footerNav>div>label:nth-child(4)>div:before {
 	content: "\7a";
