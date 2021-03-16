@@ -1,6 +1,7 @@
-<%@page import="com.abastos.market.web.util.UrlBuilder"%>
+<%@page import="com.abastos.market.web.util.UrlBuilder, com.abastos.model.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
 <!DOCTYPE html>
 <html>
 <head>
@@ -22,12 +23,12 @@
        <input type="radio" id="logIn" name="seleccion">
        
        <div class="footerNav">
-        
-           <div>
-           	<label primerBloque="a"for=registro>Registrarse</label><label segundoBloque="l" for="logIn">Inicio
-				Sesión</label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="z"></div></label><label
-				cuartoBloque="b"for="Idiomas">Idioma</label>
-               </div>
+       	<%Particular particular = (Particular)SessionManager.get(request,"usuario");%>
+        <%if(particular ==null){ %>
+        <%@include file="/html/commons/usuario/user-view.jsp" %>
+        <%}else{%>
+        <%@include file="/html/commons/particular/particular-view.jsp"%>
+           	<%}%>
            	<div class="tipUsuario">
            	<button class="cerrarLabel"></button>
            		<label>Elige el tipo de perfil</label>

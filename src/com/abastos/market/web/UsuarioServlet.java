@@ -16,6 +16,7 @@ import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
@@ -64,10 +65,13 @@ public class UsuarioServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
+			//si es empresa...
 			if(ActionNames.EMPRESA.equalsIgnoreCase(tipUsuario)) {
 				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
+				//Comprobamos si en el parametro nombre se introduzco el email o el nombre de usuario
 				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
 				usuario = email == null? usuario: null;
 				String password = request.getParameter(ParameterNames.PASSWORD);
@@ -84,6 +88,7 @@ public class UsuarioServlet extends HttpServlet {
 					logger.warn(e.getMessage(),e);
 				}
 			}
+			//si es particular...
 			else if(ActionNames.PARTICULAR.equalsIgnoreCase(tipUsuario)) {
 				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
 				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
@@ -91,9 +96,10 @@ public class UsuarioServlet extends HttpServlet {
 				String password = request.getParameter(ParameterNames.PASSWORD);
 				try {
 					Particular particular = particularService.login(email,usuario, password);
+					SessionManager.set(request, "usuario", particular);
 					List<Pais> paises = paisService.findByAll();
 					request.setAttribute(AttributesNames.PAISES, paises);
-					target = ViewPaths.PARTICULAR_LOGIN;
+					target = ViewPaths.TIENDA_BUSQUEDA;
 					
 				} catch (DataException | ServiceException e) {
 					logger.warn(e.getMessage(),e);
