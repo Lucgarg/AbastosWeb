@@ -61,27 +61,38 @@ public class PedidoServlet extends HttpServlet {
 			linPedido.setIdProducto(Long.valueOf(id));
 			linPedido.setNumeroUnidades(Integer.valueOf(numeroUnidades));
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
+			boolean repeticion = false;
 			if(pedido != null) {
-			pedido.add(linPedido);
+				for(LineaPedido lp: pedido.getLineaPedido()) {
+					if(lp.getIdProducto() == linPedido.getIdProducto()) {
+						int numUnidades = lp.getNumeroUnidades() + linPedido.getNumeroUnidades();
+						lp.setNumeroUnidades(numUnidades);
+						repeticion = true;
+					}
+				
+				}
+				if(!repeticion) {
+					pedido.add(linPedido);
+				}
 			}
 			else {
 				pedido = new Pedido();
 				pedido.add(linPedido);
 			}
 			SessionManager.set(request, AttributesNames.PEDIDO, pedido);
-			
+
 			target = ViewPaths.PRODUCTO_RESULTS;
 			redirect = true;	
 		}
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
 			Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
-			pedido.setIdParticular(particular.getId());
+		
 			try {
 				for(LineaPedido lp: pedido.getLineaPedido()) {
 
 					Producto producto = productoService.findById(lp.getIdProducto(), "es");
-					
+
 					if(producto.getOferta() != null) {
 						lp.setDenominador(producto.getOferta().getDenominador());
 						lp.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
@@ -93,16 +104,24 @@ public class PedidoServlet extends HttpServlet {
 						lp.setNombreProdOferta(producto.getOferta().getNombreProdOferta());
 						lp.setNombreOferta(producto.getOferta().getNombreOferta());
 					}
-					System.out.println(lp.getIdProdOferta());
+
 					lp.setIdTienda(producto.getId());
 					lp.setNombreProducto(producto.getNombre());
 					lp.setPrecio(producto.getPrecioFinal());
 				}
 				pedido.setAplicarDescuento(false);
 				pedido.setIdEstado("S".charAt(0));
-				pedidoService.create(pedido);
-				request.setAttribute(AttributesNames.PEDIDO, pedido);
+				if(pedido.getIdParticular() != particular.getId()) {
+				pedido.setIdParticular(particular.getId());
+				Pedido pedidoResult = pedidoService.create(pedido);
+				pedido = pedidoService.findById(pedidoResult.getId());
+				
+				}
+				else {
+				}
+				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
 				target = ViewPaths.PEDIDO_RESULTS;
+				redirect = true;
 			} catch (DataException | MailException e) {
 				e.printStackTrace();
 			}

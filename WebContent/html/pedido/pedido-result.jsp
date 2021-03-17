@@ -3,7 +3,7 @@
 <section class="tiendas producto">
 		<div class="tiendas2">
 			<%
-		Pedido pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);
+		Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
 		
 		for(LineaPedido p : pedido.getLineaPedido()){
 			%>
@@ -14,7 +14,7 @@
 				</figure>
 				<p>
 					<a
-						href="<%=request.getContextPath()%><%=ViewPathsActions.PRODUCTO_ACTION_DETALLE%><%=p.getIdProducto()%>&tienda=<%=p.getIdTienda()%>"><%=p.getNombreProducto()%></a>
+						href="<%=UrlBuilder.builder(request, ViewPathsActions.PRODUCTO_ACTION_DETALLE + "&tienda=" + p.getIdTienda())%>"><%=p.getNombreProducto()%></a>
 				</p>
 				
 				

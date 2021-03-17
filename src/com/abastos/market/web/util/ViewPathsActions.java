@@ -19,5 +19,5 @@ public class ViewPathsActions {
 	public static final String OFERTA_ACTION_BUSCAR = "oferta?action=buscar&empresa=";
 	public static final String EMPRESA_ACTION_BUSCAR = "empresa?action=buscar&empresa=";
 	public static final String EMPRESA_ACTION_REGISTRAR = "empresa?action=registrar";
-	public static final String PEDIDO_ACTION_DETALLE = "/pedido?action=detalle";
+	public static final String PEDIDO_ACTION_DETALLE = "pedido?action=detalle";
 }

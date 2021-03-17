@@ -52,7 +52,7 @@
 					if(t.getId() == p.getIdTienda()){%>
 					<p>
 					<a
-						href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_DETALLE%><%=p.getId()%>&tienda=<%=t.getId()%>"><%=p.getNombre()%></a>
+						href="<%=UrlBuilder.builder(request, ViewPathsActions.PRODUCTO_ACTION_DETALLE + "&tienda=" + p.getIdTienda()%>"><%=p.getNombre()%></a>
 				</p>
 				
 				<p>
