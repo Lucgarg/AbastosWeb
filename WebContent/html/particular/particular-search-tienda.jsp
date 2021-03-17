@@ -65,8 +65,8 @@
                </div>
            	<div class="tipUsuario">
            		<label>Elige el tipo de perfil</label><br>
-           		<a href=<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_REGISTRO_EMPRESA%>><button type="button">Empresa</button></a>
-           		<a href=<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_REGISTRO_PARTICULAR%>><button type="button">Particular</button></a>
+           		<a href=<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_REGISTRO_EMPRESA%>><button type="button">Empresa</button></a>
+           		<a href=<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_REGISTRO_PARTICULAR%>><button type="button">Particular</button></a>
            	
            	</div>
            <div class="registro">

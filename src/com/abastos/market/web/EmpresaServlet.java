@@ -42,8 +42,8 @@ import com.abastos.service.impl.TiendaServiceImpl;
 public class EmpresaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(EmpresaServlet.class);
 
-	
-	
+
+
 	private EmpresaService empresaService;
 	private TiendaService tiendaService;
 	private CategoriaService categoriaService;
@@ -76,60 +76,60 @@ public class EmpresaServlet extends HttpServlet {
 					request.setAttribute(AttributesNames.CATEGORIAS, categoria);
 					request.setAttribute(AttributesNames.LOCALIDAD, empresa.getDireccion().getIdLocalidad());
 					target = ViewPaths.EMPRESA_RESULTS_TIENDAS;
-					
-				
+
+
 				}
 			} catch (DataException e) {
 
 				logger.warn(e.getMessage(),e);
 			}
-			
-			
+
+
 		}
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
-				
-				String nombreUsuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
-				String apellidos = request.getParameter(ParameterNames.APELLIDOS);
-				String alias = request.getParameter(ParameterNames.AlIAS);
-				String CIF = request.getParameter(ParameterNames.CIF);
-				String razonSocial = request.getParameter(ParameterNames.RAZON_SOCIAL);
-				String email = request.getParameter(ParameterNames.EMAIL);
-				String calle = request.getParameter(ParameterNames.CALLE);
-				String numero = request.getParameter(ParameterNames.NUMERO);
-				String piso = request.getParameter(ParameterNames.CODIGO_POSTAL);
-				String localidad = request.getParameter(ParameterNames.LOCALIDAD);
-				String pasword = request.getParameter(ParameterNames.PASSWORD);
-				String codigoPostal = request.getParameter(ParameterNames.CODIGO_POSTAL);
-				Empresa empresa = new Empresa();
-				empresa.setNombre(nombreUsuario);
-				empresa.setApellidos(apellidos);
-				empresa.setAlias(alias);
-				empresa.setCif(CIF);
-				empresa.setRazonSocial(razonSocial);
-				empresa.setCorreoElectronico(email);
-				empresa.setContrasena(pasword);
-				DireccionDto direccionDto = new DireccionDto();
-				direccionDto.setCalle(calle);
-				direccionDto.setNumero(Integer.valueOf(numero));
-				direccionDto.setPiso(piso);
-				direccionDto.setIdLocalidad(Long.valueOf(localidad));
-				direccionDto.setIdTipoDireccion(2);
-				direccionDto.setCodigoPostal(codigoPostal);
-				empresa.setDireccion(direccionDto);
-				
-				try {
-					empresaService.registrar(empresa);
-					Map<String,Object> valores = new HashMap<String,Object>();
-					valores.put("user", empresa);
-					valores.put("enlace", UrlBuilder.builder(request, "precreate?action=index"));
-					mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
-					target = ViewPaths.TIENDA_BUSQUEDA;
-					redirect = true;
-				} catch (DataException | ServiceException e) {
-					logger.warn(e.getMessage(),e);
-				}
+
+			String nombreUsuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
+			String apellidos = request.getParameter(ParameterNames.APELLIDOS);
+			String alias = request.getParameter(ParameterNames.AlIAS);
+			String CIF = request.getParameter(ParameterNames.CIF);
+			String razonSocial = request.getParameter(ParameterNames.RAZON_SOCIAL);
+			String email = request.getParameter(ParameterNames.EMAIL);
+			String calle = request.getParameter(ParameterNames.CALLE);
+			String numero = request.getParameter(ParameterNames.NUMERO);
+			String piso = request.getParameter(ParameterNames.CODIGO_POSTAL);
+			String localidad = request.getParameter(ParameterNames.LOCALIDAD);
+			String pasword = request.getParameter(ParameterNames.PASSWORD);
+			String codigoPostal = request.getParameter(ParameterNames.CODIGO_POSTAL);
+			Empresa empresa = new Empresa();
+			empresa.setNombre(nombreUsuario);
+			empresa.setApellidos(apellidos);
+			empresa.setAlias(alias);
+			empresa.setCif(CIF);
+			empresa.setRazonSocial(razonSocial);
+			empresa.setCorreoElectronico(email);
+			empresa.setContrasena(pasword);
+			DireccionDto direccionDto = new DireccionDto();
+			direccionDto.setCalle(calle);
+			direccionDto.setNumero(Integer.valueOf(numero));
+			direccionDto.setPiso(piso);
+			direccionDto.setIdLocalidad(Long.valueOf(localidad));
+			direccionDto.setIdTipoDireccion(2);
+			direccionDto.setCodigoPostal(codigoPostal);
+			empresa.setDireccion(direccionDto);
+
+			try {
+				empresaService.registrar(empresa);
+				Map<String,Object> valores = new HashMap<String,Object>();
+				valores.put("user", empresa);
+				valores.put("enlace", UrlBuilder.builder(request, "precreate?action=index"));
+				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
+				target = ViewPaths.TIENDA_BUSQUEDA;
+				redirect = true;
+			} catch (DataException | ServiceException e) {
+				logger.warn(e.getMessage(),e);
 			}
-		
+		}
+
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(request.getContextPath() + target);
@@ -138,7 +138,7 @@ public class EmpresaServlet extends HttpServlet {
 			logger.info("Forwarding to..." + target);
 			request.getRequestDispatcher(target).forward(request, response);
 		}
-	
+
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

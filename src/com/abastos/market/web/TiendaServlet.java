@@ -18,6 +18,7 @@ import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.DireccionDto;
@@ -105,9 +106,9 @@ public class TiendaServlet extends HttpServlet {
 				List<Producto> results = productoService.findBy(productoCrit, "es");
 				tienda = tiendaService.findById(id);
 				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),"es");
-				request.setAttribute(AttributesNames.PRODUCTO, results);
-				request.setAttribute(AttributesNames.TIENDA, tienda);
-				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+				SessionManager.set(request, AttributesNames.PRODUCTO, results);
+				SessionManager.set(request, ParameterNames.CATEGORIA, categorias);
+				SessionManager.set(request, AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_RESULTS;
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);

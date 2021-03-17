@@ -75,10 +75,10 @@
 	<div class="footerNav">
 
 		<div>
-		<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
-				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=id%>">Mis ofertas
+		<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPathsActions.EMPRESA_ACTION_BUSCAR%><%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
+				<a href="<%=request.getContextPath()%><%=ViewPathsActions.OFERTA_ACTION_BUSCAR%><%=id%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=id%>">Mis productos</a></label>
+				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPathsActions.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=id%>">Mis productos</a></label>
 		</div>
 		
 		<div class="idiomas">

@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<%=UrlBuilder.builder(request, "css/estilo.css")%>">
 <link rel="stylesheet" media="(min-width: 800px)" href="<%=UrlBuilder.builder(request, "css/prueba.css")%>">
-<script defer src="<%=request.getContextPath()%>/js/script.js"></script>
-<script defer src="js/request.js"></script>
+<script defer src="<%=UrlBuilder.builder(request, "/js/script.js")%>"></script>
+<script defer src="<%=UrlBuilder.builder(request, "/js/request.js")%>"></script>
 </head>
 <body>
 		<header>
@@ -23,7 +23,7 @@
        <input type="radio" id="logIn" name="seleccion">
        
        <div class="footerNav">
-       	<%Particular particular = (Particular)SessionManager.get(request,"usuario");%>
+       	<%Particular particular = (Particular)SessionManager.get(request,AttributesNames.USUARIO);%>
         <%if(particular ==null){ %>
         <%@include file="/html/commons/usuario/user-view.jsp" %>
         <%}else{%>
@@ -32,13 +32,13 @@
            	<div class="tipUsuario">
            	<button class="cerrarLabel"></button>
            		<label>Elige el tipo de perfil</label>
-           		<a href=<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_REGISTRO_EMPRESA%>><button type="button">Empresa</button></a>
-           		<a href=<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_REGISTRO_PARTICULAR%>><button type="button">Particular</button></a>
+           		<a href=<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_REGISTRO_EMPRESA%>><button type="button">Empresa</button></a>
+           		<a href=<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_REGISTRO_PARTICULAR%>><button type="button">Particular</button></a>
            	
            	</div>
            <div class="registro">
 			<button class="cerrarLabel"></button>
-			<form action="<%=request.getContextPath()%>/usuario" method="post">
+			<form action="<%=UrlBuilder.builder(request, ViewPathsServlet.USUARIO)%>" method="post">
 				<input type="hidden" name="<%=ActionNames.ACTION%>" value="logIn"/>
 				<label for="particularLog">Particular</label> <input type="radio"
 				id="particularLog" name="tipUsuario" value="particular" checked> <label for="empresaLog">Empresa</label>
@@ -60,7 +60,7 @@
               
           		</form>
            </div>
-           <figure><img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt=""></figure>
+           <figure><img src="<%=UrlBuilder.builderImg(request, "logo.jpg")%>" alt=""></figure>
            <section>
                <h1>Todos los ayuntamientos</h1>
               

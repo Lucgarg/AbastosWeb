@@ -61,7 +61,7 @@
 			<% } %>
 		</div>
 			<%String idEmpresa = (String)request.getAttribute(AttributesNames.EMPRESA); %>
-		<button><a href="<%=request.getContextPath()%><%=ViewPaths.PRECREATE_ACTION_EMPRESA%><%=idEmpresa%>"> Crear oferta</a></button>
+		<button><a href="<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_EMPRESA%><%=idEmpresa%>"> Crear oferta</a></button>
 	</section>
 	<input type="radio" id="null" name="seleccion" checked>
 	<input type="radio" id="foNav" name="seleccion">
@@ -73,10 +73,10 @@
 
 		<div>
 	
-<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=idEmpresa%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
-				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=idEmpresa%>">Mis ofertas
+<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPathsActions.EMPRESA_ACTION_BUSCAR%><%=idEmpresa%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
+				<a href="<%=request.getContextPath()%><%=ViewPathsActions.OFERTA_ACTION_BUSCAR%><%=idEmpresa%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=idEmpresa%>">Mis productos</a></label>
+				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPathsActions.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=idEmpresa%>">Mis productos</a></label>
 		</div>
 		
 		<div class="idiomas">

@@ -47,6 +47,15 @@ html {
 	background: none;
 	border: none;
 	padding: 0;
+
+}
+.footerNav>div:nth-child(1)>label:nth-child(4)>div > a {
+	background-color: blue;
+	border-radius:100%;
+	width: 30%;
+	padding: 3%;
+	color: white;
+	margin-left:33%;
 }
 
 .footerNav>div:nth-child(1)>label:nth-child(4)>div:before {
@@ -59,7 +68,7 @@ html {
 	align-items: center;
 	margin: auto;
 	height: auto;
-	width: 10%;
+	width: 100%;
 }
 
 .footerNav>div:nth-child(1)>label:nth-child(4)>div:after {
@@ -240,6 +249,16 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	margin-bottom: 3%;
 	object-fit: contain;
 }
+
+
+/*input unidades*/
+.tiendas2   input{
+	width: 12%;
+}
+.tiendas2 form{
+	text-align: center;
+}
+
 
 @media ( max-width : 1300px) {
 	.tiendas.producto>.tiendas2>div {

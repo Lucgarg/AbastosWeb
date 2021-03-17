@@ -16,7 +16,9 @@ import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.ViewPathsActions;
 import com.abastos.model.Categoria;
 import com.abastos.model.Oferta;
 import com.abastos.model.Producto;
@@ -106,16 +108,15 @@ public class ProductoServlet extends HttpServlet {
 				List<Tienda> tiendaResults = null;
 				/*Independientemente de donde se encuentre el usuario se recupera el idEmpresa y los resultados de productos*/
 				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);
-				request.setAttribute(AttributesNames.PRODUCTO, results);
+				SessionManager.set(request, AttributesNames.PRODUCTO, results);
 				/*si el idTienda es null entonces se recupera la informacion de una determinada tienda
 				 * con las categorias a la que pertenece dicha tienda
 				 */
 				if(idTienda != null) {
 					tienda = tiendaServ.findById(Long.valueOf(idTienda));
 					categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()), "es");
-					request.setAttribute(ParameterNames.CATEGORIA, categorias);
-					request.setAttribute(AttributesNames.TIENDA, tienda);
 					
+					request.setAttribute(AttributesNames.TIENDA, tienda);
 					target = ViewPaths.PRODUCTO_RESULTS;
 				}
 				/*si el idEmpresa no es null entonces buscamos las tiendas que pertenecen a esa empresa*/
@@ -186,7 +187,7 @@ public class ProductoServlet extends HttpServlet {
 				productoServ.create(producto);		
 				
 				redirect = true;
-				target = ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA + empresa;
+				target = ViewPathsActions.PRODUCTO_ACTION_BUSCAR;
 			} catch (LimitCreationException | DataException e) {
 				logger.warn(e.getMessage(),e);
 			}

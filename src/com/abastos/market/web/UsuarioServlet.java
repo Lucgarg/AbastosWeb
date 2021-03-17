@@ -96,7 +96,7 @@ public class UsuarioServlet extends HttpServlet {
 				String password = request.getParameter(ParameterNames.PASSWORD);
 				try {
 					Particular particular = particularService.login(email,usuario, password);
-					SessionManager.set(request, "usuario", particular);
+					SessionManager.set(request, AttributesNames.USUARIO, particular);
 					List<Pais> paises = paisService.findByAll();
 					request.setAttribute(AttributesNames.PAISES, paises);
 					target = ViewPaths.TIENDA_BUSQUEDA;

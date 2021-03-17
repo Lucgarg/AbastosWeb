@@ -32,6 +32,7 @@ public class ParameterNames {
 	public static final String PRECIO_DESDE = "precioDesde";
 	public static final String STOCK = "stock";
 	public static final String NUMERO = "numero";
+	public static final String NUMERO_UNIDADES= "numeroUnidades";
 	public static final String PISO = "piso";
 	public static final String CALLE = "calle";
 	public static final String EMAIL = "email";

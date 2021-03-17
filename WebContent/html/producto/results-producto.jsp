@@ -3,7 +3,7 @@
 	<section class="tiendas">
 		<div class="tiendas2">
 			<input type="checkbox">
-			<%Tienda tienda = (Tienda)request.getAttribute(AttributesNames.TIENDA);%>
+			<%Tienda tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);%>
 			<h1><%=tienda.getNombre()%></h1>
 
 			<div>
@@ -43,21 +43,21 @@
 				<%String precioHasta = request.getParameter(ParameterNames.PRECIO_HASTA);%>
 				<%String oferta = request.getParameter(ParameterNames.OFERTA);%>
 				<%String origen = request.getParameter(ParameterNames.ORIGEN);%>
-					<%List<Categoria> cat = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
+					<%List<Categoria> cat = (List<Categoria>)SessionManager.get(request, AttributesNames.CATEGORIAS);%>
 					<%for(Categoria c: cat) {
 					
 					if(String.valueOf(c.getId()).equals(categParameter)){%>
-						<li style="background-Color:grey"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_CATEGORIA%><%=c.getId()%>&tienda=<%=tienda.getId()%>"><%=c.getNombre()%></a>
+						<li style="background-Color:grey"><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.PRODUCTO_ACTION_BUSCAR,c.getId())%>"><%=c.getNombre()%></a>
 					<%}else{
 						
 					
 					%>
-					<li><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_CATEGORIA%><%=c.getId()%>&tienda=<%=tienda.getId()%>"><%=c.getNombre()%></a>
+					<li><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.PRODUCTO_ACTION_BUSCAR,c.getId())%>"><%=c.getNombre()%></a>
 					<%}if(c.getCategorias().size() > 0) {%>
 					<ol><% }%>
 					<%for(Categoria categoriaProducto: c.getCategorias()) {%>
 						
-							<li><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_CATEGORIA%><%=categoriaProducto.getId()%>&tienda=<%=tienda.getId()%>"><%=categoriaProducto.getNombre()%></a></li>
+							<li><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.PRODUCTO_ACTION_BUSCAR, c.getId())%>"><%=categoriaProducto.getNombre()%></a></li>
 							<% }
 							if(c.getCategorias().size() > 0){%>
 							</ol><%}%>
@@ -65,7 +65,7 @@
 							</li>
 							<%} %>
 					
-					<form action="<%=request.getContextPath()%>/producto" method="post">
+					<form action="<%=UrlBuilder.builder(request, ViewPathsServlet.PRODUCTO)%>" method="post">
 						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> <input
 							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde" value=<%=precioDesde!=null?precioDesde:""%>><br>
 						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta" value=<%=precioHasta!=null?precioHasta:""%>><br>
@@ -88,7 +88,7 @@
 
 						</select><br> <input type="hidden" name=<%=ParameterNames.ID_TIENDA%>
 							value=<%=tienda.getId()%>> <input type="submit"
-							name="buscar" value="buscar">
+							value="buscar">
 					</form>
 				</ul>
 			</label>
@@ -97,21 +97,21 @@
 	<section class="tiendas producto">
 		<div class="tiendas2">
 			<%
-		List<Producto> results = (List<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
+		List<Producto> results = (List<Producto>) SessionManager.get(request, AttributesNames.PRODUCTO);
 		
 		for(Producto p : results){
 			%>
 
 			<div>
 				<figure>
-					<img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-principal.jpg" />
+					<img src="<%=UrlBuilder.builderImg(request, "productos/" + p.getId() + "-principal.jpg")%>" />
 				</figure>
 				<p>
 					<a
-						href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_DETALLE%><%=p.getId()%>&tienda=<%=tienda.getId()%>"><%=p.getNombre()%></a>
+						href="<%=request.getContextPath()%><%=ViewPathsActions.PRODUCTO_ACTION_DETALLE%><%=p.getId()%>&tienda=<%=tienda.getId()%>"><%=p.getNombre()%></a>
 				</p>
 				
-				<%ProductoService producServ = new ProductoServiceImpl();%>
+				
 				
 				<%if(p.getOferta() != null){
 					if(p.getOferta().getIdTipoOferta()==1){%>
@@ -147,7 +147,7 @@
 					 <%}
 					 if(p.getOferta().getIdTipoOferta() == 3){%>
 					 	<p>Compra y ahorrate del producto
-					 	<%=producServ.findById(p.getOferta().getIdProdOferta(), "es").getNombre()%> 
+					 	<%=p.getOferta().getNombreProdOferta()%> 
 					 	
 					 			<%if(p.getOferta().getDescuentoFijo() != 0.0){%>
 					 			<%=p.getOferta().getDescuentoFijo()%>
@@ -160,8 +160,11 @@
 				 <%}%>
 				
 					<p><%=p.getPrecioFinal()%></p>
-					<form action="">
-					<button type="submit" class="carritoCompra"></button>
+					<form action="<%=UrlBuilder.builder(request, "pedido")%>">
+					<input type="text" name="<%=ParameterNames.NUMERO_UNIDADES%>"><br>
+					<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.ADD%>">
+ 					<input type="hidden" name="<%=ParameterNames.ID_PRODUCTO%>" value="<%=p.getId()%>">
+ 					<button type="submit" class="carritoCompra"></button>
 					</form>
 				<span><%=p.getValoracion()%></span>
 			</div>

@@ -1,3 +1,4 @@
+<%@page import="javax.swing.event.MouseInputListener"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>
 	<section class="tiendas">
@@ -12,9 +13,9 @@
 					<%List<Categoria> catServ = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
 					<%for(Categoria cat: catServ){%>
 					
-					<li><a href="<%=UrlBuilder.builder(request,ViewPaths.TIENDA_ACTION_BUSCAR)%><%=cat.getId()%>&localidad=<%=localidad%>"><%=cat.getNombre()%></a></li>
+					<li><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.TIENDA_ACTION_BUSCAR, cat.getId())%>"><%=cat.getNombre()%></a></li>
 					<%}%>
-					<form action="<%=request.getContextPath()%>/tienda" method="post">
+					<form action=" <%=UrlBuilder.builder(request, ViewPathsServlet.TIENDA)%>" method="post">
 					<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
 					
 					<input type="hidden" name=<%=ParameterNames.LOCALIDAD%> value=<%=localidad%>>
@@ -51,10 +52,10 @@
 		
 			<div>
 				<figure>
-					<a href="productos.html"><img src="<%=request.getContextPath()%>/imgs/tiendas/<%=t.getId()%>-principal.jpg" alt="">
+					<img src=" <%=UrlBuilder.builderImg(request, "tiendas/" + t.getId() + "-principal.jpg")%>" alt="">
 				</figure>
 				<p>
-					<a href="<%=UrlBuilder.builder(request, ViewPaths.TIENDA_ACTION_DETALLE)%><%=t.getId()%>"><%=t.getNombre()%></a>
+					<a href="<%=UrlBuilder.builder(request, ViewPathsActions.TIENDA_ACTION_DETALLE)%><%=t.getId()%>"><%=t.getNombre()%></a>
 				</p>
 				<p><%=t.getDireccionDto().getLocalidad()%></p>
 				<span><%=t.getPuntuacionMedia().getValoracionMedia()%></span>

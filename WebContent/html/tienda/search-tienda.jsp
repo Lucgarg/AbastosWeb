@@ -1,10 +1,10 @@
 	  <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 	<%@include file= "/html/commons/usuario/header.jsp"%>
 	  <div class="logo">
-           <figure><img src="<%=UrlBuilder.builderImg(request, "logo_Mesa de trabajo 1.jpg")%>" alt=""></figure>
+           <figure><img src="<%=UrlBuilder.builderImg(request, "logo.jpg")%>" alt=""></figure>
        </div>
        <section class="localizacion">
-           <form action="<%=UrlBuilder.builder(request, "tienda")%>" method="post">
+           <form action="<%=UrlBuilder.builder(request, ViewPathsServlet.TIENDA)%>" method="post">
            <input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
             <label class="select" for="pais">
                <select name=<%=ParameterNames.PAIS%> id="pais">
