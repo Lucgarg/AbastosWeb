@@ -19,7 +19,7 @@
 				
 				
 				
-				<%if(p.getIdOferta() != null){
+				<%if(p.getIdOferta() != 0){
 					if(p.getIdTipoOferta()==1){%>
 				<p class="precio"><%=p.getPrecio()%></p>
 				<%}else{%>

@@ -4,9 +4,8 @@
            	<label primerBloque="a"for=registro>Registrarse</label><label segundoBloque="l" for="logIn">Inicio
 				Sesión</label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="z">
 				<%if(pedido != null){%>
-			<a href="<%=UrlBuilder.builder(request, ViewPathsActions.PEDIDO_ACTION_DETALLE)%>">
-			<%=pedido.getLineaPedido().size() >= 0? (pedido.getLineaPedido().size() == 0? 1:
-					pedido.getLineaPedido().size()): ""%></a>
+			<a href="<%=UrlBuilder.builder(request, ViewPathsActions.PEDIDO_ACTION_DETALLE)%>" id="count">
+			</a>
 			<%}else{%>
 			<%}%>
 			

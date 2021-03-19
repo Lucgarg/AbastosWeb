@@ -1,47 +1,18 @@
 
-
-/*creacion de elementos*/
-let buttonBack = document.createElement("button");
-buttonBack.innerHTML = "atras";
-buttonBack.setAttribute("class", "back");
-buttonBack.setAttribute("type", "button");
-buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
-
-/*submit function*/
-if(document.getElementById("esp") != null){
-document.getElementById("esp").onclick = submit;}
-if(document.getElementById("en") != null){
-document.getElementById("en").onclick = submit;}
-
-function submit(e){
-e.currentTarget.parentElement.submit();
+/***************************
+ * functions
+ */
+/*funcion para submit idioma */
+ function submit(e){
+    e.currentTarget.parentElement.submit();
 }
-/*cerrar ventanas*/
-if(document.getElementsByClassName("cerrarLabel")[0] !=null){
-document.getElementsByClassName("cerrarLabel")[0].onclick = cerrar;
-}
-if(document.getElementsByClassName("cerrarLabel")[1] != null){
-document.getElementsByClassName("cerrarLabel")[1].onclick = cerrar;
-}
-if(document.getElementsByClassName("cerrarLabel")[2] != null){
-document.getElementsByClassName("cerrarLabel")[2].onclick = cerrar;
-}
-
+/*funcion para cerrar ventanas emergentes */
 function cerrar(){
-    document.getElementById("registro").checked = false;
-    document.getElementById("logIn").checked = false;
-    document.getElementById("Idiomas").checked = false;
+        document.getElementById("registro").checked = false;
+        document.getElementById("logIn").checked = false;
+        document.getElementById("Idiomas").checked = false;
 };
-
-/*funciones para paginar registro*/
-if(document.querySelector(".next") != null){
-let forma = document.querySelector(".productoDetalle").querySelector("div").querySelectorAll("form");
-
-forma.forEach(element => {
-    element.querySelector(".next").addEventListener("click", function () { next(element) });
-   
-});
-}
+/*funcion para paginar registro */
 function next(valor) {
 
     let campo = valor.querySelectorAll("fieldset");
@@ -95,6 +66,47 @@ function back(valor) {
     }
 }
 
+/*****************************
+ * flujo de acciones
+ */
+/*creacion de elementos*/
+let buttonBack = document.createElement("button");
+buttonBack.innerHTML = "atras";
+buttonBack.setAttribute("class", "back");
+buttonBack.setAttribute("type", "button");
+buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
+
+
+
+/*submit function*/
+if(document.getElementById("esp") != null){
+document.getElementById("esp").onclick = submit;}
+if(document.getElementById("en") != null){
+document.getElementById("en").onclick = submit;}
+
+
+/*cerrar ventanas*/
+if(document.getElementsByClassName("cerrarLabel")[0] !=null){
+document.getElementsByClassName("cerrarLabel")[0].onclick = cerrar;
+}
+if(document.getElementsByClassName("cerrarLabel")[1] != null){
+document.getElementsByClassName("cerrarLabel")[1].onclick = cerrar;
+}
+if(document.getElementsByClassName("cerrarLabel")[2] != null){
+document.getElementsByClassName("cerrarLabel")[2].onclick = cerrar;
+}
+
+
+
+/*funciones para paginar registro*/
+if(document.querySelector(".next") != null){
+let forma = document.querySelector(".productoDetalle").querySelector("div").querySelectorAll("form");
+
+forma.forEach(element => {
+    element.querySelector(".next").addEventListener("click", function () { next(element) });
+   
+});
+}
 
 /*puntuación estrellas*/
 

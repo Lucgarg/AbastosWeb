@@ -1,7 +1,9 @@
 package com.abastos.market.web;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -14,12 +16,15 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.MapBuilder;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
+import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.market.web.util.ViewPathsActions;
 import com.abastos.model.Categoria;
+import com.abastos.model.Empresa;
 import com.abastos.model.Oferta;
 import com.abastos.model.Producto;
 import com.abastos.model.ProductoIdioma;
@@ -35,6 +40,7 @@ import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.OfertaServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
+import com.google.gson.Gson;
 
 
 
@@ -59,6 +65,7 @@ public class ProductoServlet extends HttpServlet {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
 		String action = request.getParameter(ActionNames.ACTION);
+		String ajax = request.getParameter(ParameterNames.AJAX);
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -69,9 +76,8 @@ public class ProductoServlet extends HttpServlet {
 			String oferta = request.getParameter(ParameterNames.OFERTA);
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			String idioma = request.getParameter(ParameterNames.IDIOMA);
-			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
-			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
-			
+			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
+			Tienda tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
 			ProductoCriteria productoCri = new ProductoCriteria();
 			if(origen != null) {
 				productoCri.setIdOrigen(origen.charAt(0));
@@ -80,7 +86,7 @@ public class ProductoServlet extends HttpServlet {
 				productoCri.setOferta(Boolean.valueOf(oferta));
 			}
 			if(precioDesde != "" & precioDesde != null) {
-				
+
 				productoCri.setPredioDesde(Double.valueOf(precioDesde));
 
 			}
@@ -93,43 +99,45 @@ public class ProductoServlet extends HttpServlet {
 				productoCri.setIdCategoria(Integer.valueOf(categoria));
 			}
 
-			if(idTienda != null) {
-				productoCri.setIdTienda(Long.valueOf(idTienda));
+			if(tienda != null) {
+				productoCri.setIdTienda(Long.valueOf(tienda.getId()));
 			}
 
-			if(idEmpresa != null) {
-				productoCri.setIdEmpresa(Long.valueOf(idEmpresa));
+			if(empresa != null) {
+				productoCri.setIdEmpresa(Long.valueOf(empresa.getId()));
 			}
 			try {
 				//busqueda de productos en funcion de productoCriteria
+				
 				List<Producto> 	results = productoServ.findBy(productoCri, "es");
-				Tienda tienda = null;
-				List<Categoria> categorias = null;
-				List<Tienda> tiendaResults = null;
-				/*Independientemente de donde se encuentre el usuario se recupera el idEmpresa y los resultados de productos*/
-				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);
-				SessionManager.set(request, AttributesNames.PRODUCTO, results);
-				/*si el idTienda es null entonces se recupera la informacion de una determinada tienda
-				 * con las categorias a la que pertenece dicha tienda
-				 */
-				if(idTienda != null) {
-					tienda = tiendaServ.findById(Long.valueOf(idTienda));
-					categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()), "es");
-					
-					request.setAttribute(AttributesNames.TIENDA, tienda);
+				if(ajax != null) {
+					Gson gson = new Gson();
+					response.setContentType("application/json; charset=ISO-8859-1");
+					response.getOutputStream().write(gson.toJson(results).getBytes());
+				}
+				else {
+					if(tienda != null) {
+						List<Categoria> categorias = categoriaService.findByIdPadre(Integer.valueOf(categoria),"es");
+						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					}
+					if(empresa != null) {
+						List<Tienda> tiendaResults = tiendaServ.findByIdEmpresa(empresa.getId());
+						List<Categoria> categorias = categoriaService.findRoot("es");
+						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results, tiendaResults);
+						request.setAttribute(AttributesNames.TIENDA, result);
+						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					}
+					request.setAttribute(AttributesNames.PRODUCTO, results);
 					target = ViewPaths.PRODUCTO_RESULTS;
 				}
-				/*si el idEmpresa no es null entonces buscamos las tiendas que pertenecen a esa empresa*/
-				else if(idEmpresa != null){
-					tiendaResults= tiendaServ.findByIdEmpresa(Long.valueOf(idEmpresa));
-					request.setAttribute(AttributesNames.RESULTS_TIENDA, tiendaResults);
-					target = ViewPaths.EMPRESA_RESULT_PRODUCTO;
-				}
-			} catch (DataException e) {
+			}
+			catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
-
 		}
+
+
+
 		//Se muestra la vista detalle de un producto
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
@@ -141,7 +149,6 @@ public class ProductoServlet extends HttpServlet {
 				tienda = tiendaServ.findById(Long.valueOf(idTien));
 				request.setAttribute(AttributesNames.PRODUCTO, result);
 				request.setAttribute(AttributesNames.TIENDA, tienda);
-				request.getRequestDispatcher(ViewPaths.PRODUCTO_DETALLE).forward(request, response);
 				target = ViewPaths.PRODUCTO_DETALLE;
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -150,7 +157,6 @@ public class ProductoServlet extends HttpServlet {
 		}
 		//Se crea producto, se redirige al sevlet producto para recuperar los resultados de productos
 		else if(ActionNames.CREAR.equalsIgnoreCase(action)) {
-			String empresa = request.getParameter(ParameterNames.ID_EMPRESA);
 			String nombreCast = request.getParameter(ParameterNames.NOMBRE_CASTELLANO);
 			String nombreIngles= request.getParameter(ParameterNames.NOMBRE_INGLES);
 			String caractCastellano= request.getParameter(ParameterNames.CARACT_CASTELLANO);
@@ -177,15 +183,12 @@ public class ProductoServlet extends HttpServlet {
 				producto.setIdCategoria(Integer.valueOf(categoria));
 				producto.setIdTienda(Long.valueOf(tienda));
 				Oferta ofert;
-
 				ofert = ofertServ.findById(Long.valueOf(oferta));
 				producto.setOferta(ofert);
 				producto.setPrecio(Double.valueOf(precio));
 				producto.setStock(Integer.valueOf(stock));
 				producto.setTipoOrigen(origen.charAt(0));	
-				
 				productoServ.create(producto);		
-				
 				redirect = true;
 				target = ViewPathsActions.PRODUCTO_ACTION_BUSCAR;
 			} catch (LimitCreationException | DataException e) {
@@ -193,14 +196,15 @@ public class ProductoServlet extends HttpServlet {
 			}
 		}
 
-
-		if(redirect) {
-			logger.info("Redirect to..." + target);
-			response.sendRedirect(request.getContextPath() + target);
-		}
-		else {
-			logger.info("Forwarding to..." + target);
-			request.getRequestDispatcher(target).forward(request, response);
+		if(ajax == null) {
+			if(redirect) {
+				logger.info("Redirect to..." + target);
+				response.sendRedirect(UrlBuilder.builder(request, target));
+			}
+			else {
+				logger.info("Forwarding to..." + target);
+				request.getRequestDispatcher(target).forward(request, response);
+			}
 		}
 	}
 

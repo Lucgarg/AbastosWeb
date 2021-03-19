@@ -56,7 +56,9 @@ html {
 	padding: 3%;
 	color: white;
 	margin-left:33%;
+	display:none;
 }
+
 
 .footerNav>div:nth-child(1)>label:nth-child(4)>div:before {
 	color: orange;

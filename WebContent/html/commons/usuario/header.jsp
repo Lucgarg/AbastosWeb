@@ -15,7 +15,7 @@
 </head>
 <body>
 		<header>
-		<% String localidad = (String)request.getAttribute(AttributesNames.LOCALIDAD);%>
+		<% Localidad localidad = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);%>
 		<input type="radio" id="null" name="seleccion" checked>
        <input type="radio" id="foNav" name="seleccion">
        <input type="radio" id="registro" name="seleccion">
@@ -24,16 +24,20 @@
        
        <div class="footerNav">
        	<%Particular particular = (Particular)SessionManager.get(request,AttributesNames.USUARIO);%>
-        <%if(particular ==null){ %>
-        <%@include file="/html/commons/usuario/user-view.jsp" %>
-        <%}else{%>
-        <%@include file="/html/commons/particular/particular-view.jsp"%>
+       	<%Empresa empresa = (Empresa)SessionManager.get(request,AttributesNames.EMPRESA);%>
+        <%if(particular !=null){ %>
+          <%@include file="/html/commons/particular/particular-view.jsp"%>
+        <%}else if(empresa != null){%>
+       <%@include file="/html/commons/empresa/empresa-view.jsp"%>
+           	<%}else{%>
+       <%@include file="/html/commons/usuario/user-view.jsp" %>
            	<%}%>
+           	
            	<div class="tipUsuario">
            	<button class="cerrarLabel"></button>
            		<label>Elige el tipo de perfil</label>
-           		<a href=<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_REGISTRO_EMPRESA%>><button type="button">Empresa</button></a>
-           		<a href=<%=request.getContextPath()%><%=ViewPathsActions.PRECREATE_ACTION_REGISTRO_PARTICULAR%>><button type="button">Particular</button></a>
+           		<a href=<%=UrlBuilder.builder(request, ViewPathsActions.PRECREATE_ACTION_REGISTRO_EMPRESA)%>><button type="button">Empresa</button></a>
+           		<a href=<%=UrlBuilder.builder(request, ViewPathsActions.PRECREATE_ACTION_REGISTRO_PARTICULAR)%>><button type="button">Particular</button></a>
            	
            	</div>
            <div class="registro">
@@ -62,7 +66,7 @@
            </div>
            <figure><img src="<%=UrlBuilder.builderImg(request, "logo.jpg")%>" alt=""></figure>
            <section>
-               <h1>Todos los ayuntamientos</h1>
+               <h1><%=localidad != null? localidad.getNombre():"Todas las tiendas"%></h1>
               
            </section>
             </div>

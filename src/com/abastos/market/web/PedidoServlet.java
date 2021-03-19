@@ -21,7 +21,6 @@ import com.abastos.model.LineaPedido;
 import com.abastos.model.Particular;
 import com.abastos.model.Pedido;
 import com.abastos.model.Producto;
-import com.abastos.model.Tienda;
 import com.abastos.service.DataException;
 import com.abastos.service.PedidoService;
 import com.abastos.service.ProductoService;
@@ -30,6 +29,7 @@ import com.abastos.service.exceptions.MailException;
 import com.abastos.service.impl.PedidoServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class PedidoServlet
@@ -80,9 +80,10 @@ public class PedidoServlet extends HttpServlet {
 				pedido.add(linPedido);
 			}
 			SessionManager.set(request, AttributesNames.PEDIDO, pedido);
-
-			target = ViewPaths.PRODUCTO_RESULTS;
-			redirect = true;	
+			Gson gson = new Gson();
+			response.setContentType("application/json");
+			response.getOutputStream().write(gson.toJson(pedido.getLineaPedido().size()).getBytes());
+				
 		}
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
@@ -92,8 +93,9 @@ public class PedidoServlet extends HttpServlet {
 				for(LineaPedido lp: pedido.getLineaPedido()) {
 
 					Producto producto = productoService.findById(lp.getIdProducto(), "es");
-
+					
 					if(producto.getOferta() != null) {
+						
 						lp.setDenominador(producto.getOferta().getDenominador());
 						lp.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
 						lp.setDescuentoPcn(producto.getOferta().getDescuentoPcn());
@@ -103,22 +105,24 @@ public class PedidoServlet extends HttpServlet {
 						lp.setNumerador(producto.getOferta().getNumerador());
 						lp.setNombreProdOferta(producto.getOferta().getNombreProdOferta());
 						lp.setNombreOferta(producto.getOferta().getNombreOferta());
+						
 					}
 
 					lp.setIdTienda(producto.getId());
 					lp.setNombreProducto(producto.getNombre());
 					lp.setPrecio(producto.getPrecioFinal());
 				}
+				
 				pedido.setAplicarDescuento(false);
 				pedido.setIdEstado("S".charAt(0));
 				if(pedido.getIdParticular() != particular.getId()) {
 				pedido.setIdParticular(particular.getId());
 				Pedido pedidoResult = pedidoService.create(pedido);
 				pedido = pedidoService.findById(pedidoResult.getId());
-				
 				}
 				else {
 				}
+				
 				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
 				target = ViewPaths.PEDIDO_RESULTS;
 				redirect = true;
@@ -126,6 +130,7 @@ public class PedidoServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		if(target != null) {
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(request.getContextPath() + target);
@@ -133,7 +138,7 @@ public class PedidoServlet extends HttpServlet {
 		else {
 			logger.info("Forwarding to..." + target);
 			request.getRequestDispatcher(target).forward(request, response);
-		}
+		}}
 	}
 
 

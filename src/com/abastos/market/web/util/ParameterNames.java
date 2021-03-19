@@ -48,4 +48,6 @@ public class ParameterNames {
 	public static final String APELLIDOS = "apellidos";
 	public static final String CIF = "CIF";
 	public static final String RAZON_SOCIAL = "razonSocial";
+	public static final String PRODUCTO_OFERTA ="productoOferta";
+	public static final String AJAX ="ajax";
 }

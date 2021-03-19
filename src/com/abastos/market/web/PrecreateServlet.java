@@ -1,10 +1,7 @@
 package com.abastos.market.web;
 
 import java.io.IOException;
-import java.lang.reflect.Parameter;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -19,9 +16,11 @@ import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.ComunidadAutonoma;
+import com.abastos.model.Empresa;
 import com.abastos.model.Localidad;
 import com.abastos.model.Oferta;
 import com.abastos.model.Pais;
@@ -97,10 +96,9 @@ public class PrecreateServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 			}
 		}else if(ActionNames.OFERTA.equalsIgnoreCase(action)){
-			String empresa = request.getParameter(ParameterNames.ID_EMPRESA);
+			
 			try {
 				List<TipoOferta> tipoOferta = tipOfert.findAll();
-				request.setAttribute(AttributesNames.EMPRESA, empresa);
 				request.setAttribute(AttributesNames.TIPO, tipoOferta);
 				target = ViewPaths.OFERTA_CREATE;
 			} catch (NumberFormatException | DataException e) {
@@ -108,13 +106,12 @@ public class PrecreateServlet extends HttpServlet {
 			}
 		}
 		else if(ActionNames.PRODUCTO.equalsIgnoreCase(action)) {
-			String empresa = request.getParameter(ParameterNames.ID_EMPRESA);
-			Long idEmpresa = Long.valueOf(empresa);
+			
+			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			try {
-				List<Tienda> listTienda = tiendaService.findByIdEmpresa(idEmpresa);
-				List<Oferta> listOferta = ofertaService.findByIdEmpresa(idEmpresa);
+				List<Tienda> listTienda = tiendaService.findByIdEmpresa(empresa.getId());
+				List<Oferta> listOferta = ofertaService.findByIdEmpresa(empresa.getId());
 				List<Categoria> categorias=	categoriaService.findRoot("es");
-				request.setAttribute(AttributesNames.EMPRESA, empresa);
 				request.setAttribute(AttributesNames.RESULTS_TIENDA, listTienda);
 				request.setAttribute(AttributesNames.OFERTAS, listOferta);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);

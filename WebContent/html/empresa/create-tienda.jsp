@@ -1,28 +1,6 @@
 <%@page import="com.abastos.market.web.util.*"%>
-
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*" %>
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="<%=request.getContextPath()%>/css/estilo.css">
-<link rel="stylesheet" media="(min-width: 800px)" href="<%=request.getContextPath()%>/css/prueba.css">
-<script defer src="js/script.js"></script>
-<script defer src="js/request.js"></script>
-</head>
-<body>
-
-	<header class="sectionTiendas">
-		<figure>
-			<img src="<%=request.getContextPath()%>/img/logo_Mesa de trabajo 1.jpg" alt="">
-		</figure>
-		<section>
-		</section>
-	</header>
+<%@include file= "/html/commons/usuario/header.jsp"%>
 	<section class="tiendas">
 		<div class="tiendas2">
 	</section>
@@ -31,10 +9,8 @@
 		</nav>
 	</section>
 	<section class ="productoDetalle"><div>
-                <form action="<%=request.getContextPath()%>/tienda" method="post">
+                <form action="<%=UrlBuilder.builder(request, ActionNames.TIENDA)%>" method="post">
                 
-                <%String id = (String) request.getAttribute(AttributesNames.EMPRESA);%>
-                <input type="hidden" name=<%=ActionNames.EMPRESA%> value="<%=id%>">
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 <label>Nombre de la tienda</label><br>
                 <input type="text" name=<%=ParameterNames.NOMBRE_TIENDA%>><br>
@@ -96,35 +72,4 @@
                 
             </div>
         </section>
-	<input type="radio" id="null" name="seleccion" checked>
-	<input type="radio" id="foNav" name="seleccion">
-	<input type="radio" id="registro" name="seleccion">
-	<input type="radio" id="Idiomas" name="seleccion">
-	<input type="radio" id="logIn" name="seleccion">
-
-	<div class="footerNav">
-
-		<div>
-			<label primerBloque="p"for=registro><a href="<%=request.getContextPath()%><%=ViewPaths.EMPRESA_ACTION_BUSCAR%><%=id%>">Mis tiendas</a></label><label segundoBloque="v" for="logIn">
-				<a href="<%=request.getContextPath()%><%=ViewPaths.OFERTA_ACTION_BUSCAR%><%=id%>">Mis ofertas
-				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
-				cuartoBloque="w"><a href="<%=request.getContextPath()%><%=ViewPaths.PRODUCTO_ACTION_BUSCAR_EMPRESA%><%=id%>">Mis productos</a></label>
-		</div>
-		
-		<div class="idiomas">
-			<label for="espanol">Español</label> <input type="radio" id="espanol"
-				name="idioma"> <label for="ingles">Inglés</label> <input
-				type="radio" id="ingles" name="idioma">
-		</div>
-		<figure>
-			<img src="<%=request.getContextPath()%>/imgs/logo_Mesa de trabajo 1.jpg" alt="">
-		</figure>
-		<section>
-	
-		</section>
-	</div>
-
-
-
-</body>
-</html>
+	<%@include file="/html/commons/usuario/footer.jsp"%>

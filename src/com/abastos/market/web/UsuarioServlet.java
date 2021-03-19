@@ -17,7 +17,9 @@ import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
+import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.ViewPathsActions;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
 import com.abastos.model.Pais;
@@ -77,13 +79,9 @@ public class UsuarioServlet extends HttpServlet {
 				String password = request.getParameter(ParameterNames.PASSWORD);
 				try {
 					Empresa empresa = empresaService.login(email,usuario, password);
-					List<Tienda> tienda = tiendaService.findByIdEmpresa(empresa.getId());
-					List<Categoria> categoria = categoriaService.findRoot("es");
-					request.setAttribute(AttributesNames.EMPRESA, empresa);
-					request.setAttribute(AttributesNames.RESULTS_TIENDA, tienda);
-					request.setAttribute(AttributesNames.CATEGORIAS, categoria);
-					request.setAttribute(AttributesNames.LOCALIDAD, empresa.getDireccion().getIdLocalidad());
-					target = ViewPaths.EMPRESA_RESULTS_TIENDAS;
+					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
+					target =  ViewPathsActions.TIENDA_ACTION_BUSCAR;
+					redirect = true;
 				} catch (DataException | ServiceException e) {
 					logger.warn(e.getMessage(),e);
 				}
@@ -111,7 +109,7 @@ public class UsuarioServlet extends HttpServlet {
 		
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(request.getContextPath() + target);
+			response.sendRedirect(UrlBuilder.builder(request, target));
 		}
 		else {
 			logger.info("Forwarding to..." + target);

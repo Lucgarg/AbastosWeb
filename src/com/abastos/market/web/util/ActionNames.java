@@ -18,5 +18,6 @@ public class ActionNames {
 	public static final String PRODUCTO = "producto";
 	public static final String PROVINCIA = "provincia";
 	public static final String REGISTRO = "registrar";
+	public static final String TIENDA = "tienda";
 
 }

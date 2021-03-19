@@ -14,4 +14,5 @@ public class AttributesNames {
 	public static final String TIENDA = "tienda";
 	public static final String PEDIDO = "pedido";
 	public static final String USUARIO = "usuario";
+	public static final String LOCALIZACION = "localizacion";
 }

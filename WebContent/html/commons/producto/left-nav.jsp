@@ -1,3 +1,5 @@
+<%@page import="com.abastos.market.web.util.ParameterNames"%>
+<%@page import="com.abastos.market.web.util.AttributesNames"%>
 <section>
 		<nav>
 			<label class="menu" for="menu"> <input type="checkbox" />
@@ -9,7 +11,7 @@
 				<%String oferta = request.getParameter(ParameterNames.OFERTA);%>
 				<%String origen = request.getParameter(ParameterNames.ORIGEN);%>
 				
-					<%List<Categoria> cat = (List<Categoria>)SessionManager.get(request, AttributesNames.CATEGORIAS);%>
+					<%List<Categoria> cat = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
 					<%for(Categoria c: cat) {
 					
 					if(String.valueOf(c.getId()).equals(categParameter)){%>
@@ -32,7 +34,9 @@
 							<%} %>
 					
 					<form action="<%=UrlBuilder.builder(request, ViewPathsServlet.PRODUCTO)%>" method="post">
-						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> <input
+						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> 
+						<input type="hidden" name=<%=ParameterNames.CATEGORIA%> value=<%=categParameter%>>
+						<input
 							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde" value=<%=precioDesde!=null?precioDesde:""%>><br>
 						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta" value=<%=precioHasta!=null?precioHasta:""%>><br>
 						<h5>origen</h5>
@@ -52,8 +56,7 @@
 							<option value="es">español</option>
 							<option value="en">inglés</option>
 
-						</select><br> <input type="hidden" name=<%=ParameterNames.ID_TIENDA%>
-							value=<%=tienda.getId()%>> <input type="submit"
+						</select><br> <input type="submit"
 							value="buscar">
 					</form>
 				</ul>
