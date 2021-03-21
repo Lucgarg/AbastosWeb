@@ -10,8 +10,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<%=UrlBuilder.builder(request, "css/estilo.css")%>">
 <link rel="stylesheet" media="(min-width: 800px)" href="<%=UrlBuilder.builder(request, "css/prueba.css")%>">
-<script defer src="<%=UrlBuilder.builder(request, "/js/script.js")%>"></script>
-<script defer src="<%=UrlBuilder.builder(request, "/js/request.js")%>"></script>
+<script defer src="<%=UrlBuilder.builder(request, "js/script.js")%>"></script>
+<script defer src="<%=UrlBuilder.builder(request, "js/request.js")%>"></script>
 </head>
 <body>
 		<header>
@@ -43,7 +43,7 @@
            <div class="registro">
 			<button class="cerrarLabel"></button>
 			<form action="<%=UrlBuilder.builder(request, ViewPathsServlet.USUARIO)%>" method="post">
-				<input type="hidden" name="<%=ActionNames.ACTION%>" value="logIn"/>
+				<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.LOG_IN%>"/>
 				<label for="particularLog">Particular</label> <input type="radio"
 				id="particularLog" name="tipUsuario" value="particular" checked> <label for="empresaLog">Empresa</label>
 			<input type="radio" id="empresaLog" value="empresa" name="tipUsuario"><br>
@@ -67,7 +67,11 @@
            <figure><img src="<%=UrlBuilder.builderImg(request, "logo.jpg")%>" alt=""></figure>
            <section>
                <h1><%=localidad != null? localidad.getNombre():"Todas las tiendas"%></h1>
-              
+              <form action=<%=UrlBuilder.builder(request, ViewPathsActions.TIENDA_ACTION_BUSCAR)%>>
+              <input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.BUSCAR%>">
+              	<input type="text" name="<%=ParameterNames.NOMBRE_TIENDA%>">
+              	<input type="submit">
+              </form>
            </section>
             </div>
 		</header>

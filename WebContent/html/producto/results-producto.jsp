@@ -16,7 +16,7 @@
 				</figure>
 				<p>
 					<a
-						href="<%=UrlBuilder.builder(request, ViewPathsActions.PRODUCTO_ACTION_DETALLE + "&tienda=" + p.getIdTienda())%>"><%=p.getNombre()%></a>
+						href="<%=UrlBuilder.builder(request, ViewPathsActions.PRODUCTO_ACTION_DETALLE + p.getId())%>"><%=p.getNombre()%></a>
 				</p>
 				<%if(resultsTienda != null){%>
 				<p><%=resultsTienda.get(p.getId())%></p>

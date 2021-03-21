@@ -50,4 +50,11 @@ public class ParameterNames {
 	public static final String RAZON_SOCIAL = "razonSocial";
 	public static final String PRODUCTO_OFERTA ="productoOferta";
 	public static final String AJAX ="ajax";
+	public static final String LISTA = "idLista";
+	public static final String NOMBRE_LISTA = "nombreLista";
+	public static final String PUNTUACION_PRODUCTO = "puntuacionProducto";
+	public static final String PUNTUACION_ATD ="puntuacionAtencDomici";
+	public static final String PUNTUACION_ATC ="puntuacionAtencClient";
+	public static final String PUNTUACION_PRECIO = "puntuacionPrecio";
+	public static final String PEDIDO = "idPedido";
 }

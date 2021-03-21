@@ -14,4 +14,5 @@ public class ViewPathsServlet {
 	public static final String PRODUCTO = "producto";
 	public static final String TIENDA = "tienda";
 	public static final String USUARIO = "usuario";
+	public static final String VALORACION = "valoracion";
 }

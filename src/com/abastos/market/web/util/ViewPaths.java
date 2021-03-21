@@ -18,5 +18,9 @@ public class ViewPaths {
 	public static final String TIENDA_CREATE =  "/html/tienda/crear.jsp";
 	public static final String TIENDA_RESULTS = "/html/tienda/results-tienda.jsp";
 	public static final String PEDIDO_RESULTS = "/html/pedido/pedido-result.jsp";
+	public static final String PARTICULAR_LISTA = "/html/lista/lista-results.jsp";
+	public static final String LISTA_LINEAS = "html/lista/lineas-lista.jsp";
+	public static final String HISTORIAL_PEDIDO = "html/particular/historial-pedido.jsp";
+	public static final String VALORACION = "html/valoracion/valoracion.jsp";
 
 }

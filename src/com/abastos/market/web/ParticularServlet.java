@@ -14,8 +14,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
+import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.DireccionDto;
@@ -53,6 +55,7 @@ public class ParticularServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+	
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
 			String nombreUsuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
 			String apellido = request.getParameter(ParameterNames.APELLIDOS);
@@ -94,6 +97,7 @@ public class ParticularServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 			}
 		}
+	
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(request.getContextPath() + target);

@@ -11,6 +11,7 @@
 					<%List<Categoria> catServ = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
 					<%String categoria = (String)request.getParameter(ParameterNames.CATEGORIA);
 					String domicilio = (String)request.getParameter(ParameterNames.ENVIO_DOMICILIO);
+					String nombre = (String)request.getParameter(ParameterNames.NOMBRE_TIENDA);
 					%>
 					<%for(Categoria cat: catServ){
 					if(String.valueOf(cat.getId()).equals(categoria)){%>

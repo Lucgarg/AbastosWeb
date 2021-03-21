@@ -84,11 +84,11 @@ html {
 }
 /*seccion registro*/
 /*ocultar fieldset*/
-.productoDetalle>div   form  fieldset {
+.productoDetalle.registro>div   form  fieldset {
 	display: none;
 }
 
-.productoDetalle>div>form>fieldset:nth-child(2) {
+.productoDetalle.registro>div>form>fieldset:nth-child(2) {
 	display: initial;
 }
 

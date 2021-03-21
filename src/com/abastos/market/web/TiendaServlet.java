@@ -112,6 +112,7 @@ public class TiendaServlet extends HttpServlet {
 			}
 			try {
 				if(ajax !=null) {
+					
 					List<Tienda> results = tiendaService.findByCriteria(tienda);
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");

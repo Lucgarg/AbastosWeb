@@ -33,18 +33,21 @@
                     <p><%=p.getCaracteristicas()%></p>
                     <form> <input type="number" id="quantity" name="quantity" min="1" max="5"> </form>
                     <p id= "Oferta"></p>
-                    <form action="">
-                        <select name="" id="">
-                            
-                            <option value="">lista1</option>
-                            <option value="">lista2</option>
-                            <option value="">lista3</option>
-                        </select>
-                        <input type="submit" value="añadir a mi lista"/>
-                    </form>
+            
                     <input type="submit" value="añadir al carrito"/>
                 </div>
-                
+                	<%if(particular!= null){%>
+                	<%List<Lista> listas = (List<Lista>)request.getAttribute(AttributesNames.LISTA);%>
+                	   
+                	  
+                        <select name="<%=ParameterNames.LISTA%>" id="selectLista">
+                        <%for(Lista l: listas){%>
+                        	<option value="<%=l.getId()%>"><%=l.getNombre()%></option>
+                        <%}%>
+                        </select>
+                        <input type="submit" name="<%=p.getId()%>" value="añadir a mi lista"/>
+                    
+                	<%}%>
             </div>
         </section>
 

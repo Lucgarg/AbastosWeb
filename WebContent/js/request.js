@@ -81,6 +81,25 @@ if(request.readyState == 4){
 }
 }
 }
+/***Select lista */
+function updateLista(){
+		
+        request = createRequest();
+        if(request == null){
+            return;
+        }
+        let cont = createUrl();
+        var url= cont + "/lista?action=actualizar&idLista=" + selectLista.value + "&nombreCastellano=" + nombreProducto.innerHTML + "&producto=" + buttonLista.name +
+		"&precio=" + precioProducto.innerHTML +   "&ajax=true";
+    
+    request.open("GET", url, true);
+      
+    request.onreadystatechange;
+    request.send(null);
+    }
+
+
+
 /***Select productos*/
 function selectProductos(){
 		
@@ -197,6 +216,10 @@ let carrito = document.getElementsByClassName("carritoCompra");
 let tienda = document.getElementById("tiendaSelect");
 let productoOferta = document.getElementById("productoOfertaSelect");
 let tipoOferta = document.getElementById("tipOferta");
+let selectLista = document.getElementById("selectLista");
+let buttonLista = document.querySelector("#selectLista + input");
+let nombreProducto = document.getElementById("NomPro");
+let precioProducto = document.querySelector("#NomPro + span + p");
 /******************
 create elements
 /**********************/
@@ -215,8 +238,7 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 	}
 
 }
-
-
+	if(tipoOferta != null){
 	tipoOferta.onchange = function(){
 		
 	if(tipoOferta.value == "3"){
@@ -225,9 +247,12 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 	
 	}
 	}
+	}
+	if(tienda != null){
 	tienda.onchange = selectProductos;
-	
-	
-
+	}
+	if(buttonLista != null){
+	buttonLista.addEventListener("click", updateLista);	
+	}
 
      

@@ -7,7 +7,7 @@
 		<nav>
 		</nav>
 	</section>
-       <section class="productoDetalle">
+       <section class="productoDetalle registro">
         	<div>
           <form action=<%=UrlBuilder.builder(request, ViewPathsActions.PARTICULAR_ACTION_REGISTRO)%> method="post">
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">

@@ -19,5 +19,10 @@ public class ActionNames {
 	public static final String PROVINCIA = "provincia";
 	public static final String REGISTRO = "registrar";
 	public static final String TIENDA = "tienda";
-
+	public static final String LISTA = "lista";
+	public static final String UPDATE ="actualizar";
+	public static final String PUNTUACION_TIENDA = "puntuacionTienda";
+	public static final String PUNTUACION_PRODUCTO = "puntuacionProducto";
+	public static final String HISTORIAL_PEDIDO = "historialPedido";
+	
 }

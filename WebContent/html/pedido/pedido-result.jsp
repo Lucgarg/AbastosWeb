@@ -3,8 +3,11 @@
 <section class="tiendas producto">
 		<div class="tiendas2">
 			<%
-		Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
-		
+		Pedido pedido = null;
+			pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);
+			if(pedido == null){
+			pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
+			}
 		for(LineaPedido p : pedido.getLineaPedido()){
 			%>
 
@@ -67,11 +70,15 @@
 				
 					<p><%=p.getPrecioFinal()%></p>
 					
+					<%if(pedido.getIdEstado() == 'C'){%>
+				<a href=<%=UrlBuilder.builder(request, ViewPaths.VALORACION + "?" + AttributesNames.TIENDA +  "=" + p.getIdTienda() +  "&" + AttributesNames.PEDIDO + "=" + pedido.getId())%>><button type="button">Valorar tienda</button></a><br>
+				<a href=<%=UrlBuilder.builder(request, ViewPaths.VALORACION + "?" + AttributesNames.PRODUCTO +  "=" + p.getIdProducto() +  "&" + AttributesNames.PEDIDO + "=" + pedido.getId())%>><button type="button">Valorar producto</button></a>
 				
+				<%}%>
 				
 			</div>
 			<%}%>
-		
+			
 		</div>
 	</section>
 <%@include file="/html/commons/usuario/footer.jsp"%>

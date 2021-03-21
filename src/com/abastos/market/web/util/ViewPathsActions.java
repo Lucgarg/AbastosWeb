@@ -20,4 +20,10 @@ public class ViewPathsActions {
 	public static final String EMPRESA_ACTION_BUSCAR = "empresa?action=buscar&empresa=";
 	public static final String EMPRESA_ACTION_REGISTRAR = "empresa?action=registrar";
 	public static final String PEDIDO_ACTION_DETALLE = "pedido?action=detalle";
+	public static final String PEDIDO_ACTION_HISTORIAL ="pedido?action=historialPedido";
+	public static final String LISTA_DETALLE = "lista?action=detalle&idLista=";
+	public static final String LISTA_BUSCAR =  "lista?action=buscar";
+	public static final String LISTA_CREAR = "lista?action=crear";
+	public static final String LINEA_UPDATE = "lista?action=update";
+
 }

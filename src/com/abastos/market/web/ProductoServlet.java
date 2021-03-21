@@ -1,7 +1,6 @@
 package com.abastos.market.web;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -25,18 +24,22 @@ import com.abastos.market.web.util.ViewPaths;
 import com.abastos.market.web.util.ViewPathsActions;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
+import com.abastos.model.Lista;
 import com.abastos.model.Oferta;
+import com.abastos.model.Particular;
 import com.abastos.model.Producto;
 import com.abastos.model.ProductoIdioma;
 import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
+import com.abastos.service.ListaService;
 import com.abastos.service.OfertaService;
 import com.abastos.service.ProductoCriteria;
 import com.abastos.service.ProductoService;
 import com.abastos.service.TiendaService;
 import com.abastos.service.exceptions.LimitCreationException;
 import com.abastos.service.impl.CategoriaServiceImpl;
+import com.abastos.service.impl.ListaServiceImpl;
 import com.abastos.service.impl.OfertaServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
@@ -52,11 +55,13 @@ public class ProductoServlet extends HttpServlet {
 	private ProductoService productoServ = null;
 	private TiendaService tiendaServ = null;
 	private OfertaService ofertServ = null;
+	private ListaService listaService = null;
 	public ProductoServlet() {
 		categoriaService = new CategoriaServiceImpl();
 		productoServ = new ProductoServiceImpl();
 		tiendaServ = new TiendaServiceImpl();
 		ofertServ = new OfertaServiceImpl();
+		listaService = new ListaServiceImpl();
 	}
 
 
@@ -66,6 +71,7 @@ public class ProductoServlet extends HttpServlet {
 		}
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
+		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -141,12 +147,18 @@ public class ProductoServlet extends HttpServlet {
 		//Se muestra la vista detalle de un producto
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
-			String idTien = request.getParameter(ParameterNames.ID_TIENDA);
+			Tienda tiend = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
 			Long id = Long.valueOf(idProducto);
 			Tienda tienda = new Tienda();
 			try {
 				Producto result = productoServ.findById(id, "es");
-				tienda = tiendaServ.findById(Long.valueOf(idTien));
+				tienda = tiendaServ.findById(tiend.getId());
+				if(particular != null) {
+					List<Lista> listas = listaService.findByIdParticular(particular.getId());
+					request.setAttribute(AttributesNames.LISTA, listas);
+				}
+				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(), "es");
+				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, result);
 				request.setAttribute(AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_DETALLE;

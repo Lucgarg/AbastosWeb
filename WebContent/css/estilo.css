@@ -255,7 +255,26 @@ span {
 	display: block;
 	font-size: 1.2rem;
 }
-
+/*valoracion estrellas*/
+   .star-blank:after{
+            content: "\64";
+            font-family: "icomoon";
+            
+            color: orange;
+               
+        }
+        .yellow-star:after{
+            content: "\66";
+            font-family: "icomoon";
+            
+            color: orange;
+               
+        }
+        .valoracion input{
+        margin: 0;
+            position: absolute;
+            opacity: 0;
+        }
 /*input opacidad*/
 .productoDetalle ~input[type="radio"] {
 	opacity: 0;

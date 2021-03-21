@@ -76,7 +76,8 @@ buttonBack.setAttribute("class", "back");
 buttonBack.setAttribute("type", "button");
 buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
 
-
+/*selectores*/
+let field = document.querySelector(".valoracion");
 
 /*submit function*/
 if(document.getElementById("esp") != null){
@@ -136,3 +137,37 @@ for(let i = 0; i <=4; i++){
     }
 }
   } )
+/*funcion para puntuar productor y tiendas*/
+if(field != null){
+field.querySelectorAll("fieldset").forEach(Element => {
+ 
+    Element.querySelectorAll("input").forEach(Element2 => {
+      
+        Element2.addEventListener("click", function(){
+               
+            array =  Element.querySelectorAll(".star-blank, .yellow-star");
+            array1 = Element.querySelectorAll("input"); 
+          
+            for(let i = 0; i < array1.length; i++){
+              
+            if(Element.querySelectorAll("input")[i].checked === true){
+               
+                for(let j = 0; j <= i ; j++){
+                console.log(j);
+                  array[j].className = "yellow-star";
+              
+                }
+                for(let f = i + 1; f < array.length; f++){
+                    array[f].className = "star-blank";
+                }
+                
+                
+            }
+            }
+        });
+     
+    })
+   
+
+})}
+
