@@ -1,3 +1,5 @@
+<%@page import="com.abastos.market.web.util.ActionNames"%>
+<%@page import="com.abastos.market.web.util.ControllerPath"%>
 <%@page import="com.abastos.market.web.util.ParameterNames"%>
 <%@page import="com.abastos.market.web.util.AttributesNames"%>
 <section>
@@ -15,17 +17,22 @@
 					<%for(Categoria c: cat) {
 					
 					if(String.valueOf(c.getId()).equals(categParameter)){%>
-						<li style="background-Color:grey"><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.PRODUCTO_ACTION_BUSCAR,c.getId())%>"><%=c.getNombre()%></a>
-					<%}else{
-						
-					
+						<li style="background-Color:grey"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, c.getId())%>"><%=c.getNombre()%></a>
+					<%
+					}else{
 					%>
-					<li><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.PRODUCTO_ACTION_BUSCAR,c.getId())%>"><%=c.getNombre()%></a>
-					<%}if(c.getCategorias().size() > 0) {%>
-					<ol><% }%>
-					<%for(Categoria categoriaProducto: c.getCategorias()) {%>
+					<li><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, c.getId())%>"><%=c.getNombre()%></a>
+					<%
+					}if(c.getCategorias().size() > 0) {
+					%>
+					<ol><%
+					}
+					%>
+					<%
+					for(Categoria categoriaProducto: c.getCategorias()) {
+					%>
 						
-							<li><a href="<%=UrlBuilder.builderMap(request, ViewPathsActions.PRODUCTO_ACTION_BUSCAR, c.getId())%>"><%=categoriaProducto.getNombre()%></a></li>
+							<li><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, categoriaProducto.getId())%>"><%=categoriaProducto.getNombre()%></a></li>
 							<% }
 							if(c.getCategorias().size() > 0){%>
 							</ol><%}%>
@@ -33,9 +40,11 @@
 							</li>
 							<%} %>
 					
-					<form action="<%=UrlBuilder.builder(request, ViewPathsServlet.PRODUCTO)%>" method="post">
-						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%> /> 
+					<form action="<%=UrlBuilder.getUrl(request, ControllerPath.PRODUCTO)%>" method="post">
+						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
+						
 						<input type="hidden" name=<%=ParameterNames.CATEGORIA%> value=<%=categParameter%>>
+					
 						<input
 							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde" value=<%=precioDesde!=null?precioDesde:""%>><br>
 						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta" value=<%=precioHasta!=null?precioHasta:""%>><br>

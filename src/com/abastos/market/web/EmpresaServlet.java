@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.UrlBuilder;
@@ -121,7 +122,7 @@ public class EmpresaServlet extends HttpServlet {
 				empresaService.registrar(empresa);
 				Map<String,Object> valores = new HashMap<String,Object>();
 				valores.put("user", empresa);
-				valores.put("enlace", UrlBuilder.builder(request, "precreate?action=index"));
+				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
 				target = ViewPaths.TIENDA_BUSQUEDA;
 				redirect = true;

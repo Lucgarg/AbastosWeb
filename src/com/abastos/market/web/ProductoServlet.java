@@ -15,13 +15,14 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.MapBuilder;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsActions;
+import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
 import com.abastos.model.Lista;
@@ -85,6 +86,7 @@ public class ProductoServlet extends HttpServlet {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			Tienda tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
 			ProductoCriteria productoCri = new ProductoCriteria();
+			
 			if(origen != null) {
 				productoCri.setIdOrigen(origen.charAt(0));
 			}
@@ -102,7 +104,8 @@ public class ProductoServlet extends HttpServlet {
 
 			}
 			if(categoria != null) {
-				productoCri.setIdCategoria(Integer.valueOf(categoria));
+		
+				productoCri.setIdCategoria(Integer.valueOf(categoria));			
 			}
 
 			if(tienda != null) {
@@ -202,7 +205,7 @@ public class ProductoServlet extends HttpServlet {
 				producto.setTipoOrigen(origen.charAt(0));	
 				productoServ.create(producto);		
 				redirect = true;
-				target = ViewPathsActions.PRODUCTO_ACTION_BUSCAR;
+				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR); ;
 			} catch (LimitCreationException | DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
@@ -211,7 +214,7 @@ public class ProductoServlet extends HttpServlet {
 		if(ajax == null) {
 			if(redirect) {
 				logger.info("Redirect to..." + target);
-				response.sendRedirect(UrlBuilder.builder(request, target));
+				response.sendRedirect(UrlBuilder.getUrl(request, target));
 			}
 			else {
 				logger.info("Forwarding to..." + target);

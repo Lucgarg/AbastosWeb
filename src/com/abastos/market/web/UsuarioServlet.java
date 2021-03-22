@@ -14,12 +14,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsActions;
+import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
 import com.abastos.model.Pais;
@@ -80,7 +81,7 @@ public class UsuarioServlet extends HttpServlet {
 				try {
 					Empresa empresa = empresaService.login(email,usuario, password);
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
-					target =  ViewPathsActions.TIENDA_ACTION_BUSCAR;
+					target =  UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR);
 					redirect = true;
 				} catch (DataException | ServiceException e) {
 					logger.warn(e.getMessage(),e);
@@ -109,7 +110,7 @@ public class UsuarioServlet extends HttpServlet {
 		
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(UrlBuilder.builder(request, target));
+			response.sendRedirect(target);
 		}
 		else {
 			logger.info("Forwarding to..." + target);

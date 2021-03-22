@@ -12,7 +12,7 @@
 	</section>
        <section class="productoDetalle registro">
         	<div>
-          <form action=<%=UrlBuilder.builder(request, ViewPathsActions.EMPRESA_ACTION_REGISTRAR)%> method="post">
+          <form action=<%=UrlBuilder.getUrl(request, ControllerPath.EMPRESA)%> method="post">
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">
           		<fieldset>
           		<label>Nombre usuario</label><br>

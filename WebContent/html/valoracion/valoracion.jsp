@@ -15,7 +15,7 @@
         	%>
 
  	<%if(tienda != null){%>
- 	 <form action = "<%=UrlBuilder.builder(request, ViewPathsServlet.VALORACION)%>" class="valoracion">
+ 	 <form action = "<%=UrlBuilder.getUrl(request, ControllerPath.VALORACION)%>" class="valoracion">
  	 <input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.PUNTUACION_TIENDA%>">
  	 	 <input type="hidden" name="<%=ParameterNames.ID_TIENDA%>" value="<%=tienda%>">
  	 	  <input type="hidden" name="<%=ParameterNames.PEDIDO%>" value="<%=pedido%>">
@@ -45,8 +45,10 @@
 </fieldset>
 <button type="submit">
 </form>
-<%}else{%>
-<form action="<%=UrlBuilder.builder(request, ViewPathsServlet.VALORACION)%>" class="valoracion">
+<%
+}else{
+%>
+<form action="<%=UrlBuilder.getUrl(request, ControllerPath.VALORACION)%>" class="valoracion">
  <input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.PUNTUACION_PRODUCTO%>">
  	 <input type="hidden" name="<%=ParameterNames.ID_PRODUCTO%>" value="<%=producto%>">
  	  <input type="hidden" name="<%=ParameterNames.PEDIDO%>" value="<%=pedido%>">

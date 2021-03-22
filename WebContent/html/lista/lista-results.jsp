@@ -13,17 +13,17 @@
 			<div>
 				
 				<p>
-					<a href="<%=UrlBuilder.builder(request, ViewPathsActions.LISTA_DETALLE)%><%=l.getId()%>"><%=l.getNombre()%></a>
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.DETALLE, ParameterNames.LISTA, String.valueOf(l.getId()))%>"><%=l.getNombre()%></a>
 				</p>
 				<p>Fecha de creación</p>
 				<p><%=l.getFechaCreacion()%></p>
 			</div>
-			<% 
+			<%
 			}
-		%>
+			%>
 		
 		</div>
-		<form action="<%=UrlBuilder.builder(request, ActionNames.LISTA)%>">
+		<form action="<%=UrlBuilder.getUrl(request, ActionNames.LISTA)%>">
 		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.CREAR%>">
 		<input type="text" name="<%=ParameterNames.NOMBRE_LISTA%>">
 		<input type="submit">

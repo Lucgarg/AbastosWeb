@@ -12,76 +12,122 @@
 
 			<div>
 				<figure>
-					<img src="<%=UrlBuilder.builderImg(request, "productos/" + p.getId() + "-principal.jpg")%>" />
+					<img src="<%=UrlBuilder.getUrlforImg(request, "productos/" + p.getId() + "-principal.jpg")%>" />
 				</figure>
 				<p>
 					<a
-						href="<%=UrlBuilder.builder(request, ViewPathsActions.PRODUCTO_ACTION_DETALLE + p.getId())%>"><%=p.getNombre()%></a>
+						href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, ParameterNames.ID_PRODUCTO, String.valueOf(p.getId()))%>"><%=p.getNombre()%></a>
 				</p>
-				<%if(resultsTienda != null){%>
+				<%
+				if(resultsTienda != null){
+				%>
 				<p><%=resultsTienda.get(p.getId())%></p>
-				<%}%>
+				<%
+				}
+				%>
 				
-				<%if(p.getOferta() != null){
-					if(p.getOferta().getIdTipoOferta()==1){%>
+				<%
+								if(p.getOferta() != null){
+																	if(p.getOferta().getIdTipoOferta()==1){
+								%>
 				<p class="precio"><%=p.getPrecio()%></p>
-				<%}else{%>
+				<%
+				}else{
+				%>
 				<p class="precioNoMostrado"></p>  
-				<%}%>
+				<%
+  				}
+  				%>
 						<div class="oferta">
 						<p>oferta</p>
 					 </div>
 					 
 					 <div class="ofertaDetalle">
 					 <p><%=p.getOferta().getNombreOferta()%></p>
-					 <%if(p.getOferta().getIdTipoOferta() == 1){ %>
-					 	<p>-<%if(p.getOferta().getDescuentoFijo() !=0.0){%>
+					 <%
+					 if(p.getOferta().getIdTipoOferta() == 1){
+					 %>
+					 	<p>-<%
+					 	if(p.getOferta().getDescuentoFijo() !=0.0){
+					 	%>
 					 			<%=p.getOferta().getDescuentoFijo()%>
 					 			&euro;
-					 			  <%}else{%>
+					 			  <%
+					 			  }else{
+					 			  %>
 					 				<%=p.getOferta().getDescuentoPcn()%> %
-					 <%}%></p>
-					 	<%}
-					 if(p.getOferta().getIdTipoOferta() == 2){ %>
+					 <%
+					 }
+					 %></p>
+					 	<%
+					 	}
+					 				 				 if(p.getOferta().getIdTipoOferta() == 2){
+					 	%>
 					 	<p><%=p.getOferta().getDenominador()%>
 					 	 unidad -
-					 			<%if(p.getOferta().getDescuentoFijo() != 0.0){%>
+					 			<%
+					 	if(p.getOferta().getDescuentoFijo() != 0.0){
+					 	%>
 					 			<%=p.getOferta().getDescuentoFijo()%>
 					 			 &euro;
-					 			  <%}else{%>
+					 			  <%
+					 			  }else{
+					 			  %>
 					 				<%=p.getOferta().getDescuentoPcn()%> %
 					 				
-					 <%}%>
+					 <%
+					 									 }
+					 									 %>
 					 </p>
-					 <%}
-					 if(p.getOferta().getIdTipoOferta() == 3){%>
+					 <%
+					 }
+					 			 			 if(p.getOferta().getIdTipoOferta() == 3){
+					 %>
 					 	<p>Compra y ahorrate del producto
 					 	<%=p.getOferta().getNombreProdOferta()%> 
 					 	
-					 			<%if(p.getOferta().getDescuentoFijo() != 0.0){%>
+					 			<%
+ 					 						 			if(p.getOferta().getDescuentoFijo() != 0.0){
+ 					 						 			%>
 					 			<%=p.getOferta().getDescuentoFijo()%>
 					 			 &euro;
-					 			<%}else{%>
+					 			<%
+					 			}else{
+					 			%>
 					 				<%=p.getOferta().getDescuentoPcn()%> %
-					 <%}%></p>
-					 <%}%>
+					 <%
+					 }
+					 %></p>
+					 <%
+					 }
+					 %>
 					 </div>
-				 <%}%>
+				 <%
+				 }
+				 %>
 				
 					<p><%=p.getPrecioFinal()%></p>
-					<%if(empresa == null){%>
+					<%
+					if(empresa == null){
+					%>
 					<form>
 					<input type="text" name="<%=ParameterNames.NUMERO_UNIDADES%>"><br>
  					<button type="button" class="carritoCompra" name="<%=p.getId()%>"></button>
 					</form>
-					<%}%>
+					<%
+					}
+					%>
 				<span><%=p.getValoracion()%></span>
 			</div>
-			<%}%>
+			<%
+			}
+			%>
 		
 		</div>
-			<%if(empresa != null){%>
-	<button><a href="<%=UrlBuilder.builder(request, ViewPathsActions.PRECREATE_ACTION_PRODUCTO)%>"> Crear producto</a></button>
+			<%
+			if(empresa != null){
+			%>
+	<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO)%>"> Crear producto</a></button>
 	<%}%>
 	</section>
 

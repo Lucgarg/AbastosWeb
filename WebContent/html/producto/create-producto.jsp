@@ -12,7 +12,7 @@
 		</nav>
 	</section>
 	<section class ="productoDetalle"><div>
-                <form action="<%=UrlBuilder.builder(request, ActionNames.PRODUCTO)%>" method="post">
+                <form action="<%=UrlBuilder.getUrl(request, ActionNames.PRODUCTO)%>" method="post">
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 
                	<label>Nombre producto</label><br>

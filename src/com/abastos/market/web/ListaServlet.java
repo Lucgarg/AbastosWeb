@@ -14,12 +14,13 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsActions;
+import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.LineaLista;
 import com.abastos.model.Lista;
 import com.abastos.model.Particular;
@@ -59,7 +60,6 @@ public class ListaServlet extends HttpServlet {
 			try {
 				
 				List<Lista> listas = listaService.findByIdParticular(particular.getId());
-				
 				request.setAttribute(AttributesNames.LISTA, listas);
 				target = ViewPaths.PARTICULAR_LISTA;
 			} catch (DataException e) {
@@ -87,7 +87,7 @@ public class ListaServlet extends HttpServlet {
 			
 			try {
 				listaService.create(lista);
-				target = ViewPathsActions.LISTA_BUSCAR;
+				target = UrlBuilder.getUrlForController(request,ControllerPath.LISTA ,ActionNames.BUSCAR);  
 				redirect = true;
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -112,7 +112,7 @@ public class ListaServlet extends HttpServlet {
 		if(ajax == null) {
 		if(redirect) {
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(UrlBuilder.builder(request, target));
+			response.sendRedirect(UrlBuilder.getUrl(request, target));
 		}
 		else {
 			logger.info("Forwarding to..." + target);

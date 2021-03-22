@@ -89,7 +89,7 @@ public class ParticularServlet extends HttpServlet {
 				particularService.registrar(particular);
 				Map<String,Object> valores = new HashMap<String,Object>();
 				valores.put("user", particular);
-				valores.put("enlace", UrlBuilder.builder(request, "precreate?action=index"));
+				valores.put("enlace", UrlBuilder.getUrl(request, "precreate?action=index"));
 				mailService.sendMail(valores,3L, particular.getEmail());
 				target = ViewPaths.TIENDA_BUSQUEDA;
 				redirect = true;

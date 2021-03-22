@@ -17,7 +17,7 @@ import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
-import com.abastos.market.web.util.ViewPathsActions;
+import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Particular;
 import com.abastos.model.PuntuacionTienda;
 import com.abastos.service.DataException;
@@ -53,7 +53,7 @@ public class ValoracionServlet extends HttpServlet {
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				puntProdService.create(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
-				target = ViewPathsActions.PEDIDO_ACTION_DETALLE +  "&" + ParameterNames.PEDIDO + "=" + pedido;
+				target = ViewPathsctions.PEDIDO_ACTION_DETALLE +  "&" + ParameterNames.PEDIDO + "=" + pedido;
 				
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -73,7 +73,7 @@ public class ValoracionServlet extends HttpServlet {
 				puntTienda.setValoracionServDomicilio(Integer.valueOf(servDomicilio));
 				puntTienda.setIdTienda(Long.valueOf(tienda));
 				puntTiendService.create(puntTienda);
-				target = ViewPathsActions.PEDIDO_ACTION_DETALLE +  "&" + ParameterNames.PEDIDO + "=" + pedido;
+				target = ViewPathsctions.PEDIDO_ACTION_DETALLE +  "&" + ParameterNames.PEDIDO + "=" + pedido;
 				
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -82,7 +82,7 @@ public class ValoracionServlet extends HttpServlet {
 		
 			if(redirect) {
 				logger.info("Redirect to..." + target);
-				response.sendRedirect(UrlBuilder.builder(request, target));
+				response.sendRedirect(UrlBuilder.getUrl(request, target));
 			}
 			else {
 				logger.info("Forwarding to..." + target);

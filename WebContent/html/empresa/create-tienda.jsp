@@ -9,7 +9,7 @@
 		</nav>
 	</section>
 	<section class ="productoDetalle"><div>
-                <form action="<%=UrlBuilder.builder(request, ActionNames.TIENDA)%>" method="post">
+                <form action="<%=UrlBuilder.getUrl(request, ActionNames.TIENDA)%>" method="post">
                 
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 <label>Nombre de la tienda</label><br>

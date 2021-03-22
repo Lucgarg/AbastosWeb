@@ -11,10 +11,10 @@
 		
 			<div>
 				<figure>
-					<img src=" <%=UrlBuilder.builderImg(request, "producto/" + l.getIdProducto() + "-principal.jpg")%>" alt="">
+					<img src=" <%=UrlBuilder.getUrlforImg(request, "producto/" + l.getIdProducto() + "-principal.jpg")%>" alt="">
 				</figure>
 				<p>
-					<a href="<%=UrlBuilder.builder(request, ViewPathsActions.PRODUCTO_ACTION_DETALLE)%><%=l.getIdProducto()%>"><%=l.getNombreProducto()%></a>
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, String.valueOf(l.getIdProducto()))%>"><%=l.getNombreProducto()%></a>
 				</p>
 				<p>Fecha de guardado</p>
 				<p><%=l.getAddDate()%></p>

@@ -17,12 +17,13 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.dao.util.DataUtils;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsActions;
+import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Empresa;
 import com.abastos.model.Oferta;
 import com.abastos.model.Producto;
@@ -110,7 +111,7 @@ public class OfertaServlet extends HttpServlet {
 				oferta.setFechaDesde(DataUtils.formatDate(fechaDesde));
 				oferta.setFechaHasta(DataUtils.formatDate(fechaHasta));
 				ofertaService.create(oferta);
-				target = ViewPathsActions.OFERTA_ACTION_BUSCAR;
+				target = UrlBuilder.getUrlForController(request,ControllerPath.OFERTA ,ActionNames.BUSCAR);
 				redirect = true;
 			} catch (DataException | ParseException e) {
 				logger.warn(e.getMessage(),e);
@@ -118,7 +119,7 @@ public class OfertaServlet extends HttpServlet {
 		}
 		if(redirect) {
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(UrlBuilder.builder(request, target));
+			response.sendRedirect(UrlBuilder.getUrl(request, target));
 		}
 		else {
 			logger.info("Forwarding to..." + target);

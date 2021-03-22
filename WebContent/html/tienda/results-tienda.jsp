@@ -13,21 +13,23 @@
 		
 			<div>
 				<figure>
-					<img src=" <%=UrlBuilder.builderImg(request, "tiendas/" + t.getId() + "-principal.jpg")%>" alt="">
+					<img src=" <%=UrlBuilder.getUrlforImg(request, "tiendas/" + t.getId() + "-principal.jpg")%>" alt="">
 				</figure>
 				<p>
-					<a href="<%=UrlBuilder.builder(request, ViewPathsActions.TIENDA_ACTION_DETALLE)%><%=t.getId()%>"><%=t.getNombre()%></a>
+					<a href="<%=UrlBuilder.getUrl(request, ViewPathsctions.TIENDA_ACTION_DETALLE)%><%=t.getId()%>"><%=t.getNombre()%></a>
 				</p>
 				<p><%=t.getDireccionDto().getLocalidad()%></p>
 				<span><%=t.getPuntuacionMedia().getValoracionMedia()%></span>
 			</div>
-			<% 
+			<%
 			}
-		%>
+			%>
 		
 		</div>
-		<%if(empresa != null){%>
-		<button><a href="<%=UrlBuilder.builder(request, ViewPathsActions.PRECREATE_ACTION_TIENDA)%>"> Crear producto</a></button>
+		<%
+		if(empresa != null){
+		%>
+		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA)%>"> Crear producto</a></button>
 		<%}%>
 	</section>
 	<%@include file="/html/commons/usuario/footer.jsp"%>

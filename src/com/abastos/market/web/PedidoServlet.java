@@ -42,6 +42,7 @@ public class PedidoServlet extends HttpServlet {
 	private ProductoService productoService = null;
 	private PedidoService pedidoService = null;
 	private TiendaService tiendaService = null;
+
 	public PedidoServlet() {
 		super();	
 		productoService = new ProductoServiceImpl();
@@ -127,24 +128,24 @@ public class PedidoServlet extends HttpServlet {
 					lp.setPrecio(producto.getPrecioFinal());
 				}
 				if(idPedido == null) {
-				pedido.setAplicarDescuento(false);
-				pedido.setIdEstado("S".charAt(0));
-				if(pedido.getIdParticular() != particular.getId()) {
-					pedido.setIdParticular(particular.getId());
-					Pedido pedidoResult = pedidoService.create(pedido);
-					pedido = pedidoService.findById(pedidoResult.getId());
-				
-				}
-				
-				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
-				redirect = true;
+					pedido.setAplicarDescuento(false);
+					pedido.setIdEstado("S".charAt(0));
+					if(pedido.getIdParticular() != particular.getId()) {
+						pedido.setIdParticular(particular.getId());
+						Pedido pedidoResult = pedidoService.create(pedido);
+						pedido = pedidoService.findById(pedidoResult.getId());
+
+					}
+
+					SessionManager.set(request, AttributesNames.PEDIDO, pedido);
+					redirect = true;
 				}
 				else {
 					request.setAttribute(AttributesNames.PEDIDO, pedido);
 				}
 				System.out.println(pedido.getIdEstado());
 				target = ViewPaths.PEDIDO_RESULTS;
-				
+
 			} catch (DataException | MailException e) {
 				logger.warn(e.getMessage(),e);
 			}
@@ -162,7 +163,7 @@ public class PedidoServlet extends HttpServlet {
 		if(target != null) {
 			if(redirect) { 
 				logger.info("Redirect to..." + target);
-				response.sendRedirect(UrlBuilder.builder(request, target));
+				response.sendRedirect(UrlBuilder.getUrl(request, target));
 			}
 			else {
 				logger.info("Forwarding to..." + target);
