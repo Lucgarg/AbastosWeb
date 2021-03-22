@@ -141,7 +141,7 @@ function AddProducts(e){
     }
 	let parentInput = e.currentTarget.parentElement.querySelector("input");
     let cont = createUrl();
-    var url= cont + "/pedido?action=add&producto=" + e.currentTarget.name + "&numeroUnidades=" + parentInput.value;
+    var url= cont + "/carrito?action=add&producto=" + e.currentTarget.name + "&numeroUnidades=" + parentInput.value + "&ajax=true";
 
 request.open("GET", url, true);
     let guardar = e.currentTarget;

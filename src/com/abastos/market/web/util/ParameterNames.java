@@ -57,4 +57,5 @@ public class ParameterNames {
 	public static final String PUNTUACION_ATC ="puntuacionAtencClient";
 	public static final String PUNTUACION_PRECIO = "puntuacionPrecio";
 	public static final String PEDIDO = "idPedido";
+	public static final String APLICAR_DESCUENTO =  "aplicarDescuento";
 }

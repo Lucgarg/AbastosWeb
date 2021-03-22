@@ -78,7 +78,8 @@ buttonBack.addEventListener("click", function () { back(buttonBack.parentElement
 
 /*selectores*/
 let field = document.querySelector(".valoracion");
-
+//contador de linea carrito
+let contador = document.getElementById("count");
 /*submit function*/
 if(document.getElementById("esp") != null){
 document.getElementById("esp").onclick = submit;}
@@ -170,4 +171,10 @@ field.querySelectorAll("fieldset").forEach(Element => {
    
 
 })}
-
+/****comprobacion de si numero de lineas carrito no es null*/
+if(contador!=null){
+	if(contador.innerHTML != ""){
+	console.log(contador.innerHTML);
+	contador.style.display = "initial";
+	}
+}

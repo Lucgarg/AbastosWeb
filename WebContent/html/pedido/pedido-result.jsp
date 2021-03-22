@@ -1,13 +1,9 @@
   <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
-	<%@include file= "/html/commons/usuario/header.jsp"%>
+<%@include file= "/html/commons/usuario/header.jsp"%>
+<%@include file= "/html/pedido/right-nav.jsp"%>
 <section class="tiendas producto">
 		<div class="tiendas2">
 			<%
-		Pedido pedido = null;
-			pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);
-			if(pedido == null){
-			pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
-			}
 		for(LineaPedido p : pedido.getLineaPedido()){
 			%>
 
@@ -23,9 +19,8 @@
 				
 				
 				<%
-																if(p.getIdOferta() != 0){
-																			if(p.getIdTipoOferta()==1){
-																%>
+					if(p.getIdOferta() != null){
+					if(p.getIdTipoOferta()==1){%>
 				<p class="precio"><%=p.getPrecio()%></p>
 				<%
 				}else{
@@ -104,13 +99,7 @@
 				
 					<p><%=p.getPrecioFinal()%></p>
 					
-					<%
-										if(pedido.getIdEstado() == 'C'){
-										%>
-				<a href=<%=UrlBuilder.getUrl(request, ViewPaths.VALORACION + "?" + AttributesNames.TIENDA +  "=" + p.getIdTienda() +  "&" + AttributesNames.PEDIDO + "=" + pedido.getId())%>><button type="button">Valorar tienda</button></a><br>
-				<a href=<%=UrlBuilder.getUrl(request, ViewPaths.VALORACION + "?" + AttributesNames.PRODUCTO +  "=" + p.getIdProducto() +  "&" + AttributesNames.PEDIDO + "=" + pedido.getId())%>><button type="button">Valorar producto</button></a>
-				
-				<%}%>
+			
 				
 			</div>
 			<%}%>

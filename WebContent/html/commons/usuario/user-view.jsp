@@ -4,7 +4,7 @@
            	<label primerBloque="a"for=registro>Registrarse</label><label segundoBloque="l" for="logIn">Inicio
 				Sesión</label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="z">
 				<%if(pedido != null){%>
-			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE)%>" id="count">
+			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE)%>" id="count">
 			</a>
 			<%}else{%>
 			<%}%>

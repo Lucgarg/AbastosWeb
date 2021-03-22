@@ -1,4 +1,4 @@
-package com.abastos.market.web;
+package com.abastos.market.web.controllers;
 
 import java.io.File;
 import java.io.IOException;

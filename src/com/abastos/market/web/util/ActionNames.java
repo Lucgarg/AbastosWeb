@@ -24,5 +24,6 @@ public class ActionNames {
 	public static final String PUNTUACION_TIENDA = "puntuacionTienda";
 	public static final String PUNTUACION_PRODUCTO = "puntuacionProducto";
 	public static final String HISTORIAL_PEDIDO = "historialPedido";
+	public static final String DETALLE_CARRITO = "detalleCarrito";
 	
 }

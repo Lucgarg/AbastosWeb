@@ -15,6 +15,9 @@ public class SessionManager {
 	public static void set(HttpServletRequest request, String attName, Object attValue) {	
 		getSession(request).setAttribute(attName, attValue);
 	}
+	public static void remove(HttpServletRequest request, String attName) {	
+		getSession(request).removeAttribute(attName);
+	}
 			
 	/**
 	 * Metodofactoria de la sesion, y sus objetos mandatorios.
