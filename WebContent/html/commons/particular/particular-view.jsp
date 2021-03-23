@@ -13,4 +13,7 @@
 		
 		</div></label><label cuartoBloque="b" for="Idiomas">Idioma</label><label
 		quintoBloque="u"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.HISTORIAL_PEDIDO)%>">Mis pedidos</a></label>
+		<label
+		sextoBloque="&#xea14"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, ActionNames.CERRAR)%>">Cerrar sesión</a></label>
+		
 </div>

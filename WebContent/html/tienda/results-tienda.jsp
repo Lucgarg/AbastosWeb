@@ -29,7 +29,7 @@
 		<%
 		if(empresa != null){
 		%>
-		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA)%>"> Crear producto</a></button>
+		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA)%>"> Crear tienda</a></button>
 		<%}%>
 	</section>
 	<%@include file="/html/commons/usuario/footer.jsp"%>

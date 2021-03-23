@@ -1,6 +1,7 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -96,6 +98,11 @@ public class ParticularServlet extends HttpServlet {
 			} catch (DataException | ServiceException e) {
 				logger.warn(e.getMessage(),e);
 			}
+		}
+		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
+			SessionManager.remove(request, AttributesNames.USUARIO);
+			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
+			
 		}
 	
 		if(redirect) { 

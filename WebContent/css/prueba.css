@@ -118,7 +118,7 @@ html {
 }
 
 .footerNav>div:nth-child(1)>label {
-	margin-right: 10%;
+	margin-right: 6%;
 }
 /*icono idiomas*/
 .footerNav>div:nth-child(1)>label:nth-child(5) {

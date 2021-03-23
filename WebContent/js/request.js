@@ -91,7 +91,7 @@ function updateLista(){
         let cont = createUrl();
         var url= cont + "/lista?action=actualizar&idLista=" + selectLista.value + "&nombreCastellano=" + nombreProducto.innerHTML + "&producto=" + buttonLista.name +
 		"&precio=" + precioProducto.innerHTML +   "&ajax=true";
-    
+   
     request.open("GET", url, true);
       
     request.onreadystatechange;

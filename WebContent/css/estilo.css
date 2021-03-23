@@ -1064,7 +1064,16 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	padding-right: 10px;
 }
 
-
+/*icono salir*/
+.footerNav>div:nth-child(1)>label:nth-child(7) {
+	width: 10%;
+	font-size: 0.8rem;
+	text-align: center;
+	display: inline-block;
+	margin-left: 0;
+	vertical-align: top;
+	padding-right: 10px;
+}
 /*iciono registro*/
 .footerNav>div:nth-child(1)>label:nth-child(1)::before {
 	content: attr(primerBloque);
@@ -1095,6 +1104,15 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 /*icono misPedidos*/
 .footerNav>div:nth-child(1)>label:nth-child(6)::before {
 	content: attr(quintoBloque);
+	font-family: "icomoon";
+	font-size: 1.9rem;
+	display: block;
+	text-align: center;
+	color: orange;
+}
+/*icono salir*/
+.footerNav>div:nth-child(1)>label:nth-child(7)::before {
+	content: attr(sextoBloque);
 	font-family: "icomoon";
 	font-size: 1.9rem;
 	display: block;
