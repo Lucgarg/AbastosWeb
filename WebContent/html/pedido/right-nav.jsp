@@ -8,9 +8,7 @@
 <section class="tiendas">
 		<div class="tiendas2">
 			<input type="checkbox">
-			<%
-			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
-			%>
+			
 			
 			<div>
 				<div class=informacionTienda>

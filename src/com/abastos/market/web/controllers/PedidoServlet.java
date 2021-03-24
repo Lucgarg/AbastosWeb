@@ -46,7 +46,7 @@ public class PedidoServlet extends HttpServlet {
 	private Map<String, Object> infoEmail = null;
 	private MailService mailService = null;
 	public PedidoServlet() {
-		
+
 		productoService = new ProductoServiceImpl();
 		pedidoService = new PedidoServiceImpl();
 		mailService = new MailServiceImpl();
@@ -59,17 +59,17 @@ public class PedidoServlet extends HttpServlet {
 		}
 		String action = request.getParameter(ActionNames.ACTION);
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
-	
+
 		String target = null;
 		boolean redirect = false;
-	
-		 if(ActionNames.CREAR.equalsIgnoreCase(action)) {
-			 Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
-			 String aplicarDescuento = request.getParameter(ParameterNames.APLICAR_DESCUENTO);
-			 pedido.setAplicarDescuento(Boolean.valueOf(aplicarDescuento));
-			 pedido.setIdParticular(particular.getId());
-			 pedido.setIdEstado('S');
-			 try {
+
+		if(ActionNames.CREAR.equalsIgnoreCase(action)) {
+			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
+			String aplicarDescuento = request.getParameter(ParameterNames.APLICAR_DESCUENTO);
+			pedido.setAplicarDescuento(Boolean.valueOf(aplicarDescuento));
+			pedido.setIdParticular(particular.getId());
+			pedido.setIdEstado('S');
+			try {
 				pedidoService.create(pedido);
 				int puntos = pedidoService.calcPuntos(pedido.getPrecioTotal());
 				infoEmail.put("user", particular);
@@ -79,13 +79,13 @@ public class PedidoServlet extends HttpServlet {
 				mailService.sendMailHtml(infoEmail, 5L, particular.getEmail());
 				SessionManager.remove(request, AttributesNames.CARRITO);
 				SessionManager.remove(request, AttributesNames.PEDIDO);
-				
+
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 				redirect = true;
 			} catch (MailException | DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
-			 
+
 		}
 		else if(ActionNames.HISTORIAL_PEDIDO.equalsIgnoreCase(action)) {
 			try {
@@ -96,6 +96,17 @@ public class PedidoServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 			}
 
+		}
+		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
+			String idPedido = request.getParameter(ParameterNames.PEDIDO);
+			try {
+				Pedido pedido = pedidoService.findById(Long.valueOf(idPedido));
+				
+				request.setAttribute(AttributesNames.PEDIDO, pedido);
+				target =  ViewPaths.LINEA_PEDIDO;
+			} catch ( DataException e) {
+				logger.warn(e.getMessage(),e);
+			}
 		}
 		if(target != null) {
 			if(redirect) { 

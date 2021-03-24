@@ -67,7 +67,7 @@ public class CarritoServlet extends HttpServlet {
 			linCarrito.setNumeroUnidades(Integer.valueOf(numeroUnidades));
 			
 			boolean repeticion = false;
-			if(carrito != null) {
+			if(repeticion == false) {
 				for(Map.Entry<Long, LineaCarrito> lp: carrito.getLineasCarritoMap().entrySet()) {
 			
 					if(lp.getValue().getIdProducto() == linCarrito.getIdProducto()) {
@@ -81,11 +81,7 @@ public class CarritoServlet extends HttpServlet {
 					carrito.addMap(linCarrito.getIdProducto(), linCarrito);
 				}
 			}
-			else {
-				carrito = new Carrito();
-				carrito.addMap(linCarrito.getIdProducto(), linCarrito);
-				
-			}
+			
 			SessionManager.set(request, AttributesNames.CARRITO, carrito);
 			Gson gson = new Gson();
 			response.setContentType("application/json");

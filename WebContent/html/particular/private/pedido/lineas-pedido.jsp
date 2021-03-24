@@ -1,7 +1,7 @@
- <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
+<%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <%@include file= "/html/commons/usuario/header.jsp"%>
-<%Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);%>
-<%if(pedido.getLineaPedido().size() > 0){%>
+<%Pedido pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);%>
+
 <%@include file= "/html/pedido/right-nav.jsp"%>
 <section class="tiendas producto">
 		<div class="tiendas2">
@@ -99,22 +99,15 @@
 				 <%
 				 }
 				 %>
-					<p>Numero de unidades</p>
-					<p><%=p.getNumeroUnidades()%></p>
-					<%if(p.getNumeroUnidades() != 1){%>
-					<p>Precio unidad</p>
-					<p><%=p.getPrecio()%></p>
-						<%}%>
+				
 					
 					<p><%=p.getPrecioFinal()%></p>
 					
-			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.ELIMINAR, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()))%>">eliminar</a></button>
-				
+			<button><a href="<%=UrlBuilder.getUrlForController(request, ViewPaths.VALORACION, AttributesNames.TIENDA,  String.valueOf(p.getIdTienda()))%>">valorar tienda</a></button>
+			<button><a href="<%=UrlBuilder.getUrlForController(request, ViewPaths.VALORACION, AttributesNames.PRODUCTO,  String.valueOf(p.getIdProducto()))%>">valorar producto</a></button>
 			</div>
 			<%}%>
 		
 	</section>
-	<%}else{%>
-	<p style="position:absolute; top:50%; right:50%; font-size:4rem; color:white;">El carrito esta vacio</p>
-	<%}%>
+	
 <%@include file="/html/commons/usuario/footer.jsp"%>

@@ -9,7 +9,7 @@
 	</section>
        <section class="productoDetalle">
         	<div>
-        	<%String tienda = (String)request.getParameter(AttributesNames.TIENDA);
+        	<%
         	String producto = (String)request.getParameter(AttributesNames.PRODUCTO);
         	String pedido = (String)request.getParameter(AttributesNames.PEDIDO);
         	%>

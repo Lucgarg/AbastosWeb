@@ -13,6 +13,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -53,7 +54,8 @@ public class ValoracionServlet extends HttpServlet {
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				puntProdService.create(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
-				target = ViewPathsctions.PEDIDO_ACTION_DETALLE +  "&" + ParameterNames.PEDIDO + "=" + pedido;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, ParameterNames.PEDIDO, pedido); 
+					
 				
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -73,7 +75,7 @@ public class ValoracionServlet extends HttpServlet {
 				puntTienda.setValoracionServDomicilio(Integer.valueOf(servDomicilio));
 				puntTienda.setIdTienda(Long.valueOf(tienda));
 				puntTiendService.create(puntTienda);
-				target = ViewPathsctions.PEDIDO_ACTION_DETALLE +  "&" + ParameterNames.PEDIDO + "=" + pedido;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, ParameterNames.PEDIDO, pedido); 
 				
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
