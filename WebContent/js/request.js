@@ -71,9 +71,12 @@ if(request.readyState == 4){
 		 
 		
 		let tiendas =  JSON.parse(request.responseText);
-				
+			let firstOption = document.createElement("option");
+				firstOption.text= "--Selecciona tienda---";
+				firstOption.value="0";
+				tienda.add(firstOption);
 			for(let i= 0; i < tiendas.length; i++){
-				let optionTienda = document.createElement("option");
+			let optionTienda = document.createElement("option");
 			optionTienda.text = tiendas[i].nombre;
 			optionTienda.value = tiendas[i].id;
 			tienda.add(optionTienda);
@@ -102,7 +105,7 @@ function updateLista(){
 
 /***Select productos*/
 function selectProductos(){
-		
+		remove(productoOferta);
         request = createRequest();
         if(request == null){
             return;
@@ -122,7 +125,10 @@ if(request.readyState == 4){
 		 
 		
 		let productos =  JSON.parse(request.responseText);
-				
+			let firstOptionProduct = document.createElement("option");
+				firstOptionProduct.text= "--Selecciona producto---";
+				firstOptionProduct.value="0";
+				productoOferta.add(firstOptionProduct);
 			for(let i= 0; i < productos.length; i++){
 				let optionTienda = document.createElement("option");
 			optionTienda.text = productos[i].nombre;
@@ -240,7 +246,7 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 }
 	if(tipoOferta != null){
 	tipoOferta.onchange = function(){
-		
+	remove(tienda);
 	if(tipoOferta.value == "3"){
 		
 	selectTiendas();

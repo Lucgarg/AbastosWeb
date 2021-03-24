@@ -82,6 +82,8 @@ public class UrlBuilder {
 	public static String getUrlForController(HttpServletRequest request,String context, String action,  Integer categoria) {
 
 		Map<String, String[]> valores = request.getParameterMap();
+	
+		
 		StringBuilder sb = new StringBuilder();
 		sb.append("http://").append(request.getServerName()).append(":")
 		.append(request.getServerPort())
@@ -89,6 +91,8 @@ public class UrlBuilder {
 		.append("?")
 		.append(ActionNames.ACTION).append("=").append(action).append("&");
 		for(Map.Entry<String, String[]> m: valores.entrySet()) {
+			if(ParameterNames.NOMBRE_TIENDA.equals(m.getKey()) || ParameterNames.NOMBRE_PRODUCTO.equals(m.getKey())){}
+			else {
 			if(ActionNames.ACTION.equalsIgnoreCase(m.getKey())){
 
 			}
@@ -102,6 +106,7 @@ public class UrlBuilder {
 					sb.append(m.getKey()).append("=").append(m.getValue()[0]).append("&");
 				}
 			}
+		}
 		}
 
 

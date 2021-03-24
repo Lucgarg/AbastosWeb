@@ -93,7 +93,7 @@ public class ParticularServlet extends HttpServlet {
 				valores.put("user", particular);
 				valores.put("enlace", UrlBuilder.getUrl(request, "precreate?action=index"));
 				mailService.sendMail(valores,3L, particular.getEmail());
-				target = ViewPaths.TIENDA_BUSQUEDA;
+				target = UrlBuilder.getUrl(request, ViewPaths.TIENDA_BUSQUEDA);
 				redirect = true;
 			} catch (DataException | ServiceException e) {
 				logger.warn(e.getMessage(),e);
@@ -102,12 +102,12 @@ public class ParticularServlet extends HttpServlet {
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
 			SessionManager.remove(request, AttributesNames.USUARIO);
 			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
-			
+			redirect = true;
 		}
 	
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(request.getContextPath() + target);
+			response.sendRedirect(target);
 		}
 		else {
 			logger.info("Forwarding to..." + target);

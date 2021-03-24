@@ -1,11 +1,5 @@
 
-/***************************
- * functions
- */
-/*funcion para submit idioma */
- function submit(e){
-    e.currentTarget.parentElement.submit();
-}
+
 /*funcion para cerrar ventanas emergentes */
 function cerrar(){
         document.getElementById("registro").checked = false;
@@ -173,7 +167,7 @@ field.querySelectorAll("fieldset").forEach(Element => {
 })}
 /****comprobacion de si numero de lineas carrito no es null*/
 if(contador!=null){
-	if(contador.innerHTML != ""){
+	if(contador.innerHTML.trim() != ""){
 	console.log(contador.innerHTML);
 	contador.style.display = "initial";
 	}

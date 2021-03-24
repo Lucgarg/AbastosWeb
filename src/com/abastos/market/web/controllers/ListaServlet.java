@@ -112,7 +112,7 @@ public class ListaServlet extends HttpServlet {
 		if(ajax == null) {
 		if(redirect) {
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(UrlBuilder.getUrl(request, target));
+			response.sendRedirect(target);
 		}
 		else {
 			logger.info("Forwarding to..." + target);

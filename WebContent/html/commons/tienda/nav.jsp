@@ -31,8 +31,11 @@
 					<%} %>
 					<%}%>
 					
-					<form action=" <%=UrlBuilder.getUrlForController(request, ControllerPath.TIENDA)%>" method="post">
+					<form action=" <%=UrlBuilder.getUrl(request, ControllerPath.TIENDA)%>" method="post">
 					<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
+						<%if(categoria != null){%>
+						<input type="hidden" name="<%=ParameterNames.CATEGORIA%>" value="<%=categoria%>">
+						<%}%>
 						<label>Envio a domicilio</label>
 						<input type="checkbox" name=<%=ParameterNames.ENVIO_DOMICILIO%> value="true" <%if("true".equals(domicilio)){%>checked<%}%>>
 						<input type="submit"

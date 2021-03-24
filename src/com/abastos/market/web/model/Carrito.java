@@ -1,16 +1,22 @@
 package com.abastos.market.web.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Carrito {
 	private Long id;
 	private Double precioTotal;
 	private Boolean aplicarDescuento;
 	private Long idParticular;
-	private List<LineaCarrito> lineasCarrito;
+	
+	private Map<Long, LineaCarrito> lineasCarritoMap;
+
+
 	public Carrito() {
-		lineasCarrito = new ArrayList<LineaCarrito>();
+		
+		lineasCarritoMap = new HashMap<Long, LineaCarrito>();
 	}
 	public Long getId() {
 		return id;
@@ -24,8 +30,9 @@ public class Carrito {
 	public Long getIdParticular() {
 		return idParticular;
 	}
-	public List<LineaCarrito> getLineaCarrito() {
-		return lineasCarrito;
+
+	public Map<Long, LineaCarrito> getLineasCarritoMap() {
+		return lineasCarritoMap;
 	}
 	public void setId(Long id) {
 		this.id = id;
@@ -39,10 +46,12 @@ public class Carrito {
 	public void setIdParticular(Long idParticular) {
 		this.idParticular = idParticular;
 	}
-	public void setLineaCarrito(List<LineaCarrito> lineaCarrito) {
-		this.lineasCarrito = lineaCarrito;
+	
+	public void setLineasCarritoMap(Map<Long, LineaCarrito> lineasCarritoMap) {
+		this.lineasCarritoMap = lineasCarritoMap;
 	}
-	public void add(LineaCarrito lineaCarrito) {
-		lineasCarrito.add(lineaCarrito);
+
+	public void addMap(Long idProducto, LineaCarrito lineaCarrito) {
+		lineasCarritoMap.put(idProducto, lineaCarrito);
 	}
 }

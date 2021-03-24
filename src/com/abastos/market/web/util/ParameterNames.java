@@ -39,6 +39,7 @@ public class ParameterNames {
 	public static final String TELEFONO = "telefono";
 	public static final String MOVIL = "movil";
 	public static final String NOMBRE_TIENDA = "nombreTienda";
+	public static final String NOMBRE_PRODUCTO = "nombreProducto";
 	public static final String LOCALIDAD = "localidad";
 	public static final String ENVIO_DOMICILIO = "envioDomicilio";
 	public static final String CODIGO_POSTAL = "codigoPostal";

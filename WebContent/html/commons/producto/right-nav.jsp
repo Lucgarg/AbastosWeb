@@ -1,7 +1,7 @@
 <section class="tiendas">
 		<div class="tiendas2">
 			<input type="checkbox">
-			<%Tienda tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);%>
+			
 			<%if(tienda != null){%>
 			<h1><%=tienda.getNombre()%></h1>
 

@@ -73,6 +73,10 @@ public class ProductoServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		if(idioma == null) {
+			idioma = "es";
+		}
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -82,11 +86,28 @@ public class ProductoServlet extends HttpServlet {
 			String origen = request.getParameter(ParameterNames.ORIGEN);
 			String oferta = request.getParameter(ParameterNames.OFERTA);
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
-			String idioma = request.getParameter(ParameterNames.IDIOMA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
-			Tienda tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
+			String nombre = request.getParameter(ParameterNames.NOMBRE_PRODUCTO);
+			Tienda tienda = null;
+			String tiend = null;
 			ProductoCriteria productoCri = new ProductoCriteria();
-			
+			if(ajax == null) {
+				tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
+				if(empresa != null) {
+					productoCri.setIdEmpresa(Long.valueOf(empresa.getId()));
+				}
+				if(tienda != null) {
+					productoCri.setIdTienda(Long.valueOf(tienda.getId()));
+				}
+			}
+			else {
+				tiend = request.getParameter(ParameterNames.ID_TIENDA);
+				if(tiend != null) {
+					productoCri.setIdTienda(Long.valueOf(tiend));
+				}
+			}
+
+
 			if(origen != null) {
 				productoCri.setIdOrigen(origen.charAt(0));
 			}
@@ -104,21 +125,19 @@ public class ProductoServlet extends HttpServlet {
 
 			}
 			if(categoria != null) {
-		
+
 				productoCri.setIdCategoria(Integer.valueOf(categoria));			
 			}
-
-			if(tienda != null) {
-				productoCri.setIdTienda(Long.valueOf(tienda.getId()));
+			if(nombre != null) {
+				productoCri.setNombre(nombre);
 			}
 
-			if(empresa != null) {
-				productoCri.setIdEmpresa(Long.valueOf(empresa.getId()));
-			}
+
+
 			try {
 				//busqueda de productos en funcion de productoCriteria
-				
-				List<Producto> 	results = productoServ.findBy(productoCri, "es");
+
+				List<Producto> 	results = productoServ.findBy(productoCri, idioma);
 				if(ajax != null) {
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");
@@ -126,12 +145,12 @@ public class ProductoServlet extends HttpServlet {
 				}
 				else {
 					if(tienda != null) {
-						List<Categoria> categorias = categoriaService.findByIdPadre(Integer.valueOf(categoria),"es");
+						List<Categoria> categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()),"es");
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					}
 					if(empresa != null) {
 						List<Tienda> tiendaResults = tiendaServ.findByIdEmpresa(empresa.getId());
-						List<Categoria> categorias = categoriaService.findRoot("es");
+						List<Categoria> categorias = categoriaService.findRoot(idioma);
 						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results, tiendaResults);
 						request.setAttribute(AttributesNames.TIENDA, result);
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
@@ -154,13 +173,13 @@ public class ProductoServlet extends HttpServlet {
 			Long id = Long.valueOf(idProducto);
 			Tienda tienda = new Tienda();
 			try {
-				Producto result = productoServ.findById(id, "es");
+				Producto result = productoServ.findById(id, idioma);
 				tienda = tiendaServ.findById(tiend.getId());
 				if(particular != null) {
 					List<Lista> listas = listaService.findByIdParticular(particular.getId());
 					request.setAttribute(AttributesNames.LISTA, listas);
 				}
-				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(), "es");
+				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(), idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, result);
 				request.setAttribute(AttributesNames.TIENDA, tienda);

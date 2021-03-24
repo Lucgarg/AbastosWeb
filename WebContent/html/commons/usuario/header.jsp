@@ -14,6 +14,7 @@
 <script defer src="<%=UrlBuilder.getUrl(request, "js/request.js")%>"></script>
 </head>
 <body>
+
 		<header>
 		<%
 		Localidad localidad = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
@@ -26,6 +27,7 @@
        
        <div class="footerNav">
        	<%
+       	Tienda tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
        	Particular particular = (Particular)SessionManager.get(request,AttributesNames.USUARIO);
        	%>
        	<%
@@ -69,23 +71,23 @@
 		</div>
            <div class="idiomas">
            <button class="cerrarLabel"></button>
-           		<form action=>
+           		<form action="<%=UrlBuilder.getUrl(request, ControllerPath.IDIOMA)%>">
+           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.SELECCIONAR%>">
            		<label>Selecciona idioma</label><br>
                
                
-             	<img src="<%=UrlBuilder.getUrlforImg(request, "img-idioma/spain.svg")%>" id="esp">
-               	<img src="<%=UrlBuilder.getUrlforImg(request, "img-idioma/united-kingdom.svg")%>" id="en">
+             	<button type="submit" name="<%=ParameterNames.IDIOMA%>" value="es" style="background: url(<%=UrlBuilder.getUrlforImg(request, "img-idioma/spain.svg")%>) center center no-repeat; background-size:contain; font-size:2rem; width: 10%; border: none">&nbsp</button>
+               	<button type="submit" name="<%=ParameterNames.IDIOMA%>" value="en" style="background: url(<%=UrlBuilder.getUrlforImg(request, "img-idioma/united-kingdom.svg")%>) center center no-repeat; background-size:contain; font-size:2rem; width: 10%;border:none">&nbsp</button>
               
           		</form>
            </div>
            <figure><img src="<%=UrlBuilder.getUrlforImg(request, "logo.jpg")%>" alt=""></figure>
            <section>
-               <h1><%=localidad != null? localidad.getNombre():"Todas las tiendas"%></h1>
-              <form action=<%=UrlBuilder.getUrl(request, ControllerPath.TIENDA)%>>
-              <input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.BUSCAR%>">
-              	<input type="text" name="<%=ParameterNames.NOMBRE_TIENDA%>">
-              	<input type="submit">
-              </form>
+            <%if(tienda != null){%>
+               <%@include file="/html/commons/producto/buscador-producto.jsp" %>
+               <%}else{%>
+                <%@include file="/html/commons/tienda/buscador-tienda.jsp" %>
+                <%}%>
            </section>
             </div>
 		</header>

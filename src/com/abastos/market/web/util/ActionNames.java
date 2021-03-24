@@ -26,5 +26,6 @@ public class ActionNames {
 	public static final String HISTORIAL_PEDIDO = "historialPedido";
 	public static final String DETALLE_CARRITO = "detalleCarrito";
 	public static final String CERRAR = "logOut";
-	
+	public static final String SELECCIONAR = "selecccionar";
+	public static final String ELIMINAR = "eliminar";
 }

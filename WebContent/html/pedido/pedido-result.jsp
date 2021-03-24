@@ -3,6 +3,7 @@
 <%@include file= "/html/pedido/right-nav.jsp"%>
 <section class="tiendas producto">
 		<div class="tiendas2">
+			
 			<%
 		for(LineaPedido p : pedido.getLineaPedido()){
 			%>
@@ -39,7 +40,7 @@
 					 if(p.getIdTipoOferta() == 1){
 					 %>
 					 	<p>-<%
-					 	if(p.getDescuentoFijo() !=0.0){
+					 	if(p.getDescuentoFijo() != null){
 					 	%>
 					 			<%=p.getDescuentoFijo()%>
 					 			&euro;
@@ -57,7 +58,7 @@
 					 	<p><%=p.getDenominador()%>
 					 	 unidad -
 					 			<%
-					 	if(p.getDescuentoFijo() != 0.0){
+					 	if(p.getDescuentoFijo() != null){
 					 	%>
 					 			<%=p.getDescuentoFijo()%>
 					 			 &euro;
@@ -78,7 +79,7 @@
 					 	<%=p.getNombreProdOferta()%> 
 					 	
 					 			<%
- 					 						 			if(p.getDescuentoFijo() != 0.0){
+ 					 						 			if(p.getDescuentoFijo() != null){
  					 						 			%>
 					 			<%=p.getDescuentoFijo()%>
 					 			 &euro;
@@ -96,14 +97,19 @@
 				 <%
 				 }
 				 %>
-				
+					<p>Numero de unidades</p>
+					<p><%=p.getNumeroUnidades()%></p>
+					<%if(p.getNumeroUnidades() != 1){%>
+					<p>Precio unidad</p>
+					<p><%=p.getPrecio()%></p>
+						<%}%>
+					
 					<p><%=p.getPrecioFinal()%></p>
 					
-			
+			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.ELIMINAR, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()))%>">eliminar</a></button>
 				
 			</div>
 			<%}%>
-			
-		</div>
+		
 	</section>
 <%@include file="/html/commons/usuario/footer.jsp"%>

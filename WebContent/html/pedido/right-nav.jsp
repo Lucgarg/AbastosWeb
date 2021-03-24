@@ -24,7 +24,7 @@
 					<label>Aplicar descuento</label>
 					<input type="checkbox" name="<%=ParameterNames.APLICAR_DESCUENTO%>"><br>
 					<%}%>
-					<input type="submit" value="finalizar compra">
+					<button type="submit" value="finalizar compra">Finalizar compra</button>
 					</form>
 				</div>
 			

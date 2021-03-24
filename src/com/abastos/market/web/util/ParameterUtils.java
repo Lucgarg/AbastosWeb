@@ -16,10 +16,14 @@ public static final String print(Map<String, String[]> parameters) {
 	
 		
 		for(Map.Entry<String, String[]> values : parameters.entrySet()) {
+			if(ParameterNames.PASSWORD.equals(values.getKey())) {}
+			else {
 			sb.append(values.getKey()).append("={");
+			
 			for(String va:values.getValue()) {
 				sb.append(va).append("}");
 			}
+		}
 		}
 		return  sb.toString();
 }

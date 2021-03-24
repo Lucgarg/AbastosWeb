@@ -739,10 +739,18 @@ header+.tiendas>.tiendas2>div>.informacionTienda>.forma {
 }
 
 header+.tiendas>.tiendas2>div>.informacionTienda>p {
-	font-size: 0.7rem;
+	font-size: 1.6rem;
+	margin-bottom: 10%;
 	text-align: start;
 }
-
+header+.tiendas>.tiendas2>div>.informacionTienda>form {
+	font-size: 1.2rem;
+	
+}
+header+.tiendas>.tiendas2>div>.informacionTienda>form label {
+	padding-bottom: 2%;
+	
+}
 header+.tiendas>.tiendas2>div>figure {
 	float: none;
 	width: 50%;

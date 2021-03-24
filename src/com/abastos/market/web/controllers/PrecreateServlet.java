@@ -75,6 +75,7 @@ public class PrecreateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ActionNames.ACTION);
+		if(action == null) { action = ActionNames.INICIO;}
 		String target = null;
 		boolean redirect = false;
 		if(logger.isDebugEnabled()) {

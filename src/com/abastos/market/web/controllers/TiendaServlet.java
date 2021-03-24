@@ -72,6 +72,10 @@ public class TiendaServlet extends HttpServlet {
 		}
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		if(idioma == null) {
+			idioma = "es";
+		}
 		String target = null;
 		boolean redirect = false;
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
@@ -112,21 +116,21 @@ public class TiendaServlet extends HttpServlet {
 			}
 			try {
 				if(ajax !=null) {
-					
+
 					List<Tienda> results = tiendaService.findByCriteria(tienda);
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");
 					response.getOutputStream().write(gson.toJson(results).getBytes());
 				}
 				else {
-				List<Tienda> results = tiendaService.findByCriteria(tienda);
-				List<Categoria> categorias = categoriaService.findRoot("es");
-				request.setAttribute(AttributesNames.LOCALIDAD, localidad);
-				request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
-				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
-				target = ViewPaths.TIENDA_RESULTS;
+					List<Tienda> results = tiendaService.findByCriteria(tienda);
+					List<Categoria> categorias = categoriaService.findRoot(idioma);
+					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
+					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
+					request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					target = ViewPaths.TIENDA_RESULTS;
 				}
-				} catch (DataException e) {
+			} catch (DataException e) {
 
 				logger.warn(e.getMessage(),e);
 			}
@@ -139,9 +143,9 @@ public class TiendaServlet extends HttpServlet {
 			productoCrit.setIdTienda(id);
 			Tienda tienda = new Tienda();
 			try {
-				List<Producto> results = productoService.findBy(productoCrit, "es");
+				List<Producto> results = productoService.findBy(productoCrit, idioma);
 				tienda = tiendaService.findById(id);
-				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),"es");
+				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, results);
 				SessionManager.set(request, AttributesNames.TIENDA, tienda);
@@ -197,18 +201,18 @@ public class TiendaServlet extends HttpServlet {
 		}
 
 		if(ajax == null) {
-		if(redirect) { 
-			logger.info("Redirect to..." + target);
-			response.sendRedirect(UrlBuilder.getUrl(request, target));
-		}
-		else {
-			logger.info("Forwarding to..." + target);
-			request.getRequestDispatcher(target).forward(request, response);
-		}
+			if(redirect) { 
+				logger.info("Redirect to..." + target);
+				response.sendRedirect(UrlBuilder.getUrl(request, target));
+			}
+			else {
+				logger.info("Forwarding to..." + target);
+				request.getRequestDispatcher(target).forward(request, response);
+			}
 		}
 	}
 
-	
+
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

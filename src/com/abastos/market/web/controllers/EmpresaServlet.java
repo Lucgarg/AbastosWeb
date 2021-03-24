@@ -19,6 +19,7 @@ import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
@@ -124,16 +125,21 @@ public class EmpresaServlet extends HttpServlet {
 				valores.put("user", empresa);
 				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
-				target = ViewPaths.TIENDA_BUSQUEDA;
+				target = UrlBuilder.getUrl(request,  ViewPaths.TIENDA_BUSQUEDA);
 				redirect = true;
 			} catch (DataException | ServiceException e) {
 				logger.warn(e.getMessage(),e);
 			}
 		}
+		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
+			SessionManager.remove(request, AttributesNames.EMPRESA);
+			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
+			redirect = true;
+		}
 
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
-			response.sendRedirect(request.getContextPath() + target);
+			response.sendRedirect( target);
 		}
 		else {
 			logger.info("Forwarding to..." + target);

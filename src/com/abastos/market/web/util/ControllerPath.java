@@ -17,4 +17,5 @@ public class ControllerPath {
 	public static final String VALORACION = "valoracion";
 	public static final String LISTA = "lista";
 	public static final String CARRITO = "carrito";
+	public static final String IDIOMA = "idioma";
 }

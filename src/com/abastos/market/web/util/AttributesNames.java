@@ -17,5 +17,5 @@ public class AttributesNames {
 	public static final String LOCALIZACION = "localizacion";
 	public static final String LISTA = "lista";
 	public static final String CARRITO ="carrito";
-	
+	public static final String IDIOMA = "idioma";
 }

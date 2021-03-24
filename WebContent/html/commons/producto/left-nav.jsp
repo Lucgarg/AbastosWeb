@@ -42,9 +42,9 @@
 					
 					<form action="<%=UrlBuilder.getUrl(request, ControllerPath.PRODUCTO)%>" method="post">
 						<input type="hidden" name=<%=ActionNames.ACTION%> value=<%=ActionNames.BUSCAR%>>
-						
+						<%if(categParameter != null){%>
 						<input type="hidden" name=<%=ParameterNames.CATEGORIA%> value=<%=categParameter%>>
-					
+						<%}%>
 						<input
 							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde" value=<%=precioDesde!=null?precioDesde:""%>><br>
 						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta" value=<%=precioHasta!=null?precioHasta:""%>><br>

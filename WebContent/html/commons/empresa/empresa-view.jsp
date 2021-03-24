@@ -6,4 +6,6 @@
 				<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR)%>">Mis ofertas
 				</a></label><label   for="foNav"><div ></div></label><label  for=null><div tercerBloque="y" nombre="Valoraciones"></div></label><label
 				cuartoBloque="w"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR)%>">Mis productos</a></label>
+						<label
+		quintoBloque="&#xea14"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, ActionNames.CERRAR)%>">Cerrar sesión</a></label>
 		</div>

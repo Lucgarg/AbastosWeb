@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+	version="3.0">
+	<display-name>abastos</display-name>
+
+
+	<welcome-file-list>
+
+		<welcome-file>precreate</welcome-file>
+
+	</welcome-file-list>
+	<session-config>
+		<session-timeout>30</session-timeout>
+	</session-config>
+
+	<servlet>
+
+		<servlet-name>PrecreateServlet</servlet-name>
+
+		<servlet-class>com.abastos.market.web.controllers.PrecreateServlet</servlet-class>
+
+	</servlet>
+
+
+
+
+
+
+</web-app>
