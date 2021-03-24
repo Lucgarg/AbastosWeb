@@ -1,7 +1,7 @@
 <%@page import="javax.swing.event.MouseInputListener"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>	
-<%@include file= "/html/lista/right-nav.jsp"%>
+<%@include file= "/html/particular/private/lista/right-nav.jsp"%>
 	<section class="tiendas producto">
 		<div class="tiendas2">
 		
