@@ -73,13 +73,21 @@ public class UsuarioServlet extends HttpServlet {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
 			//si es empresa...
 			if(ActionNames.EMPRESA.equalsIgnoreCase(tipUsuario)) {
+				String email = null;
 				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
 				//Comprobamos si en el parametro nombre se introduzco el email o el nombre de usuario
-				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
-				usuario = email == null? usuario: null;
+				if (usuario.contains("@")) {
+					//String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
+					email = usuario;
+					usuario = null;
+				}
+
 				String password = request.getParameter(ParameterNames.PASSWORD);
 				try {
-					Empresa empresa = empresaService.login(email,usuario, password);
+					Empresa empresa = empresaService.login(email, usuario, password);
+					if (logger.isDebugEnabled()) {
+						logger.debug(empresa.getCorreoElectronico() + " logged.");
+					}
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
 					target =  UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR);
 					redirect = true;

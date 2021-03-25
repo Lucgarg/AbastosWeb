@@ -34,6 +34,10 @@
 		<filter-name>AuthenticationFilterEmpresa</filter-name>
 		<filter-class>com.abastos.market.web.filters.AuthenticationFilterEmpresa</filter-class>
 	</filter>
+		<filter>
+		<filter-name>AuthenticationFilterUsuario</filter-name>
+		<filter-class>com.abastos.market.web.filters.AuthenticationFilterUsuario</filter-class>
+	</filter>
 	<filter-mapping>
 		<filter-name>InitSessionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -47,7 +51,11 @@
 		<filter-name>AuthenticationFilterEmpresa</filter-name>
 		<url-pattern>/html/empresa/private/*</url-pattern>
 	</filter-mapping>
-
+	<filter-mapping>
+		<filter-name>AuthenticationFilterUsuario</filter-name>
+		<url-pattern>/html/empresa/*</url-pattern>
+			<url-pattern>/html/particular/*</url-pattern>
+	</filter-mapping>
 
 
 

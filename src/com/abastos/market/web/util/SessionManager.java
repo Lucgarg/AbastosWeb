@@ -30,7 +30,7 @@ public class SessionManager {
 		// Con page session false en la practica la sesion no se inicializa si la
 		// primera URL ejecutada es de una JSP.
 				
-		HttpSession httpSession = request.getSession(true); // true
+		HttpSession httpSession = request.getSession(false); // true
 
 		return httpSession;
 
