@@ -60,10 +60,7 @@
 						<label for="true">si</label> <input type="checkbox" name=<%=ParameterNames.OFERTA%>
 							value="true" <%if("true".equals(oferta)){%>checked<%}%>>
 
-						<h5>Idioma</h5>
-						<select name=<%=ParameterNames.IDIOMA%>>
-							<option value="es">español</option>
-							<option value="en">inglés</option>
+						
 
 						</select><br> <input type="submit"
 							value="buscar">

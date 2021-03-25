@@ -20,18 +20,20 @@ import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 
+/**
+ * Servlet Filter implementation class carritoFilter
+ */
 
+public class userParticularFilter implements Filter {
+	private static Logger logger = LogManager.getLogger(userParticularFilter.class);
+ 
+    public userParticularFilter() {
+  
+    }
 
-public class AuthenticationFilterUsuario implements Filter {
-
-	private static Logger logger = LogManager.getLogger(AuthenticationFilterUsuario.class);
-	public AuthenticationFilterUsuario() {
-
-	}
-
-
+	
 	public void destroy() {
-
+		
 	}
 
 
@@ -39,22 +41,21 @@ public class AuthenticationFilterUsuario implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String target = null;
-		
-		if((SessionManager.get(httpRequest, AttributesNames.USUARIO))!=null 
-				|| SessionManager.get(httpRequest, AttributesNames.EMPRESA) != null) {
-			logger.info("Usuario intentando acceder al registro");
-			target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO);
+		if((SessionManager.get(httpRequest, AttributesNames.EMPRESA))!=null) {
+			logger.info("perfilEmpresa intentando acceder a area restringida");
+			target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.TIENDA, ActionNames.BUSCAR);
 			logger.info("Redirect to..." + target);
 			httpResponse.sendRedirect(target);
 		}
 		else {
 			chain.doFilter(request, response);
 		}
+		
 	}
 
 
 	public void init(FilterConfig fConfig) throws ServletException {
-
+		
 	}
 
 }

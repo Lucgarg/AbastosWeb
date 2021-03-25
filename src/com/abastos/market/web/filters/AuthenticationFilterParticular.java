@@ -42,10 +42,18 @@ public class AuthenticationFilterParticular implements Filter {
 		String target = null;
 		
 		if((SessionManager.get(httpRequest, AttributesNames.USUARIO))==null) {
+			if(SessionManager.get(httpRequest, AttributesNames.EMPRESA)==null){
 			logger.info("Usuario sin identificar");
 			target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO);
 			logger.info("Redirect to..." + target);
 			httpResponse.sendRedirect(target);
+			}
+			else {
+				logger.info("perfilEmpresa intentando acceder a area restringida");
+				target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.TIENDA, ActionNames.BUSCAR);
+				logger.info("Redirect to..." + target);
+				httpResponse.sendRedirect(target);
+			}
 		}
 		else {
 			chain.doFilter(request, response);

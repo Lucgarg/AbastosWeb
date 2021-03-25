@@ -73,6 +73,7 @@ public class TiendaServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		Localidad local = new Localidad();
 		if(idioma == null) {
 			idioma = "es";
 		}
@@ -83,8 +84,8 @@ public class TiendaServlet extends HttpServlet {
 			String localidad = request.getParameter(ParameterNames.LOCALIDAD);
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
-			Localidad local = new Localidad();
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
+		
 			try {
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
@@ -203,7 +204,7 @@ public class TiendaServlet extends HttpServlet {
 		if(ajax == null) {
 			if(redirect) { 
 				logger.info("Redirect to..." + target);
-				response.sendRedirect(UrlBuilder.getUrl(request, target));
+				response.sendRedirect(target);
 			}
 			else {
 				logger.info("Forwarding to..." + target);

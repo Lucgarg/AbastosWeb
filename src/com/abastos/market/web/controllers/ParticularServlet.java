@@ -93,7 +93,7 @@ public class ParticularServlet extends HttpServlet {
 				valores.put("user", particular);
 				valores.put("enlace", UrlBuilder.getUrl(request, "precreate?action=index"));
 				mailService.sendMail(valores,3L, particular.getEmail());
-				target = UrlBuilder.getUrl(request, ViewPaths.TIENDA_BUSQUEDA);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 				redirect = true;
 			} catch (DataException | ServiceException e) {
 				logger.warn(e.getMessage(),e);

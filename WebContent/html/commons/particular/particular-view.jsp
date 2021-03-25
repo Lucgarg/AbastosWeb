@@ -3,7 +3,7 @@
 
 <div>
 
-	<%Carrito carrito = (Carrito)SessionManager.get(request,AttributesNames.CARRITO);%>
+	
 	<label primerBloque="&#xe922" for=registro><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.BUSCAR)%>">Mis listas</a></label><label
 		segundoBloque="y" for="logIn">Mis valoraciones </label><label
 		for="foNav"><div></div></label><label for=null><div

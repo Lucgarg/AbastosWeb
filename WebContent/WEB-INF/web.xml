@@ -26,6 +26,10 @@
 		<filter-name>InitSessionFilter</filter-name>
 		<filter-class>com.abastos.market.web.filters.InitSessionFilter</filter-class>
 	</filter>
+		<filter>
+		<filter-name>userParticularFilter</filter-name>
+		<filter-class>com.abastos.market.web.filters.userParticularFilter</filter-class>
+	</filter>
 	<filter>
 		<filter-name>AuthenticationFilterParticular</filter-name>
 		<filter-class>com.abastos.market.web.filters.AuthenticationFilterParticular</filter-class>
@@ -38,6 +42,7 @@
 		<filter-name>AuthenticationFilterUsuario</filter-name>
 		<filter-class>com.abastos.market.web.filters.AuthenticationFilterUsuario</filter-class>
 	</filter>
+	
 	<filter-mapping>
 		<filter-name>InitSessionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
@@ -45,6 +50,8 @@
 	<filter-mapping>
 		<filter-name>AuthenticationFilterParticular</filter-name>
 		<url-pattern>/html/particular/private/*</url-pattern>
+		<url-pattern>/html/pedido/*</url-pattern>
+
 	</filter-mapping>
 
 	<filter-mapping>
@@ -55,6 +62,12 @@
 		<filter-name>AuthenticationFilterUsuario</filter-name>
 		<url-pattern>/html/empresa/*</url-pattern>
 			<url-pattern>/html/particular/*</url-pattern>
+			
+	</filter-mapping>
+	<filter-mapping>
+		<filter-name>userParticularFilter</filter-name>
+		<url-pattern>/carrito</url-pattern>
+		<url-pattern>/html/tienda/search-tienda.jsp</url-pattern>
 	</filter-mapping>
 
 

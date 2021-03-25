@@ -6,6 +6,7 @@
 		<div class="tiendas2">
 		<%
 		List<Tienda> results = (List<Tienda>) request.getAttribute(AttributesNames.RESULTS_TIENDA);
+		
 		%>
 		<%
 		for(Tienda t : results){

@@ -3,7 +3,7 @@ package com.abastos.market.web.util;
 public class ViewPaths {
 
 
-	public static final String EMPRESA_CREATE_TIENDA = "html/empresa/private/create-tienda.jsp";
+	public static final String EMPRESA_CREATE_TIENDA = "html/empresa/private/tienda/create-tienda.jsp";
 	public static final String EMPRESA_REGISTRO = "/html/empresa/registrar.jsp";
 	public static final String EMPRESA_RESULT_PRODUCTO = "/html/empresa/results-producto.jsp";
 	public static final String EMPRESA_RESULTS_TIENDAS = "html/empresa/results-tiendas.jsp";

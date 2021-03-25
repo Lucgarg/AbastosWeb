@@ -125,7 +125,7 @@ public class EmpresaServlet extends HttpServlet {
 				valores.put("user", empresa);
 				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
-				target = UrlBuilder.getUrl(request,  ViewPaths.TIENDA_BUSQUEDA);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 				redirect = true;
 			} catch (DataException | ServiceException e) {
 				logger.warn(e.getMessage(),e);

@@ -1,7 +1,10 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
+
 import java.util.List;
+import java.util.Map;
+
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,9 +71,11 @@ public class UsuarioServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+
 		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
+			String url = request.getParameter(ParameterNames.URL);
 			//si es empresa...
 			if(ActionNames.EMPRESA.equalsIgnoreCase(tipUsuario)) {
 				String email = null;
@@ -89,7 +94,9 @@ public class UsuarioServlet extends HttpServlet {
 						logger.debug(empresa.getCorreoElectronico() + " logged.");
 					}
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
-					target =  UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR);
+					target =  url.endsWith(ActionNames.INICIO)?
+						UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR):url;
+
 					redirect = true;
 				} catch (DataException | ServiceException e) {
 					logger.warn(e.getMessage(),e);
@@ -98,6 +105,10 @@ public class UsuarioServlet extends HttpServlet {
 			//si es particular...
 			else if(ActionNames.PARTICULAR.equalsIgnoreCase(tipUsuario)) {
 				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
+
+
+
+
 				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
 				usuario = email == null? usuario: null;
 				String password = request.getParameter(ParameterNames.PASSWORD);
@@ -106,16 +117,16 @@ public class UsuarioServlet extends HttpServlet {
 					SessionManager.set(request, AttributesNames.USUARIO, particular);
 					List<Pais> paises = paisService.findByAll();
 					request.setAttribute(AttributesNames.PAISES, paises);
-					target = ViewPaths.TIENDA_BUSQUEDA;
-					
+					target = url;
+					redirect = true;
 				} catch (DataException | ServiceException e) {
 					logger.warn(e.getMessage(),e);
 				}
 			}
 
 		}
-		
-		
+
+
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(target);

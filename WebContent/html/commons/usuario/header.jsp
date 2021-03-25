@@ -1,4 +1,4 @@
-<%@page import="com.abastos.market.web.util.UrlBuilder, com.abastos.model.*"%>
+<%@page import="com.abastos.market.web.util.UrlBuilder, com.abastos.model.*, java.util.*"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
     
@@ -15,8 +15,12 @@
 </head>
 <body>
 
+<%Carrito carrito = (Carrito)SessionManager.get(request,AttributesNames.CARRITO);%>
 		<header>
 		<%
+		
+		
+		
 		Localidad localidad = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
 		%>
 		<input type="radio" id="null" name="seleccion" checked>
@@ -59,6 +63,7 @@
            <div class="registro">
 			<button class="cerrarLabel"></button>
 			<form action="<%=UrlBuilder.getUrl(request, ControllerPath.USUARIO)%>" method="post">
+				<input type="hidden" name="<%=ParameterNames.URL%>" value="<%=UrlBuilder.urlCallBack(request)%>">
 				<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.LOG_IN%>"/>
 				<label for="particularLog">Particular</label> <input type="radio"
 				id="particularLog" name="tipUsuario" value="particular" checked> <label for="empresaLog">Empresa</label>

@@ -222,6 +222,7 @@ public class ProductoServlet extends HttpServlet {
 				producto.setPrecio(Double.valueOf(precio));
 				producto.setStock(Integer.valueOf(stock));
 				producto.setTipoOrigen(origen.charAt(0));	
+				logger.info(producto.getPrecio());
 				productoServ.create(producto);		
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR); ;
@@ -233,7 +234,7 @@ public class ProductoServlet extends HttpServlet {
 		if(ajax == null) {
 			if(redirect) {
 				logger.info("Redirect to..." + target);
-				response.sendRedirect(UrlBuilder.getUrl(request, target));
+				response.sendRedirect(target);
 			}
 			else {
 				logger.info("Forwarding to..." + target);
