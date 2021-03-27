@@ -119,11 +119,12 @@ public class UrlBuilder {
 		return sb.toString();
 	}
 	public static String urlCallBack(HttpServletRequest request) {
+		logger.info(request.getHeader("referer"));
 		Map<String, String[]> mapParam = request.getParameterMap();
 		StringBuilder sb = new StringBuilder("http://").append(request.getServerName()).append(":")
 				.append(request.getServerPort());
 		if(request.getQueryString() != null) {
-			sb.append(request.getAttribute(URL_SERVLET));
+			sb.append(request.getContextPath()).append(request.getAttribute(URL_SERVLET));
 			sb.append("?").append(request.getQueryString());
 		}
 		else if(request.getParameter(ActionNames.ACTION) != null) {
@@ -139,8 +140,8 @@ public class UrlBuilder {
 		else{
 			sb.append(request.getRequestURI());
 		}
-		
-		
+
+
 		logger.info(sb.toString());
 		return sb.toString();
 
