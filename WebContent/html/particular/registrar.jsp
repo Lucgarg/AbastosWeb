@@ -9,7 +9,7 @@
 	</section>
        <section class="productoDetalle registro">
         	<div>
-          <form action=<%=UrlBuilder.getUrl(request, ControllerPath.PARTICULAR)%> method="post">
+          <form action=<%=UrlBuilder.getUrl(request, ViewPathsctions.PARTICULAR_ACTION_REGISTRO)%> method="post">
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">
           		<fieldset>
           		<label>Nombre usuario</label><br>
@@ -27,7 +27,7 @@
           			<labe>Número de móvil</label>
           		<input type="text" name=<%=ParameterNames.MOVIL%>>
           		<label>Correo electrónico</label><br>
-          		<input type="text" name="<%=ParameterNames.EMAIL%>"><br>
+          		<input type="email" name="<%=ParameterNames.EMAIL%>"><br>
           		</fieldset>
           		<fieldset>
           		<label>Calle</label><br>

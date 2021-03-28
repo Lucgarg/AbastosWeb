@@ -42,7 +42,7 @@
 					 if(p.getIdTipoOferta() == 1){
 					 %>
 					 	<p>-<%
-					 	if(p.getDescuentoFijo() != 0.0){
+					 	if(p.getDescuentoFijo() != null){
 					 	%>
 					 			<%=p.getDescuentoFijo()%>
 					 			&euro;
@@ -60,7 +60,7 @@
 					 	<p><%=p.getDenominador()%>
 					 	 unidad -
 					 			<%
-					 	if(p.getDescuentoFijo() != 0.0){
+					 	if(p.getDescuentoFijo() != null){
 					 	%>
 					 			<%=p.getDescuentoFijo()%>
 					 			 &euro;
@@ -81,7 +81,7 @@
 					 	<%=p.getNombreProdOferta()%> 
 					 	
 					 			<%
- 					 						 			if(p.getDescuentoFijo() != 0.0){
+ 					 						 			if(p.getDescuentoFijo() != null){
  					 						 			%>
 					 			<%=p.getDescuentoFijo()%>
 					 			 &euro;
