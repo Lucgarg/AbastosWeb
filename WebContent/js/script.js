@@ -135,20 +135,28 @@ for(let i = 0; i <=4; i++){
 /*funcion para puntuar productor y tiendas*/
 if(field != null){
 field.querySelectorAll("fieldset").forEach(Element => {
- 
+ 	updatePuntuacion(Element);
     Element.querySelectorAll("input").forEach(Element2 => {
       
-        Element2.addEventListener("click", function(){
-               
-            array =  Element.querySelectorAll(".star-blank, .yellow-star");
-            array1 = Element.querySelectorAll("input"); 
-          
+        Element2.addEventListener("click", puntuar);
+     
+    })
+   
+
+})}
+
+function puntuar(e){
+            let valor  = e.currentTarget.parentElement.parentElement;
+			
+            array =  valor.querySelectorAll(".star-blank, .yellow-star");
+            array1 = valor.querySelectorAll("input"); 
+          	console.log(array);
             for(let i = 0; i < array1.length; i++){
               
-            if(Element.querySelectorAll("input")[i].checked === true){
+            if(valor.querySelectorAll("input")[i].checked === true){
                
                 for(let j = 0; j <= i ; j++){
-                console.log(j);
+             
                   array[j].className = "yellow-star";
               
                 }
@@ -159,12 +167,29 @@ field.querySelectorAll("fieldset").forEach(Element => {
                 
             }
             }
-        });
-     
-    })
-   
+        }
+function updatePuntuacion(valor){
 
-})}
+            array =  valor.querySelectorAll(".star-blank, .yellow-star");
+            array1 = valor.querySelectorAll("input"); 
+          	console.log(array);
+            for(let i = 0; i < array1.length; i++){
+              
+            if(valor.querySelectorAll("input")[i].checked === true){
+               
+                for(let j = 0; j <= i ; j++){
+             
+                  array[j].className = "yellow-star";
+              
+                }
+                for(let f = i + 1; f < array.length; f++){
+                    array[f].className = "star-blank";
+                }
+                
+                
+            }
+            }
+        }
 /****comprobacion de si numero de lineas carrito no es null*/
 if(contador!=null){
 	if(contador.innerHTML.trim() != ""){

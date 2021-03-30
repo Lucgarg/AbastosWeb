@@ -1,10 +1,10 @@
 
-    <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
+    <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*, "%>
 <%@include file= "/html/commons/usuario/header.jsp"%>
 <section class="tiendas">
 		<div class="tiendas2">
 	</section>
-	
+	<%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>
 
 	<section>
 		<nav>
@@ -16,19 +16,20 @@
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">
           		<fieldset>
           		<label>Nombre usuario</label><br>
-          		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>"><br>
+          		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" value=<%=parametros.get(ParameterNames.NOMBRE_USUARIO)[0]%>><br>
           		<label>Apellidos</label><br>
-          		<input type="text" name="<%=ParameterNames.APELLIDOS%>"><br>
+          		<input type="text" name="<%=ParameterNames.APELLIDOS%>" value=<%=parametros.get(ParameterNames.APELLIDOS)[0]%>><br>
           		<label>Alias</label><br>
-          		<input type="text" name="<%=ParameterNames.AlIAS%>"><br>
+          		<input type="text" name="<%=ParameterNames.ALIAS%>" value=<%=parametros.get(ParameterNames.ALIAS)[0]%>><br>
           		</fieldset>
           		<fieldset>
           		<label>Contraseña</label>
-          		<input type="password" name=<%=ParameterNames.PASSWORD%>>
+          		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=parametros.get(ParameterNames.PASSWORD)[0]%>>
+          		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=parametros.get(ParameterNames.PASSWORD)[1]%>>
           		</fieldset>
           		<fieldset>
           		<label>CIF</label><br>
-          		<input type="text" name="<%=ParameterNames.CIF%>"><br>
+          		<input type="text" name="<%=ParameterNames.CIF%>" value=<%=parametros.get(ParameterNames.CIF)[0]%>><br>
           		<label>Razón social</label><br>
           		<input type="text" name="<%=ParameterNames.RAZON_SOCIAL%>"><br>
           		<label>Email</label><br>

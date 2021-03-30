@@ -20,7 +20,10 @@ public class ViewPaths {
 	public static final String TIENDA_BUSQUEDA =  "/html/tienda/search-tienda.jsp";
 	public static final String TIENDA_CREATE =  "/html/empresa/private/tienda/crear.jsp";
 	public static final String TIENDA_RESULTS = "/html/tienda/results-tienda.jsp";
-	public static final String VALORACION = "html/particular/private/valoracion/valoracion.jsp";
+	public static final String VALORACION_TIENDA = "html/particular/private/valoracion/valoracion-tienda.jsp";
+	public static final String VALORACION_PRODUCTO = "html/particular/private/valoracion/valoracion-producto.jsp";
 	public static final String LINEA_PEDIDO = "html/particular/private/pedido/lineas-pedido.jsp";
+	public static final String ERROR_500 = "html/error/500.jsp";
+	public static final String ERROR_404 = "html/error/404.jsp";
 
 }

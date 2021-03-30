@@ -3,7 +3,7 @@ package com.abastos.market.web.util;
 public class ParameterNames {
 
 	public static final String AJAX ="ajax";
-	public static final String AlIAS = "alias";
+	public static final String ALIAS = "alias";
 	public static final String APELLIDOS = "apellidos";
 	public static final String APLICAR_DESCUENTO =  "aplicarDescuento";
 	public static final String CALLE = "calle";

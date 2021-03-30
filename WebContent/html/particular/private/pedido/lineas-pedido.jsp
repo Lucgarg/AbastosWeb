@@ -2,7 +2,7 @@
 <%@include file= "/html/commons/usuario/header.jsp"%>
 <%Pedido pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);%>
 
-<%@include file= "/html/pedido/right-nav.jsp"%>
+
 <section class="tiendas producto">
 		<div class="tiendas2">
 			
@@ -21,90 +21,20 @@
 				
 				
 				
-				<%
-					if(p.getIdOferta() != null){
-					if(p.getIdTipoOferta()==1){%>
-				<p class="precio"><%=p.getPrecio()%></p>
-				<%
-				}else{
-				%>
-				<p class="precioNoMostrado"></p>  
-				<%
-  				}
-  				%>
-						<div class="oferta">
-						<p>oferta</p>
-					 </div>
-					 
-					 <div class="ofertaDetalle">
-					 <p><%=p.getNombreOferta()%></p>
-					 <%
-					 if(p.getIdTipoOferta() == 1){
-					 %>
-					 	<p>-<%
-					 	if(p.getDescuentoFijo() != null){
-					 	%>
-					 			<%=p.getDescuentoFijo()%>
-					 			&euro;
-					 			  <%
-					 			  }else{
-					 			  %>
-					 				<%=p.getDescuentoPcn()%> %
-					 <%
-					 }
-					 %></p>
-					 	<%
-					 	}
-					 				 if(p.getIdTipoOferta() == 2){
-					 	%>
-					 	<p><%=p.getDenominador()%>
-					 	 unidad -
-					 			<%
-					 	if(p.getDescuentoFijo() != null){
-					 	%>
-					 			<%=p.getDescuentoFijo()%>
-					 			 &euro;
-					 			  <%
-					 			  }else{
-					 			  %>
-					 				<%=p.getDescuentoPcn()%> %
-					 				
-					 <%
-					 									 }
-					 									 %>
-					 </p>
-					 <%
-					 }
-					 			 if(p.getIdTipoOferta() == 3){
-					 %>
-					 	<p>Compra y ahorrate del producto
-					 	<%=p.getNombreProdOferta()%> 
-					 	
-					 			<%
- 					 						 			if(p.getDescuentoFijo() != null){
- 					 						 			%>
-					 			<%=p.getDescuentoFijo()%>
-					 			 &euro;
-					 			<%
-					 			}else{
-					 			%>
-					 				<%=p.getDescuentoPcn()%> %
-					 <%
-					 }
-					 %></p>
-					 <%
-					 }
-					 %>
-					 </div>
-				 <%
-				 }
-				 %>
-				
+			
+					<p>Numero de unidades</p>
+					<p><%=p.getNumeroUnidades()%></p>
+					<%if(p.getNumeroUnidades() != 1){%>
+					<p>Precio unidad</p>
+					<p><%=p.getPrecio()%></p>
+						<%}%>
 					
 					<p><%=p.getPrecioFinal()%></p>
 					
-			<button><a href="<%=UrlBuilder.getUrlForController(request, ViewPaths.VALORACION, AttributesNames.TIENDA,  String.valueOf(p.getIdTienda()))%>">valorar tienda</a></button>
-			<button><a href="<%=UrlBuilder.getUrlForController(request, ViewPaths.VALORACION, AttributesNames.PRODUCTO,  String.valueOf(p.getIdProducto()))%>">valorar producto</a></button>
+			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, 
+					ParameterNames.ID_TIENDA, String.valueOf(p.getIdTienda()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()))%>">valorar tienda</a></button>
+			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR,
+					ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()))%>">valorar producto</a></button>
 			</div>
 			<%}%>
 		

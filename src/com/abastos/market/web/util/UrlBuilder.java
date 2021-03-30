@@ -51,7 +51,7 @@ public class UrlBuilder {
 		}
 		return sb.toString();
 	}
-	public static String getUrlForController(HttpServletRequest request, String controllerPath, String controllerAction,String... paramsAndValues ) {
+	public static String getUrlForController(HttpServletRequest request, String controllerPath, String controllerAction, String... paramsAndValues) {
 		StringBuilder sb = new StringBuilder("http://").append(request.getServerName()).append(":")
 				.append(request.getServerPort())
 				.append(request.getContextPath()).append("/").append(controllerPath)
@@ -71,6 +71,25 @@ public class UrlBuilder {
 		return sb.toString();
 
 	}
+	public static String getUrlForForward(HttpServletRequest request, String controllerPath, String controllerAction, String... paramsAndValues) {
+		StringBuilder sb = new StringBuilder("/").append(controllerPath)
+				.append("?")
+				.append(ActionNames.ACTION)
+				.append("=")
+				.append(controllerAction)
+				.append("&");
+		if(paramsAndValues.length > 1) {
+			for(int i=0; i < paramsAndValues.length; i+=2) {
+				sb.append(paramsAndValues[i]).append("=").append(paramsAndValues[i + 1]).append("&");
+			}}
+		else {
+			sb.append(paramsAndValues[0]);
+		}
+
+		return sb.toString();
+
+	}
+
 	public static String getUrlForController(HttpServletRequest request, String controllerPath, String controllerAction ) {
 		StringBuilder sb = new StringBuilder("http://").append(request.getServerName()).append(":")
 				.append(request.getServerPort())
@@ -123,20 +142,24 @@ public class UrlBuilder {
 		StringBuilder sb = new StringBuilder("http://").append(request.getServerName()).append(":")
 				.append(request.getServerPort());
 		if(request.getQueryString() != null) {
+			logger.debug("b " + request.getQueryString());
 			sb.append(request.getAttribute(URL_SERVLET));
 			sb.append("?").append(request.getQueryString());
 		}
 		else if(request.getParameter(ActionNames.ACTION) != null) {
+			logger.debug("c " + request.getAttribute(URL_SERVLET));
 			sb.append(request.getAttribute(URL_SERVLET)).append("?");
 			for(Map.Entry<String, String[]> m: mapParam.entrySet()) {
 				sb.append(m.getKey()).append("=").append(m.getValue()[0]).append("&");
 			}
 		}
 		else if(request.getAttribute(ActionNames.ACTION) != null) {
-			sb.append(request.getAttribute(URL_SERVLET_PATH)).append("?").append(ActionNames.ACTION).append("=")
+			
+			sb.append(request.getContextPath()).append(request.getAttribute(URL_SERVLET_PATH)).append("?").append(ActionNames.ACTION).append("=")
 			.append(request.getAttribute(ActionNames.ACTION));
 		}
 		else{
+			logger.debug("d " + request.getRequestURI());
 			sb.append(request.getRequestURI());
 		}
 		

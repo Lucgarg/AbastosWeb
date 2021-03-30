@@ -28,4 +28,6 @@ public class ActionNames {
 	public static final String CERRAR = "logOut";
 	public static final String SELECCIONAR = "selecccionar";
 	public static final String ELIMINAR = "eliminar";
+	public static final String UPDATE_VAL_TIENDA = "actualizar valoracion tienda";
+	public static final String UPDATE_VAL_PRODUCTO =  "actualizar valoracion producto";
 }

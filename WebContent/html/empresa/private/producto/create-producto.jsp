@@ -65,6 +65,9 @@
                		<option value="I">Internacional</option>
                		<option value="L">Local</option>
                	</select>
+               	<input type="file" value="sube imagen"><br>
+               	    	<input type="file" value="sube imagen"><br>
+               	    	    	<input type="file" value="sube imagen"><br>
                		<input type="submit" value="crear">
                 </form>
                 

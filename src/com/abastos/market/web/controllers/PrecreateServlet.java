@@ -45,10 +45,8 @@ import com.abastos.service.impl.ProvinciaServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 import com.abastos.service.impl.TipoOfertaServiceImpl;
 
-/**
- * Servlet implementation class PrecreateServlet
- */
-@WebServlet("/precreate")
+
+
 public class PrecreateServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(PrecreateServlet.class);
 	private CategoriaService categoriaService = null;

@@ -92,7 +92,7 @@ public class EmpresaServlet extends HttpServlet {
 
 			String nombreUsuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
 			String apellidos = request.getParameter(ParameterNames.APELLIDOS);
-			String alias = request.getParameter(ParameterNames.AlIAS);
+			String alias = request.getParameter(ParameterNames.ALIAS);
 			String CIF = request.getParameter(ParameterNames.CIF);
 			String razonSocial = request.getParameter(ParameterNames.RAZON_SOCIAL);
 			String email = request.getParameter(ParameterNames.EMAIL);

@@ -226,6 +226,9 @@ public class ProductoServlet extends HttpServlet {
 				productoServ.create(producto);		
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR); ;
+			
+			
+			
 			} catch (LimitCreationException | DataException e) {
 				logger.warn(e.getMessage(),e);
 			}

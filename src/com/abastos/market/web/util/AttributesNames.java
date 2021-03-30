@@ -19,4 +19,6 @@ public class AttributesNames {
 	public static final String CARRITO ="carrito";
 	public static final String IDIOMA = "idioma";
 	public static final String ACTION = "action";
+	public static final String ERROR = "errores";
+	public static final String VALORACION = "valoracion";
 }

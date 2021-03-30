@@ -11,11 +11,11 @@
 -------------------------------------------------------------------------------*/
 @font-face {
   font-family: 'icomoon';
-  src:  url('/fonts/icomoon.eot?g75mqd');
-  src:  url('/fonts/icomoon.eot?g75mqd#iefix') format('embedded-opentype'),
-    url('/abastos/fonts/icomoon.ttf?g75mqd') format('truetype'),
-    url('/fonts/icomoon.woff?g75mqd') format('woff'),
-    url('/fonts/icomoon.svg?g75mqd#icomoon') format('svg');
+  src:  url('fonts/icomoon.eot?mejryg');
+  src:  url('fonts/icomoon.eot?mejryg#iefix') format('embedded-opentype'),
+    url('/abastos/fonts/icomoon.ttf?mejryg') format('truetype'),
+    url('fonts/icomoon.woff?mejryg') format('woff'),
+    url('fonts/icomoon.svg?mejryg#icomoon') format('svg');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -230,6 +230,18 @@ button, input[type="button"] {
 	content: " ";
 	display: block;
 	clear: both;
+}
+
+/***Errores****/
+.error{
+	padding: 2%;
+}
+.error:before{
+	display:inline-block;
+	font-size: 1.2 rem;
+	font-family: "icomoon";
+	color: red;
+	content: '\e900';
 }
 /*Rating*/
 /*estrella entera*/

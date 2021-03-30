@@ -22,6 +22,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.model.LineaPedido;
 import com.abastos.model.Particular;
 import com.abastos.model.Pedido;
 import com.abastos.service.DataException;
@@ -101,7 +102,7 @@ public class PedidoServlet extends HttpServlet {
 			String idPedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				Pedido pedido = pedidoService.findById(Long.valueOf(idPedido));
-				
+			
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
 				target =  ViewPaths.LINEA_PEDIDO;
 			} catch ( DataException e) {

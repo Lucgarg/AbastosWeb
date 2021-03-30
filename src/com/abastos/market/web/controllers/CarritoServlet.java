@@ -102,8 +102,8 @@ public class CarritoServlet extends HttpServlet {
 					linPedido.setIdProducto(producto.getId());
 					if(producto.getOferta() != null) {
 					linPedido.setDenominador(producto.getOferta().getDenominador());
-					linPedido.setDescuentoFijo(DescuentoUtils.setNullTipoDesc(producto.getOferta().getDescuentoFijo()));
-					linPedido.setDescuentoPcn(DescuentoUtils.setNullTipoDesc(producto.getOferta().getDescuentoPcn()));
+					linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
+					linPedido.setDescuentoPcn(producto.getOferta().getDescuentoPcn());
 					linPedido.setIdOferta(producto.getOferta().getId());
 					linPedido.setIdProdOferta(producto.getOferta().getIdProdOferta());
 					linPedido.setIdTipoOferta(producto.getOferta().getIdTipoOferta());
@@ -114,7 +114,7 @@ public class CarritoServlet extends HttpServlet {
 					}
 					linPedido.setPrecioFinal(lineaPedidoService.calcPrecio(linPedido));
 					linPedido.setPrecio(producto.getPrecio());
-					
+					linPedido.setIdTienda(producto.getIdTienda());
 					pedido.add(linPedido);
 			}
 				

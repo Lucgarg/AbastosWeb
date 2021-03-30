@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -28,6 +29,7 @@ import com.abastos.service.DataException;
 import com.abastos.service.MailService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.exceptions.ServiceException;
+import com.abastos.service.exceptions.UserNotFoundException;
 import com.abastos.service.impl.ContenidoServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
@@ -39,55 +41,77 @@ import com.abastos.service.impl.ParticularServiceImpl;
 public class ParticularServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ParticularServlet.class);
 	private ParticularService particularService = null;
-    private ContenidoService contenidoService = null;
-    private MailService mailService = null;
-    
-    public ParticularServlet() {
-        super();
-        particularService = new ParticularServiceImpl();
-        contenidoService = new ContenidoServiceImpl();
-        mailService = new MailServiceImpl();
-    }
+	private ContenidoService contenidoService = null;
+	private MailService mailService = null;
 
-	
+	public ParticularServlet() {
+		super();
+		particularService = new ParticularServiceImpl();
+		contenidoService = new ContenidoServiceImpl();
+		mailService = new MailServiceImpl();
+	}
+
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		if(logger.isDebugEnabled()) {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
-
 		Map<String, String[]> mapParameter = request.getParameterMap();
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
 		Errors error = new  Errors();
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
-	
+			
 			Particular particular = new Particular();
-			particular.setAlias(mapParameter.get(ParameterNames.AlIAS)[0]);
-			particular.setApellidos(mapParameter.get(ParameterNames.APELLIDOS)[0]);
-			particular.setContrasena(ValidationUtils.passwordValidation(request, ParameterNames.PASSWORD, error));
-			particular.setEmail(mapParameter.get(ParameterNames.EMAIL)[0]);
-			particular.setNombre(mapParameter.get(ParameterNames.NOMBRE_USUARIO)[0]);
-			particular.setNumberoMovil(mapParameter.get(ParameterNames.MOVIL)[0]);
-			particular.setNumeroTelefono(mapParameter.get(ParameterNames.TELEFONO)[0]);
+			particular.setAlias(ValidationUtils.aliasValidator(request,  error));
+			particular.setApellidos(ValidationUtils.apellidosValidator(request, error));
+			particular.setContrasena(ValidationUtils.passwordValidation(request,  error));
+			particular.setEmail(ValidationUtils.emailValidator(request,  error));
+			particular.setNombre(ValidationUtils.numberNotValidator(request,ParameterNames.NOMBRE_USUARIO,error));
+			particular.setNumberoMovil(ValidationUtils.telefonoValidator(request,ParameterNames.MOVIL , error));
+			particular.setNumeroTelefono(ValidationUtils.telefonoValidator(request, ParameterNames.TELEFONO,error));
 			DireccionDto direccion = new DireccionDto();
-			direccion.setCalle(mapParameter.get(ParameterNames.CALLE)[0]);
-			direccion.setNumero(Integer.valueOf(mapParameter.get(ParameterNames.NUMERO)[0]));
-			direccion.setIdLocalidad(Long.valueOf(mapParameter.get(ParameterNames.LOCALIDAD)[0]));
-			direccion.setPiso(mapParameter.get(ParameterNames.PISO)[0]);
-			direccion.setCodigoPostal(mapParameter.get(ParameterNames.CODIGO_POSTAL)[0]);
+			direccion.setCalle(ValidationUtils.numberNotValidator(request,ParameterNames.CALLE,error));
+			direccion.setNumero(ValidationUtils.integerValidator(request, ParameterNames.NUMERO, error));
+			direccion.setIdLocalidad(ValidationUtils.longValidator(request, ParameterNames.LOCALIDAD, error));
+			direccion.setPiso(ValidationUtils.pisoValidator(request, error));
+			direccion.setCodigoPostal(ValidationUtils.cdValidator(request, error));
 			direccion.setIdTipoDireccion(1);
 			particular.add(direccion);
-			try {
-				particularService.registrar(particular);
+			if(!error.hasErrors()) {
+				try {
+					logger.info("registrando usuario");
+					particularService.registrar(particular);
+				}
+				catch(DataException e) {
+					logger.warn(e.getMessage(),e);
+					error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC);
+				}
+			}
+			if(!error.hasErrors()) {
+				logger.info(new StringBuilder("enviando email a ").append(particular.getEmail()));
 				Map<String,Object> valores = new HashMap<String,Object>();
 				valores.put("user", particular);
 				valores.put("enlace", UrlBuilder.getUrl(request, "precreate?action=index"));
-				mailService.sendMail(valores,3L, particular.getEmail());
+				try {
+					mailService.sendMail(valores,3L, particular.getEmail());
+
+				} catch (ServiceException e) {
+					logger.warn(e.getMessage(),e);
+					error.add(ActionNames.REGISTRO, ErrorNames.ERR_EMAIL);
+				}
+			}
+			if(error.hasErrors()) {
+				
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForForward(request, ControllerPath.PRECREATE, ActionNames.REGISTRO,
+						ParameterNames.TIP_USUARIO, ActionNames.PARTICULAR);
+			}
+			else {
+			
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 				redirect = true;
-			} catch (DataException | ServiceException e) {
-				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
@@ -95,7 +119,7 @@ public class ParticularServlet extends HttpServlet {
 			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 			redirect = true;
 		}
-	
+
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(target);
@@ -106,9 +130,9 @@ public class ParticularServlet extends HttpServlet {
 		}
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-	
+
 		doGet(request, response);
 	}
 
