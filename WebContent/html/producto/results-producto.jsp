@@ -18,7 +18,7 @@
 			</figure>
 			<p>
 				<a
-					href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, ParameterNames.ID_PRODUCTO, String.valueOf(p.getId()))%>"><%=p.getNombre()%></a>
+					href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(p.getId()))%>"><%=p.getNombre()%></a>
 			</p>
 			<%
 				if(resultsTienda != null){
@@ -138,7 +138,7 @@
 			%>
 	<button>
 		<a
-			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO)%>">
+			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, true)%>">
 			Crear producto</a>
 	</button>
 	<%}%>

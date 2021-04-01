@@ -43,7 +43,7 @@ public class AuthenticationFilterUsuario implements Filter {
 		if((SessionManager.get(httpRequest, AttributesNames.USUARIO))!=null 
 				|| SessionManager.get(httpRequest, AttributesNames.EMPRESA) != null) {
 			logger.info("Usuario intentando acceder al registro");
-			target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO);
+			target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO, true);
 			logger.info("Redirect to..." + target);
 			httpResponse.sendRedirect(target);
 		}

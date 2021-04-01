@@ -38,6 +38,6 @@
 			<% } %>
 		</div>
 			
-		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.OFERTA)%>"> Crear oferta</a></button>
+		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.OFERTA, true)%>"> Crear oferta</a></button>
 	</section>
 	<%@include file="/html/commons/usuario/footer.jsp"%>

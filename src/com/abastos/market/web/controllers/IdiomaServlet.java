@@ -18,9 +18,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 
-/**
- * Servlet implementation class IdiomaServlet
- */
+
 @WebServlet("/idioma")
 public class IdiomaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(IdiomaServlet.class);

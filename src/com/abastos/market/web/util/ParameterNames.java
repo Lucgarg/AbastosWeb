@@ -60,4 +60,5 @@ public class ParameterNames {
 	public static final String TIP_USUARIO = "tipUsuario";
 	public static final String TIPO_OFERTA = "tipoOferta";
 	public static final String URL = "url";
+	public static final String FECHAS = "fechas";
 }

@@ -1,10 +1,11 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
+
 import java.util.List;
 
+
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
+import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.Categoria;
 import com.abastos.model.ComunidadAutonoma;
@@ -77,7 +79,9 @@ public class PrecreateServlet extends HttpServlet {
 		{ action = ActionNames.INICIO;
 			request.setAttribute(AttributesNames.ACTION, action);
 		}
-		String target = null;
+		
+		 
+		 String target = null;
 		boolean redirect = false;
 		if(logger.isDebugEnabled()) {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
@@ -103,7 +107,7 @@ public class PrecreateServlet extends HttpServlet {
 				List<TipoOferta> tipoOferta = tipOfert.findAll();
 				request.setAttribute(AttributesNames.TIPO, tipoOferta);
 				target = ViewPaths.OFERTA_CREATE;
-			} catch (NumberFormatException | DataException e) {
+			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
 		}

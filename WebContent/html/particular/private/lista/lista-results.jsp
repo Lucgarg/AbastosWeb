@@ -13,7 +13,7 @@
 			<div>
 				
 				<p>
-					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.DETALLE, ParameterNames.LISTA, String.valueOf(l.getId()))%>"><%=l.getNombre()%></a>
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.DETALLE, true, ParameterNames.LISTA, String.valueOf(l.getId()))%>"><%=l.getNombre()%></a>
 				</p>
 				<p>Fecha de creación</p>
 				<p><%=l.getFechaCreacion()%></p>

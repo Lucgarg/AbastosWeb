@@ -17,6 +17,7 @@ import com.abastos.market.web.model.LineaCarrito;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -56,6 +57,8 @@ public class CarritoServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		Carrito carrito = (Carrito)SessionManager.get(request, AttributesNames.CARRITO);
 		String target = null;
+	
+		
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		boolean redirect = false;
 		
@@ -129,8 +132,9 @@ public class CarritoServlet extends HttpServlet {
 		else if(ActionNames.ELIMINAR.equals(action)) {
 			String producto = request.getParameter(ParameterNames.ID_PRODUCTO);
 			carrito.getLineasCarritoMap().remove(Long.valueOf(producto));
-			target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO);
 			redirect = true;
+			target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
+			
 		}
 			if(ajax == null) {
 			if(redirect) { 

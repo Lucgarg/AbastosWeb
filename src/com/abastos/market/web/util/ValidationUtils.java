@@ -1,5 +1,9 @@
 package com.abastos.market.web.util;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -21,10 +25,10 @@ public class ValidationUtils {
 	private static final Pattern REG_NUMBER_NOT = Pattern.compile("[a-zA-Z]{3,20}");
 	private static final Pattern REG_APELLIDOS = Pattern.compile("[a-zA-Z]{2,20}\\s[a-zA-Z]{2,20}");
 	private static final Pattern REG_PISO = Pattern.compile("[a-zA-Z1-9._]{3,5}");
-	private static final Pattern REG_NUMBER = Pattern.compile("^[6,8,9][0-9]{8}$|^\\\\+[0-9]{2}\\\\s[1-9][0-9]{8}$");
+	private static final Pattern REG_TELEPHONE = Pattern.compile("^[6,8,9][0-9]{8}$|^\\\\+[0-9]{2}\\\\s[1-9][0-9]{8}$");
 	private static final Pattern REG_CODPOSTAL = Pattern.compile("^\\d{5}-\\d{4}|\\d{5}|[A-Z]\\d[A-Z] \\d[A-Z]\\d$");
 	private static EmailValidator mail  = EmailValidator.getInstance();
-
+	private static final String DATE_FORMAT = "dd-MM-yyyy H:m:s";
 
 	public ValidationUtils() {
 
@@ -35,12 +39,14 @@ public class ValidationUtils {
 		for(String p: parametros) {
 			p.trim();
 		}
+		//validacion de que los dos capos estan cubiertos
 		if(parametros.length == 0) {
 			error.add(ParameterNames.PASSWORD, ErrorNames.ERR_PASSWORD_BLANK);
 		}
 		else if(parametros.length < 0) {
 			error.add(ParameterNames.PASSWORD, ErrorNames.ERR_PASSWORD_BLANK);
 		}
+		//validacion de que los dos campos son iguales
 		else if(!parametros[0].trim().equals(parametros[1].trim())){
 			error.add(ParameterNames.PASSWORD, ErrorNames.ERR_PASSWORD_DIFFERENT);	
 		}
@@ -117,18 +123,18 @@ public class ValidationUtils {
 	}
 	public static String apellidosValidator(HttpServletRequest request, Errors error) {
 		Map<String, String[]> mapParameter = request.getParameterMap();
-		
+
 		String apellido = mapParameter.get(ParameterNames.APELLIDOS)[0];
-		
+
 		apellido = apellido.trim();
-		
+
 		if(StringUtils.isEmptyOrWhitespaceOnly(apellido)) {
 			error.add(ParameterNames.APELLIDOS, ErrorNames.ERR_MANDATORY);
 		}
 		if(!REG_APELLIDOS.matcher(apellido).matches()) {
 			error.add(ParameterNames.APELLIDOS, ErrorNames.ERR_APELLIDOS);
 		}
-		
+
 		if(!error.hasErrors()) {
 			return apellido;
 		}
@@ -147,7 +153,7 @@ public class ValidationUtils {
 		if(StringUtils.isEmptyOrWhitespaceOnly(telefono)) {
 			error.add(parameter, ErrorNames.ERR_MANDATORY);
 		}
-		if(!REG_NUMBER.matcher(telefono).matches()) {
+		if(!REG_TELEPHONE.matcher(telefono).matches()) {
 			error.add(parameter, ErrorNames.ERR_TELEPHONE);
 		}
 		logger.debug(new StringBuilder("errores encontrados en el campo ")
@@ -205,7 +211,7 @@ public class ValidationUtils {
 		Map<String, String[]> mapParameter = request.getParameterMap();
 		String number = mapParameter.get(parameter)[0];
 		number.trim();
-		
+
 		Integer num = null;
 		try {
 			if(StringUtils.isEmptyOrWhitespaceOnly(parameter)) {
@@ -252,7 +258,27 @@ public class ValidationUtils {
 		}
 		return num;
 	}
+	public static Date dateValidation(HttpServletRequest request, String parameter, Errors error) {
+		Map<String, String[]> mapParameter = request.getParameterMap();
+		String date = mapParameter.get(parameter)[0];
+		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
+		Date data = null;
+		try {
+			data = df.parse(date);
+		}catch(ParseException e) {
+			logger.warn(e.getMessage(), e);
+			error.add(parameter, ErrorNames.ERR_DATE_FORMAT);
+			return null;
+		}
 
+		return data;
+	}
+	public static void dateOrderValidation(Date fechaDesde, Date fechaHasta, Errors error) {
+		if(fechaDesde.after(fechaHasta) || fechaDesde.equals(fechaHasta)) {
+			error.add(ParameterNames.FECHAS, ErrorNames.ERR_DATE_ORDER_INCORRECT);
+		}
+
+	}
 
 
 

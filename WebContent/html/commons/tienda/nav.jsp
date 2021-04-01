@@ -37,7 +37,7 @@
 						<input type="hidden" name="<%=ParameterNames.CATEGORIA%>" value="<%=categoria%>">
 						<%}%>
 						<label>Envio a domicilio</label>
-						<input type="checkbox" name=<%=ParameterNames.ENVIO_DOMICILIO%> value="true" <%if("true".equals(domicilio)){%>checked<%}%>>
+						<input type="checkbox" name=<%=ParameterNames.ENVIO_DOMICILIO%> value="true" <%if("true".equals(domicilio) && errores.printError(ActionNames.CREAR) == null){%>checked<%}%>>
 						<input type="submit"
 							name="buscar" value="buscar">
 					</form>

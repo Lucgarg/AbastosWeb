@@ -12,6 +12,9 @@
 		</nav>
 	</section>
 	<section class ="productoDetalle"><div>
+		<%if(errores.printError(ActionNames.CREAR) != null){%>
+		<p class="error"><%=errores.printError(ActionNames.CREAR)%></p>
+		<%}%>
                 <form action="<%=UrlBuilder.getUrl(request, ActionNames.PRODUCTO)%>" method="post">
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 
@@ -65,9 +68,7 @@
                		<option value="I">Internacional</option>
                		<option value="L">Local</option>
                	</select>
-               	<input type="file" value="sube imagen"><br>
-               	    	<input type="file" value="sube imagen"><br>
-               	    	    	<input type="file" value="sube imagen"><br>
+               	
                		<input type="submit" value="crear">
                 </form>
                 

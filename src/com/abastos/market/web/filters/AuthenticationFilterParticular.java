@@ -50,7 +50,7 @@ public class AuthenticationFilterParticular implements Filter {
 			}
 			else {
 				logger.info("perfilEmpresa intentando acceder a area restringida");
-				target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.TIENDA, ActionNames.BUSCAR);
+				target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.TIENDA, ActionNames.BUSCAR, true);
 				logger.info("Redirect to..." + target);
 				httpResponse.sendRedirect(target);
 			}

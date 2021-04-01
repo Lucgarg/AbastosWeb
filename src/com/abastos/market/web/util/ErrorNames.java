@@ -17,5 +17,11 @@ public class ErrorNames {
 	public static final String NOT_NUMBER_FORMAT ="no puede contener numeros";
 	public static final String USER_NOT_FOUND ="el usuario no se encuentra";
 	public static final String ERR_GENERIC = "ha sucedido un error";
-	public static final String ERR_SEND_EMAIL = "error al enviar el email";
+	public static final String ERR_SEND_EMAIL = "error al enviar el email de confirmación";
+	public static final String ERR_INCORRECT_LOGIN =  "usuario o password incorrecta";
+	public static final String ERR_LIMIT_CREATION_SHOP = "Lo sentimos, ha alcanzado el limite de tiendas creadas";
+	public static final String ERR_LIMIT_CREATION_PRODUCTS = "Lo sentimos, ha alcanzado el limite de producto creados";
+	public static final String ERR_NOT_USER_LOG = "Para realizar su pedido, proceda a iniciar sesión";
+	public static final String ERR_DATE_FORMAT = "Formato de fecha incorrecto";
+	public static final String ERR_DATE_ORDER_INCORRECT = "Las fechas estan desordenadas o son identicas";
 }

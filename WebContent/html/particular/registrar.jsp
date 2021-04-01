@@ -1,6 +1,5 @@
 <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <%@include file= "/html/commons/usuario/header.jsp"%>
-<%@include file= "/html/commons/usuario/error.jsp"%>
 <section class="tiendas">
 		<div class="tiendas2">
 		<%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>

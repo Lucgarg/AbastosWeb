@@ -15,7 +15,8 @@
 				 
 					<p>Precio final</p>
 					<p><%=pedido.getPrecioTotal()%></p>
-					<form action="<%=UrlBuilder.getUrl(request,ControllerPath.PEDIDO)%>">
+					<form action="<%=UrlBuilder.getUrl(request,ControllerPath.PEDIDO)%>" method="post">
+					<input type="hidden" name="<%=ParameterNames.URL%>" value="<%=UrlBuilder.urlCallBack(request, false)%>">
 					<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.CREAR%>">
 					<%if(particular!=null){%>
 					<label>Tienes <%=particular.getPuntos()%> puntos para gastar</label><br>

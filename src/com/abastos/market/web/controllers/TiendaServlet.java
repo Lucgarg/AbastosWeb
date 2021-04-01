@@ -3,7 +3,9 @@ package com.abastos.market.web.controllers;
 
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,12 +19,12 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Categoria;
 import com.abastos.model.DireccionDto;
 import com.abastos.model.Empresa;
@@ -33,21 +35,23 @@ import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
 import com.abastos.service.LocalidadService;
+import com.abastos.service.MailService;
 import com.abastos.service.ProductoCriteria;
 import com.abastos.service.ProductoService;
 import com.abastos.service.TiendaCriteria;
 import com.abastos.service.TiendaService;
+import com.abastos.service.exceptions.LimitCreationException;
+import com.abastos.service.exceptions.MailException;
 import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
 import com.abastos.service.impl.LocalidadServiceImpl;
+import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 import com.google.gson.Gson;
 
-/**
- * Servlet implementation class TiendaServlet
- */
+
 @WebServlet("/tienda")
 public class TiendaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(TiendaServlet.class);
@@ -57,12 +61,16 @@ public class TiendaServlet extends HttpServlet {
 	private CategoriaService categoriaService;
 	private EmpresaService empresaService;
 	private LocalidadService localidadService;
+	private Map<String, Object> infoEmail = null;
+	private MailService mailService = null;
 	public TiendaServlet() {
 		tiendaService = new TiendaServiceImpl();
 		productoService = new ProductoServiceImpl();
 		categoriaService = new CategoriaServiceImpl();
 		empresaService = new EmpresaServiceImpl();
 		localidadService = new LocalidadServiceImpl();
+		infoEmail = new HashMap<String, Object>();
+		mailService = new MailServiceImpl();
 	}
 
 
@@ -73,6 +81,7 @@ public class TiendaServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		Errors error = new Errors();
 		Localidad local = new Localidad();
 		if(idioma == null) {
 			idioma = "es";
@@ -85,7 +94,7 @@ public class TiendaServlet extends HttpServlet {
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
-		
+
 			try {
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
@@ -193,9 +202,22 @@ public class TiendaServlet extends HttpServlet {
 			tienda.setIdEmpresa(empresa.getId());
 			try {
 				tiendaService.create(tienda);
-				target = UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR); ;
+				infoEmail.put("tienda", tienda);
+				mailService.sendMailHtml(infoEmail,6L,tienda.getEmail());	
 				redirect = true;
-			} catch (DataException | ServiceException e) {
+				target = UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR, redirect); 
+			} catch (LimitCreationException e) {
+				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_SHOP);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA,redirect);
+				logger.warn(e.getMessage(),e);
+			} catch(MailException e) {
+				error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, redirect);
+				logger.warn(e.getMessage(),e);
+			}
+			catch(DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
 
@@ -217,7 +239,7 @@ public class TiendaServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 
 	}

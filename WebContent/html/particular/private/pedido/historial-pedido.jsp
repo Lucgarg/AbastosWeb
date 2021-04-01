@@ -12,7 +12,7 @@
 		
 			<div>
 				<p>
-					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE,  ParameterNames.PEDIDO , String.valueOf(p.getId()))%>"><%=p.getFechaPedido()%></a>
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, true, ParameterNames.PEDIDO , String.valueOf(p.getId()))%>"><%=p.getFechaPedido()%></a>
 				</p>
 				<p>Precio total</p>
 				<p><%=p.getPrecioTotal()%></p>

@@ -3,7 +3,11 @@
 <%Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);%>
 <%if(pedido.getLineaPedido().size() > 0){%>
 <%@include file= "/html/pedido/right-nav.jsp"%>
+
 <section class="tiendas producto">
+<%if(errores.printError(ActionNames.SEND_EMAIL) != null){%>
+<p class="error"><%=errores.printError(ActionNames.SEND_EMAIL)%></p>
+<%}%>
 		<div class="tiendas2">
 			
 			<%
@@ -16,7 +20,7 @@
 				</figure>
 				<p>
 					<a
-						href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.ID_TIENDA,String.valueOf(p.getIdTienda()))%>"><%=p.getNombreProducto()%></a>
+						href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE,true, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.ID_TIENDA,String.valueOf(p.getIdTienda()))%>"><%=p.getNombreProducto()%></a>
 				</p>
 				
 				
@@ -108,7 +112,7 @@
 					
 					<p><%=p.getPrecioFinal()%></p>
 					
-			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.ELIMINAR, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()))%>">eliminar</a></button>
+			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.ELIMINAR, true, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()))%>">eliminar</a></button>
 				
 			</div>
 			<%}%>

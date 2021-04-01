@@ -22,6 +22,7 @@ import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
+import com.abastos.market.web.util.ValidationUtils;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Empresa;
@@ -56,6 +57,7 @@ public class OfertaServlet extends HttpServlet {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
 		String action = request.getParameter(ActionNames.ACTION);
+		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de oferta de una determinada empresa
@@ -108,12 +110,13 @@ public class OfertaServlet extends HttpServlet {
 					.append(" ").append(horaCaducidad).append(":00").toString();
 			
 			try {
-				oferta.setFechaDesde(DataUtils.formatDate(fechaDesde));
-				oferta.setFechaHasta(DataUtils.formatDate(fechaHasta));
+				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde,error));
+				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta,error));
+				ValidationUtils.dateOrderValidation(oferta.getFechaDesde(), oferta.getFechaHasta(), error);
 				ofertaService.create(oferta);
 				target = UrlBuilder.getUrlForController(request,ControllerPath.OFERTA ,ActionNames.BUSCAR);
 				redirect = true;
-			} catch (DataException | ParseException e) {
+			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
 		}

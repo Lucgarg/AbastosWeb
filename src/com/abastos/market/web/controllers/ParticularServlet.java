@@ -62,7 +62,7 @@ public class ParticularServlet extends HttpServlet {
 		boolean redirect = false;
 		Errors error = new  Errors();
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
-			
+
 			Particular particular = new Particular();
 			particular.setAlias(ValidationUtils.aliasValidator(request,  error));
 			particular.setApellidos(ValidationUtils.apellidosValidator(request, error));
@@ -96,28 +96,26 @@ public class ParticularServlet extends HttpServlet {
 				valores.put("enlace", UrlBuilder.getUrl(request, "precreate?action=index"));
 				try {
 					mailService.sendMail(valores,3L, particular.getEmail());
-
+					redirect = true;
+					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				} catch (ServiceException e) {
 					logger.warn(e.getMessage(),e);
-					error.add(ActionNames.REGISTRO, ErrorNames.ERR_EMAIL);
+					error.add(ActionNames.REGISTRO, ErrorNames.ERR_SEND_EMAIL);
 				}
 			}
 			if(error.hasErrors()) {
-				
+
 				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForForward(request, ControllerPath.PRECREATE, ActionNames.REGISTRO,
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.REGISTRO, redirect,
 						ParameterNames.TIP_USUARIO, ActionNames.PARTICULAR);
 			}
-			else {
-			
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
-				redirect = true;
-			}
+
 		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
 			SessionManager.remove(request, AttributesNames.USUARIO);
-			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 			redirect = true;
+			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+
 		}
 
 		if(redirect) { 

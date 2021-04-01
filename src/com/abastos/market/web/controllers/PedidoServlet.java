@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -60,33 +61,48 @@ public class PedidoServlet extends HttpServlet {
 		}
 		String action = request.getParameter(ActionNames.ACTION);
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
-
+		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
 
 		if(ActionNames.CREAR.equalsIgnoreCase(action)) {
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
 			String aplicarDescuento = request.getParameter(ParameterNames.APLICAR_DESCUENTO);
-			pedido.setAplicarDescuento(Boolean.valueOf(aplicarDescuento));
-			pedido.setIdParticular(particular.getId());
-			pedido.setIdEstado('S');
-			try {
-				pedidoService.create(pedido);
-				int puntos = pedidoService.calcPuntos(pedido.getPrecioTotal());
-				infoEmail.put("user", particular);
-				infoEmail.put("pedido", pedido);
-				infoEmail.put("lineaP", pedido.getLineaPedido());
-				infoEmail.put("puntos", puntos);
-				mailService.sendMailHtml(infoEmail, 5L, particular.getEmail());
-				SessionManager.remove(request, AttributesNames.CARRITO);
-				SessionManager.remove(request, AttributesNames.PEDIDO);
-
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
-				redirect = true;
-			} catch (MailException | DataException e) {
-				logger.warn(e.getMessage(),e);
+			if(particular == null) {
+				logger.info(request.getParameter("url"));
+				error.add(ActionNames.CREAR_PEDIDO, ErrorNames.ERR_NOT_USER_LOG);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.urlCallBack(request, true);
+				logger.info(target);
 			}
+			if(!error.hasErrors()) {
+				pedido.setAplicarDescuento(Boolean.valueOf(aplicarDescuento));
+				pedido.setIdParticular(particular.getId());
+				pedido.setIdEstado('S');
+				try {
+					pedidoService.create(pedido);
+					int puntos = pedidoService.calcPuntos(pedido.getPrecioTotal());
+					infoEmail.put("user", particular);
+					infoEmail.put("pedido", pedido);
+					infoEmail.put("lineaP", pedido.getLineaPedido());
+					infoEmail.put("puntos", puntos);
+					mailService.sendMailHtml(infoEmail, 5L, particular.getEmail());
+					SessionManager.remove(request, AttributesNames.CARRITO);
+					SessionManager.remove(request, AttributesNames.PEDIDO);
+					redirect = true;
+					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+					
 
+				}catch(MailException e) {
+					error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
+					request.setAttribute(AttributesNames.ERROR, error);
+					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
+					logger.warn(e.getMessage(),e);
+				}catch (DataException e) {
+					logger.warn(e.getMessage(),e);
+				}
+				
+			}
 		}
 		else if(ActionNames.HISTORIAL_PEDIDO.equalsIgnoreCase(action)) {
 			try {
@@ -102,7 +118,7 @@ public class PedidoServlet extends HttpServlet {
 			String idPedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				Pedido pedido = pedidoService.findById(Long.valueOf(idPedido));
-			
+
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
 				target =  ViewPaths.LINEA_PEDIDO;
 			} catch ( DataException e) {

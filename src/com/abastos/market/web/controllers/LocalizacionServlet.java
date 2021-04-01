@@ -62,7 +62,7 @@ public class LocalizacionServlet extends HttpServlet {
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(comunidadAutonoma));
 			
-			} catch (NumberFormatException | DataException e) {
+			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -73,7 +73,7 @@ public class LocalizacionServlet extends HttpServlet {
 				Gson gson = new Gson();
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(provincias));
-			} catch (NumberFormatException | DataException e) {
+			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -84,18 +84,16 @@ public class LocalizacionServlet extends HttpServlet {
 				Gson gson = new Gson();
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(localidades));
-			} catch (NumberFormatException | DataException e) {
+			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
 		}
 		
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		
 		doGet(request, response);
 	}
 

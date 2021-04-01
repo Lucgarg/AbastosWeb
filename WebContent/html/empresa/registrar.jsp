@@ -1,5 +1,5 @@
 
-    <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*, "%>
+    <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.* "%>
 <%@include file= "/html/commons/usuario/header.jsp"%>
 <section class="tiendas">
 		<div class="tiendas2">
@@ -15,38 +15,41 @@
           <form action=<%=UrlBuilder.getUrl(request, ControllerPath.EMPRESA)%> method="post">
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">
           		<fieldset>
+          		<%if(errores.printError(ActionNames.REGISTRO)!= null){%>
+          			<p class="error"><%=errores.printError(ActionNames.REGISTRO)%></p>
+          		<%}%>
           		<label>Nombre usuario</label><br>
-          		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" value=<%=parametros.get(ParameterNames.NOMBRE_USUARIO)[0]%>><br>
+          		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" <%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_USUARIO, 0)%>><br>
           		<label>Apellidos</label><br>
-          		<input type="text" name="<%=ParameterNames.APELLIDOS%>" value=<%=parametros.get(ParameterNames.APELLIDOS)[0]%>><br>
+          		<input type="text" name="<%=ParameterNames.APELLIDOS%>" value=<%=ParameterUtils.printParam(request, ParameterNames.APELLIDOS, 0)%>><br>
           		<label>Alias</label><br>
-          		<input type="text" name="<%=ParameterNames.ALIAS%>" value=<%=parametros.get(ParameterNames.ALIAS)[0]%>><br>
+          		<input type="text" name="<%=ParameterNames.ALIAS%>" value=<%=ParameterUtils.printParam(request, ParameterNames.ALIAS, 0)%>><br>
           		</fieldset>
           		<fieldset>
           		<label>Contraseña</label>
-          		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=parametros.get(ParameterNames.PASSWORD)[0]%>>
-          		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=parametros.get(ParameterNames.PASSWORD)[1]%>>
+          		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=ParameterUtils.printParam(request, ParameterNames.PASSWORD, 0)%>>
+          		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=ParameterUtils.printParam(request, ParameterNames.PASSWORD, 1)%>>
           		</fieldset>
           		<fieldset>
           		<label>CIF</label><br>
-          		<input type="text" name="<%=ParameterNames.CIF%>" value=<%=parametros.get(ParameterNames.CIF)[0]%>><br>
+          		<input type="text" name="<%=ParameterNames.CIF%>" value=<%=ParameterUtils.printParam(request, ParameterNames.CIF, 0)%>><br>
           		<label>Razón social</label><br>
-          		<input type="text" name="<%=ParameterNames.RAZON_SOCIAL%>"><br>
+          		<input type="text" name="<%=ParameterNames.RAZON_SOCIAL%>" value="<%=ParameterUtils.printParam(request, ParameterNames.RAZON_SOCIAL, 0)%>"><br>
           		<label>Email</label><br>
-          		<input type="text" name="<%=ParameterNames.EMAIL%>"><br>
+          		<input type="text" name="<%=ParameterNames.EMAIL%>" value="<%=ParameterUtils.printParam(request, ParameterNames.EMAIL, 0)%>"><br>
           		</fieldset>
           		<fieldset>
           		<label>Calle</label><br>
-          		<input type="text" name="<%=ParameterNames.CALLE%>"><br>
+          		<input type="text" name="<%=ParameterNames.CALLE%>" value="<%=ParameterUtils.printParam(request, ParameterNames.CALLE, 0)%>"><br>
           		<label>Número</label><br>
-          		<input type="text" name="<%=ParameterNames.NUMERO%>"><br>
+          		<input type="text" name="<%=ParameterNames.NUMERO%>" value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERO, 0)%>"><br>
           		<label>Piso</label><br>
-          		<input type="text" name="<%=ParameterNames.PISO%>"><br>
+          		<input type="text" name="<%=ParameterNames.PISO%>" value="<%=ParameterUtils.printParam(request, ParameterNames.PISO, 0)%>"><br>
           			<label>Código postal</label><br>
-          		<input type="text" name="<%=ParameterNames.CODIGO_POSTAL%>"><br>
+          		<input type="text" name="<%=ParameterNames.CODIGO_POSTAL%>" value="<%=ParameterUtils.printParam(request, ParameterNames.CODIGO_POSTAL, 0)%>"><br>
           		</fieldset>
           		<fieldset>
-          		 <label>Pais  </label><br>
+          		 <label>Pais</label><br>
                 <select  name=<%=ParameterNames.PAIS%> id="pais">
                 <option disabled selected value>--selecciona un pais--</option>
                 <%List<Pais> paises = (List<Pais>) request.getAttribute(AttributesNames.PAISES); 

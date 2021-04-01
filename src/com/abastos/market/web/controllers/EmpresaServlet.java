@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -31,15 +32,14 @@ import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
 import com.abastos.service.MailService;
 import com.abastos.service.TiendaService;
+import com.abastos.service.exceptions.MailException;
 import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 
-/**
- * Servlet implementation class EmpresaServlet
- */
+
 @WebServlet("/empresa")
 public class EmpresaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(EmpresaServlet.class);
@@ -63,6 +63,7 @@ public class EmpresaServlet extends HttpServlet {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
 		String action = request.getParameter(ActionNames.ACTION);
+		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de tiendas de una empresa
@@ -118,23 +119,34 @@ public class EmpresaServlet extends HttpServlet {
 			direccionDto.setIdTipoDireccion(2);
 			direccionDto.setCodigoPostal(codigoPostal);
 			empresa.setDireccion(direccionDto);
-
 			try {
 				empresaService.registrar(empresa);
 				Map<String,Object> valores = new HashMap<String,Object>();
 				valores.put("user", empresa);
-				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO));
+				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, true));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 				redirect = true;
-			} catch (DataException | ServiceException e) {
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+				
+			}catch(MailException e) {
 				logger.warn(e.getMessage(),e);
+				error.add(ActionNames.REGISTRO, ErrorNames.ERR_SEND_EMAIL);
+			} 
+			catch (DataException e) {
+				logger.warn(e.getMessage(),e);
+			}
+			if(error.hasErrors()) {
+
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.REGISTRO, redirect,
+						ParameterNames.TIP_USUARIO, ActionNames.EMPRESA);
 			}
 		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
 			SessionManager.remove(request, AttributesNames.EMPRESA);
-			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 			redirect = true;
+			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			
 		}
 
 		if(redirect) { 

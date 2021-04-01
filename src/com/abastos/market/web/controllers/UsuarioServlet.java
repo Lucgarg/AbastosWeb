@@ -1,10 +1,7 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-
 import java.util.List;
-import java.util.Map;
-
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -18,23 +15,21 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
-import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsctions;
-import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
 import com.abastos.model.Pais;
 import com.abastos.model.Particular;
-import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
 import com.abastos.service.PaisService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.TiendaService;
+import com.abastos.service.exceptions.IncorrectPasswordException;
 import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
@@ -71,7 +66,7 @@ public class UsuarioServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
-
+		Errors error = new Errors();
 		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
@@ -94,33 +89,51 @@ public class UsuarioServlet extends HttpServlet {
 						logger.debug(empresa.getCorreoElectronico() + " logged.");
 					}
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
-					target =  url.endsWith(ActionNames.INICIO)?
-						UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR):url;
-
 					redirect = true;
-				} catch (DataException | ServiceException e) {
+					target =  url.endsWith(ActionNames.INICIO)?
+							UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect):url;
+
+				
+				}catch(ServiceException e){
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
+					logger.warn(e.getMessage(), e);
+
+				}
+				catch (DataException e) {
 					logger.warn(e.getMessage(),e);
+				}
+				if(error.hasErrors()) {
+					request.setAttribute(AttributesNames.ERROR, error);
+					target =  UrlBuilder.urlCallBack(request, true);
 				}
 			}
 			//si es particular...
 			else if(ActionNames.PARTICULAR.equalsIgnoreCase(tipUsuario)) {
+				
 				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
-
-
-
-
+				
 				String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
 				usuario = email == null? usuario: null;
+				logger.info("iniciando sesion con " + usuario);
 				String password = request.getParameter(ParameterNames.PASSWORD);
 				try {
 					Particular particular = particularService.login(email,usuario, password);
 					SessionManager.set(request, AttributesNames.USUARIO, particular);
-					List<Pais> paises = paisService.findByAll();
-					request.setAttribute(AttributesNames.PAISES, paises);
-					target = url;
+					target = UrlBuilder.urlCallBack(request, false);
 					redirect = true;
-				} catch (DataException | ServiceException e) {
+				}catch(ServiceException e){
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
+					logger.warn(e.getMessage(), e);
+
+				}
+				catch (DataException e) {
 					logger.warn(e.getMessage(),e);
+				}
+				if(error.hasErrors()) {
+					request.setAttribute(AttributesNames.ERROR, error);
+					
+					target = UrlBuilder.urlCallBack(request, true);
+					
 				}
 			}
 

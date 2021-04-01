@@ -79,7 +79,6 @@ public class ValoracionServlet extends HttpServlet {
 				
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
 				
-
 			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
@@ -91,9 +90,7 @@ public class ValoracionServlet extends HttpServlet {
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				puntProdService.create(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, ParameterNames.PEDIDO, pedido); 
-				redirect = true;
-
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
@@ -112,8 +109,7 @@ public class ValoracionServlet extends HttpServlet {
 				puntTienda.setValoracionServDomicilio(Integer.valueOf(servDomicilio));
 				puntTienda.setIdTienda(Long.valueOf(tienda));
 				puntTiendService.create(puntTienda);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, ParameterNames.PEDIDO, pedido); 
-				redirect = true;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
@@ -124,8 +120,7 @@ public class ValoracionServlet extends HttpServlet {
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				puntProdService.update(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, ParameterNames.PEDIDO, pedido); 
-				redirect = true;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}
@@ -146,8 +141,7 @@ public class ValoracionServlet extends HttpServlet {
 				puntTienda.setValoracionServDomicilio(Integer.valueOf(servDomicilio));
 				puntTienda.setIdTienda(Long.valueOf(tienda));
 				puntTiendService.update(puntTienda);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, ParameterNames.PEDIDO, pedido); 
-				redirect = true;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}

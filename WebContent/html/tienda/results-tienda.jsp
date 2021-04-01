@@ -30,7 +30,9 @@
 		<%
 		if(empresa != null){
 		%>
-		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA)%>"> Crear tienda</a></button>
+		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, true)%>"> Crear tienda</a></button>
+		<%} else if(errores.printError(ActionNames.CREAR) != null){%>
+		<p><%=errores.printError(ActionNames.CREAR)%></p>
 		<%}%>
 	</section>
 	<%@include file="/html/commons/usuario/footer.jsp"%>

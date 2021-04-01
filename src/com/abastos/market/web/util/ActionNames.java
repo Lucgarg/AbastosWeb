@@ -7,6 +7,7 @@ public class ActionNames {
 	public static final String BUSCAR = "buscar";
 	public static final String COMUNIDAD = "comunidad";
 	public static final String CREAR = "crear";
+	public static final String CREAR_PEDIDO = "crearPedido";
 	public static final String DETALLE = "detalle";
 	public static final String EMPRESA = "empresa";
 	public static final String INICIO = "index";
@@ -30,4 +31,5 @@ public class ActionNames {
 	public static final String ELIMINAR = "eliminar";
 	public static final String UPDATE_VAL_TIENDA = "actualizar valoracion tienda";
 	public static final String UPDATE_VAL_PRODUCTO =  "actualizar valoracion producto";
+	public static final String SEND_EMAIL = "enviarEmail";
 }

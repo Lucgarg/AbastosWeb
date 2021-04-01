@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.MapBuilder;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
@@ -72,6 +73,7 @@ public class ProductoServlet extends HttpServlet {
 		}
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
+		Errors error = new Errors();
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		if(idioma == null) {
@@ -225,11 +227,15 @@ public class ProductoServlet extends HttpServlet {
 				logger.info(producto.getPrecio());
 				productoServ.create(producto);		
 				redirect = true;
-				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR); ;
-			
-			
-			
-			} catch (LimitCreationException | DataException e) {
+				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR, redirect);
+
+			}	catch(LimitCreationException e) {
+				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_PRODUCTS);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
+				logger.warn(e.getMessage(),e);
+			}catch (DataException e) {
+
 				logger.warn(e.getMessage(),e);
 			}
 		}
