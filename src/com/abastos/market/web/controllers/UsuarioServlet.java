@@ -90,8 +90,7 @@ public class UsuarioServlet extends HttpServlet {
 					}
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
 					redirect = true;
-					target =  url.endsWith(ActionNames.INICIO)?
-							UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect):url;
+					target =  UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 
 				
 				}catch(ServiceException e){

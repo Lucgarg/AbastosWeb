@@ -24,4 +24,5 @@ public class ErrorNames {
 	public static final String ERR_NOT_USER_LOG = "Para realizar su pedido, proceda a iniciar sesión";
 	public static final String ERR_DATE_FORMAT = "Formato de fecha incorrecto";
 	public static final String ERR_DATE_ORDER_INCORRECT = "Las fechas estan desordenadas o son identicas";
+	public static final String ERR_ONLY_ONE_FIELD ="Unicamente uno de los campos puede estar relleno";
 }

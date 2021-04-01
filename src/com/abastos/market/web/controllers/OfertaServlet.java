@@ -66,7 +66,7 @@ public class OfertaServlet extends HttpServlet {
 			try {
 				List<Oferta> ofertas = ofertaService.findByIdEmpresa(Long.valueOf(empresa.getId()));
 				List<Producto> productos = new ArrayList<Producto>();
-				
+
 				request.setAttribute(AttributesNames.OFERTAS, ofertas);
 				target = ViewPaths.OFERTA_RESULTS;
 			} catch (NumberFormatException | DataException e) {
@@ -92,6 +92,7 @@ public class OfertaServlet extends HttpServlet {
 				oferta.setDenominador(Integer.valueOf(denominador));
 			}
 			if(desctFijo != "") {
+				
 				oferta.setDescuentoFijo(Double.valueOf(desctFijo));
 			}
 			if(desctPCN != "") {
@@ -103,19 +104,25 @@ public class OfertaServlet extends HttpServlet {
 			oferta.setIdTipoOferta(Integer.valueOf(tipoOferta));
 			oferta.setNombreOferta(nombre);
 			oferta.setIdEmpresa(empresa.getId());
-
+			ValidationUtils.onlyOneField(request, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
 			String fechaDesde = new StringBuilder().append(fechaVigencia)
 					.append(" ").append(horaVigencia).append(":00").toString();
 			String fechaHasta = new StringBuilder().append(fechaCaducidad)
 					.append(" ").append(horaCaducidad).append(":00").toString();
-			
+
 			try {
-				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde,error));
-				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta,error));
+				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde, ParameterNames.FECHA_VIG,error));
+				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta, ParameterNames.FECHA_CAD, error));
 				ValidationUtils.dateOrderValidation(oferta.getFechaDesde(), oferta.getFechaHasta(), error);
-				ofertaService.create(oferta);
-				target = UrlBuilder.getUrlForController(request,ControllerPath.OFERTA ,ActionNames.BUSCAR);
-				redirect = true;
+				if(!error.hasErrors()) {
+					ofertaService.create(oferta);
+					redirect = true;
+					target = UrlBuilder.getUrlForController(request,ControllerPath.OFERTA ,ActionNames.BUSCAR, redirect);
+				}
+				else {
+					request.setAttribute(AttributesNames.ERROR, error);
+					target = UrlBuilder.getUrlForController(request,ControllerPath.PRECREATE, ActionNames.OFERTA, redirect);
+				}
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 			}

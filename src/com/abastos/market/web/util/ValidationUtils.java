@@ -258,27 +258,45 @@ public class ValidationUtils {
 		}
 		return num;
 	}
-	public static Date dateValidation(HttpServletRequest request, String parameter, Errors error) {
-		Map<String, String[]> mapParameter = request.getParameterMap();
-		String date = mapParameter.get(parameter)[0];
+	
+	public static Date dateValidation(HttpServletRequest request,String fecha, String parameter, Errors error) {
+	
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 		Date data = null;
+		
 		try {
-			data = df.parse(date);
+			data = df.parse(fecha);
 		}catch(ParseException e) {
-			logger.warn(e.getMessage(), e);
 			error.add(parameter, ErrorNames.ERR_DATE_FORMAT);
+			logger.warn(e.getMessage(), e);
+			logger.debug(new StringBuilder("errores encontrados en el campo ")
+					.append(parameter).append(" ")
+					.append(error.printError(parameter)).toString());
 			return null;
 		}
 
 		return data;
 	}
 	public static void dateOrderValidation(Date fechaDesde, Date fechaHasta, Errors error) {
-		if(fechaDesde.after(fechaHasta) || fechaDesde.equals(fechaHasta)) {
-			error.add(ParameterNames.FECHAS, ErrorNames.ERR_DATE_ORDER_INCORRECT);
+		if(fechaDesde != null && fechaHasta != null) {
+			if(fechaDesde.after(fechaHasta) || fechaDesde.equals(fechaHasta)) {
+				error.add(ParameterNames.FECHAS, ErrorNames.ERR_DATE_ORDER_INCORRECT);
+			}
 		}
-
+	
+		
 	}
+	public static void onlyOneField(HttpServletRequest request, String parameter1, String parameter2, Errors error ) {
+		Map<String, String[]> mapParameter = request.getParameterMap();
+		String parameterA = mapParameter.get(parameter1)[0];
+		String parameterB = mapParameter.get(parameter2)[0];
+		if(!StringUtils.isEmptyOrWhitespaceOnly(parameterA)
+				&& !StringUtils.isEmptyOrWhitespaceOnly(parameterB)) {
+			error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_ONLY_ONE_FIELD);
+		}
+	}
+	
+	
 
 
 
