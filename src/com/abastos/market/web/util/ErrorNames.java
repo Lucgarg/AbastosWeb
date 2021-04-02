@@ -7,11 +7,8 @@ public class ErrorNames {
 	}
 	public static final String ERR_PASSWORD_BLANK = "campo_obligatorio";
 	public static final String ERR_PASSWORD_DIFFERENT ="No coinciden";
-	public static final String ERR_ALIAS ="El alias no es correcto";
 	public static final String ERR_MANDATORY = "campo obligatorio";
-	public static final String ERR_NAME ="campo no correcto";
-	public static final String ERR_APELLIDOS="formato no adecuado";
-	public static final String ERR_TELEPHONE="formato no adecuado";
+	public static final String ERR_NAME ="formato no adecuado";
 	public static final String ERR_CDP= "codigo postal no cumple con el formato";
 	public static final String ERR_EMAIL="email no cumple con el formato";
 	public static final String NOT_NUMBER_FORMAT ="no puede contener numeros";
@@ -25,4 +22,7 @@ public class ErrorNames {
 	public static final String ERR_DATE_FORMAT = "Formato de fecha incorrecto";
 	public static final String ERR_DATE_ORDER_INCORRECT = "Las fechas estan desordenadas o son identicas";
 	public static final String ERR_ONLY_ONE_FIELD ="Unicamente uno de los campos puede estar relleno";
+	public static final String ERR_ORDER_FIELD = "El primer campo no puede ser mayor al segundo";
+	public static final String ERR_ORDER_EQUALS = "Los campos no pueden ser iguales";
+	public static final String ERR_OFFER_FIELD_MAND = "Con este tipo de oferta es necesario rellenar estos campos";
 }

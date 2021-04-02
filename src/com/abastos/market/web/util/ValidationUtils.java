@@ -21,7 +21,7 @@ import com.mysql.cj.util.StringUtils;
 
 public class ValidationUtils {
 	private static Logger logger = LogManager.getLogger(ValidationUtils.class);
-	private static final Pattern REG_ALIAS = Pattern.compile("[a-zA-Z][a-zA-Z0-9]{2,31}");
+	private static final Pattern REG_NAME = Pattern.compile("[a-zA-Z][a-zA-Z0-9]{2,31}");
 	private static final Pattern REG_NUMBER_NOT = Pattern.compile("[a-zA-Z]{3,20}");
 	private static final Pattern REG_APELLIDOS = Pattern.compile("[a-zA-Z]{2,20}\\s[a-zA-Z]{2,20}");
 	private static final Pattern REG_PISO = Pattern.compile("[a-zA-Z1-9._]{3,5}");
@@ -61,21 +61,21 @@ public class ValidationUtils {
 		}
 
 	}
-	public static String aliasValidator(HttpServletRequest request,  Errors error) {
+	public static String nameValidator(HttpServletRequest request, String parameterName,  Errors error) {
 		Map<String, String[]> mapParameter = request.getParameterMap();
-		String alias = mapParameter.get(ParameterNames.ALIAS)[0];
-		alias = alias.trim();
-		if(StringUtils.isEmptyOrWhitespaceOnly(alias)) {
-			error.add(ParameterNames.ALIAS, ErrorNames.ERR_MANDATORY);
+		String nombre = mapParameter.get(parameterName)[0];
+		nombre = nombre.trim();
+		if(StringUtils.isEmptyOrWhitespaceOnly(nombre)) {
+			error.add(parameterName, ErrorNames.ERR_MANDATORY);
 		}
-		if(!REG_ALIAS.matcher(alias).matches()) {
-			error.add(ParameterNames.ALIAS, ErrorNames.ERR_ALIAS);
+		if(!REG_NAME.matcher(nombre).matches()) {
+			error.add(parameterName, ErrorNames.ERR_NAME);
 		}
 		logger.debug(new StringBuilder("errores encontrados en el campo ")
-				.append(ParameterNames.ALIAS).append(" ")
-				.append(error.printError(ParameterNames.ALIAS)).toString());
+				.append(parameterName).append(" ")
+				.append(error.printError(parameterName)).toString());
 		if(!error.hasErrors()) {
-			return alias;
+			return nombre;
 		}
 		else {
 			return null;
@@ -89,7 +89,7 @@ public class ValidationUtils {
 			error.add(ParameterNames.PISO, ErrorNames.ERR_MANDATORY);
 		}
 		if(!REG_PISO.matcher(piso).matches()) {
-			error.add(ParameterNames.PISO, ErrorNames.ERR_ALIAS);
+			error.add(ParameterNames.PISO, ErrorNames.ERR_NAME);
 		}
 		logger.debug(new StringBuilder("errores encontrados en el campo ")
 				.append(ParameterNames.PISO).append(" ")
@@ -132,7 +132,7 @@ public class ValidationUtils {
 			error.add(ParameterNames.APELLIDOS, ErrorNames.ERR_MANDATORY);
 		}
 		if(!REG_APELLIDOS.matcher(apellido).matches()) {
-			error.add(ParameterNames.APELLIDOS, ErrorNames.ERR_APELLIDOS);
+			error.add(ParameterNames.APELLIDOS, ErrorNames.ERR_NAME);
 		}
 
 		if(!error.hasErrors()) {
@@ -154,7 +154,7 @@ public class ValidationUtils {
 			error.add(parameter, ErrorNames.ERR_MANDATORY);
 		}
 		if(!REG_TELEPHONE.matcher(telefono).matches()) {
-			error.add(parameter, ErrorNames.ERR_TELEPHONE);
+			error.add(parameter, ErrorNames.ERR_NAME);
 		}
 		logger.debug(new StringBuilder("errores encontrados en el campo ")
 				.append(parameter).append(" ")
@@ -233,6 +233,32 @@ public class ValidationUtils {
 		}
 		return num;
 	}
+	public static Double doubleValidator(HttpServletRequest request, String parameter, Errors error) {
+		Map<String, String[]> mapParameter = request.getParameterMap();
+		String number = mapParameter.get(parameter)[0];
+		number.trim();
+
+		Double num = null;
+		try {
+			if(StringUtils.isEmptyOrWhitespaceOnly(parameter)) {
+				error.add(parameter, ErrorNames.ERR_MANDATORY);
+				logger.debug(new StringBuilder("errores encontrados en el campo ")
+						.append(parameter).append(" ")
+						.append(error.printError(parameter)).toString());
+				return null;
+
+			}
+			else {
+				num = Double.valueOf(number);
+			}
+
+		}catch(NumberFormatException e) {
+			logger.warn(e.getMessage(), e);
+			error.add(parameter, ErrorNames.NOT_NUMBER_FORMAT);
+			return null;
+		}
+		return num;
+	}
 	public static Long longValidator(HttpServletRequest request, String parameter, Errors error) {
 
 		Map<String, String[]> mapParameter = request.getParameterMap();
@@ -258,14 +284,19 @@ public class ValidationUtils {
 		}
 		return num;
 	}
-	
-	public static Date dateValidation(HttpServletRequest request,String fecha, String parameter, Errors error) {
-	
+
+	public static Date dateValidation(HttpServletRequest request,String fecha, String parameterValue, String parameter, Errors error) {
+
 		DateFormat df = new SimpleDateFormat(DATE_FORMAT);
 		Date data = null;
-		
+
 		try {
-			data = df.parse(fecha);
+			if(StringUtils.isEmptyOrWhitespaceOnly(parameterValue)) {
+				error.add(parameter, ErrorNames.ERR_MANDATORY);
+			}
+			else {
+				data = df.parse(fecha);
+			}
 		}catch(ParseException e) {
 			error.add(parameter, ErrorNames.ERR_DATE_FORMAT);
 			logger.warn(e.getMessage(), e);
@@ -277,28 +308,59 @@ public class ValidationUtils {
 
 		return data;
 	}
+	/*metodo para validar que la primera fecha es menor que la segunda*/
 	public static void dateOrderValidation(Date fechaDesde, Date fechaHasta, Errors error) {
 		if(fechaDesde != null && fechaHasta != null) {
 			if(fechaDesde.after(fechaHasta) || fechaDesde.equals(fechaHasta)) {
 				error.add(ParameterNames.FECHAS, ErrorNames.ERR_DATE_ORDER_INCORRECT);
 			}
 		}
-	
-		
+
+
 	}
+	/*validacion de los campos de ofertas para verificar que solo uno de los tipos de descuento esta cubierto*/
 	public static void onlyOneField(HttpServletRequest request, String parameter1, String parameter2, Errors error ) {
 		Map<String, String[]> mapParameter = request.getParameterMap();
 		String parameterA = mapParameter.get(parameter1)[0];
 		String parameterB = mapParameter.get(parameter2)[0];
-		if(!StringUtils.isEmptyOrWhitespaceOnly(parameterA)
+		if(StringUtils.isEmptyOrWhitespaceOnly(parameterA) && 
+				StringUtils.isEmptyOrWhitespaceOnly(parameterB)	) {
+			error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_MANDATORY);
+		}
+		else if(!StringUtils.isEmptyOrWhitespaceOnly(parameterA)
 				&& !StringUtils.isEmptyOrWhitespaceOnly(parameterB)) {
 			error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_ONLY_ONE_FIELD);
 		}
 	}
-	
-	
+	/*validacion para comprobar si un campo esta relleno si se elige el tipo de oferta segundaUnidad*/
+	public static void onlyFieldEquals(HttpServletRequest request, Errors error, Integer tipOferta, Integer...valor) {
+		boolean errors = false;
+		if(2 == tipOferta) {
+			errors = true;
+			for(Integer t: valor) {
+				if(null != t) {
+					errors = false;
+				}
+			}
 
+		}
+		if(errors) {
+			error.add(ParameterNames.NUMBERS, ErrorNames.ERR_OFFER_FIELD_MAND);
+		}
+		else if(2 == tipOferta){
+			orderFieldNumber(valor[0], valor[1], error);
+		}
 
+	}
+	/*validacion para verificar que un numero es mayor que otro cuando esta condicion no se puede producir*/
+	public static void orderFieldNumber(Integer num, Integer num2, Errors error) {
+		if(num >= num2) {
+			error.add(ParameterNames.NUMBERS, ErrorNames.ERR_ORDER_FIELD);
+		}
+		if(num == num2) {
+			error.add(ParameterNames.NUMBERS, ErrorNames.ERR_ORDER_EQUALS);
+		}
+	}
 
 
 }

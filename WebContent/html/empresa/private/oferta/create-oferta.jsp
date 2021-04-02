@@ -13,6 +13,9 @@
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                	<label>Nombre</label><br>
                	<input type="text" name=<%=ParameterNames.NOMBRE_OFERTA%> value="<%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_OFERTA, 0)%>"><br>
+                          	<%if(errores.printError(ParameterNames.NOMBRE_OFERTA) != null){%>
+              	<p class="error"><%=errores.printError(ParameterNames.NOMBRE_OFERTA)%></p>
+               	<%}%>
                	<label>Elije un tipo de descuento</label><br>
                	<select name="tipoOferta" id="tipOferta">
                	<%List<TipoOferta> tipOfert = (List<TipoOferta>) request.getAttribute(AttributesNames.TIPO);
@@ -21,6 +24,9 @@
                		<option value="<%=tp.getId()%>"><%=tp.getNombre()%></option>
                		<%}%>
                	</select><br>
+               	           	<%if(errores.printError(ParameterNames.TIPO_OFERTA) != null){%>
+               	<p class="error"><%=errores.printError(ParameterNames.TIPO_OFERTA)%></p>
+               	<%}%>
                	<label class="ofertaCL">Elige tienda(este tipo de oferta sólo se podrá aplicar en una tienda)</label>
                	<select name="<%=ParameterNames.ID_TIENDA%>" id="tiendaSelect"></select>
                	<select name="<%=ParameterNames.PRODUCTO_OFERTA%>" id="productoOfertaSelect"></select>
@@ -38,6 +44,9 @@
                	<input type="text" name=<%=ParameterNames.NUMERADOR%> value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERADOR, 0)%>"><br>
                	   	<label>Número de unidades necesarias para recibir un descuento</label><br>
                	<input type="text" name=<%=ParameterNames.DENOMINADOR%> value="<%=ParameterUtils.printParam(request, ParameterNames.DENOMINADOR, 0)%>"><br>
+               	           	<%if(errores.printError(ParameterNames.NUMBERS) != null){%>
+               	<p class="error"><%=errores.printError(ParameterNames.NUMBERS)%></p>
+               	<%}%>
                	   	<label>Fecha de vigencia</label><br>
                	<input type="text" name=<%=ParameterNames.FECHA_VIG%> placeholder="10-12-2001" value="<%=ParameterUtils.printParam(request, ParameterNames.FECHA_VIG, 0)%>"><br>
                	<input type="text" name=<%=ParameterNames.HORA_VIG%> placeholder="22:50" value="<%=ParameterUtils.printParam(request, ParameterNames.HORA_VIG, 0)%>"><br>

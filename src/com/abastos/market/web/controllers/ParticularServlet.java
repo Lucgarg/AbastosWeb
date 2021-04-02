@@ -64,7 +64,7 @@ public class ParticularServlet extends HttpServlet {
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
 
 			Particular particular = new Particular();
-			particular.setAlias(ValidationUtils.aliasValidator(request,  error));
+			particular.setAlias(ValidationUtils.nameValidator(request, ParameterNames.ALIAS,  error));
 			particular.setApellidos(ValidationUtils.apellidosValidator(request, error));
 			particular.setContrasena(ValidationUtils.passwordValidation(request,  error));
 			particular.setEmail(ValidationUtils.emailValidator(request,  error));

@@ -18,6 +18,7 @@ import com.abastos.dao.util.DataUtils;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -76,11 +77,6 @@ public class OfertaServlet extends HttpServlet {
 		//crea oferta redirect a resultado de ofertas
 		else if (ActionNames.CREAR.equalsIgnoreCase(action)) {
 			String nombre = request.getParameter(ParameterNames.NOMBRE_OFERTA);
-			String tipoOferta = request.getParameter(ParameterNames.TIPO_OFERTA);
-			String desctPCN = request.getParameter(ParameterNames.DESCT_PCN);
-			String desctFijo = request.getParameter(ParameterNames.DESCT_FIJO);
-			String numerador = request.getParameter(ParameterNames.NUMERADOR);
-			String denominador = request.getParameter(ParameterNames.DENOMINADOR);
 			String fechaVigencia = request.getParameter(ParameterNames.FECHA_VIG);
 			String horaVigencia = request.getParameter(ParameterNames.HORA_VIG);
 			String fechaCaducidad = request.getParameter(ParameterNames.FECHA_CAD);
@@ -88,22 +84,15 @@ public class OfertaServlet extends HttpServlet {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			Oferta oferta = new Oferta();
 
-			if(denominador !="") {
-				oferta.setDenominador(Integer.valueOf(denominador));
-			}
-			if(desctFijo != "") {
-				
-				oferta.setDescuentoFijo(Double.valueOf(desctFijo));
-			}
-			if(desctPCN != "") {
-				oferta.setDescuentoPcn(Double.valueOf(desctPCN));
-			}
-			if(numerador != "") {
-				oferta.setNumerador(Integer.valueOf(numerador));
-			}
-			oferta.setIdTipoOferta(Integer.valueOf(tipoOferta));
-			oferta.setNombreOferta(nombre);
+
+			oferta.setDenominador(ValidationUtils.integerValidator(request, ParameterNames.DENOMINADOR, error));
+			oferta.setDescuentoFijo(ValidationUtils.doubleValidator(request, ParameterNames.DESCT_FIJO, error));
+			oferta.setDescuentoPcn(ValidationUtils.doubleValidator(request, ParameterNames.DESCT_PCN, error));
+			oferta.setNumerador(ValidationUtils.integerValidator(request, ParameterNames.NUMERADOR, error));
+			oferta.setIdTipoOferta(ValidationUtils.integerValidator(request, ParameterNames.TIPO_OFERTA, error));
+			oferta.setNombreOferta(ValidationUtils.nameValidator(request, ParameterNames.NOMBRE_OFERTA, error));
 			oferta.setIdEmpresa(empresa.getId());
+			ValidationUtils.onlyFieldEquals(request, error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
 			ValidationUtils.onlyOneField(request, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
 			String fechaDesde = new StringBuilder().append(fechaVigencia)
 					.append(" ").append(horaVigencia).append(":00").toString();
@@ -111,8 +100,8 @@ public class OfertaServlet extends HttpServlet {
 					.append(" ").append(horaCaducidad).append(":00").toString();
 
 			try {
-				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde, ParameterNames.FECHA_VIG,error));
-				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta, ParameterNames.FECHA_CAD, error));
+				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde, fechaVigencia, ParameterNames.FECHA_VIG,error));
+				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta, fechaCaducidad, ParameterNames.FECHA_CAD, error));
 				ValidationUtils.dateOrderValidation(oferta.getFechaDesde(), oferta.getFechaHasta(), error);
 				if(!error.hasErrors()) {
 					ofertaService.create(oferta);
