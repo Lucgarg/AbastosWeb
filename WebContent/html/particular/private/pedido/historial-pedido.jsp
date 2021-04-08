@@ -2,6 +2,9 @@
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>	
 	<section class="tiendas producto">
+	 	<%if(errores.hasErrors()){%>
+	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+	<%}%>
 		<div class="tiendas2">
 		<%
 		List<Pedido> results = (List<Pedido>) request.getAttribute(AttributesNames.PEDIDO);

@@ -13,7 +13,7 @@ public class Errors {
 	public Errors() {
 		errors = new HashMap<String, List<String>>();
 	}
-
+	
 	public void add(String err, String errName) {
 		List<String> listErr = errors.get(err);
 		if(listErr == null) {

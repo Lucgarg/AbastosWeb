@@ -62,8 +62,7 @@
 
 						
 
-						</select><br> <input type="submit"
-							value="buscar">
+						</select><br> <button type="submit" class="Buscar">buscar</button>
 					</form>
 				</ul>
 			</label>

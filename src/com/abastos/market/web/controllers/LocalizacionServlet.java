@@ -13,8 +13,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
+import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
+import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.model.ComunidadAutonoma;
 import com.abastos.model.Localidad;
 import com.abastos.model.Provincia;
@@ -36,64 +40,98 @@ public class LocalizacionServlet extends HttpServlet {
 	private ComunidadAutonomaService comServ = null;
 	private LocalidadService locServ = null;
 	private ProvinciaService proServ = null;
- 
-  
-    public LocalizacionServlet() {
-        super();
-        comServ = new ComunidadAutonomaServiceImpl();
-        locServ = new LocalidadServiceImpl();
-        proServ = new ProvinciaServiceImpl();
-        
-    }
 
-	
+
+	public LocalizacionServlet() {
+		super();
+		comServ = new ComunidadAutonomaServiceImpl();
+		locServ = new LocalidadServiceImpl();
+		proServ = new ProvinciaServiceImpl();
+
+	}
+
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		if(logger.isDebugEnabled()) {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
 		String action = request.getParameter(ActionNames.ACTION);
+		String buscar = request.getParameter(ActionNames.BUSCAR);
+		String target = null;
+		Errors error = new Errors();
 		
 		if(ActionNames.PAIS.equalsIgnoreCase(action)) {
 			String pais = request.getParameter(ParameterNames.PAIS);
 			try {
-				List<ComunidadAutonoma> comunidadAutonoma = comServ.findByIdPais(Long.valueOf(pais));
+				List<ComunidadAutonoma> comunidadAutonoma = null;
+				if(buscar != null) {
+					comunidadAutonoma = comServ.findByTienda(Integer.valueOf(pais));
+				}
+				else {
+					comunidadAutonoma = comServ.findByIdPais(Long.valueOf(pais));
+				}
 				Gson gson = new Gson();
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(comunidadAutonoma));
-			
+
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
 				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.COMUNIDAD.equalsIgnoreCase(action)) {
 			String comunidad = request.getParameter(ParameterNames.COMUNIDAD);
 			try {
-				List<Provincia> provincias = proServ.findByIdComunidad(Long.valueOf(comunidad));
+				List<Provincia> provincias = null;
+				if(buscar != null) {
+					provincias = proServ.findBy(Long.valueOf(comunidad));
+				}
+				else {
+					provincias = proServ.findByIdComunidad(Long.valueOf(comunidad));
+				}
 				Gson gson = new Gson();
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(provincias));
 			} catch ( DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
 				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.PROVINCIA.equalsIgnoreCase(action)) {
 			String provincia = request.getParameter(ParameterNames.PROVINCIA);
 			try {
-				List<Localidad> localidades = locServ.findByIdProvincia(Long.valueOf(provincia));
+				List<Localidad> localidades = null;
+				if(buscar != null) {
+					localidades = locServ.findByTiendas(Long.valueOf(provincia));
+				}
+				else {
+					localidades = locServ.findByIdProvincia(Long.valueOf(provincia));
+				}
 				Gson gson = new Gson();
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(localidades));
 			} catch ( DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
 				logger.warn(e.getMessage(),e);
 			}
 		}
-		
+		if(error.hasErrors()) {
+			logger.info("Forwarding to..." + target);
+			request.getRequestDispatcher(target).forward(request, response);
+		}
+
 	}
 
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		doGet(request, response);
 	}
 

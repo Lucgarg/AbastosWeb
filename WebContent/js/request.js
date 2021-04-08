@@ -39,9 +39,12 @@ function getDetails(e){
         if(request == null){
             return;
         }
+		
         let cont = createUrl();
         var url= cont + "/localizacion?action="+ e.currentTarget.id + "&"+ e.currentTarget.id + "=" + e.currentTarget.value;
-    
+    	if(formSearch != null){
+			url += "&buscar=true"
+		}
     request.open("GET", url, true);
         let guardar = e.currentTarget;
     request.onreadystatechange = function(){displayDetails(guardar)};
@@ -92,7 +95,7 @@ function updateLista(){
             return;
         }
         let cont = createUrl();
-        var url= cont + "/lista?action=actualizar&idLista=" + selectLista.value + "&nombreCastellano=" + nombreProducto.innerHTML + "&producto=" + buttonLista.name +
+        var url= cont + "/lista?action=actualizar&idLista=" + selectLista.value + "&nombreCastellano=" + btoa(nombreProducto.innerHTML) + "&producto=" + buttonLista.name +
 		"&precio=" + precioProducto.innerHTML +   "&ajax=true";
    
     request.open("GET", url, true);
@@ -101,6 +104,77 @@ function updateLista(){
     request.send(null);
     }
 
+
+/*****Select categorias*****/
+function selectCategorias(){
+		remove(categoriaSelect);
+		remove(categChild);
+        request = createRequest();
+        if(request == null){
+            return;
+        }
+        let cont = createUrl();
+        var url= cont + "/precreate?action=categoria&tienda=" + tiendaProCre.value +  "&ajax=true";
+    
+    request.open("GET", url, true);
+      
+    request.onreadystatechange = function(){createSelectCategoria()};
+    request.send(null);
+    }
+function createSelectCategoria(){
+	if(request.readyState == 4){
+            if(request.status==200){	
+		let categoria =  JSON.parse(request.responseText);
+			let firstOptionCategoria = document.createElement("option");
+				firstOptionCategoria.text= "--Selecciona categoria---";
+				firstOptionCategoria.value="";
+				categoriaSelect.add(firstOptionCategoria);
+			for(let i= 0; i < categoria.length; i++){
+				let optionCategoria = document.createElement("option");
+			optionCategoria.text = categoria[i].nombre;
+			optionCategoria.value = categoria[i].id;
+			categoriaSelect.add(optionCategoria);
+	}
+}
+}
+}
+
+/***Select categoria hija**/
+function selectCategChild(){
+		remove(categChild);
+        request = createRequest();
+        if(request == null){
+            return;
+        }
+        let cont = createUrl();
+        var url= cont + "/precreate?action=categoria&categoria=" + categoriaSelect.value +  "&ajax=true";
+    
+    request.open("GET", url, true);
+      
+    request.onreadystatechange = function(){createSelectCategChild()};
+    request.send(null);
+    }
+function createSelectCategChild(){
+	if(request.readyState == 4){
+            if(request.status==200){	
+		let categoria =  JSON.parse(request.responseText);
+		if(categoria.length > 0){
+			let firstOptionCategoria = document.createElement("option");
+				if(categChild.length == 0){
+				firstOptionCategoria.text= "--especifica categoria---";
+				firstOptionCategoria.value="";
+				categChild.add(firstOptionCategoria);
+				}
+			for(let i= 0; i < categChild.length; i++){
+				let optionCategoria = document.createElement("option");
+			optionCategoria.text = categoria[i].nombre;
+			optionCategoria.value = categoria[i].id;
+			categChild.add(optionCategoria);
+	}
+	}
+}
+}
+}
 
 
 /***Select productos*/
@@ -127,7 +201,7 @@ if(request.readyState == 4){
 		let productos =  JSON.parse(request.responseText);
 			let firstOptionProduct = document.createElement("option");
 				firstOptionProduct.text= "--Selecciona producto---";
-				firstOptionProduct.value="0";
+				firstOptionProduct.value="";
 				productoOferta.add(firstOptionProduct);
 			for(let i= 0; i < productos.length; i++){
 				let optionTienda = document.createElement("option");
@@ -168,6 +242,7 @@ function countLinea(valor){
 }
 }
 
+
 /*funcion para rellenar selects de localizacion */
     function displayDetails(valor){
      
@@ -177,37 +252,37 @@ function countLinea(valor){
                     
                     let palabra = JSON.parse(request.responseText);
                     if(valor.name == "pais"){
-                        remove(document.getElementById("comunidad"));
-                        remove(document.getElementById("provincia"));
-                        remove(document.getElementById("localidad"));
+                        remove(comunidad);
+                        remove(provincia);
+                        remove(localidad);
                     for(let i =0; i < palabra.length; i++ ){
                         
                         let option = document.createElement("option");
                         option.text = palabra[i].nombre;
                         option.value = palabra[i].id;
-                        document.getElementById("comunidad").add(option);	
+                        comunidad.add(option);	
                     }
                     }
                 
                     else if(valor.name == "comunidad"){
-                        remove(document.getElementById("provincia"));
-                        remove(document.getElementById("localidad"));
+                        remove(provincia);
+                        remove(localidad);
                     for(let i =0; i < palabra.length; i++ ){
                         
                         let option = document.createElement("option");
                         option.text = palabra[i].nombre;
                         option.value = palabra[i].id;
-                        document.getElementById("provincia").add(option);	
+                       provincia.add(option);	
                     }
                 }
                     else if(valor.name == "provincia"){
-                        remove(document.getElementById("localidad"));
+                        remove(localidad);
                     for(let i =0; i < palabra.length; i++ ){
                             
                         let option = document.createElement("option");
                         option.text = palabra[i].nombre;
                         option.value = palabra[i].id;
-                        document.getElementById("localidad").add(option);	
+                        localidad.add(option);	
                     }
                 }
                 
@@ -216,7 +291,10 @@ function countLinea(valor){
             }
 
  /*variables*/
-
+let pais = document.getElementById("pais");
+let comunidad = document.getElementById("comunidad");
+let provincia = document.getElementById("provincia");
+let localidad = document.getElementById("localidad");
 let count = document.getElementById("count");
 let carrito = document.getElementsByClassName("carritoCompra");
 let tienda = document.getElementById("tiendaSelect");
@@ -226,6 +304,12 @@ let selectLista = document.getElementById("selectLista");
 let buttonLista = document.querySelector("#selectLista + input");
 let nombreProducto = document.getElementById("NomPro");
 let precioProducto = document.querySelector("#NomPro + span + p");
+let textInfoCL = document.querySelector(".ofertaCL");
+let campoSegUnd = document.getElementsByClassName("segundaUnidad");
+let categoriaSelect = document.getElementById("categoria");
+let categChild = document.getElementById("categChild");
+let tiendaProCre = document.getElementById("tiendaProdCre");
+let formSearch = document.getElementById("formSearch");
 /******************
 create elements
 /**********************/
@@ -233,10 +317,10 @@ create elements
 /*
  * flujo
  */
- if(document.getElementById("pais") != null){
- document.getElementById("pais").onchange = getDetails;
- document.getElementById("comunidad").onchange = getDetails;
- document.getElementById("provincia").onchange = getDetails;
+ if(pais != null){
+ pais.onchange = getDetails;
+ comunidad.onchange = getDetails;
+provincia.onchange = getDetails;
  }
 if(document.getElementsByClassName("carritoCompra") !=null){
 	for(element of carrito){
@@ -248,9 +332,21 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 	tipoOferta.onchange = function(){
 	remove(tienda);
 	if(tipoOferta.value == "3"){
-		
+	textInfoCL.style.display = "initial";
 	selectTiendas();
 	
+	}
+	if(tipoOferta.value == "2"){
+	for (let item of campoSegUnd) {
+	item.style.display = "initial";
+	
+	}
+	}
+	else{
+	for (let item of campoSegUnd) {
+	item.style.display = "none";
+	
+	}
 	}
 	}
 	}
@@ -260,5 +356,10 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 	if(buttonLista != null){
 	buttonLista.addEventListener("click", updateLista);	
 	}
-
+	if(tiendaProCre != null){
+	tiendaProCre.onchange = selectCategorias;
+	}
+	if(categChild != null){
+	categoriaSelect.onchange = selectCategChild;
+	}
      

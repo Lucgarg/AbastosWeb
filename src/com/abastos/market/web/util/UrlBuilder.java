@@ -112,13 +112,17 @@ public class UrlBuilder {
 		.append("?")
 		.append(ActionNames.ACTION).append("=").append(action).append("&");
 		for(Map.Entry<String, String[]> m: valores.entrySet()) {
-			//para evitar la repeticion de categorias en la busqueda
-			if(	m.getKey().equals(ParameterNames.CATEGORIA)) {}
+			//para evitar evitar que se utilize el parametro de nombre de la tienda o producto en el resto de urls a la hora de realizar la busqueda
+			if(ParameterNames.NOMBRE_TIENDA.equals(m.getKey()) || ParameterNames.NOMBRE_PRODUCTO.equals(m.getKey())){}
 			else {
-				//para evitar la repeticion de acciones en la busqueda
-				if(ActionNames.ACTION.equalsIgnoreCase(m.getKey())) {}
+				//para evitar la repeticion de categorias en la busqueda
+				if(	m.getKey().equals(ParameterNames.CATEGORIA)) {}
 				else {
-					sb.append(m.getKey()).append("=").append(m.getValue()[0]).append("&");
+					//para evitar la repeticion de acciones en la busqueda
+					if(ActionNames.ACTION.equalsIgnoreCase(m.getKey())) {}
+					else {
+						sb.append(m.getKey()).append("=").append(m.getValue()[0]).append("&");
+					}
 				}
 			}
 		}
@@ -134,10 +138,12 @@ public class UrlBuilder {
 	public static String urlCallBack(HttpServletRequest request, boolean forward) {
 
 
+	
 		Map<String, String[]> mapParam = request.getParameterMap();
 		StringBuilder sb = new StringBuilder();
 
 		//si forward == false entonces contruimos el contexto
+
 		if(forward == false) {
 			sb.append("http://").append(request.getServerName()).append(":")
 			.append(request.getServerPort()).append(request.getContextPath());
@@ -146,13 +152,16 @@ public class UrlBuilder {
 
 		String []url = mapParam.get(URL_ATTRIBUTE);
 		//comprobamos que no sea null
+
 		if(url != null) {
 			String url2 = url[0].split(request.getContextPath())[1];
 			sb.append(url2);
 		}
+		else if(request.getAttribute(URL_SERVLET_PATH) == null) {
+			sb.append(request.getHeader("referer").split(request.getContextPath())[1]);
+		}
 
 		else {
-
 			//construimos desde cero la url recuperando el contexto el servlet
 
 			sb.append(request.getAttribute(URL_SERVLET_PATH)).append("?");
@@ -168,15 +177,21 @@ public class UrlBuilder {
 				sb.append(ActionNames.ACTION).append("=").
 				append(request.getAttribute(ActionNames.ACTION));
 			}
-
 		}
-
+		
+		
 		logger.info("url resultante " + sb.toString());
 		return sb.toString();
 
 	}
-	protected static String decode(String value) {
-		String codedBytes = ENCODER.encodeToString(value.getBytes());
-		return codedBytes;
+	public static String decode(String value) {
+
+		byte[] decodedBytes = Base64.getDecoder().decode(value);
+		String decodedString = new String(decodedBytes);
+		return decodedString;
+	}
+	public static String encode(String value) {
+		String encodedString = Base64.getEncoder().encodeToString(value.getBytes());
+		return encodedString;
 	}
 }

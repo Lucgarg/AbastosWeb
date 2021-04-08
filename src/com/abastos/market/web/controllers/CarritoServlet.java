@@ -37,7 +37,7 @@ import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.utils.DescuentoUtils;
 import com.google.gson.Gson;
 
-@WebServlet("/carrito")
+
 public class CarritoServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(CarritoServlet.class);
 	private ProductoService productoService;
@@ -57,22 +57,22 @@ public class CarritoServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		Carrito carrito = (Carrito)SessionManager.get(request, AttributesNames.CARRITO);
 		String target = null;
-	
-		
+		Errors error = null;
+
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		boolean redirect = false;
-		
+
 		if(ActionNames.ADD.equalsIgnoreCase(action)) {
 			String id= request.getParameter(ParameterNames.ID_PRODUCTO);
 			String numeroUnidades = request.getParameter(ParameterNames.NUMERO_UNIDADES);
 			LineaCarrito linCarrito = new LineaCarrito();
 			linCarrito.setIdProducto(Long.valueOf(id));
 			linCarrito.setNumeroUnidades(Integer.valueOf(numeroUnidades));
-			
+
 			boolean repeticion = false;
 			if(repeticion == false) {
 				for(Map.Entry<Long, LineaCarrito> lp: carrito.getLineasCarritoMap().entrySet()) {
-			
+
 					if(lp.getValue().getIdProducto() == linCarrito.getIdProducto()) {
 						int numUnidades = lp.getValue().getNumeroUnidades() + linCarrito.getNumeroUnidades();
 						lp.getValue().setNumeroUnidades(numUnidades);
@@ -84,7 +84,7 @@ public class CarritoServlet extends HttpServlet {
 					carrito.addMap(linCarrito.getIdProducto(), linCarrito);
 				}
 			}
-			
+
 			SessionManager.set(request, AttributesNames.CARRITO, carrito);
 			Gson gson = new Gson();
 			response.setContentType("application/json");
@@ -95,7 +95,7 @@ public class CarritoServlet extends HttpServlet {
 			Pedido pedido = new Pedido();
 			try {
 				for(Map.Entry<Long, LineaCarrito> lc: carrito.getLineasCarritoMap().entrySet()) {
-			
+
 					producto = productoService.findById(lc.getValue().getIdProducto(), "es");
 					LineaPedido linPedido = new LineaPedido();
 					linPedido.setIdTienda(producto.getIdTienda());
@@ -104,28 +104,31 @@ public class CarritoServlet extends HttpServlet {
 					linPedido.setPrecio(producto.getPrecioFinal());
 					linPedido.setIdProducto(producto.getId());
 					if(producto.getOferta() != null) {
-					linPedido.setDenominador(producto.getOferta().getDenominador());
-					linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
-					linPedido.setDescuentoPcn(producto.getOferta().getDescuentoPcn());
-					linPedido.setIdOferta(producto.getOferta().getId());
-					linPedido.setIdProdOferta(producto.getOferta().getIdProdOferta());
-					linPedido.setIdTipoOferta(producto.getOferta().getIdTipoOferta());
-					linPedido.setNumerador(producto.getOferta().getNumerador());
-					linPedido.setNombreProdOferta(producto.getOferta().getNombreProdOferta());
-					linPedido.setNombreOferta(producto.getOferta().getNombreOferta());
-					
+						linPedido.setDenominador(producto.getOferta().getDenominador());
+						linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
+						linPedido.setDescuentoPcn(producto.getOferta().getDescuentoPcn());
+						linPedido.setIdOferta(producto.getOferta().getId());
+						linPedido.setIdProdOferta(producto.getOferta().getIdProdOferta());
+						linPedido.setIdTipoOferta(producto.getOferta().getIdTipoOferta());
+						linPedido.setNumerador(producto.getOferta().getNumerador());
+						linPedido.setNombreProdOferta(producto.getOferta().getNombreProdOferta());
+						linPedido.setNombreOferta(producto.getOferta().getNombreOferta());
+
 					}
 					linPedido.setPrecioFinal(lineaPedidoService.calcPrecio(linPedido));
 					linPedido.setPrecio(producto.getPrecio());
 					linPedido.setIdTienda(producto.getIdTienda());
 					pedido.add(linPedido);
-			}
-				
-			pedido.setAplicarDescuento(false);
-			pedido.setPrecioTotal(pedidoService.calcPrecio(pedido));
-			SessionManager.set(request, AttributesNames.PEDIDO, pedido);
-			target = ViewPaths.PEDIDO_RESULTS;
+				}
+
+				pedido.setAplicarDescuento(false);
+				pedido.setPrecioTotal(pedidoService.calcPrecio(pedido));
+				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
+				target = ViewPaths.PEDIDO_RESULTS;
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -134,9 +137,12 @@ public class CarritoServlet extends HttpServlet {
 			carrito.getLineasCarritoMap().remove(Long.valueOf(producto));
 			redirect = true;
 			target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
-			
+
 		}
-			if(ajax == null) {
+		if(ajax == null) {
+			if(target == null) {
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			}
 			if(redirect) { 
 				logger.info("Redirect to..." + target);
 				response.sendRedirect(target);
@@ -145,8 +151,8 @@ public class CarritoServlet extends HttpServlet {
 				logger.info("Forwarding to..." + target);
 				request.getRequestDispatcher(target).forward(request, response);
 			}
-			}
-		
+		}
+
 	}
 
 

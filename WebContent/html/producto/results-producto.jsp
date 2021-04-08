@@ -4,6 +4,9 @@
 <%@include file="/html/commons/producto/right-nav.jsp"%>
 <%@include file="/html/commons/producto/left-nav.jsp"%>
 <section class="tiendas producto">
+		<%if(errores.hasErrors()){%>
+	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+	<%}%>
 	<div class="tiendas2">
 		<%
 		List<Producto> results = (List<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
@@ -136,7 +139,7 @@
 	<%
 			if(empresa != null){
 			%>
-	<button>
+	<button class="Buscar">
 		<a
 			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, true)%>">
 			Crear producto</a>

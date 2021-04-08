@@ -4,8 +4,12 @@
 
 
 <section class="tiendas producto">
+		<%if(errores.hasErrors()){%>
+		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+		<%}%>
 		<div class="tiendas2">
-			
+	
+		
 			<%
 		for(LineaPedido p : pedido.getLineaPedido()){
 			%>
@@ -31,10 +35,10 @@
 					
 					<p><%=p.getPrecioFinal()%></p>
 					
-			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, true, 
-					ParameterNames.ID_TIENDA, String.valueOf(p.getIdTienda()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()))%>">valorar tienda</a></button>
-			<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, true,
-					ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()))%>">valorar producto</a></button>
+			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, true, 
+					ParameterNames.ID_TIENDA, String.valueOf(p.getIdTienda()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()), ParameterNames.URL, UrlBuilder.urlCallBack(request, false))%>"><button class="Buscar">valorar tienda</button></a>
+			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, true,
+					ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()), ParameterNames.URL, UrlBuilder.urlCallBack(request, false))%>"><button class="Buscar">valorar producto</button></a>
 			</div>
 			<%}%>
 		

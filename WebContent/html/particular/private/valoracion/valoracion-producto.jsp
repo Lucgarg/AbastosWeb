@@ -16,7 +16,9 @@
 		String idProduct = (String)request.getAttribute(AttributesNames.PRODUCTO);
 		
 		%>
-
+		<%if(errores.hasErrors()){%>
+			<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+		<%}%>
 
 		<form
 			action="<%=UrlBuilder.getUrl(request, ControllerPath.VALORACION)%>"
@@ -30,6 +32,7 @@
 				 name="<%=ParameterNames.ID_PRODUCTO%>"
 				value="<%=idProduct%>"> <input type="hidden"
 				name="<%=ParameterNames.PEDIDO%>" value="<%=idPedido%>">
+				<input type="hidden" name="<%=ParameterNames.URL%>" value="<%=UrlBuilder.urlCallBack(request, false)%>">
 			<fieldset>
 				<legend>Valorar producto</legend>
 				<label class="star-blank"><input type="radio" id="11"

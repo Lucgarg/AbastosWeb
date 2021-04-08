@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.CookieManager;
 import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
@@ -34,9 +35,7 @@ import com.abastos.service.impl.ContenidoServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 
-/**
- * Servlet implementation class ParticularServlet
- */
+
 @WebServlet("/particular")
 public class ParticularServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ParticularServlet.class);
@@ -64,25 +63,26 @@ public class ParticularServlet extends HttpServlet {
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
 
 			Particular particular = new Particular();
-			particular.setAlias(ValidationUtils.nameValidator(request, ParameterNames.ALIAS,  error));
-			particular.setApellidos(ValidationUtils.apellidosValidator(request, error));
-			particular.setContrasena(ValidationUtils.passwordValidation(request,  error));
-			particular.setEmail(ValidationUtils.emailValidator(request,  error));
-			particular.setNombre(ValidationUtils.numberNotValidator(request,ParameterNames.NOMBRE_USUARIO,error));
-			particular.setNumberoMovil(ValidationUtils.telefonoValidator(request,ParameterNames.MOVIL , error));
-			particular.setNumeroTelefono(ValidationUtils.telefonoValidator(request, ParameterNames.TELEFONO,error));
+			Particular idParticular = null;
+			particular.setAlias(ValidationUtils.nameValidator(mapParameter, ParameterNames.ALIAS,  error));
+			particular.setApellidos(ValidationUtils.apellidosValidator(mapParameter, error));
+			particular.setContrasena(ValidationUtils.passwordValidation(mapParameter,  error));
+			particular.setEmail(ValidationUtils.emailValidator(mapParameter,  error));
+			particular.setNombre(ValidationUtils.numberNotValidator(mapParameter,ParameterNames.NOMBRE_USUARIO,error));
+			particular.setNumberoMovil(ValidationUtils.telefonoValidator(mapParameter,ParameterNames.MOVIL , error));
+			particular.setNumeroTelefono(ValidationUtils.telefonoValidator(mapParameter, ParameterNames.TELEFONO,error));
 			DireccionDto direccion = new DireccionDto();
-			direccion.setCalle(ValidationUtils.numberNotValidator(request,ParameterNames.CALLE,error));
-			direccion.setNumero(ValidationUtils.integerValidator(request, ParameterNames.NUMERO, error));
-			direccion.setIdLocalidad(ValidationUtils.longValidator(request, ParameterNames.LOCALIDAD, error));
-			direccion.setPiso(ValidationUtils.pisoValidator(request, error));
-			direccion.setCodigoPostal(ValidationUtils.cdValidator(request, error));
+			direccion.setCalle(ValidationUtils.numberNotValidator(mapParameter,ParameterNames.CALLE,error));
+			direccion.setNumero(ValidationUtils.integerValidator(mapParameter, ParameterNames.NUMERO, error));
+			direccion.setIdLocalidad(ValidationUtils.longValidator(mapParameter, ParameterNames.LOCALIDAD, error));
+			direccion.setPiso(ValidationUtils.pisoValidator(mapParameter, error));
+			direccion.setCodigoPostal(ValidationUtils.cdValidator(mapParameter, error));
 			direccion.setIdTipoDireccion(1);
 			particular.add(direccion);
 			if(!error.hasErrors()) {
 				try {
 					logger.info("registrando usuario");
-					particularService.registrar(particular);
+					idParticular = particularService.registrar(particular);
 				}
 				catch(DataException e) {
 					logger.warn(e.getMessage(),e);
@@ -92,11 +92,13 @@ public class ParticularServlet extends HttpServlet {
 			if(!error.hasErrors()) {
 				logger.info(new StringBuilder("enviando email a ").append(particular.getEmail()));
 				Map<String,Object> valores = new HashMap<String,Object>();
+				redirect = true;
 				valores.put("user", particular);
-				valores.put("enlace", UrlBuilder.getUrl(request, "precreate?action=index"));
+				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, 
+						ActionNames.CONFIRMAR_REGISTRO, redirect, ParameterNames.PARTICULAR, String.valueOf(idParticular.getId())));
 				try {
 					mailService.sendMail(valores,3L, particular.getEmail());
-					redirect = true;
+					
 					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				} catch (ServiceException e) {
 					logger.warn(e.getMessage(),e);
@@ -111,13 +113,35 @@ public class ParticularServlet extends HttpServlet {
 			}
 
 		}
+		else if(ActionNames.CONFIRMAR_REGISTRO.equals(action)) {
+			String idParticular = request.getParameter(ParameterNames.PARTICULAR);
+			try {
+				particularService.updateAlta(Long.valueOf(idParticular));
+				redirect = true;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
+				error.add(ActionNames.CONFIRMAR_REGISTRO, ErrorNames.ERR_GENERIC);
+				
+			}
+			if(error.hasErrors()) {
+				request.setAttribute(AttributesNames.ERROR, error);
+				redirect = true;
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			}
+		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
 			SessionManager.remove(request, AttributesNames.USUARIO);
+	
+			CookieManager.removeCookie(response, ParameterNames.MANTENER_SESION, "/");
 			redirect = true;
 			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-
+			
 		}
-
+		if(target == null) {
+		target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+		}
+		
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(target);
@@ -126,7 +150,8 @@ public class ParticularServlet extends HttpServlet {
 			logger.info("Forwarding to..." + target);
 			request.getRequestDispatcher(target).forward(request, response);
 		}
-	}
+		}
+	
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

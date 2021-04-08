@@ -36,10 +36,8 @@ import com.abastos.service.impl.PedidoServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 
 
-/**
- * Servlet implementation class PedidoServlet
- */
-@WebServlet("/pedido")
+
+
 public class PedidoServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(PedidoServlet.class);
 	private ProductoService productoService = null;
@@ -69,11 +67,12 @@ public class PedidoServlet extends HttpServlet {
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
 			String aplicarDescuento = request.getParameter(ParameterNames.APLICAR_DESCUENTO);
 			if(particular == null) {
-				logger.info(request.getParameter("url"));
+				
 				error.add(ActionNames.CREAR_PEDIDO, ErrorNames.ERR_NOT_USER_LOG);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.urlCallBack(request, true);
-				logger.info(target);
+				
+				
 			}
 			if(!error.hasErrors()) {
 				pedido.setAplicarDescuento(Boolean.valueOf(aplicarDescuento));
@@ -99,6 +98,9 @@ public class PedidoServlet extends HttpServlet {
 					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
 					logger.warn(e.getMessage(),e);
 				}catch (DataException e) {
+					error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+					request.setAttribute(AttributesNames.ERROR, error);
+					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
 					logger.warn(e.getMessage(),e);
 				}
 				
@@ -110,6 +112,9 @@ public class PedidoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PEDIDO, listPedido);
 				target = ViewPaths.HISTORIAL_PEDIDO;
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 
@@ -122,6 +127,9 @@ public class PedidoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
 				target =  ViewPaths.LINEA_PEDIDO;
 			} catch ( DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO_PRIVATE, ActionNames.HISTORIAL_PEDIDO, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}

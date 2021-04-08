@@ -231,7 +231,13 @@ button, input[type="button"] {
 	display: block;
 	clear: both;
 }
-
+/*********Oferta**********/
+.ofertaCL {
+	display:none;
+}
+.segundaUnidad{
+	display:none;
+}
 /***Errores****/
 .error{
 	padding: 2%;

@@ -6,6 +6,7 @@ import java.util.List;
 
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,6 +16,8 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
+import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -46,6 +49,7 @@ import com.abastos.service.impl.PaisServiceImpl;
 import com.abastos.service.impl.ProvinciaServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 import com.abastos.service.impl.TipoOfertaServiceImpl;
+import com.google.gson.Gson;
 
 
 
@@ -59,6 +63,7 @@ public class PrecreateServlet extends HttpServlet {
 	private TipoOfertaService tipOfert = null;
 	private TiendaService tiendaService = null;
 	private OfertaService ofertaService = null;
+
 	public PrecreateServlet() {
 
 		categoriaService = new CategoriaServiceImpl();
@@ -77,12 +82,13 @@ public class PrecreateServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		if(action == null)
 		{ action = ActionNames.INICIO;
-			request.setAttribute(AttributesNames.ACTION, action);
+		request.setAttribute(AttributesNames.ACTION, action);
 		}
-		
-		 
-		 String target = null;
+
+		Errors error = new Errors();
+		String target = null;
 		boolean redirect = false;
+		String ajax = request.getParameter(ParameterNames.AJAX);
 		if(logger.isDebugEnabled()) {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
@@ -91,28 +97,31 @@ public class PrecreateServlet extends HttpServlet {
 			try {
 				List<Categoria> categorias = categoriaService.findRoot("es");
 				List<Pais> paises = paisService.findByAll();
-				List<Provincia> provincias = provincia.findByIdComunidad(1L);
-				List<Localidad> local = localidad.findByIdProvincia(1L);
-				List<ComunidadAutonoma> comAut = comunidadAutonoma.findByIdPais(1L);
 				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.EMPRESA_CREATE_TIENDA;
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}else if(ActionNames.OFERTA.equalsIgnoreCase(action)){
-			
+
 			try {
 				List<TipoOferta> tipoOferta = tipOfert.findAll();
 				request.setAttribute(AttributesNames.TIPO, tipoOferta);
 				target = ViewPaths.OFERTA_CREATE;
 			} catch ( DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
 		else if(ActionNames.PRODUCTO.equalsIgnoreCase(action)) {
-			
+
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			try {
 				List<Tienda> listTienda = tiendaService.findByIdEmpresa(empresa.getId());
@@ -123,6 +132,9 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				target = ViewPaths.PRODUCTO_CREATE;
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -140,6 +152,9 @@ public class PrecreateServlet extends HttpServlet {
 					target = ViewPaths.PARTICULAR_REGISTRO;
 				}
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -150,16 +165,47 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.TIENDA_BUSQUEDA;
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
-		if(redirect) { 
-			logger.info("Redirect to..." + target);
-			response.sendRedirect(request.getContextPath() + target);
+		else if(ActionNames.CATEGORIA.equalsIgnoreCase(action)) {
+			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
+			String idCategoria  = request.getParameter(ParameterNames.CATEGORIA);
+			Integer categoria = null; 
+			try {
+				if(idTienda != null) {
+					categoria = tiendaService.findById(Long.valueOf(idTienda)).getCategoria();
+				}
+				else {
+					categoria = Integer.valueOf(idCategoria);
+				}
+				List<Categoria> listCategorias = categoriaService.findByIdPadre(categoria, "es");
+				Gson gson = new Gson();
+				response.setContentType("application/json");
+				response.getOutputStream().write(gson.toJson(listCategorias).getBytes("UTF-8"));
+			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.BUSCAR, redirect);
+				logger.warn(e.getMessage(),e);
+			}
+
 		}
-		else {
-			logger.info("Forwarding to..." + target);
-			request.getRequestDispatcher(target).forward(request, response);
+		if(ajax == null) {
+			if(target == null) {
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			}
+			if(redirect) { 
+				logger.info("Redirect to..." + target);
+				response.sendRedirect(request.getContextPath() + target);
+			}
+			else {
+				logger.info("Forwarding to..." + target);
+				request.getRequestDispatcher(target).forward(request, response);
+			}
 		}
 	}
 

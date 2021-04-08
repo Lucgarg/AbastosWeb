@@ -4,5 +4,5 @@
 <form action=<%=UrlBuilder.getUrl(request, ControllerPath.TIENDA)%>>
 	<input type="hidden" name="<%=ActionNames.ACTION%>"
 		value="<%=ActionNames.BUSCAR%>"> <input type="text"
-		name="<%=ParameterNames.NOMBRE_TIENDA%>"> <input type="submit">
+		name="<%=ParameterNames.NOMBRE_TIENDA%>"> <button type="submit" class="Buscar">buscar tienda</button>
 </form>

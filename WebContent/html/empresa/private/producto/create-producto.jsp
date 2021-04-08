@@ -15,7 +15,10 @@
 		<%if(errores.printError(ActionNames.CREAR) != null){%>
 		<p class="error"><%=errores.printError(ActionNames.CREAR)%></p>
 		<%}%>
-                <form action="<%=UrlBuilder.getUrl(request, ActionNames.PRODUCTO)%>" method="post">
+		<%if(errores.printError(ParameterNames.ERROR) != null){%>
+		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+		<%}%>
+                <form action="<%=UrlBuilder.getUrl(request, ControllerPath.PRODUCTO_PRIVATE)%>" method="post">
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 
                	<label>Nombre producto</label><br>
@@ -33,7 +36,7 @@
                	<label>Stock del producto</label>
                	<input type="text" name=<%=ParameterNames.STOCK%>><br>
                	<label>Selecciona la tienda</label><br>
-               	 <select name=<%=ParameterNames.ID_TIENDA%>>
+               	 <select id="tiendaProdCre" name=<%=ParameterNames.ID_TIENDA%>>
                	<option disabled selected value>--selecciona una tienda--</option>
                	<% List<Tienda> tiendas = (List<Tienda>)request.getAttribute(AttributesNames.RESULTS_TIENDA);
                	for(Tienda t: tiendas){%>
@@ -48,20 +51,13 @@
                	<option value="<%=o.getId() %>"><%=o.getNombreOferta()%> tipo de oferta: <%=o.getNombreTipoOfer()%></option>
                	<%}%>
                	</select><br>
-               	<%List<Categoria> categorias = (List<Categoria>) request.getAttribute(AttributesNames.CATEGORIAS);%>
-               	<label>Selecciona la categoria</label>
-               	<select name=<%=ParameterNames.CATEGORIA%>>
-               	<%for(Categoria c: categorias){ 
-               		for(Categoria cat: c.getCategorias()){
-               	%>
-               	
-               	<optgroup label="<%=cat.getNombre()%>"></optgroup>
-               	<%for(Categoria categ: cat.getCategorias()){%>
-               	<option value="<%=categ.getId()%>"><%=categ.getNombre()%></option>
-               	
-               	<%}}}%>
-               	</select><br>
-               	
+               <label>Selecciona la categoria</label>
+               <select id="categoria" name="<%=ParameterNames.CATEGORIA%>">
+          
+               </select>
+               	<select id="categChild" name="<%=ParameterNames.CATEGORIA%>">
+          
+               </select>
                	<label>Elige el origen el producto</label><br>
                	<select name=<%=ParameterNames.ORIGEN%>>
                		<option value="N">Nacional</option>
@@ -69,7 +65,7 @@
                		<option value="L">Local</option>
                	</select>
                	
-               		<input type="submit" value="crear">
+               		<button class="Buscar" type="submit">crear producto</button>
                 </form>
                 
             </div>

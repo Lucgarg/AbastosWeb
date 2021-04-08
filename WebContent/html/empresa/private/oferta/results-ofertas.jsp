@@ -9,6 +9,9 @@
 		</nav>
 	</section>
 	<section class="tiendas producto">
+		<%if(errores.printError(ParameterNames.ERROR) != null){%>
+		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+		<%}%>
 		<div class="tiendas2">
 		<%
 		List<Oferta> results = (List<Oferta>) request.getAttribute(AttributesNames.OFERTAS);
@@ -38,6 +41,6 @@
 			<% } %>
 		</div>
 			
-		<button><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.OFERTA, true)%>"> Crear oferta</a></button>
+		<button class="Buscar"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.OFERTA, true)%>"> Crear oferta</a></button>
 	</section>
 	<%@include file="/html/commons/usuario/footer.jsp"%>

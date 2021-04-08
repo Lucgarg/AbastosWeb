@@ -12,7 +12,7 @@
 			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, true)%>" id="count"><%=carrito!=null? carrito.getLineasCarritoMap().size():""%></a>
 		
 		</div></label><label cuartoBloque="b" for="Idiomas">Idioma</label><label
-		quintoBloque="u"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.HISTORIAL_PEDIDO, true)%>">Mis pedidos</a></label>
+		quintoBloque="u"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO_PRIVATE, ActionNames.HISTORIAL_PEDIDO, true)%>">Mis pedidos</a></label>
 		<label
 		sextoBloque="&#xea14"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, ActionNames.CERRAR, true)%>">Cerrar sesión</a></label>
 		

@@ -34,7 +34,7 @@
                     <form> <input type="number" id="quantity" name="quantity" min="1" max="5"> </form>
                     <p id= "Oferta"></p>
             
-                    <input type="submit" value="añadir al carrito"/>
+                   	<button class="Buscar" type="submit">añadir al carrito</button>
                 </div>
                 	<%if(particular!= null){%>
                 	<%List<Lista> listas = (List<Lista>)request.getAttribute(AttributesNames.LISTA);%>

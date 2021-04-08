@@ -63,4 +63,10 @@ public class ParameterNames {
 	public static final String FECHAS = "fechas";
 	public static final String DESCUENTOS = "descuentos";
 	public static final String NUMBERS = "numeros";
+	public static final String PARTICULAR = "particular";
+	public static final String EMPRESA ="empresa";
+	public static final String ERROR ="errorGenerico";
+	public static final String RECORDAR_USUARIO = "recordarUsuario";
+	public static final String MANTENER_SESION = "mantenerSesion";
+	public static final String MANTENER_RECORDAR = "mantenerOrRecordar";
 }

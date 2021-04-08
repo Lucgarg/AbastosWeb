@@ -8,8 +8,10 @@
 		</nav>
 	</section>
 	<section class ="productoDetalle"><div>
-	
-                <form action="<%=UrlBuilder.getUrl(request, ActionNames.OFERTA)%>" method="post">
+	  	<%if(errores.printError(ParameterNames.ERROR) != null){%>
+               		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+               	<%}%>
+                <form action="<%=UrlBuilder.getUrl(request, ControllerPath.OFERTA)%>" method="post">
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                	<label>Nombre</label><br>
                	<input type="text" name=<%=ParameterNames.NOMBRE_OFERTA%> value="<%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_OFERTA, 0)%>"><br>
@@ -30,7 +32,10 @@
                	<label class="ofertaCL">Elige tienda(este tipo de oferta sólo se podrá aplicar en una tienda)</label>
                	<select name="<%=ParameterNames.ID_TIENDA%>" id="tiendaSelect"></select>
                	<select name="<%=ParameterNames.PRODUCTO_OFERTA%>" id="productoOfertaSelect"></select>
-               	</select>
+               	    	<%if(errores.printError(ParameterNames.PRODUCTO_OFERTA) != null){%>
+               	<p class="error"><%=errores.printError(ParameterNames.PRODUCTO_OFERTA)%></p>
+               	<%}%>
+               	
                	<label>Elije uno de los dos: </label><br>
                	   	<label>descuento porcentual</label><br>
                	<input type="text" name=<%=ParameterNames.DESCT_PCN%> value="<%=ParameterUtils.printParam(request, ParameterNames.DESCT_PCN, 0)%>"><br>
@@ -40,10 +45,10 @@
                	<p class="error"><%=errores.printError(ParameterNames.DESCUENTOS)%></p>
                	<%}%>
                	<label>En caso de elegir el tipo de oferta "segunda unidad"</label><br>
-               	   	<label>Número mínimo de unidades con precio sin descuento</label><br>
-               	<input type="text" name=<%=ParameterNames.NUMERADOR%> value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERADOR, 0)%>"><br>
-               	   	<label>Número de unidades necesarias para recibir un descuento</label><br>
-               	<input type="text" name=<%=ParameterNames.DENOMINADOR%> value="<%=ParameterUtils.printParam(request, ParameterNames.DENOMINADOR, 0)%>"><br>
+               	   	<label class="segundaUnidad">Número mínimo de unidades con precio sin descuento</label><br>
+               	<input class="segundaUnidad" type="text" name=<%=ParameterNames.NUMERADOR%> value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERADOR, 0)%>"><br>
+               	   	<label class="segundaUnidad">Número de unidades necesarias para recibir un descuento</label><br>
+               	<input class="segundaUnidad" type="text" name=<%=ParameterNames.DENOMINADOR%> value="<%=ParameterUtils.printParam(request, ParameterNames.DENOMINADOR, 0)%>"><br>
                	           	<%if(errores.printError(ParameterNames.NUMBERS) != null){%>
                	<p class="error"><%=errores.printError(ParameterNames.NUMBERS)%></p>
                	<%}%>
@@ -62,7 +67,7 @@
                	<%if(errores.printError(ParameterNames.FECHAS) != null){%>
                		<p class="error"><%=errores.printError(ParameterNames.FECHAS)%></p>
                	<%}%>
-               	<input type="submit" value="crear">
+               	<button type="submit" class="Buscar">crear oferta</button>
                 </form>
                 
             </div>

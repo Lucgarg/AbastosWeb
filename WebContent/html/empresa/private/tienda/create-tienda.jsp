@@ -17,7 +17,10 @@
 		<%if(errores.printError(ActionNames.SEND_EMAIL) != null){%>
 		<p class="error"><%=errores.printError(ActionNames.SEND_EMAIL)%></p>
 		<%}%>
-		<form action="<%=UrlBuilder.getUrl(request, ActionNames.TIENDA)%>"
+			<%if(errores.printError(ParameterNames.ERROR) != null){%>
+		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+		<%}%>
+		<form action="<%=UrlBuilder.getUrl(request, ControllerPath.TIENDA_PRIVATE)%>"
 			method="post">
 
 			<input type="hidden" name=<%=ActionNames.ACTION%>
@@ -82,7 +85,7 @@
                 for(Categoria cat: categorias){ %>
 				<option value="<%=cat.getId()%>"><%=cat.getNombre()%></option>
 				<%}%>
-			</select> <input type="submit" value="crear">
+			</select> <button class="Buscar" type="input">crear tienda</button>
 		</form>
 
 	</div>

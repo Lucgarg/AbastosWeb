@@ -1,6 +1,7 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
+import java.lang.ModuleLayer.Controller;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ import com.google.gson.Gson;
 
 
 
-@WebServlet("/producto")
+
 public class ProductoServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ProductoServlet.class);
 	private CategoriaService categoriaService;
@@ -79,6 +80,7 @@ public class ProductoServlet extends HttpServlet {
 		if(idioma == null) {
 			idioma = "es";
 		}
+		
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -162,6 +164,9 @@ public class ProductoServlet extends HttpServlet {
 				}
 			}
 			catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.DETALLE, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -187,12 +192,17 @@ public class ProductoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_DETALLE;
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
+				
 			}
 
 		}
 		//Se crea producto, se redirige al sevlet producto para recuperar los resultados de productos
 		else if(ActionNames.CREAR.equalsIgnoreCase(action)) {
+			logger.info("creando producto...");
 			String nombreCast = request.getParameter(ParameterNames.NOMBRE_CASTELLANO);
 			String nombreIngles= request.getParameter(ParameterNames.NOMBRE_INGLES);
 			String caractCastellano= request.getParameter(ParameterNames.CARACT_CASTELLANO);
@@ -235,12 +245,17 @@ public class ProductoServlet extends HttpServlet {
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 				logger.warn(e.getMessage(),e);
 			}catch (DataException e) {
-
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
-
+		
 		if(ajax == null) {
+			if(target == null) {
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			}
 			if(redirect) {
 				logger.info("Redirect to..." + target);
 				response.sendRedirect(target);

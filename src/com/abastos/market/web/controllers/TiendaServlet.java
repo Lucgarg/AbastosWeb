@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,7 +32,6 @@ import com.abastos.model.Producto;
 import com.abastos.model.Tienda;
 import com.abastos.service.CategoriaService;
 import com.abastos.service.DataException;
-import com.abastos.service.EmpresaService;
 import com.abastos.service.LocalidadService;
 import com.abastos.service.MailService;
 import com.abastos.service.ProductoCriteria;
@@ -42,9 +40,7 @@ import com.abastos.service.TiendaCriteria;
 import com.abastos.service.TiendaService;
 import com.abastos.service.exceptions.LimitCreationException;
 import com.abastos.service.exceptions.MailException;
-import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
-import com.abastos.service.impl.EmpresaServiceImpl;
 import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
@@ -52,14 +48,13 @@ import com.abastos.service.impl.TiendaServiceImpl;
 import com.google.gson.Gson;
 
 
-@WebServlet("/tienda")
+
 public class TiendaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(TiendaServlet.class);
 
 	private TiendaService tiendaService;
 	private ProductoService productoService;
 	private CategoriaService categoriaService;
-	private EmpresaService empresaService;
 	private LocalidadService localidadService;
 	private Map<String, Object> infoEmail = null;
 	private MailService mailService = null;
@@ -67,7 +62,6 @@ public class TiendaServlet extends HttpServlet {
 		tiendaService = new TiendaServiceImpl();
 		productoService = new ProductoServiceImpl();
 		categoriaService = new CategoriaServiceImpl();
-		empresaService = new EmpresaServiceImpl();
 		localidadService = new LocalidadServiceImpl();
 		infoEmail = new HashMap<String, Object>();
 		mailService = new MailServiceImpl();
@@ -86,6 +80,7 @@ public class TiendaServlet extends HttpServlet {
 		if(idioma == null) {
 			idioma = "es";
 		}
+
 		String target = null;
 		boolean redirect = false;
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
@@ -94,7 +89,6 @@ public class TiendaServlet extends HttpServlet {
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
-
 			try {
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
@@ -104,6 +98,9 @@ public class TiendaServlet extends HttpServlet {
 				local = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
 
 			} catch ( DataException e1) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				logger.warn(e1.getMessage(),e1);
 			}
 
@@ -141,9 +138,12 @@ public class TiendaServlet extends HttpServlet {
 					target = ViewPaths.TIENDA_RESULTS;
 				}
 			} catch (DataException e) {
-
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				logger.warn(e.getMessage(),e);
 			}
+
 
 		}
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
@@ -161,8 +161,12 @@ public class TiendaServlet extends HttpServlet {
 				SessionManager.set(request, AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_RESULTS;
 			} catch (DataException e) {
-				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
+				logger.info(target);
 			}
+
 
 		}
 		else if(ActionNames.CREAR.equalsIgnoreCase(action)) {
@@ -218,11 +222,16 @@ public class TiendaServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 			}
 			catch(DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, redirect);
 				logger.warn(e.getMessage(),e);
+
 			}
 
 		}
-
+		if(target == null) {
+			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+		}
 		if(ajax == null) {
 			if(redirect) { 
 				logger.info("Redirect to..." + target);
@@ -239,7 +248,7 @@ public class TiendaServlet extends HttpServlet {
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		doGet(request, response);
 
 	}

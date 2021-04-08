@@ -15,6 +15,8 @@
           		<fieldset>
           		<%if(errores.printError(ActionNames.REGISTRO)!= null){%>
           			<p class="error"><%=errores.printError(ActionNames.REGISTRO)%></p>
+          		<%}else if(errores.hasErrors()){%>
+          		<p class="error"><%=ErrorNames.ERR_IN_FIELD%></p>
           		<%}%>
           		<label>Nombre usuario</label><br>
           		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" value="<%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_USUARIO, 0)%>"><br>
@@ -79,30 +81,34 @@
           		</fieldset>
           		<fieldset>
           		 <label>Pais</label><br>
+          		<label class="select" for="pais">
                 <select  name=<%=ParameterNames.PAIS%> id="pais">
                 <option disabled selected value>--selecciona un pais--</option>
                 <%List<Pais> paises = (List<Pais>) request.getAttribute(AttributesNames.PAISES); 
                 for(Pais p: paises){ %>
                 <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
                 <%}%>
-                </select><br>
-              
+                </select></label><br>
+              	
                 <label>Comunidad</label><br>
+                	<label class="select" for="comunidad">
                  <select name=<%=ParameterNames.COMUNIDAD%> id="comunidad">
                           <option disabled selected value>--selecciona una comunidad--</option>
-                </select><br>
+                </select></label><br>
                 
                  <label>Provincia</label><br>
+                 <label class="select" for="provincia">
                  <select name=<%=ParameterNames.PROVINCIA%> id="provincia">
                      
                 <option disabled selected value>--selecciona una provincia--</option>
-  
-                </select><br>
+  				
+                </select></label><br>
               
                 <label>Localidad</label><br>
+                <label class="select" for="localidad">
                 <select name=<%=ParameterNames.LOCALIDAD%> id="localidad">
              	           <option disabled selected value>--selecciona una localidad--</option>
-            		</select>
+            		</select></label><br>
             	<label>se enviara un correo al email indicado para confirmar su registro</label><br>
            		<input type="submit" value="registrar"><br>
                

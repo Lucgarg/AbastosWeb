@@ -21,4 +21,7 @@ public class AttributesNames {
 	public static final String ACTION = "action";
 	public static final String ERROR = "errores";
 	public static final String VALORACION = "valoracion";
+	public static final String RECORDAR_USUARIO = "recordarUsuario";
+	public static final String RECORDAR_EMPRESA =  "recordarEmpresa";
+	
 }

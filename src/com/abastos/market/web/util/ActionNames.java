@@ -32,4 +32,6 @@ public class ActionNames {
 	public static final String UPDATE_VAL_TIENDA = "actualizar valoracion tienda";
 	public static final String UPDATE_VAL_PRODUCTO =  "actualizar valoracion producto";
 	public static final String SEND_EMAIL = "enviarEmail";
+	public static final String CATEGORIA = "categoria";
+	public static final String CONFIRMAR_REGISTRO = "confirmarRegistro";
 }

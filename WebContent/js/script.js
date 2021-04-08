@@ -63,6 +63,9 @@ function back(valor) {
 /*****************************
  * flujo de acciones
  */
+ 
+
+
 /*creacion de elementos*/
 let buttonBack = document.createElement("button");
 buttonBack.innerHTML = "atras";

@@ -2,6 +2,9 @@
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>	
 	<section class="tiendas producto">
+		<%if(errores.hasErrors()){%>
+	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+	<%}%>
 		<div class="tiendas2">
 		<%
 		List<Lista> results = (List<Lista>) request.getAttribute(AttributesNames.LISTA);
@@ -23,10 +26,10 @@
 			%>
 		
 		</div>
-		<form action="<%=UrlBuilder.getUrl(request, ActionNames.LISTA)%>">
+		<form action="<%=UrlBuilder.getUrl(request, ControllerPath.LISTA)%>" method="post">
 		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.CREAR%>">
 		<input type="text" name="<%=ParameterNames.NOMBRE_LISTA%>">
-		<input type="submit">
+		<button type="submit" class="Buscar">crear lista</button>
 		</form>
 	</section>
 	<%@include file="/html/commons/usuario/footer.jsp"%>

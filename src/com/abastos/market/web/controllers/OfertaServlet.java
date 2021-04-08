@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -38,7 +39,7 @@ import com.abastos.service.impl.ProductoServiceImpl;
 /**
  * Servlet implementation class OfertaServlet
  */
-@WebServlet("/oferta")
+
 public class OfertaServlet extends HttpServlet {
 
 	private static Logger logger = LogManager.getLogger(OfertaServlet.class);
@@ -61,16 +62,18 @@ public class OfertaServlet extends HttpServlet {
 		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
+		Map<String, String[]> mapParameter = request.getParameterMap();
 		//forward a resultado de oferta de una determinada empresa
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			try {
 				List<Oferta> ofertas = ofertaService.findByIdEmpresa(Long.valueOf(empresa.getId()));
-				List<Producto> productos = new ArrayList<Producto>();
-
 				request.setAttribute(AttributesNames.OFERTAS, ofertas);
 				target = ViewPaths.OFERTA_RESULTS;
-			} catch (NumberFormatException | DataException e) {
+			} catch ( DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
 		}
@@ -84,16 +87,19 @@ public class OfertaServlet extends HttpServlet {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			Oferta oferta = new Oferta();
 
-
-			oferta.setDenominador(ValidationUtils.integerValidator(request, ParameterNames.DENOMINADOR, error));
-			oferta.setDescuentoFijo(ValidationUtils.doubleValidator(request, ParameterNames.DESCT_FIJO, error));
-			oferta.setDescuentoPcn(ValidationUtils.doubleValidator(request, ParameterNames.DESCT_PCN, error));
-			oferta.setNumerador(ValidationUtils.integerValidator(request, ParameterNames.NUMERADOR, error));
-			oferta.setIdTipoOferta(ValidationUtils.integerValidator(request, ParameterNames.TIPO_OFERTA, error));
-			oferta.setNombreOferta(ValidationUtils.nameValidator(request, ParameterNames.NOMBRE_OFERTA, error));
+			oferta.setIdProdOferta(ValidationUtils.longValidator(mapParameter , ParameterNames.PRODUCTO_OFERTA, error));
+			oferta.setDenominador(ValidationUtils.integerValidator(mapParameter , ParameterNames.DENOMINADOR, error));
+			oferta.setDescuentoFijo(ValidationUtils.doubleValidator(mapParameter , ParameterNames.DESCT_FIJO, error));
+			oferta.setDescuentoPcn(ValidationUtils.doubleValidator(mapParameter , ParameterNames.DESCT_PCN, error));
+			oferta.setNumerador(ValidationUtils.integerValidator(mapParameter , ParameterNames.NUMERADOR, error));
+			oferta.setIdTipoOferta(ValidationUtils.integerValidator(mapParameter , ParameterNames.TIPO_OFERTA, error));
+			oferta.setNombreOferta(ValidationUtils.nameValidator(mapParameter , ParameterNames.NOMBRE_OFERTA, error));
 			oferta.setIdEmpresa(empresa.getId());
+			if(oferta.getIdTipoOferta() != null) {
 			ValidationUtils.onlyFieldEquals(request, error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
-			ValidationUtils.onlyOneField(request, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
+			ValidationUtils.onlyFieldEquals(request, error, oferta.getIdTipoOferta(),  oferta.getIdProdOferta(), oferta.getDenominador(), oferta.getNumerador());
+			ValidationUtils.onlyOneField(mapParameter, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
+			}
 			String fechaDesde = new StringBuilder().append(fechaVigencia)
 					.append(" ").append(horaVigencia).append(":00").toString();
 			String fechaHasta = new StringBuilder().append(fechaCaducidad)
@@ -113,8 +119,14 @@ public class OfertaServlet extends HttpServlet {
 					target = UrlBuilder.getUrlForController(request,ControllerPath.PRECREATE, ActionNames.OFERTA, redirect);
 				}
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request,ControllerPath.PRECREATE, ActionNames.OFERTA, redirect);
 				logger.warn(e.getMessage(),e);
 			}
+		}
+		if(target == null) {
+			target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 		}
 		if(redirect) {
 			logger.info("Redirect to..." + target);

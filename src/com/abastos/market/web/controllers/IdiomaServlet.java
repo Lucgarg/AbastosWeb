@@ -39,8 +39,9 @@ public class IdiomaServlet extends HttpServlet {
 		if(ActionNames.SELECCIONAR.equals(action)) {
 			String idioma = request.getParameter(ParameterNames.IDIOMA);
 			SessionManager.set(request, AttributesNames.IDIOMA, idioma);
-			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO);
 			redirect = true;
+			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+		
 		}
 
 		if(redirect) { 

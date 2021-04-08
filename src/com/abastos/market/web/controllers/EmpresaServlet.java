@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.CookieManager;
 import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
@@ -90,7 +91,7 @@ public class EmpresaServlet extends HttpServlet {
 
 		}
 		if(ActionNames.REGISTRO.equalsIgnoreCase(action)) {
-
+			Empresa idEmpresa = null;
 			String nombreUsuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
 			String apellidos = request.getParameter(ParameterNames.APELLIDOS);
 			String alias = request.getParameter(ParameterNames.ALIAS);
@@ -120,20 +121,22 @@ public class EmpresaServlet extends HttpServlet {
 			direccionDto.setCodigoPostal(codigoPostal);
 			empresa.setDireccion(direccionDto);
 			try {
-				empresaService.registrar(empresa);
+				idEmpresa = empresaService.registrar(empresa);
 				Map<String,Object> valores = new HashMap<String,Object>();
 				valores.put("user", empresa);
-				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, true));
+				valores.put("enlace", valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, 
+						ActionNames.CONFIRMAR_REGISTRO, redirect, ParameterNames.EMPRESA, String.valueOf(idEmpresa.getId()))));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				
+
 			}catch(MailException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.REGISTRO, ErrorNames.ERR_SEND_EMAIL);
 			} 
 			catch (DataException e) {
 				logger.warn(e.getMessage(),e);
+				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC);
 			}
 			if(error.hasErrors()) {
 
@@ -142,13 +145,29 @@ public class EmpresaServlet extends HttpServlet {
 						ParameterNames.TIP_USUARIO, ActionNames.EMPRESA);
 			}
 		}
+		else if(ActionNames.CONFIRMAR_REGISTRO.equals(action)) {
+			String idParticular = request.getParameter(ParameterNames.PARTICULAR);
+			try {
+				empresaService.updateAlta(Long.valueOf(idParticular));
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
+				logger.warn(e.getMessage(),e);
+			}
+		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
 			SessionManager.remove(request, AttributesNames.EMPRESA);
+
+			CookieManager.removeCookie(response, ParameterNames.MANTENER_SESION, "/");
 			redirect = true;
 			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-			
-		}
 
+		}
+		if(target == null) {
+			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+		}
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect( target);

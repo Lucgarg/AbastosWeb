@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
@@ -31,7 +32,7 @@ import com.abastos.service.impl.PuntuacionProductoServiceImpl;
 import com.abastos.service.impl.PuntuacionTiendaServiceImpl;
 
 
-@WebServlet("/valoracion")
+
 public class ValoracionServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ValoracionServlet.class);
 	private PuntuacionProductoService puntProdService = null;
@@ -50,23 +51,24 @@ public class ValoracionServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+		Errors error = new Errors();
+
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
-		
+
 			try {
 				if(idTienda != null) {
 					PuntuacionTienda puntuacionTienda = puntTiendService.findPuntuacion(Long.valueOf(idTienda), particular.getId());
 					request.setAttribute(AttributesNames.VALORACION, puntuacionTienda);
 					request.setAttribute(AttributesNames.TIENDA, idTienda);
 					target =  ViewPaths.VALORACION_TIENDA;
-					
+
 				}
 				else {
-					
-					
+
 					Integer puntuacionProducto =	puntProdService.findPuntuacion(particular.getId(),Long.valueOf(idProducto));
 					if(puntuacionProducto == null) {
 						puntuacionProducto = 0;
@@ -74,14 +76,18 @@ public class ValoracionServlet extends HttpServlet {
 					request.setAttribute(AttributesNames.VALORACION, puntuacionProducto);
 					request.setAttribute(AttributesNames.PRODUCTO, idProducto);
 					target =  ViewPaths.VALORACION_PRODUCTO;
-					
+
 				}
-				
+
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
-				
+
 			} catch ( DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				logger.warn(e.getMessage(),e);
 			}
+
 		}
 
 		else if(ActionNames.PUNTUACION_PRODUCTO.equalsIgnoreCase(action)){
@@ -92,8 +98,12 @@ public class ValoracionServlet extends HttpServlet {
 				puntProdService.create(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
+
 		}
 		else if(ActionNames.PUNTUACION_TIENDA.equalsIgnoreCase(action)) {
 			String servDomicilio = request.getParameter(ParameterNames.PUNTUACION_ATD);
@@ -111,8 +121,12 @@ public class ValoracionServlet extends HttpServlet {
 				puntTiendService.create(puntTienda);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
+
 		}
 		else if(ActionNames.UPDATE_VAL_PRODUCTO.equalsIgnoreCase(action)) {
 			String puntuacion = request.getParameter(ParameterNames.PUNTUACION_PRODUCTO);
@@ -122,8 +136,12 @@ public class ValoracionServlet extends HttpServlet {
 				puntProdService.update(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target =  UrlBuilder.urlCallBack(request, true);
 				logger.warn(e.getMessage(),e);
 			}
+
 
 
 		}
@@ -134,6 +152,7 @@ public class ValoracionServlet extends HttpServlet {
 			String tienda= request.getParameter(ParameterNames.ID_TIENDA);
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
+
 				PuntuacionTienda puntTienda = new PuntuacionTienda();
 				puntTienda.setIdPerfilParticular(particular.getId());
 				puntTienda.setValoracionAtncCliente(Integer.valueOf(atencCliente));
@@ -143,12 +162,20 @@ public class ValoracionServlet extends HttpServlet {
 				puntTiendService.update(puntTienda);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
 			} catch (DataException e) {
+
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target =  UrlBuilder.urlCallBack(request, true);
 				logger.warn(e.getMessage(),e);
 			}
 
 
-		}
 
+
+		}
+		if(target == null) {
+			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+		}
 		if(redirect) {
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(target);
