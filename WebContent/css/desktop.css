@@ -10,7 +10,7 @@ html {
 	min-height: 100vh;
 }
 /*footer pasa a header*/
-.footerNav {
+.header {
 	left: 0;
 	bottom: initial;
 	top: 0;
@@ -18,7 +18,7 @@ html {
 	display: flex;
 }
 
-.footerNav>div {
+.header>div {
 	text-align: end;
 	order: 3;
 	flex: 1;
@@ -29,42 +29,47 @@ html {
 }
 
 /*registro*/
-.footerNav>div:nth-child(1)>label:nth-child(1) {
+.header>div:nth-child(1)>label:nth-child(1) {
 	width: 10%;
 }
 /*inicio sesión*/
-.footerNav>div:nth-child(1)>label:nth-child(2) {
+.header>div:nth-child(1)>label:nth-child(2) {
 	width: 10%;
 }
 /*carrito*/
-.footerNav>div:nth-child(1)>label:nth-child(4) {
+.header>div:nth-child(1)>label:nth-child(4) {
 	position: relative;
 	bottom: 0;
 	width: 10%;
 }
 
-.footerNav>div:nth-child(1)>label:nth-child(4)>div {
+.header>div:nth-child(1)>label:nth-child(4)>div {
 	background: none;
 	border: none;
 	padding: 0;
 
 }
-.footerNav>div:nth-child(1)>label:nth-child(4)>div > a {
+.header>div:nth-child(1)>label:nth-child(4)>div > a {
 	background-color: blue;
 	border-radius:100%;
-	width: 30%;
+	width: 40%;
+	padding-bottom: 40%;
+	height: 0;
+	height: 24px;
+	width: 24px;
 	padding: 3%;
 	color: white;
 	margin-left:33%;
 	display:none;
+	
 }
 
 
-.footerNav>div:nth-child(1)>label:nth-child(4)>div:before {
+.header>div:nth-child(1)>label:nth-child(4)>div:before {
 	color: orange;
 }
 
-.footerNav>div:nth-child(1)>label:nth-child(4)>div {
+.header>div:nth-child(1)>label:nth-child(4)>div {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -73,39 +78,31 @@ html {
 	width: 100%;
 }
 
-.footerNav>div:nth-child(1)>label:nth-child(4)>div:after {
+.header>div:nth-child(1)>label:nth-child(4)>div:after {
 	content: attr(nombre);
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 0.8rem;
 }
 
-.footerNav>div:nth-child(1)>label:nth-child(3)>div {
-	display: none;
-}
-/*seccion registro*/
-/*ocultar fieldset*/
-.productoDetalle.registro>div   form  fieldset {
+.header>div:nth-child(1)>label:nth-child(3)>div {
 	display: none;
 }
 
-.productoDetalle.registro>div>form>fieldset:nth-child(2) {
-	display: initial;
-}
 
 /*logo header para pantallas*/
-.footerNav>figure {
+.header>figure {
 	width: 100px;
 	height: auto;
 	order: 1;
 	display: initial;
 }
 
-.footerNav>figure img {
+.header>figure img {
 	width: 100px;
 	height: auto;
 }
 
-.footerNav>section {
+.header>section {
 	order: 2;
 	display: initial;
 	flex: 1;
@@ -113,24 +110,22 @@ html {
 	text-align: center;
 }
 
-.footerNav>section>h1 {
+.header>section>h1 {
 	margin-bottom: 3%;
 }
 
-.footerNav>div:nth-child(1)>label {
+.header>div:nth-child(1)>label {
 	margin-right: 6%;
 }
 /*icono idiomas*/
-.footerNav>div:nth-child(1)>label:nth-child(5) {
+.header>div:nth-child(1)>label:nth-child(5) {
 	width: 10%;
 	margin-left: 0;
 }
 /*header*/
-.sectionTiendas {
-	display: none;
-}
+
 /*nav*/
-.tiendas+section {
+.block+section {
 	order: 3;
 	width: 20%;
 	margin-top: 10%;
@@ -160,55 +155,53 @@ nav .menu>ul  input[type=submit] {
 	width: 100%;
 }
 /*sección información tienda*/
-header+.tiendas {
+header+.block {
 	min-height: 500px;
 }
 
-header+.tiendas>.tiendas2>div {
+header+.block>.block_second>div {
 	display: initial;
 }
 
-.sectionTiendas {
-	order: 2;
-	width: 100%;
-	margin-top: 5%;
-}
 
-.informacionTienda {
+
+.block_second--detail {
 	text-align: center;
 }
 
-header+.tiendas>.tiendas2>div>.informacionTienda>p {
+header+.block>.block_second>div>.block_second--detail>p {
 	text-align: center;
+	font-size: 0.9rem;
 }
 
-header+.tiendas>.tiendas2>div>figure {
+header+.block>.block_second>div>figure {
 	height: auto;
 	margin: 0 auto;
-	width: 50%;
+	width: 100%;
+	margin-bottom: 7%;
 }
 
-header+.tiendas>.tiendas2>div {
+header+.block>.block_second>div {
 	width: 70%;
 }
 
-header+.tiendas>.tiendas2 h1 {
+header+.block>.block_second h1 {
 	width: 70%;
+	padding: 3%;
+	background-color: orange;
 }
 
-header+.tiendas>.tiendas2>div>figure>figcaption {
+header+.block>.block_second>div>figure>figcaption {
 	text-align: center;
 }
 
-.sectionTiendas>figure {
-	width: 15%;
-}
 
-.tiendas h1:after {
+
+.block h1:after {
 	display: none;
 }
 
-.tiendas {
+.block {
 	width: 20%;
 	order: 4;
 	flex-direction: column;
@@ -217,24 +210,24 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	margin-top: 10%;
 }
 
-.tiendas2 {
+.block_second {
 	overflow: initial;
 }
 /*seccionn lista de productos*/
-.tiendas.producto {
+.block.block--results {
 	order: 3;
 	flex-basis: 50%;
 	padding-bottom: 0;
 }
 
-.tiendas.producto>.tiendas2 {
+.block.block--results>.block_second {
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: unset;
 }
 
-.tiendas.producto>.tiendas2>div {
+.block.block--results>.block_second>div {
 	display: flex;
 	flex-direction: column;
 	flex-basis: 25%;
@@ -243,8 +236,10 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	min-height: 350px;
 	justify-content: space-around;
 }
-
-.tiendas.producto>.tiendas2>div>figure {
+header+.block>.block_second>div>.block_second--detail>.forma {
+	font-size: 0.9rem;
+}
+.block.block--results>.block_second>div>figure {
 	background-color: orange;
 	width: 94%;
 	height: 100px;
@@ -254,19 +249,19 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 
 
 /*input unidades*/
-.tiendas2   input{
+.block_second   input{
 	width: 12%;
 }
-.tiendas2 form{
+.block_second form{
 	text-align: center;
 }
 
 
 @media ( max-width : 1300px) {
-	.tiendas.producto>.tiendas2>div {
+	.block.block--results>.block_second>div {
 		flex-basis: 40%;
 	}
-	.tiendas.producto>.tiendas2 {
+	.block.block--results>.block_second {
 		justify-content: initial;
 	}
 }
@@ -303,13 +298,13 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	color: white;
 }
 
-.tiendas2>div {
+.block_second>div {
 	overflow: hidden;
 }
 
-.tiendas2>div>p {
+.block_second>div>p {
 	text-align: center;
-	margin-bottom: 20%;
+	
 	font-size: 1.2rem;
 }
 
@@ -350,7 +345,7 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 }
 /*oferta sin precio visible*/
 /*seccion producto detalle*/
-.productoDetalle {
+.centralBlock {
 	order: 3;
 	width: 50%;
 	align-self: baseline;
@@ -360,25 +355,23 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	padding-bottom: 10%;
 }
 
-.productoDetalle div>figure {
+.centralBlock div>figure {
 	width: 50%;
 }
 
-.productoDetalle div>div {
+.centralBlock div>div {
 	width: 50%;
 }
 
-.productoDetalle div {
+.centralBlock div {
 	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
 
-.productoDetalle div>form {
-	margin-top: 10%;
-	width: 100%;
-}
+
+
 /*index*/
 .localizacion form {
 	width: 30%;
@@ -398,14 +391,14 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 .Buscar {
 	margin: 0 auto;
 	border-radius: 10%/50%;
-	padding: 2% 10% 2% 10%;
+	padding: 1% 5% 1% 5%;
 }
 
 .localizacion .select {
 	margin-left: 0;
 }
 /*Registro*/
-.footerNav .forma {
+.header .forma {
 	top: 300%;
 	left: 25%;
 	width: 50%;
@@ -434,8 +427,9 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	color: orange;
 }
 /*eleccion tipo usuario*/
-.footerNav   .tipUsuario {
+.header   .tipUsuario {
 	position: fixed;
+	border-radius: 10px;
 	width: 25%;
 	padding: 1% 1% 1% 1%;
 	right: 37.5%;
@@ -445,14 +439,15 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
 }
 
-.footerNav .tipUsuario>label {
+.header .tipUsuario>label {
 	display: block;
 	margin-bottom: 5%;
 }
 
 /*ventana emergente registro*/
-.footerNav>.registro {
+.header>.registro {
 	position: fixed;
+	border-radius: 10px;
 	top: 50%;
 	right: 37.5%;
 	width: 25%;
@@ -462,7 +457,7 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	-moz-box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 	box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 }
-.footerNav>.idiomas{
+.header>.idiomas{
 	position: fixed;
 	top: 50%;
 	right: 37.5%;
@@ -474,14 +469,14 @@ header+.tiendas>.tiendas2>div>figure>figcaption {
 	box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 }
 
-#foNav:checked ~ .footerNav>div>label:nth-child(4)>div:before, #registro:checked 
-	 ~ .footerNav>div>label:nth-child(4)>div:before, #Idiomas:checked ~
-	.footerNav>div>label:nth-child(4)>div:before, #logIn:checked ~
-	.footerNav>div>label:nth-child(4)>div:before {
+#arrow-bottom:checked ~ .header>div>label:nth-child(4)>div:before, #registro:checked 
+	 ~ .header>div>label:nth-child(4)>div:before, #Idiomas:checked ~
+	.header>div>label:nth-child(4)>div:before, #logIn:checked ~
+	.header>div>label:nth-child(4)>div:before {
 	content: "\7a";
 	display: block;
 }
 /*footer*/
 footer{
-	order:5;
+	order:6;
 }

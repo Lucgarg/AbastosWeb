@@ -1,11 +1,8 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-import java.util.Map;
 
-import javax.print.DocFlavor.URL;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -22,14 +19,19 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.Particular;
+import com.abastos.model.Producto;
 import com.abastos.model.PuntuacionTienda;
+import com.abastos.model.Tienda;
 import com.abastos.service.DataException;
+import com.abastos.service.ProductoService;
 import com.abastos.service.PuntuacionProductoService;
 import com.abastos.service.PuntuacionTiendaService;
+import com.abastos.service.TiendaService;
+import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.PuntuacionProductoServiceImpl;
 import com.abastos.service.impl.PuntuacionTiendaServiceImpl;
+import com.abastos.service.impl.TiendaServiceImpl;
 
 
 
@@ -37,9 +39,13 @@ public class ValoracionServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ValoracionServlet.class);
 	private PuntuacionProductoService puntProdService = null;
 	private PuntuacionTiendaService puntTiendService = null;
+	private TiendaService tiendaService = null;
+	private ProductoService productoService = null;
 	public ValoracionServlet() {
+		tiendaService = new TiendaServiceImpl();
 		puntTiendService = new PuntuacionTiendaServiceImpl();
 		puntProdService = new PuntuacionProductoServiceImpl();
+		productoService = new ProductoServiceImpl();
 	}
 
 
@@ -58,23 +64,29 @@ public class ValoracionServlet extends HttpServlet {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
-
+			String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+			if(idioma == null) {
+				idioma = "es";
+			}
 			try {
 				if(idTienda != null) {
-					PuntuacionTienda puntuacionTienda = puntTiendService.findPuntuacion(Long.valueOf(idTienda), particular.getId());
+					Long tienda = Long.valueOf(idTienda);
+					Tienda t = tiendaService.findById(tienda);
+					PuntuacionTienda puntuacionTienda = puntTiendService.findPuntuacion(tienda, particular.getId());
 					request.setAttribute(AttributesNames.VALORACION, puntuacionTienda);
-					request.setAttribute(AttributesNames.TIENDA, idTienda);
+					request.setAttribute(AttributesNames.TIENDA, t);
 					target =  ViewPaths.VALORACION_TIENDA;
 
 				}
 				else {
-
-					Integer puntuacionProducto =	puntProdService.findPuntuacion(particular.getId(),Long.valueOf(idProducto));
+					Long producto = Long.valueOf(idProducto);
+					Producto pro = productoService.findById(producto, idioma);
+					Integer puntuacionProducto =	puntProdService.findPuntuacion(particular.getId(),producto);
 					if(puntuacionProducto == null) {
 						puntuacionProducto = 0;
 					}
 					request.setAttribute(AttributesNames.VALORACION, puntuacionProducto);
-					request.setAttribute(AttributesNames.PRODUCTO, idProducto);
+					request.setAttribute(AttributesNames.PRODUCTO, pro);
 					target =  ViewPaths.VALORACION_PRODUCTO;
 
 				}

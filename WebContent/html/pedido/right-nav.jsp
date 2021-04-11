@@ -5,13 +5,13 @@
 <%@page import="com.abastos.market.web.util.ControllerPath"%>
 <%@page import="com.abastos.market.web.util.UrlBuilder"%>
 <%@page import="com.abastos.model.*"%>
-<section class="tiendas">
-		<div class="tiendas2">
+<section class="block">
+		<div class="block_second">
 			<input type="checkbox">
 			
 			
 			<div>
-				<div class=informacionTienda>
+				<div class="block_second--detail">
 				 
 					<p>Precio final</p>
 					<p><%=pedido.getPrecioTotal()%></p>

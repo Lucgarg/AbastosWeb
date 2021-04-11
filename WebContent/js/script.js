@@ -17,15 +17,15 @@ function next(valor) {
 
             if (campo[0].style.display != "none") {
 
-                valor.insertBefore(buttonBack, valor.querySelectorAll("button")[0]);
+                contendButtons.insertBefore(buttonBack, contendButtons.querySelectorAll("button")[0]);
             }
             campo[i].style.display = "none";
             if (i <= 3) {
-                campo[i + 1].style.display = "initial";
+                campo[i + 1].style.display = "flex";
             }
             if ((i + 1) == campo.length - 1) {
 
-                valor.querySelectorAll("button")[1].style.display = "none";
+                contendButtons.querySelectorAll("button")[1].style.display = "none";
             }
 
             i = campo.length;
@@ -46,12 +46,12 @@ function back(valor) {
             }
             campo[i].style.display = "none";
 
-            campo[i - 1].style.display = "initial";
+            campo[i - 1].style.display = "flex";
 
 
             if ((i - 1) == campo.length - 2) {
 
-                valor.querySelector(".next").style.display = "initial";
+                contendButtons.querySelector(".next").style.display = "flex";
             }
 
             i = campo.length;
@@ -69,14 +69,16 @@ function back(valor) {
 /*creacion de elementos*/
 let buttonBack = document.createElement("button");
 buttonBack.innerHTML = "atras";
-buttonBack.setAttribute("class", "back");
+buttonBack.setAttribute("class", "back Buscar");
 buttonBack.setAttribute("type", "button");
-buttonBack.addEventListener("click", function () { back(buttonBack.parentElement) });
+buttonBack.addEventListener("click", function () { back(buttonBack.parentElement.parentElement) });
 
 /*selectores*/
 let field = document.querySelector(".valoracion");
+let contendButtons  = document.getElementById("buttons");
 //contador de linea carrito
 let contador = document.getElementById("count");
+
 /*submit function*/
 if(document.getElementById("esp") != null){
 document.getElementById("esp").onclick = submit;}
@@ -99,7 +101,7 @@ document.getElementsByClassName("cerrarLabel")[2].onclick = cerrar;
 
 /*funciones para paginar registro*/
 if(document.querySelector(".next") != null){
-let forma = document.querySelector(".productoDetalle").querySelector("div").querySelectorAll("form");
+let forma = document.querySelector(".centralBlock").querySelector("div").querySelectorAll("form");
 
 forma.forEach(element => {
     element.querySelector(".next").addEventListener("click", function () { next(element) });

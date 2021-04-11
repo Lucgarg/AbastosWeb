@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.abastos.dao.Results;
+import com.abastos.market.web.model.Pagination;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
@@ -51,7 +53,12 @@ import com.google.gson.Gson;
 
 public class TiendaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(TiendaServlet.class);
-
+	//numero de resultados por pagina
+	private static int pageSize = 5;
+	//numero de paginas que se muestran alrededor de la navegable
+	private static int pagingPageCount = 3;
+	//primera pagina
+	private static int firstPage = 1;
 	private TiendaService tiendaService;
 	private ProductoService productoService;
 	private CategoriaService categoriaService;
@@ -76,7 +83,8 @@ public class TiendaServlet extends HttpServlet {
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		Errors error = new Errors();
-		Localidad local = new Localidad();
+		Pagination pagination = new Pagination();
+		Localidad local = null;
 		if(idioma == null) {
 			idioma = "es";
 		}
@@ -88,6 +96,7 @@ public class TiendaServlet extends HttpServlet {
 			String localidad = request.getParameter(ParameterNames.LOCALIDAD);
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
+			SessionManager.remove(request, AttributesNames.TIENDA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			try {
 				if(localidad!=null) {
@@ -98,10 +107,11 @@ public class TiendaServlet extends HttpServlet {
 				local = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
 
 			} catch ( DataException e1) {
+				logger.warn(e1.getMessage(),e1);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				logger.warn(e1.getMessage(),e1);
+
 			}
 
 			TiendaCriteria tienda = new TiendaCriteria();
@@ -109,7 +119,8 @@ public class TiendaServlet extends HttpServlet {
 			if(local != null) {
 				tienda.setIdLocalidad(local.getId());
 			}
-			if(categoria != null) {
+			
+			if(categoria != null ) {
 				tienda.setCategoria(Integer.valueOf(categoria));
 			}
 			if(envioDomicilio != null) {
@@ -123,14 +134,31 @@ public class TiendaServlet extends HttpServlet {
 			}
 			try {
 				if(ajax !=null) {
-
-					List<Tienda> results = tiendaService.findByCriteria(tienda);
+					
+					List<Tienda> results = tiendaService.findByIdEmpresa(empresa.getId());
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");
 					response.getOutputStream().write(gson.toJson(results).getBytes());
 				}
 				else {
-					List<Tienda> results = tiendaService.findByCriteria(tienda);
+					// Pagina solicitada por el usuario (o por defecto la primera
+					// cuando todavia no ha usado el paginador)
+					int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
+					logger.info("pagina " + page);
+					Results<Tienda> results = tiendaService.findByCriteria(tienda, (page-1)*pageSize+1, pageSize);
+					// Datos para paginacion															
+					// (Calculos aqui, datos comodos para renderizar)
+					int totalPages = (int) Math.ceil((double)results.getTotal()/(double)pageSize);
+					int firstPagedPage = Math.max(1, page-pagingPageCount);
+					int lastPagedPage = Math.min(totalPages, page+pagingPageCount);
+					pagination.setFirstPage(firstPage);
+					pagination.setFirstPagedPage(firstPagedPage);
+					pagination.setLastPagedPage(lastPagedPage);
+					pagination.setPage(page);
+					pagination.setTotalPages(totalPages);
+					request.setAttribute(ParameterNames.PAGE, pagination);
+
+					
 					List<Categoria> categorias = categoriaService.findRoot(idioma);
 					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
@@ -153,11 +181,27 @@ public class TiendaServlet extends HttpServlet {
 			productoCrit.setIdTienda(id);
 			Tienda tienda = new Tienda();
 			try {
-				List<Producto> results = productoService.findBy(productoCrit, idioma);
+				// Pagina solicitada por el usuario (o por defecto la primera
+				// cuando todavia no ha usado el paginador)
+				int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
+				logger.info("pagina " + page);
+				Results<Producto> results = productoService.findBy(productoCrit, idioma, (page-1)*pageSize+1, pageSize);
+				// Datos para paginacion															
+				// (Calculos aqui, datos comodos para renderizar)
+				int totalPages = (int) Math.ceil((double)results.getTotal()/(double)pageSize);
+				int firstPagedPage = Math.max(1, page-pagingPageCount);
+				int lastPagedPage = Math.min(totalPages, page+pagingPageCount);
+				pagination.setFirstPage(firstPage);
+				pagination.setFirstPagedPage(firstPagedPage);
+				pagination.setLastPagedPage(lastPagedPage);
+				pagination.setPage(page);
+				pagination.setTotalPages(totalPages);
+				request.setAttribute(ParameterNames.PAGE, pagination);
 				tienda = tiendaService.findById(id);
 				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, results);
+				
 				SessionManager.set(request, AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_RESULTS;
 			} catch (DataException e) {

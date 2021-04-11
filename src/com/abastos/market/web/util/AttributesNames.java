@@ -23,5 +23,8 @@ public class AttributesNames {
 	public static final String VALORACION = "valoracion";
 	public static final String RECORDAR_USUARIO = "recordarUsuario";
 	public static final String RECORDAR_EMPRESA =  "recordarEmpresa";
-	
+	public static final String TOTAL_PAGES = "paginasTotales";
+	public static final String FIRST_PAGED_PAGES = "primeraPaginaPaginada";
+	public static final String LAST_PAGED_PAGES = "ultimaPaginaPaginada";
+	public static final String FIRST_PAGE =  "primeraPagina";
 }

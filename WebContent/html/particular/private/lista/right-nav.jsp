@@ -1,5 +1,5 @@
-<section class="tiendas">
-		<div class="tiendas2">
+<section class="block">
+		<div class="block_second">
 			<input type="checkbox">
 			<%
 		Lista results = (Lista) request.getAttribute(AttributesNames.LISTA);
@@ -10,7 +10,7 @@
 			<div>
 				
 
-				<div class=informacionTienda>
+				<div class="block_second--detail">
 					<p>Fecha de creación</p>
 					<p><%=results.getFechaCreacion()%></p>
 				</div>

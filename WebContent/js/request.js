@@ -60,7 +60,7 @@ function selectTiendas(){
             return;
         }
         let cont = createUrl();
-        var url= cont + "/tienda?action=buscar&ajax=true";
+        var url= cont + "/tienda-private?action=buscar&ajax=true";
     
     request.open("GET", url, true);
       
@@ -74,6 +74,8 @@ if(request.readyState == 4){
 		 
 		
 		let tiendas =  JSON.parse(request.responseText);
+		let tiendaFather = tienda.parentElement;
+		tiendaFather.style.display = "inline-block";
 			let firstOption = document.createElement("option");
 				firstOption.text= "--Selecciona tienda---";
 				firstOption.value="0";
@@ -125,6 +127,8 @@ function createSelectCategoria(){
 	if(request.readyState == 4){
             if(request.status==200){	
 		let categoria =  JSON.parse(request.responseText);
+		let categoriaFather = categoriaSelect.parentElement;
+		categoriaFather.style.display = "inline-block";
 			let firstOptionCategoria = document.createElement("option");
 				firstOptionCategoria.text= "--Selecciona categoria---";
 				firstOptionCategoria.value="";
@@ -158,6 +162,8 @@ function createSelectCategChild(){
 	if(request.readyState == 4){
             if(request.status==200){	
 		let categoria =  JSON.parse(request.responseText);
+		let categFather = categChild.parentElement;
+		categFather.style.display = "inline-block";
 		if(categoria.length > 0){
 			let firstOptionCategoria = document.createElement("option");
 				if(categChild.length == 0){
@@ -185,7 +191,7 @@ function selectProductos(){
             return;
         }
         let cont = createUrl();
-        var url= cont + "/producto?action=buscar&tienda=" + tienda.value +  "&ajax=true";
+        var url= cont + "/producto-private?action=buscar&tienda=" + tienda.value +  "&ajax=true";
     
     request.open("GET", url, true);
       
@@ -197,8 +203,10 @@ if(request.readyState == 4){
         
             if(request.status==200){
 		 
-		
+	
 		let productos =  JSON.parse(request.responseText);
+		let prodOfertFather = productoOferta.parentElement;
+					prodOfertFather.style.display = "inline-block";
 			let firstOptionProduct = document.createElement("option");
 				firstOptionProduct.text= "--Selecciona producto---";
 				firstOptionProduct.value="";
@@ -298,7 +306,9 @@ let localidad = document.getElementById("localidad");
 let count = document.getElementById("count");
 let carrito = document.getElementsByClassName("carritoCompra");
 let tienda = document.getElementById("tiendaSelect");
+
 let productoOferta = document.getElementById("productoOfertaSelect");
+
 let tipoOferta = document.getElementById("tipOferta");
 let selectLista = document.getElementById("selectLista");
 let buttonLista = document.querySelector("#selectLista + input");
@@ -307,7 +317,9 @@ let precioProducto = document.querySelector("#NomPro + span + p");
 let textInfoCL = document.querySelector(".ofertaCL");
 let campoSegUnd = document.getElementsByClassName("segundaUnidad");
 let categoriaSelect = document.getElementById("categoria");
+
 let categChild = document.getElementById("categChild");
+
 let tiendaProCre = document.getElementById("tiendaProdCre");
 let formSearch = document.getElementById("formSearch");
 /******************

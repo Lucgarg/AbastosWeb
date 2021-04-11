@@ -6,7 +6,7 @@
 	
 	<label primerBloque="&#xe922" for=registro><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.BUSCAR, true)%>">Mis listas</a></label><label
 		segundoBloque="y" for="logIn">Mis valoraciones </label><label
-		for="foNav"><div></div></label><label for=null><div
+		for="arrow-bottom"><div></div></label><label for="default-checked"><div
 			tercerBloque="z">
 			
 			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, true)%>" id="count"><%=carrito!=null? carrito.getLineasCarritoMap().size():""%></a>

@@ -14,6 +14,7 @@
 				<%String origen = request.getParameter(ParameterNames.ORIGEN);%>
 				
 					<%List<Categoria> cat = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);%>
+					<li><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, (Integer)null)%>">Todas las categorias</a>
 					<%for(Categoria c: cat) {
 					
 					if(String.valueOf(c.getId()).equals(categParameter)){%>

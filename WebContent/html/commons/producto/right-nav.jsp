@@ -1,5 +1,5 @@
-<section class="tiendas">
-		<div class="tiendas2">
+<section class="block">
+		<div class="block_second">
 			<input type="checkbox">
 			
 			<%if(tienda != null){%>
@@ -13,7 +13,7 @@
 					</figcaption>
 				</figure>
 
-				<div class=informacionTienda>
+				<div class="block_second--detail">
 					<p>
 						Jardin y hogar<br>
 						<%=tienda.getDireccionDto().getCalle()%><br>

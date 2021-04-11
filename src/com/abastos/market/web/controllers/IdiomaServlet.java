@@ -36,11 +36,14 @@ public class IdiomaServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+		
+	
 		if(ActionNames.SELECCIONAR.equals(action)) {
+			String url = request.getParameter(ParameterNames.URL);
 			String idioma = request.getParameter(ParameterNames.IDIOMA);
 			SessionManager.set(request, AttributesNames.IDIOMA, idioma);
 			redirect = true;
-			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			target = url;
 		
 		}
 

@@ -29,16 +29,29 @@ public class ParameterUtils {
 		}
 		return  sb.toString();
 	}
-public static final String printParam(HttpServletRequest request, String parameter, int pos) {
-	Map<String, String[]> params = request.getParameterMap();
-	if(params.get(parameter) == null) {
-		return "";
+	public static final String printParam(HttpServletRequest request, String parameter, int pos) {
+		Map<String, String[]> params = request.getParameterMap();
+		if(params.get(parameter) == null) {
+			return "";
+		}
+		else {
+
+			return params.get(parameter)[pos];
+		}
 	}
-	else {
-	
-		return params.get(parameter)[pos];
+
+	/**
+	 * Obtiene el valor entero de un valor de parametro currentPageValue
+	 */
+	public static final int getPageNumber(String pageValue, int defaultValue) {
+		int pageNumber = defaultValue;
+		if (pageValue!=null) {
+			
+				pageNumber = Integer.valueOf(pageValue);
+			
+		}
+		return pageNumber;
 	}
-}
 
 
 

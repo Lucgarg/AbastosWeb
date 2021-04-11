@@ -3,11 +3,11 @@
 <%Pedido pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);%>
 
 
-<section class="tiendas producto">
+<section class="block block--results">
 		<%if(errores.hasErrors()){%>
 		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>
-		<div class="tiendas2">
+		<div class="block_second">
 	
 		
 			<%

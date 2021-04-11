@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.abastos.dao.Results;
+import com.abastos.market.web.model.Pagination;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
@@ -59,6 +61,12 @@ public class ProductoServlet extends HttpServlet {
 	private TiendaService tiendaServ = null;
 	private OfertaService ofertServ = null;
 	private ListaService listaService = null;
+	//numero de resultados por pagina
+	private static int pageSize = 5;
+	//numero de paginas que se muestran alrededor de la navegable
+	private static int pagingPageCount = 3;
+	//primera pagina
+	private static int firstPage = 1;
 	public ProductoServlet() {
 		categoriaService = new CategoriaServiceImpl();
 		productoServ = new ProductoServiceImpl();
@@ -75,6 +83,7 @@ public class ProductoServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		Errors error = new Errors();
+		Pagination pagination = new Pagination();
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		if(idioma == null) {
@@ -139,15 +148,34 @@ public class ProductoServlet extends HttpServlet {
 
 
 			try {
-				//busqueda de productos en funcion de productoCriteria
-
-				List<Producto> 	results = productoServ.findBy(productoCri, idioma);
+			
+				
 				if(ajax != null) {
+					List<Producto> listProducts = productoServ.findByIdTienda(productoCri.getIdTienda(),idioma);
+				
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");
-					response.getOutputStream().write(gson.toJson(results).getBytes());
+					response.getOutputStream().write(gson.toJson(listProducts).getBytes());
 				}
 				else {
+					//busqueda de productos en funcion de productoCriteria
+					// Pagina solicitada por el usuario (o por defecto la primera
+					// cuando todavia no ha usado el paginador)
+					int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
+					logger.info("pagina " + page);
+					Results<Producto> 	results = productoServ.findBy(productoCri, idioma, (page-1)*pageSize+1, pageSize);
+					
+					// Datos para paginacion															
+					// (Calculos aqui, datos comodos para renderizar)
+					int totalPages = (int) Math.ceil((double)results.getTotal()/(double)pageSize);
+					int firstPagedPage = Math.max(1, page-pagingPageCount);
+					int lastPagedPage = Math.min(totalPages, page+pagingPageCount);
+					pagination.setFirstPage(firstPage);
+					pagination.setFirstPagedPage(firstPagedPage);
+					pagination.setLastPagedPage(lastPagedPage);
+					pagination.setPage(page);
+					pagination.setTotalPages(totalPages);
+					request.setAttribute(ParameterNames.PAGE, pagination);
 					if(tienda != null) {
 						List<Categoria> categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()),"es");
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
@@ -155,7 +183,7 @@ public class ProductoServlet extends HttpServlet {
 					if(empresa != null) {
 						List<Tienda> tiendaResults = tiendaServ.findByIdEmpresa(empresa.getId());
 						List<Categoria> categorias = categoriaService.findRoot(idioma);
-						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results, tiendaResults);
+						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results.getPage(), tiendaResults);
 						request.setAttribute(AttributesNames.TIENDA, result);
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					}

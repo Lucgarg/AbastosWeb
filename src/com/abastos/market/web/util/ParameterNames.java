@@ -69,4 +69,5 @@ public class ParameterNames {
 	public static final String RECORDAR_USUARIO = "recordarUsuario";
 	public static final String MANTENER_SESION = "mantenerSesion";
 	public static final String MANTENER_RECORDAR = "mantenerOrRecordar";
+	public static final String PAGE = "pagina";
 }

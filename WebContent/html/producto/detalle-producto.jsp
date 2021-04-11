@@ -5,7 +5,7 @@
 <%@include file= "/html/commons/usuario/header.jsp"%>
 <%@include file= "/html/commons/producto/right-nav.jsp"%>
 <%@include file= "/html/commons/producto/left-nav.jsp"%>
-	<section class ="productoDetalle"><div>
+	<section class="centralBlock"><div>
                 <figure class="imagenProducto">
                     <input type="radio" id="prueba1" name="sli">
                     <input type="radio" id="prueba2" name="sli">
@@ -39,12 +39,13 @@
                 	<%if(particular!= null){%>
                 	<%List<Lista> listas = (List<Lista>)request.getAttribute(AttributesNames.LISTA);%>
                 	   
-                	  
+                	  <label class="select form" for="selectLista">
                         <select name="<%=ParameterNames.LISTA%>" id="selectLista">
                         <%for(Lista l: listas){%>
                         	<option value="<%=l.getId()%>"><%=l.getNombre()%></option>
                         <%}%>
                         </select>
+                        </label>
                         <input type="submit" name="<%=p.getId()%>" value="añadir a mi lista"/>
                     
                 	<%}%>

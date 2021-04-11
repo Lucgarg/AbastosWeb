@@ -1,18 +1,18 @@
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>
-	<section class="tiendas">
-		<div class="tiendas2">
+	<section class="block">
+		<div class="block_second">
 	</section>
 	<section>
 		<nav>
 			
 		</nav>
 	</section>
-	<section class="tiendas producto">
+	<section class="block block--results">
 		<%if(errores.printError(ParameterNames.ERROR) != null){%>
 		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>
-		<div class="tiendas2">
+		<div class="block_second">
 		<%
 		List<Oferta> results = (List<Oferta>) request.getAttribute(AttributesNames.OFERTAS);
 		%>

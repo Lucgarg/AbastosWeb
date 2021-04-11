@@ -1,17 +1,19 @@
 <%@ page
-	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.service.impl.*, com.abastos.market.web.util.*"%>
+	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.service.impl.*, com.abastos.dao.*, com.abastos.market.web.util.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
 <%@include file="/html/commons/producto/right-nav.jsp"%>
 <%@include file="/html/commons/producto/left-nav.jsp"%>
-<section class="tiendas producto">
+<section class="block block--results">
 		<%if(errores.hasErrors()){%>
 	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
-	<div class="tiendas2">
+	<div class="block_second">
 		<%
-		List<Producto> results = (List<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
+		
 		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA);
-		for(Producto p : results){
+		Results<Producto> results = (Results<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
+		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
+		for(Producto p : results.getPage()){
 			%>
 
 		<div>
@@ -123,7 +125,7 @@
 					if(empresa == null){
 					%>
 			<form>
-				<input type="text" name="<%=ParameterNames.NUMERO_UNIDADES%>"><br>
+				<input type="text" name="<%=ParameterNames.NUMERO_UNIDADES%>">
 				<button type="button" class="carritoCompra" name="<%=p.getId()%>"></button>
 			</form>
 			<%
@@ -146,5 +148,42 @@
 	</button>
 	<%}%>
 </section>
+<!--paginacion-->
+<%if(pagination.getTotalPages() > 1){%>
+<div class="paginacion">
+<%if(pagination.getPage() != pagination.getFirstPage()){%>
+<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, 
+		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(pagination.getFirstPage()))%>" 
+		class="page"><%=pagination.getFirstPage()%></a>
+<a class="page--blank">...</a>
+<%}%>
+<%for(int i = pagination.getFirstPagedPage(); i < pagination.getPage(); i++ ){%>
+<%if(i != pagination.getFirstPage()){%>
+<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, 
+		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(i))%>" 
+		class="page"><%=i%></a>		
+<%}%>
+<%}%>
 
+
+<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO,
+		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(pagination.getPage()))%>" 
+		style="padding-bottom: 2%; width: 2%;" class="page"><%=pagination.getPage()%></a>
+
+<%for(int i = pagination.getPage()+1; i <= pagination.getLastPagedPage(); i++ ){%>
+<%if(i != pagination.getTotalPages()){%>
+<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, 
+		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(i))%>" 
+	 class="page"><%=i%></a>
+	 <%}%>
+<%}%>
+<%if(pagination.getPage() != pagination.getTotalPages()){%>
+<a class="page--blank">...</a>
+<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, 
+		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(pagination.getTotalPages()))%>" 
+		 class="page"><%=pagination.getTotalPages()%></a>
+		 <%}%>
+
+</div>
+<%}%>
 <%@include file="/html/commons/usuario/footer.jsp"%>

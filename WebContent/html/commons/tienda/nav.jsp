@@ -2,15 +2,15 @@
 <%@page import="com.abastos.market.web.util.ControllerPath"%>
 <%@page import="com.abastos.market.web.util.ViewPathsctions"%>
 <%@page import="com.abastos.market.web.util.ParameterNames"%>
-<section class="tiendas">
-		<div class="tiendas2">
+<section class="block">
+		<div class="block_second">
 	</section>
 <section>
 		<nav>
 			<label class="menu" for="menu"> <input type="checkbox" />
 				<div></div>
 				<ul>
-				
+					
 					<%
 									List<Categoria> catServ = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);
 									%>
@@ -18,7 +18,9 @@
 					String categoria = (String)request.getParameter(ParameterNames.CATEGORIA);
 								String domicilio = (String)request.getParameter(ParameterNames.ENVIO_DOMICILIO);
 								String nombre = (String)request.getParameter(ParameterNames.NOMBRE_TIENDA);
+								
 					%>
+					<li><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, (Integer)null )%>">Todas las categorias</a></li>
 					<%
 					for(Categoria cat: catServ){
 								if(String.valueOf(cat.getId()).equals(categoria)){

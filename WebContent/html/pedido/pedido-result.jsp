@@ -6,7 +6,7 @@
 <%if(pedido.getLineaPedido().size() > 0){%>
 <%@include file="/html/pedido/right-nav.jsp"%>
 
-<section class="tiendas producto">
+<section class="block block--results">
 	<%if(errores.printError(ActionNames.SEND_EMAIL) != null){%>
 	<p class="error"><%=errores.printError(ActionNames.SEND_EMAIL)%></p>
 	<%}%>
@@ -16,7 +16,7 @@
 	<%if(errores.hasErrors()){%>
 	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
-	<div class="tiendas2">
+	<div class="block_second">
 
 		<%
 		for(LineaPedido p : pedido.getLineaPedido()){

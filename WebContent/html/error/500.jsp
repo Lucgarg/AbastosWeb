@@ -12,7 +12,7 @@
 <title>Insert title here</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="<%=UrlBuilder.getUrl(request, "css/estilo.css")%>">
-<link rel="stylesheet" media="(min-width: 800px)" href="<%=UrlBuilder.getUrl(request, "css/prueba.css")%>">
+<link rel="stylesheet" media="(min-width: 800px)" href="<%=UrlBuilder.getUrl(request, "css/desktop.css")%>">
 
 </head>
 <body>
