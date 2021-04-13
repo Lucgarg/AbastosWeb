@@ -4,6 +4,15 @@
 <%@page import="com.abastos.market.web.util.ParameterNames"%>
 <section class="block">
 		<div class="block_second">
+			<%
+	if (empresa != null) {
+	%>
+	<button class="Buscar crear">
+		<a
+			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, true)%>">
+			Crear tienda</a>
+	</button>
+	<%}%>
 	</section>
 <section>
 		<nav>

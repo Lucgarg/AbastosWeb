@@ -5,10 +5,10 @@
 
 <section class="block block--results">
 		<%if(errores.hasErrors()){%>
-		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+		<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>
 		<div class="block_second">
-	
+			
 		
 			<%
 		for(LineaPedido p : pedido.getLineaPedido()){
@@ -36,9 +36,9 @@
 					<p><%=p.getPrecioFinal()%></p>
 					
 			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, true, 
-					ParameterNames.ID_TIENDA, String.valueOf(p.getIdTienda()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()), ParameterNames.URL, UrlBuilder.urlCallBack(request, false))%>"><button class="Buscar">valorar tienda</button></a>
+					ParameterNames.ID_TIENDA, String.valueOf(p.getIdTienda()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()))%>"><button class="Buscar">valorar tienda</button></a>
 			<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, true,
-					ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()), ParameterNames.URL, UrlBuilder.urlCallBack(request, false))%>"><button class="Buscar">valorar producto</button></a>
+					ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.PEDIDO, String.valueOf(p.getIdPedido()))%>"><button class="Buscar">valorar producto</button></a>
 			</div>
 			<%}%>
 		

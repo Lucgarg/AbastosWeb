@@ -119,7 +119,7 @@ public class TiendaServlet extends HttpServlet {
 			if(local != null) {
 				tienda.setIdLocalidad(local.getId());
 			}
-			
+
 			if(categoria != null ) {
 				tienda.setCategoria(Integer.valueOf(categoria));
 			}
@@ -134,17 +134,19 @@ public class TiendaServlet extends HttpServlet {
 			}
 			try {
 				if(ajax !=null) {
-					
+
 					List<Tienda> results = tiendaService.findByIdEmpresa(empresa.getId());
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");
 					response.getOutputStream().write(gson.toJson(results).getBytes());
 				}
 				else {
+
 					// Pagina solicitada por el usuario (o por defecto la primera
 					// cuando todavia no ha usado el paginador)
 					int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
 					logger.info("pagina " + page);
+
 					Results<Tienda> results = tiendaService.findByCriteria(tienda, (page-1)*pageSize+1, pageSize);
 					// Datos para paginacion															
 					// (Calculos aqui, datos comodos para renderizar)
@@ -158,15 +160,17 @@ public class TiendaServlet extends HttpServlet {
 					pagination.setTotalPages(totalPages);
 					request.setAttribute(ParameterNames.PAGE, pagination);
 
-					
+
 					List<Categoria> categorias = categoriaService.findRoot(idioma);
 					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
 					request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					target = ViewPaths.TIENDA_RESULTS;
+
 				}
+
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				logger.warn(e.getMessage(),e);
@@ -201,11 +205,12 @@ public class TiendaServlet extends HttpServlet {
 				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, results);
-				
+
 				SessionManager.set(request, AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_RESULTS;
+
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 				logger.info(target);
@@ -252,24 +257,29 @@ public class TiendaServlet extends HttpServlet {
 				tiendaService.create(tienda);
 				infoEmail.put("tienda", tienda);
 				mailService.sendMailHtml(infoEmail,6L,tienda.getEmail());	
+
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR, redirect); 
+
 			} catch (LimitCreationException e) {
 				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_SHOP);
 				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA,redirect);
 				logger.warn(e.getMessage(),e);
 			} catch(MailException e) {
 				error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
 				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, redirect);
-				logger.warn(e.getMessage(),e);
-			}
-			catch(DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, redirect);
 				logger.warn(e.getMessage(),e);
 
+			}
+
+			catch(DataException e) {
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATION_TIENDA);
+				request.setAttribute(AttributesNames.ERROR, error);
+				logger.warn(e.getMessage(),e);
+
+			}
+			if(error.hasErrors()) {
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, redirect);
 			}
 
 		}

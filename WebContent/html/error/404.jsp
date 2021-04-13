@@ -14,9 +14,13 @@
 
 </head>
 <body>
-	
+	<div class="logo">
+	<figure>
+		<img src="<%=UrlBuilder.getUrlforImg(request, "logo.jpg")%>" alt="">
+	</figure>
+</div>
        <section class="localizacion">
-       <p>Error 404</p>
-       <p>Upss! lo sentimos no hemos sido capaces de encontrar lo que buscaba</p>
+     
+       <p class="error_warn">Upss! lo sentimos no hemos sido capaces de encontrar lo que buscaba</p>
        </section>
 </body>

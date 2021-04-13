@@ -14,7 +14,7 @@
 		String idPedido = (String) request.getAttribute(AttributesNames.PEDIDO);
 		Tienda t = (Tienda) request.getAttribute(AttributesNames.TIENDA);
 		%>
-		<h1 id="tituloFormulario"><%=t.getNombre()%></h1>
+		<h1 id="title_section"><%=t.getNombre()%></h1>
 		<%
 		if (errores.hasErrors()) {
 		%>

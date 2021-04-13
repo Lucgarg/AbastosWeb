@@ -184,15 +184,16 @@ public class ProductoServlet extends HttpServlet {
 						List<Tienda> tiendaResults = tiendaServ.findByIdEmpresa(empresa.getId());
 						List<Categoria> categorias = categoriaService.findRoot(idioma);
 						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results.getPage(), tiendaResults);
-						request.setAttribute(AttributesNames.TIENDA, result);
+						request.setAttribute(AttributesNames.TIENDA_PRODUCTOS, result);
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					}
 					request.setAttribute(AttributesNames.PRODUCTO, results);
 					target = ViewPaths.PRODUCTO_RESULTS;
 				}
+				
 			}
 			catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.DETALLE, redirect);
 				logger.warn(e.getMessage(),e);
@@ -219,12 +220,12 @@ public class ProductoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PRODUCTO, result);
 				request.setAttribute(AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_DETALLE;
+				throw new DataException();
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
-				
+				logger.warn(e.getMessage(),e);	
 			}
 
 		}

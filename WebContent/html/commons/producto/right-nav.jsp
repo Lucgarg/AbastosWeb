@@ -30,5 +30,14 @@
 					</label>
 				</div>
 			<%}%>
+				<%
+			if(empresa != null){
+			%>
+	<button class="Buscar crear">
+		<a
+			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, true)%>">
+			Crear producto</a>
+	</button>
+	<%}%>
 			</div>
 	</section>

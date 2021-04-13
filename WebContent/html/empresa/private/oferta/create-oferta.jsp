@@ -9,6 +9,7 @@
 </section>
 <section class="centralBlock">
 	<div>
+	<h1 id="title_section">Crea tu oferta</h1>
 		<%
 		if (errores.printError(ParameterNames.ERROR) != null) {
 		%>

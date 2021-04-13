@@ -11,6 +11,7 @@
 </section>
 <section class="centralBlock">
 	<div>
+	<h1 id="title_section">Crea tu tienda</h1>
 		<%if(errores.printError(ActionNames.CREAR) != null){%>
 		<p class="error"><%=errores.printError(ActionNames.CREAR)%></p>
 		<%}%>
@@ -20,6 +21,7 @@
 			<%if(errores.printError(ParameterNames.ERROR) != null){%>
 		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>
+	
 		<form action="<%=UrlBuilder.getUrl(request, ControllerPath.TIENDA_PRIVATE)%>"
 			method="post">
 

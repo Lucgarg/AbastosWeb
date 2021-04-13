@@ -8,6 +8,9 @@
 	</figure>
 </div>
 <section class="localizacion">
+	<%if(errores.printError(ParameterNames.ERROR) != null){%>
+	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
+	<%}%>
 	<form action="<%=UrlBuilder.getUrl(request, ControllerPath.TIENDA)%>"
 		method="post" autocomplete="off" id="formSearch">
 		<input type="hidden" name=<%=ActionNames.ACTION%>
@@ -34,9 +37,7 @@
 		</select>
 		</label><br> <input type="submit" class="Buscar" value="Buscar">
 	</form>
-	<%if(errores.hasErrors()){%>
-	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
-	<%}%>
+
 
 </section>
 <%@include file="/html/commons/usuario/footer.jsp"%>

@@ -25,5 +25,6 @@ public class ViewPaths {
 	public static final String LINEA_PEDIDO = "html/particular/private/pedido/lineas-pedido.jsp";
 	public static final String ERROR_500 = "html/error/500.jsp";
 	public static final String ERROR_404 = "html/error/404.jsp";
-
+	public static final String PERFIL_PARTICULAR =  "html/particular/private/perfil/perfil-particular.jsp";
+	public static final String PERFIL_EMPRESA =  "html/empresa/private/perfil/perfil-empresa.jsp";
 }

@@ -39,6 +39,12 @@ public class ParameterUtils {
 			return params.get(parameter)[pos];
 		}
 	}
+	public static final String printParam(String s) {
+		if(null != s) {
+			return s;
+		}
+		return "";
+	}
 
 	/**
 	 * Obtiene el valor entero de un valor de parametro currentPageValue

@@ -1,6 +1,7 @@
 <section class="block">
 		<div class="block_second">
 			<input type="checkbox">
+	
 			<%
 		Lista results = (Lista) request.getAttribute(AttributesNames.LISTA);
 		%>

@@ -5,12 +5,15 @@
 <%@include file="/html/commons/producto/left-nav.jsp"%>
 <section class="block block--results">
 		<%if(errores.hasErrors()){%>
-	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
 	<div class="block_second">
+	<%if(empresa != null){ %>
+			<h1 id="title_section">Mis Productos</h1>
+		<%}%>
 		<%
 		
-		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA);
+		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA_PRODUCTOS);
 		Results<Producto> results = (Results<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
 		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
 		for(Producto p : results.getPage()){
@@ -138,15 +141,7 @@
 			%>
 
 	</div>
-	<%
-			if(empresa != null){
-			%>
-	<button class="Buscar">
-		<a
-			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, true)%>">
-			Crear producto</a>
-	</button>
-	<%}%>
+
 </section>
 <!--paginacion-->
 <%if(pagination.getTotalPages() > 1){%>

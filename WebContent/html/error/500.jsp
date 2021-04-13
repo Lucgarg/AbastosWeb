@@ -16,8 +16,13 @@
 
 </head>
 <body>
+<div class="logo">
+	<figure>
+		<img src="<%=UrlBuilder.getUrlforImg(request, "logo.jpg")%>" alt="">
+	</figure>
+</div>
        <section class="localizacion">
-       <p>Error 500</p>
-       <p>Upss! hemos tenido un problema, disculpe las molestias</p>
+       
+       <p class="error_warn">Upss! hemos tenido un problema, disculpe las molestias</p>
        </section>
 </body>

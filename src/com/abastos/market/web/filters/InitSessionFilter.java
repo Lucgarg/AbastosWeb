@@ -102,6 +102,7 @@ public class InitSessionFilter implements Filter {
 
 
 					if(cookie != null) {
+						SessionManager.remove(httpRequest, AttributesNames.RECORDAR_EMPRESA);
 						SessionManager.set(httpRequest, AttributesNames.RECORDAR_USUARIO, cookValue[3]);
 
 					}
@@ -126,8 +127,8 @@ public class InitSessionFilter implements Filter {
 
 
 					if(cookie != null) {
+						SessionManager.remove(httpRequest, AttributesNames.RECORDAR_USUARIO);
 						SessionManager.set(httpRequest, AttributesNames.RECORDAR_EMPRESA, cookValue[3]);
-
 					}
 					if (cookieRemind != null) {
 						SessionManager.set(httpRequest, AttributesNames.EMPRESA, empresa);

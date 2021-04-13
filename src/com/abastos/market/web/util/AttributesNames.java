@@ -12,6 +12,7 @@ public class AttributesNames {
 	public static final String TIPO = "tipo";
 	public static final String PRODUCTO =  "productos";
 	public static final String TIENDA = "tienda";
+	public static final String TIENDA_PRODUCTOS = "tiendaProductos";
 	public static final String PEDIDO = "pedido";
 	public static final String USUARIO = "usuario";
 	public static final String LOCALIZACION = "localizacion";

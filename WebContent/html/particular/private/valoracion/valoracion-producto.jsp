@@ -16,7 +16,7 @@
 		Producto pro = (Producto)request.getAttribute(AttributesNames.PRODUCTO);
 		
 		%>
-		<h1 id="tituloFormulario"><%=pro.getNombre()%></h1>
+		<h1 id="title_section"><%=pro.getNombre()%></h1>
 		<%if(errores.hasErrors()){%>
 			<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>

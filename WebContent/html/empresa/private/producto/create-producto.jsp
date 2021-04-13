@@ -12,6 +12,7 @@
 		</nav>
 	</section>
 	<section class="centralBlock"><div>
+	<h1 id="title_section">Crea tu producto</h1>
 		<%if(errores.printError(ActionNames.CREAR) != null){%>
 		<p class="error"><%=errores.printError(ActionNames.CREAR)%></p>
 		<%}%>

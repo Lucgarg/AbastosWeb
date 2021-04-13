@@ -95,6 +95,8 @@ public class PrecreateServlet extends HttpServlet {
 		if(ActionNames.EMPRESA.equalsIgnoreCase(action)) {
 			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
 			try {
+				
+			
 				List<Categoria> categorias = categoriaService.findRoot("es");
 				List<Pais> paises = paisService.findByAll();
 				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);

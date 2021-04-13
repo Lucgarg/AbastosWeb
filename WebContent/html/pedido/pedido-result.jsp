@@ -8,14 +8,13 @@
 
 <section class="block block--results">
 	<%if(errores.printError(ActionNames.SEND_EMAIL) != null){%>
-	<p class="error"><%=errores.printError(ActionNames.SEND_EMAIL)%></p>
+	<p class="error generic"><%=errores.printError(ActionNames.SEND_EMAIL)%></p>
 	<%}%>
-	<%if(errores.printError(ActionNames.CREAR_PEDIDO) != null){%>
-	<p class="error"><%=errores.printError(ActionNames.CREAR_PEDIDO)%></p>
+
+	<%if(errores.printError(ParameterNames.ERROR) != null){%>
+	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
-	<%if(errores.hasErrors()){%>
-	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
-	<%}%>
+	
 	<div class="block_second">
 
 		<%
@@ -128,7 +127,7 @@
 
 			<p><%=p.getPrecioFinal()%></p>
 
-			<button>
+			<button class="Buscar">
 				<a
 					href="<%=UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.ELIMINAR, true, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()))%>">eliminar</a>
 			</button>

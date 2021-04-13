@@ -1,11 +1,15 @@
 <%@page import="javax.swing.event.MouseInputListener"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
-<%@include file= "/html/commons/usuario/header.jsp"%>	
+<%@include file= "/html/commons/usuario/header.jsp"%>
+
 	<section class="block block--results">
 		<%if(errores.hasErrors()){%>
-	<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
+	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
 		<div class="block_second">
+		
+			<h1 id="title_section">Mis listas</h1>
+		
 		<%
 		List<Lista> results = (List<Lista>) request.getAttribute(AttributesNames.LISTA);
 		%>

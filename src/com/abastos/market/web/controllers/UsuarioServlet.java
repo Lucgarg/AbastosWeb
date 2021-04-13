@@ -97,7 +97,7 @@ public class UsuarioServlet extends HttpServlet {
 						String cookieValue = new StringBuilder(tipUsuario).append(":").append(String.valueOf(empresa.getId())).append(":")
 								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
 								.append(usuario).toString();
-
+						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
 					if(ParameterNames.MANTENER_SESION.equalsIgnoreCase(recordarMantener)) {
@@ -106,17 +106,18 @@ public class UsuarioServlet extends HttpServlet {
 
 						CookieManager.addCookie(response, ParameterNames.MANTENER_SESION, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
+				
 					redirect = true;
 					target =  UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 
-
+				
 				}catch(ServiceException e){
 					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
 					logger.warn(e.getMessage(), e);
 
 				}
 				catch (DataException e) {
-					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC);
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC_LOGIN);
 					logger.warn(e.getMessage(),e);
 
 				}
@@ -142,17 +143,24 @@ public class UsuarioServlet extends HttpServlet {
 					Particular particular = particularService.login(email,usuario, password);
 					SessionManager.set(request, AttributesNames.USUARIO, particular);
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario).append(":").append(String.valueOf(particular.getId())).append(":")
-								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":").append(usuario).toString();
+						String cookieValue = new StringBuilder(tipUsuario)
+								.append(":")
+								.append(String.valueOf(particular.getId())).append(":")
+								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
+								.append(usuario).toString();
 
+						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
 					if(ParameterNames.MANTENER_SESION.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario).append(":").append(String.valueOf(particular.getId())).append(":")
-								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":").append(usuario).toString();
+						String cookieValue = new StringBuilder(tipUsuario).append(":")
+								.append(String.valueOf(particular.getId())).append(":")
+								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
+								.append(usuario).toString();
 
 						CookieManager.addCookie(response, ParameterNames.MANTENER_SESION, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
+					
 					target = UrlBuilder.urlCallBack(request, false);
 					redirect = true;
 				}catch(ServiceException e){
@@ -161,7 +169,7 @@ public class UsuarioServlet extends HttpServlet {
 
 				}
 				catch (DataException e) {
-					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC);
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC_LOGIN);
 					request.setAttribute(AttributesNames.ERROR, error);
 
 
