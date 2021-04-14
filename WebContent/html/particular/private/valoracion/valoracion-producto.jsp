@@ -29,7 +29,7 @@
 				value="<%=ActionNames.PUNTUACION_PRODUCTO%>"
 				<%}else{%>
 				value="<%=ActionNames.UPDATE_VAL_PRODUCTO%>"
-				><%}%> <input type="hidden"
+				<%}%>> <input type="hidden"
 				 name="<%=ParameterNames.ID_PRODUCTO%>"
 				value="<%=pro.getId()%>"> <input type="hidden"
 				name="<%=ParameterNames.PEDIDO%>" value="<%=idPedido%>">
