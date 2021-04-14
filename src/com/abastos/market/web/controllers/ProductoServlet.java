@@ -220,7 +220,7 @@ public class ProductoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PRODUCTO, result);
 				request.setAttribute(AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_DETALLE;
-				throw new DataException();
+				
 			} catch (DataException e) {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
@@ -264,17 +264,18 @@ public class ProductoServlet extends HttpServlet {
 				producto.setStock(Integer.valueOf(stock));
 				producto.setTipoOrigen(origen.charAt(0));	
 				logger.info(producto.getPrecio());
-				productoServ.create(producto);		
+				productoServ.create(producto);	
+			
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR, redirect);
-
+				
 			}	catch(LimitCreationException e) {
 				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_PRODUCTS);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 				logger.warn(e.getMessage(),e);
 			}catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 				logger.warn(e.getMessage(),e);

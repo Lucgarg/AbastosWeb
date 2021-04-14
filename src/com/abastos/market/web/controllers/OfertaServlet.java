@@ -109,21 +109,21 @@ public class OfertaServlet extends HttpServlet {
 				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde, fechaVigencia, ParameterNames.FECHA_VIG,error));
 				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta, fechaCaducidad, ParameterNames.FECHA_CAD, error));
 				ValidationUtils.dateOrderValidation(oferta.getFechaDesde(), oferta.getFechaHasta(), error);
+				
 				if(!error.hasErrors()) {
 					ofertaService.create(oferta);
 					redirect = true;
 					target = UrlBuilder.getUrlForController(request,ControllerPath.OFERTA ,ActionNames.BUSCAR, redirect);
 				}
-				else {
-					request.setAttribute(AttributesNames.ERROR, error);
-					target = UrlBuilder.getUrlForController(request,ControllerPath.PRECREATE, ActionNames.OFERTA, redirect);
-				}
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_OFERT);		
+			}
+			if(error.hasErrors()) {
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request,ControllerPath.PRECREATE, ActionNames.OFERTA, redirect);
-				logger.warn(e.getMessage(),e);
 			}
+			
 		}
 		if(target == null) {
 			target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);

@@ -1,6 +1,7 @@
 
 <%@page
-	import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
+	import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*,
+	 com.abastos.service.utils.*, com.abastos.cache.impl.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
 <div class="logo">
 	<figure>
@@ -16,7 +17,8 @@
 		<input type="hidden" name=<%=ActionNames.ACTION%>
 			value=<%=ActionNames.BUSCAR%>> <label class="select"
 			for="pais"> <select name=<%=ParameterNames.PAIS%> id="pais">
-				<%List<Pais> paises = (List<Pais>)request.getAttribute(AttributesNames.PAISES);%>
+				<%List<Pais> paises=  (List<Pais>)CacheManagerImpl.getInstance()
+				.get(CacheNames.PAIS).get(CacheNames.PAIS);%>
 
 				<option value="0">--selecciona un pais--</option>
 				<%for(Pais p: paises){%>

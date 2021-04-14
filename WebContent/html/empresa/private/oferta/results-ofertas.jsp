@@ -1,4 +1,5 @@
-<%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
+<%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*,
+ com.abastos.market.web.util.*,  com.abastos.service.utils.*, com.abastos.cache.impl.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>
 	<section class="block">
 		<div class="block_second">
@@ -17,6 +18,7 @@
 		<h1 id="title_section">Mis ofertas</h1>
 		<%
 		List<Oferta> results = (List<Oferta>) request.getAttribute(AttributesNames.OFERTAS);
+		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)CacheManagerImpl.getInstance().get(CacheNames.PRODUCTO_OFERTA).get("es");
 		%>
 		<%
 		for(Oferta o : results){
@@ -31,7 +33,7 @@
 				<p>numerador: <%=o.getNumerador()%></p>
 				<p>denominador: <%=o.getDenominador()%></p>
 				<%} if(o.getIdTipoOferta() ==3){%>
-				<p>Producto que recibe la oferta: <%=o.getNombreProdOferta()%></p>
+				<p>Producto que recibe la oferta: <%=ofertPro.get(o.getIdProdOferta()).getNombre()%></p>
 			<%}%>
 				<%if(o.getDescuentoFijo() != 0.0){%>
 				<p>Descuento fijo: <%=o.getDescuentoFijo()%></p>

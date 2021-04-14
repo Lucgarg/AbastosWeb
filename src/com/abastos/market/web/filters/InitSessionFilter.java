@@ -52,6 +52,7 @@ public class InitSessionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession(false);
+		logger.info("accediendo a InitSessionFilter..");
 		String target = null;
 		Carrito carrito = null;
 		Errors error  = new Errors();
@@ -70,21 +71,18 @@ public class InitSessionFilter implements Filter {
 			SessionManager.set(httpRequest, AttributesNames.CARRITO, carrito);
 		}
 		//cookies para la funcionalidad de recordar nombre o sesion
-		Cookie cookie = CookieManager.getCookie(httpRequest, ParameterNames.RECORDAR_USUARIO);
+		
 		Cookie cookieRemind = CookieManager.getCookie(httpRequest, ParameterNames.MANTENER_SESION);
 		String result = null;
 		String [] cookValue = null;
 
-		if(cookie != null) {
-			result = cookie.getValue();
-			cookValue = result.split(":");
-		}
+	
 		if(cookieRemind != null) {
 			result = cookieRemind.getValue();
 			cookValue = result.split(":");
 		}
 
-		if(cookie != null|| cookieRemind != null) {
+		if( cookieRemind != null) {
 
 			if(ActionNames.PARTICULAR.equalsIgnoreCase(cookValue[0])) {
 				Particular particular = null;
@@ -101,15 +99,10 @@ public class InitSessionFilter implements Filter {
 						particular.getEmail().equals(cookValue[3])) {
 
 
-					if(cookie != null) {
-						SessionManager.remove(httpRequest, AttributesNames.RECORDAR_EMPRESA);
-						SessionManager.set(httpRequest, AttributesNames.RECORDAR_USUARIO, cookValue[3]);
-
-					}
-					if (cookieRemind != null) {
+				
 						SessionManager.set(httpRequest, AttributesNames.USUARIO, particular);
 
-					}}}
+					}}
 
 			if(ActionNames.EMPRESA.equalsIgnoreCase(cookValue[0])) {
 				Empresa empresa = null;
@@ -124,16 +117,10 @@ public class InitSessionFilter implements Filter {
 				if(httpRequest.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[2])) && 
 						empresa.getAlias().equals(cookValue[3])||
 						empresa.getCorreoElectronico().equals(cookValue[3])) {
-
-
-					if(cookie != null) {
-						SessionManager.remove(httpRequest, AttributesNames.RECORDAR_USUARIO);
-						SessionManager.set(httpRequest, AttributesNames.RECORDAR_EMPRESA, cookValue[3]);
-					}
-					if (cookieRemind != null) {
+		
 						SessionManager.set(httpRequest, AttributesNames.EMPRESA, empresa);
 
-					}}}
+					}}
 
 		}
 

@@ -87,13 +87,11 @@
 						for="empresaLog">Empresa</label> <input type="radio"
 						id="empresaLog" value="<%=ActionNames.EMPRESA%>"
 						name="<%=ParameterNames.TIP_USUARIO%>"
-						<%if (nameEmpresa != null) {%> checked <%}%>><br> 
+						><br> 
 						<label
 						for="usuario">Usuario o email</label><br>
 						 <input type="text"
-						name="<%=ParameterNames.NOMBRE_USUARIO%>" <%if (name != null) {%>
-						value="<%=name%>" <%} else if (nameEmpresa != null) {%>
-						value="<%=nameEmpresa%>" <%}%>> <br>
+						name="<%=ParameterNames.NOMBRE_USUARIO%>" id="nameUser"> <br>
 						 <label
 						for="password">Contraseña</label><br>
 						 <input type="password"

@@ -1,5 +1,8 @@
+<%@page import="com.abastos.service.utils.CacheNames"%>
 <%@ page
-	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.service.impl.*, com.abastos.dao.*, com.abastos.market.web.util.*"%>
+	import="java.util.*, com.abastos.model.*, com.abastos.service.*, 
+	com.abastos.service.impl.*, com.abastos.dao.*, com.abastos.market.web.util.*,
+	com.abastos.model.*, com.abastos.cache.impl.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
 <%@include file="/html/commons/producto/right-nav.jsp"%>
 <%@include file="/html/commons/producto/left-nav.jsp"%>
@@ -12,7 +15,7 @@
 			<h1 id="title_section">Mis Productos</h1>
 		<%}%>
 		<%
-		
+		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)CacheManagerImpl.getInstance().get(CacheNames.PRODUCTO_OFERTA).get("es");
 		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA_PRODUCTOS);
 		Results<Producto> results = (Results<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
 		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
@@ -99,7 +102,7 @@
 					 %>
 				<p>
 					Compra y ahorrate del producto
-					<%=p.getOferta().getNombreProdOferta()%>
+					<%=ofertPro.get(p.getOferta().getIdProdOferta()).getNombre()%>
 
 					<%
  					 						 			if(p.getOferta().getDescuentoFijo() != 0.0){

@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -36,6 +37,7 @@ import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.EmpresaServiceImpl;
 
 import com.abastos.service.impl.ParticularServiceImpl;
+import com.google.gson.Gson;
 
 
 
@@ -64,7 +66,9 @@ public class UsuarioServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
+		String ajax = null;
 		Errors error = new Errors();
+	
 		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
@@ -94,7 +98,7 @@ public class UsuarioServlet extends HttpServlet {
 					}
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario).append(":").append(String.valueOf(empresa.getId())).append(":")
+						String cookieValue = new StringBuilder(tipUsuario).append(":")
 								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
 								.append(usuario).toString();
 						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
@@ -145,7 +149,6 @@ public class UsuarioServlet extends HttpServlet {
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
 						String cookieValue = new StringBuilder(tipUsuario)
 								.append(":")
-								.append(String.valueOf(particular.getId())).append(":")
 								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
 								.append(usuario).toString();
 
@@ -181,10 +184,25 @@ public class UsuarioServlet extends HttpServlet {
 					target = UrlBuilder.urlCallBack(request, true);
 
 				}
+			}}
+			else if(ActionNames.REMENBER_USER_NAME.equals(action)) {
+				ajax = request.getParameter(ParameterNames.AJAX);
+				Cookie cookie = CookieManager.getCookie(request, ParameterNames.RECORDAR_USUARIO);
+				String tipUser = request.getParameter(ParameterNames.TIP_USUARIO);
+				String [] cookieResult = null;
+				if(cookie != null) {
+					String result = cookie.getValue();
+					cookieResult = result.split(":");
+				}
+				if(cookieResult[0].equals(tipUser) &&  request.getHeader("User-Agent").equals(UrlBuilder.decode(cookieResult[1]))) {
+					Gson gson = new Gson();
+					response.setContentType("application/json");
+					response.getOutputStream().write(gson.toJson(cookieResult[2]).getBytes());
+				}
 			}
 
-		}
-
+		
+		if(ajax == null) {
 		if(target == null) {
 			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 		}
@@ -195,7 +213,7 @@ public class UsuarioServlet extends HttpServlet {
 		else {
 			logger.info("Forwarding to..." + target);
 			request.getRequestDispatcher(target).forward(request, response);
-		}
+		}}
 
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

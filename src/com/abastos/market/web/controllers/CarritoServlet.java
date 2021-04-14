@@ -111,7 +111,7 @@ public class CarritoServlet extends HttpServlet {
 						linPedido.setIdProdOferta(producto.getOferta().getIdProdOferta());
 						linPedido.setIdTipoOferta(producto.getOferta().getIdTipoOferta());
 						linPedido.setNumerador(producto.getOferta().getNumerador());
-						linPedido.setNombreProdOferta(producto.getOferta().getNombreProdOferta());
+			
 						linPedido.setNombreOferta(producto.getOferta().getNombreOferta());
 
 					}

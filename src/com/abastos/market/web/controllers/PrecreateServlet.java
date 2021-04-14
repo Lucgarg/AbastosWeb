@@ -114,9 +114,11 @@ public class PrecreateServlet extends HttpServlet {
 			try {
 				List<TipoOferta> tipoOferta = tipOfert.findAll();
 				request.setAttribute(AttributesNames.TIPO, tipoOferta);
+				
 				target = ViewPaths.OFERTA_CREATE;
+				
 			} catch ( DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_ACCESS_CRE_OFERT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
@@ -185,10 +187,12 @@ public class PrecreateServlet extends HttpServlet {
 					categoria = Integer.valueOf(idCategoria);
 				}
 				List<Categoria> listCategorias = categoriaService.findByIdPadre(categoria, "es");
+				
 				Gson gson = new Gson();
 				response.setContentType("application/json");
 				response.getOutputStream().write(gson.toJson(listCategorias).getBytes("UTF-8"));
 			} catch (DataException e) {
+				
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.BUSCAR, redirect);

@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.abastos.cache.Cache;
+import com.abastos.cache.impl.CacheManagerImpl;
 import com.abastos.dao.Results;
 import com.abastos.market.web.model.Pagination;
 import com.abastos.market.web.util.ActionNames;
@@ -47,6 +49,7 @@ import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
+import com.abastos.service.utils.CacheNames;
 import com.google.gson.Gson;
 
 
@@ -160,11 +163,12 @@ public class TiendaServlet extends HttpServlet {
 					pagination.setTotalPages(totalPages);
 					request.setAttribute(ParameterNames.PAGE, pagination);
 
-
-					List<Categoria> categorias = categoriaService.findRoot(idioma);
+				
+					
+					//List<Categoria> categorias = categoriaService.findRoot(idioma);
 					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
-					request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					//request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					target = ViewPaths.TIENDA_RESULTS;
 
 				}

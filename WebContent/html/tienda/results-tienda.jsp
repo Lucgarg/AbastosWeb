@@ -1,4 +1,4 @@
-<%@page import="javax.swing.event.MouseInputListener"%>
+
 <%@ page
 	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.dao.*, com.abastos.market.web.util.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>

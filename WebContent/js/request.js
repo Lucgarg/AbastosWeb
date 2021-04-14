@@ -182,6 +182,31 @@ function createSelectCategChild(){
 }
 }
 
+/**************Funcion recordar usuario****************/
+function remenberName(){
+		nameUser.value = "";
+        request = createRequest();
+        if(request == null){
+            return;
+        }
+        let cont = createUrl();
+      
+        var url= cont + "/usuario?action=recordarNombre&tipUsuario=";
+			url += (inputTipParticular.checked ? "particular":"empresa") +  "&ajax=true";
+    	
+    request.open("GET", url, true);
+      
+    request.onreadystatechange = function(){createRemenberName()};
+    request.send(null);
+    }
+function createRemenberName(){
+	if(request.readyState == 4){
+            if(request.status==200){	
+		let name =  JSON.parse(request.responseText);
+		nameUser.value=name;
+}
+}
+}
 
 /***Select productos*/
 function selectProductos(){
@@ -322,6 +347,9 @@ let categChild = document.getElementById("categChild");
 
 let tiendaProCre = document.getElementById("tiendaProdCre");
 let formSearch = document.getElementById("formSearch");
+let inputTipParticular = document.getElementById("particularLog");
+let inputTipEmp = document.getElementById("empresaLog");
+let nameUser = document.getElementById("nameUser");
 /******************
 create elements
 /**********************/
@@ -374,4 +402,12 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 	if(categChild != null){
 	categoriaSelect.onchange = selectCategChild;
 	}
-     
+    /**Recordar usuario**/
+    if(inputTipParticular != null || inputTipEmp != null){
+	
+	if(inputTipParticular.checked || inputTipEmp.checked){
+		remenberName();
+	}
+	inputTipParticular.addEventListener("click", remenberName);
+	inputTipEmp.addEventListener("click", remenberName);
+    }

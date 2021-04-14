@@ -90,7 +90,7 @@ public class PedidoServlet extends HttpServlet {
 					SessionManager.remove(request, AttributesNames.PEDIDO);
 					redirect = true;
 					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-					
+			
 
 				}catch(MailException e) {
 					error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
@@ -98,12 +98,12 @@ public class PedidoServlet extends HttpServlet {
 					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
 					logger.warn(e.getMessage(),e);
 				}catch (DataException e) {
-					error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+					error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PEDIDO);
 					request.setAttribute(AttributesNames.ERROR, error);
 					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
 					logger.warn(e.getMessage(),e);
 				}
-				
+			
 			}
 		}
 		else if(ActionNames.HISTORIAL_PEDIDO.equalsIgnoreCase(action)) {

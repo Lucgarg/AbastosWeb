@@ -1,7 +1,8 @@
-	<%@page import="com.abastos.market.web.util.ActionNames"%>
-<%@page import="com.abastos.market.web.util.ControllerPath"%>
-<%@page import="com.abastos.market.web.util.ViewPathsctions"%>
-<%@page import="com.abastos.market.web.util.ParameterNames"%>
+
+<%@page
+ import="com.abastos.market.web.util.*, com.abastos.cache.*, 
+ com.abastos.service.utils.*, java.util.*, com.abastos.model.*, com.abastos.cache.impl.*"%>
+
 <section class="block">
 		<div class="block_second">
 			<%
@@ -21,7 +22,8 @@
 				<ul>
 					
 					<%
-									List<Categoria> catServ = (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);
+					
+					List<Categoria> catServ=  (List<Categoria>)CacheManagerImpl.getInstance().get(CacheNames.CATEGORIA).get("es");
 									%>
 					<%
 					String categoria = (String)request.getParameter(ParameterNames.CATEGORIA);
