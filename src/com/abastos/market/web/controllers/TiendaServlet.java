@@ -174,10 +174,11 @@ public class TiendaServlet extends HttpServlet {
 				}
 
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 
 
@@ -214,10 +215,11 @@ public class TiendaServlet extends HttpServlet {
 				target = ViewPaths.PRODUCTO_RESULTS;
 
 			} catch (DataException e) {
+				logger.info(target);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				logger.info(target);
+	
 			}
 
 
@@ -266,20 +268,23 @@ public class TiendaServlet extends HttpServlet {
 				target = UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR, redirect); 
 
 			} catch (LimitCreationException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_SHOP);
 				request.setAttribute(AttributesNames.ERROR, error);
-				logger.warn(e.getMessage(),e);
+			
 			} catch(MailException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
 				request.setAttribute(AttributesNames.ERROR, error);
-				logger.warn(e.getMessage(),e);
+				
 
 			}
 
 			catch(DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATION_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
-				logger.warn(e.getMessage(),e);
+				
 
 			}
 			if(error.hasErrors()) {

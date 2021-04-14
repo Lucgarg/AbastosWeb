@@ -116,13 +116,15 @@ public class UsuarioServlet extends HttpServlet {
 
 				
 				}catch(ServiceException e){
-					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
 					logger.warn(e.getMessage(), e);
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
+				
 
 				}
 				catch (DataException e) {
-					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC_LOGIN);
 					logger.warn(e.getMessage(),e);
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC_LOGIN);
+					
 
 				}
 				if(error.hasErrors()) {
@@ -167,15 +169,15 @@ public class UsuarioServlet extends HttpServlet {
 					target = UrlBuilder.urlCallBack(request, false);
 					redirect = true;
 				}catch(ServiceException e){
-					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
 					logger.warn(e.getMessage(), e);
+					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
+				
 
 				}
 				catch (DataException e) {
+					logger.warn(e.getMessage(), e);
 					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC_LOGIN);
 					request.setAttribute(AttributesNames.ERROR, error);
-
-
 
 				}
 				if(error.hasErrors()) {

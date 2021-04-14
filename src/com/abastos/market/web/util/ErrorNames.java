@@ -39,4 +39,9 @@ public class ErrorNames {
 	public static final String ERR_GENERIC_ACCESS_CRE_OFERT = "No se ha posido proceder con la creación de la oferta";
 	public static final String ERR_GENERIC_CREATE_PEDIDO = "No es posible finalizar la compra";
 	public static final String ERR_GENERIC_CREATE_OFERT = "No ha sido posible crear la oferta";
+	public static final String ERR_GENERIC_SEARCH_LISTA = "No ha sido posible buscar sus listas";
+	public static final String ERR_GENERIC_DETAIL_LISTA = "La lista no esta disponible";
+	public static final String ERR_GENERIC_CREATE_LISTA = "No ha sido posible crear la lista";
+	public static final String ERR_GENERIC_ADD_LINEA_LIST = "No ha sido posible añadir el producto a la lista";
+	public static final String ERR_GENERIC_DETAIL_CART = "No ha sido posible visualizar su compra";
 }

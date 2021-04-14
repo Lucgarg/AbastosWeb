@@ -45,12 +45,12 @@ public class OfertaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(OfertaServlet.class);
 
 	private OfertaService ofertaService = null;
-	private ProductoService productoService = null;
+
 
 	public OfertaServlet() {
 
 		ofertaService = new OfertaServiceImpl();
-		productoService = new ProductoServiceImpl();
+	
 	}
 
 
@@ -71,10 +71,11 @@ public class OfertaServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.OFERTAS, ofertas);
 				target = ViewPaths.OFERTA_RESULTS;
 			} catch ( DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		//crea oferta redirect a resultado de ofertas

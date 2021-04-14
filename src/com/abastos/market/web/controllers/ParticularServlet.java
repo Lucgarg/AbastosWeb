@@ -40,13 +40,11 @@ import com.abastos.service.impl.ParticularServiceImpl;
 public class ParticularServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ParticularServlet.class);
 	private ParticularService particularService = null;
-	private ContenidoService contenidoService = null;
 	private MailService mailService = null;
 
 	public ParticularServlet() {
 		super();
 		particularService = new ParticularServiceImpl();
-		contenidoService = new ContenidoServiceImpl();
 		mailService = new MailServiceImpl();
 	}
 

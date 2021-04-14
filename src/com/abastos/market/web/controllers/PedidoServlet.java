@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -80,6 +79,9 @@ public class PedidoServlet extends HttpServlet {
 				pedido.setIdEstado('S');
 				try {
 					pedidoService.create(pedido);
+					for(LineaPedido lp: pedido.getLineaPedido()) {
+						productoService.updateStock(lp.getNumeroUnidades(), lp.getIdProducto());
+					}
 					int puntos = pedidoService.calcPuntos(pedido.getPrecioTotal());
 					infoEmail.put("user", particular);
 					infoEmail.put("pedido", pedido);
@@ -93,15 +95,17 @@ public class PedidoServlet extends HttpServlet {
 			
 
 				}catch(MailException e) {
+					logger.warn(e.getMessage(),e);
 					error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
 					request.setAttribute(AttributesNames.ERROR, error);
 					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
-					logger.warn(e.getMessage(),e);
+					
 				}catch (DataException e) {
+					logger.warn(e.getMessage(),e);
 					error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PEDIDO);
 					request.setAttribute(AttributesNames.ERROR, error);
 					target = UrlBuilder.getUrlForController(request, ControllerPath.CARRITO, ActionNames.DETALLE_CARRITO, redirect);
-					logger.warn(e.getMessage(),e);
+					
 				}
 			
 			}
@@ -112,10 +116,11 @@ public class PedidoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PEDIDO, listPedido);
 				target = ViewPaths.HISTORIAL_PEDIDO;
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 
 		}
@@ -127,10 +132,11 @@ public class PedidoServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
 				target =  ViewPaths.LINEA_PEDIDO;
 			} catch ( DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO_PRIVATE, ActionNames.HISTORIAL_PEDIDO, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		if(target != null) {

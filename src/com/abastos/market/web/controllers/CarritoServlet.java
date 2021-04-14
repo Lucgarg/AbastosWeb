@@ -57,7 +57,7 @@ public class CarritoServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		Carrito carrito = (Carrito)SessionManager.get(request, AttributesNames.CARRITO);
 		String target = null;
-		Errors error = null;
+		Errors error = new Errors();
 
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		boolean redirect = false;
@@ -68,15 +68,28 @@ public class CarritoServlet extends HttpServlet {
 			LineaCarrito linCarrito = new LineaCarrito();
 			linCarrito.setIdProducto(Long.valueOf(id));
 			linCarrito.setNumeroUnidades(Integer.valueOf(numeroUnidades));
-
+			Producto producto = null;
 			boolean repeticion = false;
 			if(repeticion == false) {
 				for(Map.Entry<Long, LineaCarrito> lp: carrito.getLineasCarritoMap().entrySet()) {
 
 					if(lp.getValue().getIdProducto() == linCarrito.getIdProducto()) {
-						int numUnidades = lp.getValue().getNumeroUnidades() + linCarrito.getNumeroUnidades();
-						lp.getValue().setNumeroUnidades(numUnidades);
-						repeticion = true;
+						try {
+							producto = productoService.findById(linCarrito.getIdProducto(), "es");
+
+							int numUnidades = lp.getValue().getNumeroUnidades() + linCarrito.getNumeroUnidades();
+							if(numUnidades > producto.getStock()) {
+								numUnidades = producto.getStock();
+							}
+							lp.getValue().setNumeroUnidades(numUnidades);
+							repeticion = true;
+						} catch (DataException e) {
+							logger.warn(e.getMessage(),e);
+							error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+							request.setAttribute(AttributesNames.ERROR, error);
+							target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+							
+						}
 					}
 
 				}
@@ -111,7 +124,7 @@ public class CarritoServlet extends HttpServlet {
 						linPedido.setIdProdOferta(producto.getOferta().getIdProdOferta());
 						linPedido.setIdTipoOferta(producto.getOferta().getIdTipoOferta());
 						linPedido.setNumerador(producto.getOferta().getNumerador());
-			
+
 						linPedido.setNombreOferta(producto.getOferta().getNombreOferta());
 
 					}
@@ -125,11 +138,13 @@ public class CarritoServlet extends HttpServlet {
 				pedido.setPrecioTotal(pedidoService.calcPrecio(pedido));
 				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
 				target = ViewPaths.PEDIDO_RESULTS;
+				
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_CART);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.ELIMINAR.equals(action)) {

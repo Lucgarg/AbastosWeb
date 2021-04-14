@@ -57,9 +57,6 @@ public class PrecreateServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(PrecreateServlet.class);
 	private CategoriaService categoriaService = null;
 	private PaisService paisService = null;
-	private ComunidadAutonomaService comunidadAutonoma = null;
-	private LocalidadService localidad = null;
-	private ProvinciaService provincia = null;
 	private TipoOfertaService tipOfert = null;
 	private TiendaService tiendaService = null;
 	private OfertaService ofertaService = null;
@@ -68,9 +65,6 @@ public class PrecreateServlet extends HttpServlet {
 
 		categoriaService = new CategoriaServiceImpl();
 		paisService = new PaisServiceImpl();
-		localidad = new LocalidadServiceImpl();
-		provincia = new ProvinciaServiceImpl();
-		comunidadAutonoma = new ComunidadAutonomaServiceImpl();
 		tipOfert = new TipoOfertaServiceImpl();
 		tiendaService = new TiendaServiceImpl();
 		ofertaService = new OfertaServiceImpl();
@@ -118,10 +112,11 @@ public class PrecreateServlet extends HttpServlet {
 				target = ViewPaths.OFERTA_CREATE;
 				
 			} catch ( DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_ACCESS_CRE_OFERT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.PRODUCTO.equalsIgnoreCase(action)) {
@@ -136,10 +131,11 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				target = ViewPaths.PRODUCTO_CREATE;
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		//se recuperan la lista de paises para la direccion en el registro de usuarios
@@ -156,10 +152,11 @@ public class PrecreateServlet extends HttpServlet {
 					target = ViewPaths.PARTICULAR_REGISTRO;
 				}
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.INICIO.equalsIgnoreCase(action)) {
@@ -169,10 +166,11 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.TIENDA_BUSQUEDA;
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.CATEGORIA.equalsIgnoreCase(action)) {
@@ -192,11 +190,11 @@ public class PrecreateServlet extends HttpServlet {
 				response.setContentType("application/json");
 				response.getOutputStream().write(gson.toJson(listCategorias).getBytes("UTF-8"));
 			} catch (DataException e) {
-				
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 
 		}

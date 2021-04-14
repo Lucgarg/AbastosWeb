@@ -11,7 +11,9 @@
        <section class="centralBlock">
         	<div>
           <form action=<%=UrlBuilder.getUrl(request, ControllerPath.EMPRESA)%> method="post">
-
+		<%if(errores.printError(ActionNames.REGISTRO)!= null){%>
+          			<p class="error"><%=errores.printError(ActionNames.REGISTRO)%></p>
+          		<%}%>
           		<label>Nombre usuario</label>
           		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" value=<%=empresa.getNombre()%>>
           		<label>Apellidos</label>

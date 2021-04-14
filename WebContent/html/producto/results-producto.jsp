@@ -131,7 +131,7 @@
 					if(empresa == null){
 					%>
 			<form>
-				<input type="text" name="<%=ParameterNames.NUMERO_UNIDADES%>">
+				<input type="number" min="1" max="<%=p.getStock()%>" name="<%=ParameterNames.NUMERO_UNIDADES%>">
 				<button type="button" class="carritoCompra" name="<%=p.getId()%>"></button>
 			</form>
 			<%

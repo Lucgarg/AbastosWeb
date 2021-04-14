@@ -80,12 +80,13 @@ public class EmpresaServlet extends HttpServlet {
 					request.setAttribute(AttributesNames.CATEGORIAS, categoria);
 					request.setAttribute(AttributesNames.LOCALIDAD, empresa.getDireccion().getIdLocalidad());
 					target = ViewPaths.EMPRESA_RESULTS_TIENDAS;
-
-
+					
 				}
 			} catch (DataException e) {
-
 				logger.warn(e.getMessage(),e);
+				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC_SEARCH_TIENDA);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = ViewPaths.PERFIL_EMPRESA;
 			}
 
 
@@ -151,10 +152,11 @@ public class EmpresaServlet extends HttpServlet {
 				empresaService.updateAlta(Long.valueOf(idParticular));
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {

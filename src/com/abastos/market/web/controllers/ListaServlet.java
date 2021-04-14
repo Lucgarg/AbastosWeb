@@ -38,10 +38,10 @@ import com.abastos.service.impl.ListaServiceImpl;
 public class ListaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ListaServlet.class);
 	private ListaService listaService = null;
-	private LineaListaService lineaListaService = null;
+
 	public ListaServlet() {
 		listaService = new ListaServiceImpl();
-		lineaListaService = new LineaListaServiceImpl();
+
 
 
 	}
@@ -64,12 +64,12 @@ public class ListaServlet extends HttpServlet {
 				List<Lista> listas = listaService.findByIdParticular(particular.getId());
 				request.setAttribute(AttributesNames.LISTA, listas);
 				target = ViewPaths.PARTICULAR_LISTA;
+		
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_LISTA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				logger.warn(e.getMessage(),e);
-
 			}
 		}
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
@@ -79,11 +79,13 @@ public class ListaServlet extends HttpServlet {
 				Lista listas = listaService.findById(Long.valueOf(idLista));
 				request.setAttribute(AttributesNames.LISTA, listas);
 				target = ViewPaths.LISTA_LINEAS;
+				
 			} catch ( DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_LISTA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.CREAR.equalsIgnoreCase(action)){
@@ -92,18 +94,20 @@ public class ListaServlet extends HttpServlet {
 			Lista lista = new Lista();
 			lista.setNombre(nombre);
 			lista.setIdParticular(particular.getId());
-			LineaLista lineaLista = new LineaLista();
+			
 		
 			try {
 				listaService.create(lista);
+				
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request,ControllerPath.LISTA ,ActionNames.BUSCAR, redirect);  
 
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_LISTA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.UPDATE.equalsIgnoreCase(action)) {
@@ -117,13 +121,14 @@ public class ListaServlet extends HttpServlet {
 			linList.setNombreProducto(nombre);
 			linList.setIdProducto(Long.valueOf(idProducto));
 			linList.setPrecio(Double.valueOf(precio));
-			try {
-				lineaListaService.create(linList);
+			try {throw new DataException();
+			//	lineaListaService.create(linList);
 			} catch (DataException e) {
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_ADD_LINEA_LIST);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		if(ajax == null) {

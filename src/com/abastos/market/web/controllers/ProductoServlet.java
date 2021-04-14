@@ -193,10 +193,11 @@ public class ProductoServlet extends HttpServlet {
 				
 			}
 			catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.DETALLE, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 
@@ -222,10 +223,11 @@ public class ProductoServlet extends HttpServlet {
 				target = ViewPaths.PRODUCTO_DETALLE;
 				
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);	
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, redirect);
-				logger.warn(e.getMessage(),e);	
+				
 			}
 
 		}
@@ -275,10 +277,11 @@ public class ProductoServlet extends HttpServlet {
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 				logger.warn(e.getMessage(),e);
 			}catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		

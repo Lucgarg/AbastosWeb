@@ -76,10 +76,11 @@ public class LocalizacionServlet extends HttpServlet {
 				response.getWriter( ).println( gson.toJson(comunidadAutonoma));
 
 			} catch (DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.COMUNIDAD.equalsIgnoreCase(action)) {
@@ -96,10 +97,11 @@ public class LocalizacionServlet extends HttpServlet {
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(provincias));
 			} catch ( DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		else if(ActionNames.PROVINCIA.equalsIgnoreCase(action)) {
@@ -116,10 +118,11 @@ public class LocalizacionServlet extends HttpServlet {
 				response.setContentType( "application/json");
 				response.getWriter( ).println( gson.toJson(localidades));
 			} catch ( DataException e) {
+				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
-				logger.warn(e.getMessage(),e);
+				
 			}
 		}
 		if(error.hasErrors()) {
