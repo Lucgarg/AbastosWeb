@@ -1,6 +1,7 @@
 package com.abastos.market.web.filters;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -14,19 +15,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.abastos.cache.impl.CacheManagerImpl;
+import com.abastos.model.Pais;
 import com.abastos.service.CategoriaService;
-import com.abastos.service.ComunidadAutonomaService;
 import com.abastos.service.DataException;
-import com.abastos.service.LocalidadService;
 import com.abastos.service.PaisService;
 import com.abastos.service.ProductoService;
-import com.abastos.service.ProvinciaService;
 import com.abastos.service.impl.CategoriaServiceImpl;
-import com.abastos.service.impl.ComunidadAutonomaServiceImpl;
-import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.PaisServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
-import com.abastos.service.impl.ProvinciaServiceImpl;
+import com.abastos.service.utils.CacheNames;
 
 
 
@@ -57,6 +55,8 @@ public class WebInitFilter implements Filter {
 			categService.findRoot("es");
 			logger.info("inicializando paises...");
 			paisService.findByAll();
+			
+			
 			logger.info("inicializando productos...");
 			productoService.findByProductOfert("es");
 		} catch (DataException e) {
