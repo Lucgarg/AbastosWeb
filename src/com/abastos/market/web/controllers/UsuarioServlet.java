@@ -195,7 +195,7 @@ public class UsuarioServlet extends HttpServlet {
 				if(cookie != null) {
 					String result = cookie.getValue();
 					cookieResult = result.split(":");
-				}
+				
 				if(cookieResult[0].equals(tipUser) &&  request.getHeader("User-Agent").equals(UrlBuilder.decode(cookieResult[1]))) {
 					Gson gson = new Gson();
 					response.setContentType("application/json");
@@ -203,7 +203,7 @@ public class UsuarioServlet extends HttpServlet {
 				}
 			}
 
-		
+			}
 		if(ajax == null) {
 		if(target == null) {
 			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);

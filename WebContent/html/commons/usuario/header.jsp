@@ -57,10 +57,8 @@
 			} else {
 			%>
 			<%@include file="/html/commons/usuario/user-view.jsp"%>
-			<%
-			}
-			%>
-
+		
+			
 			<div class="tipUsuario">
 				<button class="cerrarLabel"></button>
 				<label>Elige el tipo de perfil</label> <a
@@ -121,6 +119,9 @@
 				%>
 
 			</div>
+				<%
+			}
+			%>
 			<div class="idiomas">
 				<button class="cerrarLabel"></button>
 				<form

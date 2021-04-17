@@ -3,6 +3,7 @@ package com.abastos.market.web.controllers;
 
 
 import java.io.IOException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.abastos.cache.Cache;
+
 import com.abastos.cache.impl.CacheManagerImpl;
 import com.abastos.dao.Results;
 import com.abastos.market.web.model.Pagination;
@@ -208,9 +209,10 @@ public class TiendaServlet extends HttpServlet {
 				request.setAttribute(ParameterNames.PAGE, pagination);
 				tienda = tiendaService.findById(id);
 				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(),idioma);
+				Map<Long, Producto> ofertPro= productoService.findByProductOfert(idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, results);
-
+				request.setAttribute(AttributesNames.PRODUCTO_OFERTA, ofertPro);
 				SessionManager.set(request, AttributesNames.TIENDA, tienda);
 				target = ViewPaths.PRODUCTO_RESULTS;
 

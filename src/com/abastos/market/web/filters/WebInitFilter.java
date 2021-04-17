@@ -1,6 +1,7 @@
 package com.abastos.market.web.filters;
 
 import java.io.IOException;
+
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -53,12 +54,12 @@ public class WebInitFilter implements Filter {
 		try {
 			logger.info("inicializando categorias...");
 			categService.findRoot("es");
+			categService.findRoot("en");
 			logger.info("inicializando paises...");
 			paisService.findByAll();
-			
-			
 			logger.info("inicializando productos...");
 			productoService.findByProductOfert("es");
+			productoService.findByProductOfert("en");
 		} catch (DataException e) {
 			
 			e.printStackTrace();

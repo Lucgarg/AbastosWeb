@@ -15,7 +15,7 @@
 			<h1 id="title_section">Mis Productos</h1>
 		<%}%>
 		<%
-		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)CacheManagerImpl.getInstance().get(CacheNames.PRODUCTO_OFERTA).get("es");
+		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)request.getAttribute(AttributesNames.PRODUCTO_OFERTA);
 		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA_PRODUCTOS);
 		Results<Producto> results = (Results<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
 		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);

@@ -45,10 +45,10 @@ public class OfertaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(OfertaServlet.class);
 
 	private OfertaService ofertaService = null;
-
+	private ProductoService productoService = null;
 
 	public OfertaServlet() {
-
+		productoService = new ProductoServiceImpl();
 		ofertaService = new OfertaServiceImpl();
 	
 	}
@@ -63,12 +63,18 @@ public class OfertaServlet extends HttpServlet {
 		String target = null;
 		boolean redirect = false;
 		Map<String, String[]> mapParameter = request.getParameterMap();
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		if(idioma == null) {
+			idioma = "es";
+		}
 		//forward a resultado de oferta de una determinada empresa
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			try {
 				List<Oferta> ofertas = ofertaService.findByIdEmpresa(Long.valueOf(empresa.getId()));
+				Map<Long, Producto> ofertPro= productoService.findByProductOfert(idioma);
 				request.setAttribute(AttributesNames.OFERTAS, ofertas);
+				request.setAttribute(AttributesNames.PRODUCTO_OFERTA, ofertPro);
 				target = ViewPaths.OFERTA_RESULTS;
 			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);

@@ -1,7 +1,8 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-import java.lang.ModuleLayer.Controller;
+
+
 import java.util.List;
 import java.util.Map;
 
@@ -164,7 +165,7 @@ public class ProductoServlet extends HttpServlet {
 					int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
 					logger.info("pagina " + page);
 					Results<Producto> 	results = productoServ.findBy(productoCri, idioma, (page-1)*pageSize+1, pageSize);
-					
+					Map<Long, Producto> ofertPro= productoServ.findByProductOfert(idioma);
 					// Datos para paginacion															
 					// (Calculos aqui, datos comodos para renderizar)
 					int totalPages = (int) Math.ceil((double)results.getTotal()/(double)pageSize);
@@ -188,6 +189,7 @@ public class ProductoServlet extends HttpServlet {
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					}
 					request.setAttribute(AttributesNames.PRODUCTO, results);
+					request.setAttribute(AttributesNames.PRODUCTO_OFERTA, ofertPro);
 					target = ViewPaths.PRODUCTO_RESULTS;
 				}
 				
