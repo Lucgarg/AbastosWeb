@@ -240,4 +240,5 @@ public class UrlBuilder {
 		String encodedString = ENCODER.encodeToString(value.getBytes());
 		return encodedString;
 	}
+
 }

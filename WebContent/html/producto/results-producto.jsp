@@ -16,7 +16,6 @@
 		<%}%>
 		<%
 		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)request.getAttribute(AttributesNames.PRODUCTO_OFERTA);
-		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA_PRODUCTOS);
 		Results<Producto> results = (Results<Producto>) request.getAttribute(AttributesNames.PRODUCTO);
 		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
 		for(Producto p : results.getPage()){

@@ -27,6 +27,7 @@
 		Localidad localidad = (Localidad) SessionManager.get(request, AttributesNames.LOCALIDAD);
 		String name = (String) SessionManager.get(request, AttributesNames.RECORDAR_USUARIO);
 		String nameEmpresa = (String) SessionManager.get(request, AttributesNames.RECORDAR_EMPRESA);
+		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA_PRODUCTOS);
 		%>
 		<input type="radio" id="default-checked" name="seleccion" checked>
 		<input type="radio" id="arrow-bottom" name="seleccion"> <input
@@ -147,7 +148,7 @@
 			</figure>
 			<section>
 				<%
-				if (tienda != null) {
+				if (tienda != null || resultsTienda != null) {
 				%>
 				<%@include file="/html/commons/producto/buscador-producto.jsp"%>
 				<%
