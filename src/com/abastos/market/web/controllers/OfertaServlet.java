@@ -94,19 +94,23 @@ public class OfertaServlet extends HttpServlet {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			Oferta oferta = new Oferta();
 
-			oferta.setIdProdOferta(ValidationUtils.longValidator(mapParameter , ParameterNames.PRODUCTO_OFERTA, error));
-			oferta.setDenominador(ValidationUtils.integerValidator(mapParameter , ParameterNames.DENOMINADOR, error));
-			oferta.setDescuentoFijo(ValidationUtils.doubleValidator(mapParameter , ParameterNames.DESCT_FIJO, error));
-			oferta.setDescuentoPcn(ValidationUtils.doubleValidator(mapParameter , ParameterNames.DESCT_PCN, error));
-			oferta.setNumerador(ValidationUtils.integerValidator(mapParameter , ParameterNames.NUMERADOR, error));
-			oferta.setIdTipoOferta(ValidationUtils.integerValidator(mapParameter , ParameterNames.TIPO_OFERTA, error));
+			oferta.setIdProdOferta(ValidationUtils.longValidator(mapParameter , ParameterNames.PRODUCTO_OFERTA, error,1L,Long.MAX_VALUE, false));
+			oferta.setDenominador(ValidationUtils.integerValidator(mapParameter , ParameterNames.DENOMINADOR, error,1,10, false));
+			oferta.setDescuentoFijo(ValidationUtils.doubleValidator(mapParameter , ParameterNames.DESCT_FIJO, error, 0d, 100d, false));
+			oferta.setDescuentoPcn(ValidationUtils.doubleValidator(mapParameter , ParameterNames.DESCT_PCN, error,0d,100d, false));
+			oferta.setNumerador(ValidationUtils.integerValidator(mapParameter , ParameterNames.NUMERADOR, error,1,10, false));
+			oferta.setIdTipoOferta(ValidationUtils.integerValidator(mapParameter , ParameterNames.TIPO_OFERTA, error,1,3, true));
 			oferta.setNombreOferta(ValidationUtils.nameValidator(mapParameter , ParameterNames.NOMBRE_OFERTA, error));
+			
 			oferta.setIdEmpresa(empresa.getId());
 			if(oferta.getIdTipoOferta() != null) {
-			ValidationUtils.onlyFieldEquals(request, error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
-			ValidationUtils.onlyFieldEquals(request, error, oferta.getIdTipoOferta(),  oferta.getIdProdOferta(), oferta.getDenominador(), oferta.getNumerador());
+			ValidationUtils.onlyFieldEquals(oferta.getIdProdOferta(), error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
+			ValidationUtils.onlyFieldEquals(error, oferta.getIdTipoOferta(),  oferta.getIdProdOferta(), oferta.getDenominador(), oferta.getNumerador());
 			ValidationUtils.onlyOneField(mapParameter, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
+
+			
 			}
+			
 			String fechaDesde = new StringBuilder().append(fechaVigencia)
 					.append(" ").append(horaVigencia).append(":00").toString();
 			String fechaHasta = new StringBuilder().append(fechaCaducidad)

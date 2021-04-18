@@ -1,10 +1,10 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -24,7 +24,6 @@ import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.model.LineaPedido;
-import com.abastos.model.Particular;
 import com.abastos.model.Pedido;
 import com.abastos.model.Producto;
 import com.abastos.service.DataException;
@@ -34,7 +33,6 @@ import com.abastos.service.ProductoService;
 import com.abastos.service.impl.LineaPedidoServiceImpl;
 import com.abastos.service.impl.PedidoServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
-import com.abastos.service.utils.DescuentoUtils;
 import com.google.gson.Gson;
 
 
@@ -106,6 +104,7 @@ public class CarritoServlet extends HttpServlet {
 		else if(ActionNames.DETALLE_CARRITO.equalsIgnoreCase(action)) {
 			Producto producto = null;
 			Pedido pedido = new Pedido();
+			long dat = new Date().getTime();
 			try {
 				for(Map.Entry<Long, LineaCarrito> lc: carrito.getLineasCarritoMap().entrySet()) {
 
@@ -116,7 +115,7 @@ public class CarritoServlet extends HttpServlet {
 					linPedido.setNumeroUnidades(lc.getValue().getNumeroUnidades());
 					linPedido.setPrecio(producto.getPrecioFinal());
 					linPedido.setIdProducto(producto.getId());
-					if(producto.getOferta() != null) {
+					if(producto.getOferta() != null && producto.getOferta().getFechaDesde().getTime() >= dat) {
 						linPedido.setDenominador(producto.getOferta().getDenominador());
 						linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
 						linPedido.setDescuentoPcn(producto.getOferta().getDescuentoPcn());

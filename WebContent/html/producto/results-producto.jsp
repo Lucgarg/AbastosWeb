@@ -40,7 +40,7 @@
 				%>
 
 			<%
-								if(p.getOferta() != null){
+								if(p.getOferta() != null && p.getOferta().getFechaDesde().getTime() <= new Date().getTime()){
 																	if(p.getOferta().getIdTipoOferta()==1){
 								%>
 			<p class="precio"><%=p.getPrecio()%></p>

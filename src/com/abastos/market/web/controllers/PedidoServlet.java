@@ -65,6 +65,10 @@ public class PedidoServlet extends HttpServlet {
 		if(ActionNames.CREAR.equalsIgnoreCase(action)) {
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
 			String aplicarDescuento = request.getParameter(ParameterNames.APLICAR_DESCUENTO);
+			Boolean dsct = null;
+			if(aplicarDescuento != null) {
+			dsct = true;
+			}
 			if(particular == null) {
 				
 				error.add(ActionNames.CREAR_PEDIDO, ErrorNames.ERR_NOT_USER_LOG);
@@ -74,7 +78,8 @@ public class PedidoServlet extends HttpServlet {
 				
 			}
 			if(!error.hasErrors()) {
-				pedido.setAplicarDescuento(Boolean.valueOf(aplicarDescuento));
+				
+				pedido.setAplicarDescuento(true);
 				pedido.setIdParticular(particular.getId());
 				pedido.setIdEstado('S');
 				try {

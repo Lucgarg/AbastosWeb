@@ -261,9 +261,11 @@ public class ProductoServlet extends HttpServlet {
 				producto.setNombre(nombreCast);
 				producto.setIdCategoria(Integer.valueOf(categoria));
 				producto.setIdTienda(Long.valueOf(tienda));
+				if(oferta != null) {
 				Oferta ofert;
 				ofert = ofertServ.findById(Long.valueOf(oferta));
 				producto.setOferta(ofert);
+				}
 				producto.setPrecio(Double.valueOf(precio));
 				producto.setStock(Integer.valueOf(stock));
 				producto.setTipoOrigen(origen.charAt(0));	

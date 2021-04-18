@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -21,7 +20,6 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.model.LineaLista;
 import com.abastos.model.Lista;
 import com.abastos.model.Particular;
@@ -38,9 +36,10 @@ import com.abastos.service.impl.ListaServiceImpl;
 public class ListaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(ListaServlet.class);
 	private ListaService listaService = null;
-
+	private LineaListaService lineaListaService = null;
 	public ListaServlet() {
 		listaService = new ListaServiceImpl();
+		lineaListaService = new LineaListaServiceImpl();
 
 
 
@@ -121,8 +120,8 @@ public class ListaServlet extends HttpServlet {
 			linList.setNombreProducto(nombre);
 			linList.setIdProducto(Long.valueOf(idProducto));
 			linList.setPrecio(Double.valueOf(precio));
-			try {throw new DataException();
-			//	lineaListaService.create(linList);
+			try {
+				lineaListaService.create(linList);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_ADD_LINEA_LIST);

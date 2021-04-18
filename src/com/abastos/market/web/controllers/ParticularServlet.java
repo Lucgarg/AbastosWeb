@@ -67,36 +67,45 @@ public class ParticularServlet extends HttpServlet {
 			particular.setContrasena(ValidationUtils.passwordValidation(mapParameter,  error));
 			particular.setEmail(ValidationUtils.emailValidator(mapParameter,  error));
 			particular.setNombre(ValidationUtils.numberNotValidator(mapParameter,ParameterNames.NOMBRE_USUARIO,error));
-			particular.setNumberoMovil(ValidationUtils.telefonoValidator(mapParameter,ParameterNames.MOVIL , error));
-			particular.setNumeroTelefono(ValidationUtils.telefonoValidator(mapParameter, ParameterNames.TELEFONO,error));
+			particular.setNumeroTelefono(ValidationUtils.telefonoValidator(mapParameter,  error, ParameterNames.TELEFONO, ParameterNames.MOVIL));
 			DireccionDto direccion = new DireccionDto();
 			direccion.setCalle(ValidationUtils.numberNotValidator(mapParameter,ParameterNames.CALLE,error));
-			direccion.setNumero(ValidationUtils.integerValidator(mapParameter, ParameterNames.NUMERO, error));
-			direccion.setIdLocalidad(ValidationUtils.longValidator(mapParameter, ParameterNames.LOCALIDAD, error));
+			direccion.setNumero(ValidationUtils.integerValidator(mapParameter, ParameterNames.NUMERO, error,0, 1000, true));
+			direccion.setIdLocalidad(ValidationUtils.longValidator(mapParameter, ParameterNames.LOCALIDAD, error,0L, Long.MAX_VALUE, true));
 			direccion.setPiso(ValidationUtils.pisoValidator(mapParameter, error));
 			direccion.setCodigoPostal(ValidationUtils.cdValidator(mapParameter, error));
 			direccion.setIdTipoDireccion(1);
 			particular.add(direccion);
+			try {
+				if(particularService.findByAlias(particular.getAlias()) != null) {
+					error.add(ParameterNames.ALIAS, ErrorNames.ERR_DUPLICATE_ALIAS);
+				}
+				if(particularService.findByAlias(particular.getEmail()) != null) {
+					error.add(ParameterNames.EMAIL, ErrorNames.ERR_DUPLICATE_EMAIL);
+				}
 			if(!error.hasErrors()) {
-				try {
+				
+				
 					logger.info("registrando usuario");
+				
 					idParticular = particularService.registrar(particular);
-				}
-				catch(DataException e) {
-					logger.warn(e.getMessage(),e);
-					error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC);
-				}
+			
+			}
+			}
+			catch(DataException e) {
+				logger.warn(e.getMessage(),e);
+				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC);
 			}
 			if(!error.hasErrors()) {
 				logger.info(new StringBuilder("enviando email a ").append(particular.getEmail()));
 				Map<String,Object> valores = new HashMap<String,Object>();
-				redirect = true;
+				
 				valores.put("user", particular);
 				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, 
 						ActionNames.CONFIRMAR_REGISTRO, redirect, ParameterNames.PARTICULAR, String.valueOf(idParticular.getId())));
 				try {
 					mailService.sendMail(valores,3L, particular.getEmail());
-					
+					redirect = true;
 					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 				} catch (ServiceException e) {
 					logger.warn(e.getMessage(),e);
@@ -106,6 +115,7 @@ public class ParticularServlet extends HttpServlet {
 			if(error.hasErrors()) {
 
 				request.setAttribute(AttributesNames.ERROR, error);
+				
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.REGISTRO, redirect,
 						ParameterNames.TIP_USUARIO, ActionNames.PARTICULAR);
 			}

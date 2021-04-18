@@ -46,7 +46,7 @@
                         <%}%>
                         </select>
                         </label>
-                        <input type="submit" name="<%=p.getId()%>" value="añadir a mi lista"/>
+                        <button class="Buscar" type="submit" id="submitLista" name="<%=p.getId()%>" value="añadir a mi lista"/>añadir a la lista</button>
                     
                 	<%}%>
             </div>

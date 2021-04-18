@@ -52,7 +52,7 @@ public class InitSessionFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpSession session = httpRequest.getSession(false);
-		logger.info("accediendo a InitSessionFilter..");
+
 		String target = null;
 		Carrito carrito = null;
 		Errors error  = new Errors();

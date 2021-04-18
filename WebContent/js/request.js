@@ -336,7 +336,7 @@ let productoOferta = document.getElementById("productoOfertaSelect");
 
 let tipoOferta = document.getElementById("tipOferta");
 let selectLista = document.getElementById("selectLista");
-let buttonLista = document.querySelector("#selectLista + input");
+let buttonLista = document.querySelector("#submitLista");
 let nombreProducto = document.getElementById("NomPro");
 let precioProducto = document.querySelector("#NomPro + span + p");
 let textInfoCL = document.querySelector(".ofertaCL");
@@ -384,7 +384,9 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 	}
 	else{
 	for (let item of campoSegUnd) {
+	item.value = "";
 	item.style.display = "none";
+	
 	
 	}
 	}

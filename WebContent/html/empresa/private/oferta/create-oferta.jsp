@@ -69,9 +69,23 @@
 				<label>Elije uno de los dos: </label> <label>descuento
 					porcentual</label> <input type="text" name=<%=ParameterNames.DESCT_PCN%>
 					value="<%=ParameterUtils.printParam(request, ParameterNames.DESCT_PCN, 0)%>">
+						<%
+				if (errores.printError(ParameterNames.DESCT_PCN) != null) {
+				%>
+				<p class="error"><%=errores.printError(ParameterNames.DESCT_PCN)%></p>
+				<%
+				}
+				%>
 				<label>descuento fijo</label> <input type="text"
 					name=<%=ParameterNames.DESCT_FIJO%>
 					value="<%=ParameterUtils.printParam(request, ParameterNames.DESCT_FIJO, 0)%>">
+								<%
+				if (errores.printError(ParameterNames.DESCT_FIJO) != null) {
+				%>
+				<p class="error"><%=errores.printError(ParameterNames.DESCT_FIJO)%></p>
+				<%
+				}
+				%>
 				<%
 				if (errores.printError(ParameterNames.DESCUENTOS) != null) {
 				%>
@@ -79,13 +93,13 @@
 				<%
 				}
 				%>
-				<label>En caso de elegir el tipo de oferta "segunda unidad"</label>
-				<label class="segundaUnidad">Número mínimo de unidades con
-					precio sin descuento</label> <input class="segundaUnidad" type="text"
+				<label class="">En caso de elegir el tipo de oferta "segunda unidad"</label>
+				<label class="">Número mínimo de unidades con
+					precio sin descuento</label> <input class="" type="text"
 					name=<%=ParameterNames.NUMERADOR%>
 					value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERADOR, 0)%>">
-				<label class="segundaUnidad">Número de unidades necesarias
-					para recibir un descuento</label> <input class="segundaUnidad" type="text"
+				<label class="">Número de unidades necesarias
+					para recibir un descuento</label> <input class="" type="text"
 					name=<%=ParameterNames.DENOMINADOR%>
 					value="<%=ParameterUtils.printParam(request, ParameterNames.DENOMINADOR, 0)%>">
 				<%

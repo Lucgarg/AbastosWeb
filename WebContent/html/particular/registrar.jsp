@@ -51,6 +51,9 @@
           			<%if(errores.printError(ParameterNames.MOVIL)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.MOVIL)%></p>
           		<%}%>
+          			<%if(errores.printError(ParameterNames.CONTACTO)!= null){%>
+          			<p class="error"><%=errores.printError(ParameterNames.CONTACTO)%></p>
+          		<%}%>
           		<label>Correo electrónico</label>
           		<input type="text" name="<%=ParameterNames.EMAIL%>" value="<%=ParameterUtils.printParam(request, ParameterNames.EMAIL, 0)%>">
           			<%if(errores.printError(ParameterNames.EMAIL)!= null){%>
@@ -108,7 +111,11 @@
                 <label class="select form" for="localidad">
                 <select name=<%=ParameterNames.LOCALIDAD%> id="localidad">
              	           <option disabled selected value>--selecciona una localidad--</option>
+             	           
             		</select></label>
+            	<%if(errores.printError(ParameterNames.LOCALIDAD)!= null){%>
+          			<p class="error"><%=errores.printError(ParameterNames.LOCALIDAD)%></p>
+          		<%}%>
             	<label>se enviara un correo al email indicado para confirmar su registro</label>
            		<button type="submit" value="registrar" class="Buscar">Registrar</button>
                

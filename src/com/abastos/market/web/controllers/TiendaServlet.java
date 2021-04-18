@@ -69,6 +69,7 @@ public class TiendaServlet extends HttpServlet {
 	private LocalidadService localidadService;
 	private Map<String, Object> infoEmail = null;
 	private MailService mailService = null;
+
 	public TiendaServlet() {
 		tiendaService = new TiendaServiceImpl();
 		productoService = new ProductoServiceImpl();
@@ -76,6 +77,8 @@ public class TiendaServlet extends HttpServlet {
 		localidadService = new LocalidadServiceImpl();
 		infoEmail = new HashMap<String, Object>();
 		mailService = new MailServiceImpl();
+	
+		
 	}
 
 
@@ -102,6 +105,7 @@ public class TiendaServlet extends HttpServlet {
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
 			SessionManager.remove(request, AttributesNames.TIENDA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
+			
 			try {
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
@@ -117,9 +121,7 @@ public class TiendaServlet extends HttpServlet {
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 
 			}
-
 			TiendaCriteria tienda = new TiendaCriteria();
-
 			if(local != null) {
 				tienda.setIdLocalidad(local.getId());
 			}
@@ -136,6 +138,7 @@ public class TiendaServlet extends HttpServlet {
 			if(empresa != null) {
 				tienda.setIdEmpresa(empresa.getId());
 			}
+	
 			try {
 				if(ajax !=null) {
 
@@ -145,15 +148,17 @@ public class TiendaServlet extends HttpServlet {
 					response.getOutputStream().write(gson.toJson(results).getBytes());
 				}
 				else {
-
+					
 					// Pagina solicitada por el usuario (o por defecto la primera
 					// cuando todavia no ha usado el paginador)
 					int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
 					logger.info("pagina " + page);
-
+					
 					Results<Tienda> results = tiendaService.findByCriteria(tienda, (page-1)*pageSize+1, pageSize);
+				
 					// Datos para paginacion															
 					// (Calculos aqui, datos comodos para renderizar)
+				
 					int totalPages = (int) Math.ceil((double)results.getTotal()/(double)pageSize);
 					int firstPagedPage = Math.max(1, page-pagingPageCount);
 					int lastPagedPage = Math.min(totalPages, page+pagingPageCount);
@@ -163,9 +168,6 @@ public class TiendaServlet extends HttpServlet {
 					pagination.setPage(page);
 					pagination.setTotalPages(totalPages);
 					request.setAttribute(ParameterNames.PAGE, pagination);
-
-				
-					
 					//List<Categoria> categorias = categoriaService.findRoot(idioma);
 					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);

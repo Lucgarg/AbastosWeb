@@ -29,14 +29,14 @@ public class ErrorServlet extends HttpServlet {
 		
 		String target = null;
 		if(404 == action) {
-			logger.debug("Error "+action +" accediendo a " + request.getRequestURI());
+		
 			target = UrlBuilder.getUrl(request, ViewPaths.ERROR_404);
 		}
 		else if(500 == action) {
-			logger.debug("Error "+action +" accediendo a " + request.getRequestURI());
+			
 			target = UrlBuilder.getUrl(request, ViewPaths.ERROR_500);
 		}
-		logger.debug("redirigiendo a " + target);
+		
 		response.sendRedirect(target);
 	}
 
