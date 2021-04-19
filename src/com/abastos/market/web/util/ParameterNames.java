@@ -71,4 +71,8 @@ public class ParameterNames {
 	public static final String MANTENER_RECORDAR = "mantenerOrRecordar";
 	public static final String PAGE = "pagina";
 	public static final String CONTACTO = "contacto";
+	public static final String IMAGEN_GALERIA = "-galeria.jpg";
+	public static final String IMAGEN_PRINCIPAL = "-principal.jpg"; 
+	public static final String IMAGEN_GALEIRA_SCD = "-scdGaleria.jpg";
+	public static final String TRUE = "true";
 }

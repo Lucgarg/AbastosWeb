@@ -2,7 +2,7 @@
 <%@include file= "/html/commons/usuario/header.jsp"%>
 <section class="block">
 		<div class="block_second">
-		<%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>
+		
 	</section>
 	<section>
 		<nav>

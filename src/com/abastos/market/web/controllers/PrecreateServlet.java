@@ -1,12 +1,13 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-
+import java.util.Arrays;
 import java.util.List;
 
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.CookieManager;
 import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
@@ -60,9 +62,9 @@ public class PrecreateServlet extends HttpServlet {
 	private TipoOfertaService tipOfert = null;
 	private TiendaService tiendaService = null;
 	private OfertaService ofertaService = null;
-
+	private LocalidadService localService = null;
 	public PrecreateServlet() {
-
+		localService = new LocalidadServiceImpl();
 		categoriaService = new CategoriaServiceImpl();
 		paisService = new PaisServiceImpl();
 		tipOfert = new TipoOfertaServiceImpl();
@@ -89,8 +91,8 @@ public class PrecreateServlet extends HttpServlet {
 		if(ActionNames.EMPRESA.equalsIgnoreCase(action)) {
 			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
 			try {
-				
-			
+
+
 				List<Categoria> categorias = categoriaService.findRoot("es");
 				List<Pais> paises = paisService.findByAll();
 				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);
@@ -108,15 +110,15 @@ public class PrecreateServlet extends HttpServlet {
 			try {
 				List<TipoOferta> tipoOferta = tipOfert.findAll();
 				request.setAttribute(AttributesNames.TIPO, tipoOferta);
-				
+
 				target = ViewPaths.OFERTA_CREATE;
-				
+
 			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_ACCESS_CRE_OFERT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR, redirect);
-				
+
 			}
 		}
 		else if(ActionNames.PRODUCTO.equalsIgnoreCase(action)) {
@@ -135,7 +137,7 @@ public class PrecreateServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE, ActionNames.BUSCAR, redirect);
-				
+
 			}
 		}
 		//se recuperan la lista de paises para la direccion en el registro de usuarios
@@ -156,23 +158,41 @@ public class PrecreateServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				
+
 			}
 		}
 		else if(ActionNames.INICIO.equalsIgnoreCase(action)) {
 			List<Pais> paises;
+			String reset = request.getParameter(ActionNames.RE_INICIO);
 			try {
+				//cookies para recordar localidad
+				Cookie cookieLocal = CookieManager.getCookie(request, ParameterNames.LOCALIDAD);
+				if(cookieLocal != null && !ParameterNames.TRUE.equals(reset)) {
+					String result = cookieLocal.getValue();
+					String []cookValue = result.split(":");
+					
+					if(request.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[1]))) {
+
+						Localidad local = localService.findByIdLocalidad(Long.valueOf(cookValue[0]));
+						SessionManager.set(request, ParameterNames.LOCALIDAD, local);
+
+						target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, true);
+						redirect = true;
+					}
+				}else {
 				paises = paisService.findByAll();
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.TIENDA_BUSQUEDA;
+				}
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				
+
 			}
 		}
+	
 		else if(ActionNames.CATEGORIA.equalsIgnoreCase(action)) {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			String idCategoria  = request.getParameter(ParameterNames.CATEGORIA);
@@ -185,7 +205,7 @@ public class PrecreateServlet extends HttpServlet {
 					categoria = Integer.valueOf(idCategoria);
 				}
 				List<Categoria> listCategorias = categoriaService.findByIdPadre(categoria, "es");
-				
+
 				Gson gson = new Gson();
 				response.setContentType("application/json");
 				response.getOutputStream().write(gson.toJson(listCategorias).getBytes("UTF-8"));
@@ -194,7 +214,7 @@ public class PrecreateServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.BUSCAR, redirect);
-				
+
 			}
 
 		}
@@ -204,7 +224,7 @@ public class PrecreateServlet extends HttpServlet {
 			}
 			if(redirect) { 
 				logger.info("Redirect to..." + target);
-				response.sendRedirect(request.getContextPath() + target);
+				response.sendRedirect(target);
 			}
 			else {
 				logger.info("Forwarding to..." + target);

@@ -1,12 +1,14 @@
 <%@ page
 	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
+<%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>
 <section class="block">
 	<div class="block_second">
 </section>
 <section>
 	<nav></nav>
 </section>
+
 <section class="centralBlock">
 	<div>
 	<h1 id="title_section">Crea tu oferta</h1>
@@ -24,7 +26,7 @@
 			<fieldset class="centralBlock_form">
 				<label>Nombre</label> <input type="text"
 					name=<%=ParameterNames.NOMBRE_OFERTA%>
-					value="<%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_OFERTA, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_OFERTA, 0)%>">
 				<%
 				if (errores.printError(ParameterNames.NOMBRE_OFERTA) != null) {
 				%>
@@ -68,7 +70,7 @@
 
 				<label>Elije uno de los dos: </label> <label>descuento
 					porcentual</label> <input type="text" name=<%=ParameterNames.DESCT_PCN%>
-					value="<%=ParameterUtils.printParam(request, ParameterNames.DESCT_PCN, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.DESCT_PCN, 0)%>">
 						<%
 				if (errores.printError(ParameterNames.DESCT_PCN) != null) {
 				%>
@@ -78,7 +80,7 @@
 				%>
 				<label>descuento fijo</label> <input type="text"
 					name=<%=ParameterNames.DESCT_FIJO%>
-					value="<%=ParameterUtils.printParam(request, ParameterNames.DESCT_FIJO, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.DESCT_FIJO, 0)%>">
 								<%
 				if (errores.printError(ParameterNames.DESCT_FIJO) != null) {
 				%>
@@ -97,11 +99,11 @@
 				<label class="">Número mínimo de unidades con
 					precio sin descuento</label> <input class="" type="text"
 					name=<%=ParameterNames.NUMERADOR%>
-					value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERADOR, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.NUMERADOR, 0)%>">
 				<label class="">Número de unidades necesarias
 					para recibir un descuento</label> <input class="" type="text"
 					name=<%=ParameterNames.DENOMINADOR%>
-					value="<%=ParameterUtils.printParam(request, ParameterNames.DENOMINADOR, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.DENOMINADOR, 0)%>">
 				<%
 				if (errores.printError(ParameterNames.NUMBERS) != null) {
 				%>
@@ -111,10 +113,10 @@
 				%>
 				<label>Fecha de vigencia</label> <input type="text"
 					name=<%=ParameterNames.FECHA_VIG%> placeholder="10-12-2001"
-					value="<%=ParameterUtils.printParam(request, ParameterNames.FECHA_VIG, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.FECHA_VIG, 0)%>">
 				<input type="text" name=<%=ParameterNames.HORA_VIG%>
 					placeholder="22:50"
-					value="<%=ParameterUtils.printParam(request, ParameterNames.HORA_VIG, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.HORA_VIG, 0)%>">
 				<%
 				if (errores.printError(ParameterNames.FECHA_VIG) != null) {
 				%>
@@ -124,10 +126,10 @@
 				%>
 				<label>Fecha de caducidad</label> <input type="text"
 					name=<%=ParameterNames.FECHA_CAD%> placeholder="10-12-2001"
-					value="<%=ParameterUtils.printParam(request, ParameterNames.FECHA_CAD, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.FECHA_CAD, 0)%>">
 				<input type="text" name=<%=ParameterNames.HORA_CAD%>
 					placeholder="22:50"
-					value="<%=ParameterUtils.printParam(request, ParameterNames.HORA_CAD, 0)%>">
+					value="<%=ParameterUtils.printParam(parametros, ParameterNames.HORA_CAD, 0)%>">
 				<%
 				if (errores.printError(ParameterNames.FECHA_CAD) != null) {
 				%>

@@ -19,35 +19,35 @@
           		<p class="error"><%=ErrorNames.ERR_IN_FIELD%></p>
           		<%}%>
           		<label>Nombre usuario</label>
-          		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" value="<%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_USUARIO, 0)%>">
+          		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_USUARIO, 0)%>">
           		<%if(errores.printError(ParameterNames.NOMBRE_USUARIO)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.NOMBRE_USUARIO)%></p>
           		<%}%>
           		<label>Apellidos</label>
-          		<input type="text" name="<%=ParameterNames.APELLIDOS%>" value="<%=ParameterUtils.printParam(request, ParameterNames.APELLIDOS, 0)%>">
+          		<input type="text" name="<%=ParameterNames.APELLIDOS%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.APELLIDOS, 0)%>">
           		<%if(errores.printError(ParameterNames.APELLIDOS)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.APELLIDOS)%></p>
           		<%}%>
           		<label>Alias</label>
-          		<input type="text" name="<%=ParameterNames.ALIAS%>" value="<%=ParameterUtils.printParam(request, ParameterNames.ALIAS, 0)%>">
+          		<input type="text" name="<%=ParameterNames.ALIAS%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.ALIAS, 0)%>">
           		<%if(errores.printError(ParameterNames.ALIAS)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.ALIAS)%></p>
           		<%}%>
           		</fieldset>
           		<fieldset>
           		<label>Contraseña</label>
-          		<input type="password" name=<%=ParameterNames.PASSWORD%> value="<%=ParameterUtils.printParam(request, ParameterNames.PASSWORD, 0)%>">
-          		<input type="password" name=<%=ParameterNames.PASSWORD%> value="<%=ParameterUtils.printParam(request, ParameterNames.PASSWORD, 1)%>">
+          		<input type="password" name=<%=ParameterNames.PASSWORD%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.PASSWORD, 0)%>">
+          		<input type="password" name=<%=ParameterNames.PASSWORD%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.PASSWORD, 1)%>">
           			<%if(errores.printError(ParameterNames.PASSWORD)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.PASSWORD)%></p>
           		<%}%>
           			<label>Número de teléfono</label>
-          		<input type="text" name=<%=ParameterNames.TELEFONO%> value="<%=ParameterUtils.printParam(request, ParameterNames.TELEFONO, 0)%>">
+          		<input type="text" name=<%=ParameterNames.TELEFONO%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.TELEFONO, 0)%>">
           			<%if(errores.printError(ParameterNames.TELEFONO)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.TELEFONO)%></p>
           		<%}%>
           			<label>Número de móvil</label>
-          		<input type="text" name=<%=ParameterNames.MOVIL%> value="<%=ParameterUtils.printParam(request, ParameterNames.MOVIL, 0)%>">
+          		<input type="text" name=<%=ParameterNames.MOVIL%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.MOVIL, 0)%>">
           			<%if(errores.printError(ParameterNames.MOVIL)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.MOVIL)%></p>
           		<%}%>
@@ -55,29 +55,29 @@
           			<p class="error"><%=errores.printError(ParameterNames.CONTACTO)%></p>
           		<%}%>
           		<label>Correo electrónico</label>
-          		<input type="text" name="<%=ParameterNames.EMAIL%>" value="<%=ParameterUtils.printParam(request, ParameterNames.EMAIL, 0)%>">
+          		<input type="text" name="<%=ParameterNames.EMAIL%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.EMAIL, 0)%>">
           			<%if(errores.printError(ParameterNames.EMAIL)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.EMAIL)%></p>
           		<%}%>
           		</fieldset>
           		<fieldset>
           		<label>Calle</label>
-          		<input type="text" name="<%=ParameterNames.CALLE%>" value="<%=ParameterUtils.printParam(request, ParameterNames.CALLE, 0)%>">
+          		<input type="text" name="<%=ParameterNames.CALLE%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.CALLE, 0)%>">
           			<%if(errores.printError(ParameterNames.CALLE)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.CALLE)%></p>
           		<%}%>
           		<label>Número</label>
-          		<input type="text" name="<%=ParameterNames.NUMERO%>" value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERO, 0)%>">
+          		<input type="text" name="<%=ParameterNames.NUMERO%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.NUMERO, 0)%>">
           			<%if(errores.printError(ParameterNames.NUMERO)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.NUMERO)%></p>
           		<%}%>
           		<label>Piso</label>
-          		<input type="text" name="<%=ParameterNames.PISO%>" value="<%=ParameterUtils.printParam(request, ParameterNames.PISO, 0)%>">
+          		<input type="text" name="<%=ParameterNames.PISO%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.PISO, 0)%>">
           				<%if(errores.printError(ParameterNames.PISO)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.PISO)%></p>
           		<%}%>
           			<label>Código postal</label>
-          		<input type="text" name="<%=ParameterNames.CODIGO_POSTAL%>" value="<%=ParameterUtils.printParam(request, ParameterNames.CODIGO_POSTAL, 0)%>">
+          		<input type="text" name="<%=ParameterNames.CODIGO_POSTAL%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.CODIGO_POSTAL, 0)%>">
           			<%if(errores.printError(ParameterNames.CODIGO_POSTAL)!= null){%>
           			<p class="error"><%=errores.printError(ParameterNames.CODIGO_POSTAL)%></p>
           		<%}%>

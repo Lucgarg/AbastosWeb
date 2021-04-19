@@ -1,8 +1,7 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-
-
+import java.util.Arrays;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -68,7 +67,7 @@ public class UsuarioServlet extends HttpServlet {
 		boolean redirect = false;
 		String ajax = null;
 		Errors error = new Errors();
-	
+
 		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
@@ -98,33 +97,32 @@ public class UsuarioServlet extends HttpServlet {
 					}
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario).append(":")
-								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
-								.append(usuario).toString();
+						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(empresa.getId()),
+								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
 						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
 					if(ParameterNames.MANTENER_SESION.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario).append(":").append(String.valueOf(empresa.getId())).append(":")
-								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":").append(usuario).toString();
+						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(empresa.getId()),
+								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
 
 						CookieManager.addCookie(response, ParameterNames.MANTENER_SESION, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
-				
+
 					redirect = true;
 					target =  UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 
-				
+
 				}catch(ServiceException e){
 					logger.warn(e.getMessage(), e);
 					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
-				
+
 
 				}
 				catch (DataException e) {
 					logger.warn(e.getMessage(),e);
 					error.add(ActionNames.LOG_IN, ErrorNames.ERR_GENERIC_LOGIN);
-					
+
 
 				}
 				if(error.hasErrors()) {
@@ -149,29 +147,25 @@ public class UsuarioServlet extends HttpServlet {
 					Particular particular = particularService.login(email,usuario, password);
 					SessionManager.set(request, AttributesNames.USUARIO, particular);
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario)
-								.append(":")
-								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
-								.append(usuario).toString();
+						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(particular.getId()),
+								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
 
 						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
 					if(ParameterNames.MANTENER_SESION.equalsIgnoreCase(recordarMantener)) {
-						String cookieValue = new StringBuilder(tipUsuario).append(":")
-								.append(String.valueOf(particular.getId())).append(":")
-								.append(UrlBuilder.encode(request.getHeader("User-Agent"))).append(":")
-								.append(usuario).toString();
+						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(particular.getId()),
+								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
 
 						CookieManager.addCookie(response, ParameterNames.MANTENER_SESION, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
-					
+
 					target = UrlBuilder.urlCallBack(request, false);
 					redirect = true;
 				}catch(ServiceException e){
 					logger.warn(e.getMessage(), e);
 					error.add(ActionNames.LOG_IN, ErrorNames.ERR_INCORRECT_LOGIN);
-				
+
 
 				}
 				catch (DataException e) {
@@ -187,35 +181,35 @@ public class UsuarioServlet extends HttpServlet {
 
 				}
 			}}
-			else if(ActionNames.REMENBER_USER_NAME.equals(action)) {
-				ajax = request.getParameter(ParameterNames.AJAX);
-				Cookie cookie = CookieManager.getCookie(request, ParameterNames.RECORDAR_USUARIO);
-				String tipUser = request.getParameter(ParameterNames.TIP_USUARIO);
-				String [] cookieResult = null;
-				if(cookie != null) {
-					String result = cookie.getValue();
-					cookieResult = result.split(":");
-				
-				if(cookieResult[0].equals(tipUser) &&  request.getHeader("User-Agent").equals(UrlBuilder.decode(cookieResult[1]))) {
+		else if(ActionNames.REMENBER_USER_NAME.equals(action)) {
+			ajax = request.getParameter(ParameterNames.AJAX);
+			Cookie cookie = CookieManager.getCookie(request, ParameterNames.RECORDAR_USUARIO);
+			String tipUser = request.getParameter(ParameterNames.TIP_USUARIO);
+			String [] cookieResult = null;
+			if(cookie != null) {
+				String result = cookie.getValue();
+				cookieResult = result.split(":");
+			
+				if(cookieResult[0].equals(tipUser) &&  request.getHeader("User-Agent").equals(UrlBuilder.decode(cookieResult[2]))) {
 					Gson gson = new Gson();
 					response.setContentType("application/json");
-					response.getOutputStream().write(gson.toJson(cookieResult[2]).getBytes());
+					response.getOutputStream().write(gson.toJson(cookieResult[3]).getBytes());
 				}
 			}
 
-			}
+		}
 		if(ajax == null) {
-		if(target == null) {
-			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-		}
-		if(redirect) { 
-			logger.info("Redirect to..." + target);
-			response.sendRedirect(target);
-		}
-		else {
-			logger.info("Forwarding to..." + target);
-			request.getRequestDispatcher(target).forward(request, response);
-		}}
+			if(target == null) {
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			}
+			if(redirect) { 
+				logger.info("Redirect to..." + target);
+				response.sendRedirect(target);
+			}
+			else {
+				logger.info("Forwarding to..." + target);
+				request.getRequestDispatcher(target).forward(request, response);
+			}}
 
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

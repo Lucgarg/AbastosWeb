@@ -5,6 +5,10 @@
 <%@include file="/html/commons/tienda/nav.jsp"%>
 <section class="block block--results">
 	<%
+		Results<Tienda> results = (Results<Tienda>) request.getAttribute(AttributesNames.RESULTS_TIENDA);
+		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
+		%>
+	<%
 		if (errores.hasErrors()) {
 		%>
 		<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
@@ -16,10 +20,7 @@
 			<h1 id="title_section">Mis tiendas</h1>
 		<%}%>
 	
-		<%
-		Results<Tienda> results = (Results<Tienda>) request.getAttribute(AttributesNames.RESULTS_TIENDA);
-		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
-		%>
+	
 		<%
 		for (Tienda t : results.getPage()) {
 		%>

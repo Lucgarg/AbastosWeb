@@ -50,4 +50,18 @@ public class CookieManager {
 	public static final void removeCookie(HttpServletResponse response, String name, String path) {
 		addCookie(response, name, null, path, 0);
 	}
+	
+	/**
+	 * Metodo para crear key/value de una cookie
+	 */
+	public static String  createValue(String...value) {
+		StringBuilder stb = new StringBuilder();
+		for(String s: value) {
+			stb.append(s).append(":");
+		}
+	
+		return stb.delete(stb.length(), stb.length()).toString();
+
+	}
+	 
 }

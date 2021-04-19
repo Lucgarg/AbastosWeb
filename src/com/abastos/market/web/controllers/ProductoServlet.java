@@ -1,5 +1,6 @@
 package com.abastos.market.web.controllers;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -12,6 +13,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -21,6 +25,7 @@ import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.ErrorNames;
+import com.abastos.market.web.util.FilesUtils;
 import com.abastos.market.web.util.MapBuilder;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
@@ -62,6 +67,8 @@ public class ProductoServlet extends HttpServlet {
 	private TiendaService tiendaServ = null;
 	private OfertaService ofertServ = null;
 	private ListaService listaService = null;
+	private final String UPLOAD_DIRECTORY = "imgs/productos";
+
 	//numero de resultados por pagina
 	private static int pageSize = 5;
 	//numero de paginas que se muestran alrededor de la navegable
@@ -90,7 +97,7 @@ public class ProductoServlet extends HttpServlet {
 		if(idioma == null) {
 			idioma = "es";
 		}
-		
+
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -149,11 +156,11 @@ public class ProductoServlet extends HttpServlet {
 
 
 			try {
-			
-				
+
+
 				if(ajax != null) {
 					List<Producto> listProducts = productoServ.findByIdTienda(productoCri.getIdTienda(),idioma);
-				
+
 					Gson gson = new Gson();
 					response.setContentType("application/json; charset=ISO-8859-1");
 					response.getOutputStream().write(gson.toJson(listProducts).getBytes());
@@ -192,14 +199,14 @@ public class ProductoServlet extends HttpServlet {
 					request.setAttribute(AttributesNames.PRODUCTO_OFERTA, ofertPro);
 					target = ViewPaths.PRODUCTO_RESULTS;
 				}
-				
+
 			}
 			catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.DETALLE, redirect);
-				
+
 			}
 		}
 
@@ -210,85 +217,111 @@ public class ProductoServlet extends HttpServlet {
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
 			Tienda tiend = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
 			Long id = Long.valueOf(idProducto);
-			Tienda tienda = new Tienda();
+
 			try {
 				Producto result = productoServ.findById(id, idioma);
-				tienda = tiendaServ.findById(tiend.getId());
+
 				if(particular != null) {
 					List<Lista> listas = listaService.findByIdParticular(particular.getId());
 					request.setAttribute(AttributesNames.LISTA, listas);
 				}
-				List<Categoria> categorias = categoriaService.findByIdPadre(tienda.getCategoria(), idioma);
+				List<Categoria> categorias = categoriaService.findRoot(idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, result);
-				request.setAttribute(AttributesNames.TIENDA, tienda);
+
 				target = ViewPaths.PRODUCTO_DETALLE;
-				
+
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);	
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_PRODUCT);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, redirect);
-				
+
 			}
 
 		}
 		//Se crea producto, se redirige al sevlet producto para recuperar los resultados de productos
-		else if(ActionNames.CREAR.equalsIgnoreCase(action)) {
+		else if(ServletFileUpload.isMultipartContent(request)) {
+
 			logger.info("creando producto...");
-			String nombreCast = request.getParameter(ParameterNames.NOMBRE_CASTELLANO);
-			String nombreIngles= request.getParameter(ParameterNames.NOMBRE_INGLES);
-			String caractCastellano= request.getParameter(ParameterNames.CARACT_CASTELLANO);
-			String caractIngles = request.getParameter(ParameterNames.CARACT_INGLES);
-			String precio = request.getParameter(ParameterNames.PRECIO);
-			String tienda = request.getParameter(ParameterNames.ID_TIENDA);
-			String oferta = request.getParameter(ParameterNames.OFERTA);
-			String categoria = request.getParameter(ParameterNames.CATEGORIA);
-			String origen = request.getParameter(ParameterNames.ORIGEN);
-			String stock = request.getParameter(ParameterNames.STOCK);
+
+			Map<String, FileItem> mapParam;
 			try {
-				ProductoIdioma productIdioma = new ProductoIdioma();
-				productIdioma.setIdIdioma("es");
-				productIdioma.setCaractProduct(caractCastellano);
-				productIdioma.setNombreProducto(nombreCast);
-				ProductoIdioma productIdiomaIng = new ProductoIdioma();
-				productIdiomaIng.setIdIdioma("en");
-				productIdiomaIng.setCaractProduct(caractIngles);
-				productIdiomaIng.setNombreProducto(nombreIngles);
-				Producto producto= new Producto();
-				producto.add(productIdiomaIng);
-				producto.add(productIdioma);
-				producto.setNombre(nombreCast);
-				producto.setIdCategoria(Integer.valueOf(categoria));
-				producto.setIdTienda(Long.valueOf(tienda));
-				if(oferta != null) {
-				Oferta ofert;
-				ofert = ofertServ.findById(Long.valueOf(oferta));
-				producto.setOferta(ofert);
+				mapParam = FilesUtils.mapParam(request);
+				String URL = UrlBuilder.urlRealPath(request, UPLOAD_DIRECTORY);
+				String nombreCast = mapParam.get(ParameterNames.NOMBRE_CASTELLANO).getString();
+				String nombreIngles= mapParam.get(ParameterNames.NOMBRE_INGLES).getString();
+				String caractCastellano= mapParam.get(ParameterNames.CARACT_CASTELLANO).getString();
+				String caractIngles = mapParam.get(ParameterNames.CARACT_INGLES).getString();
+				String precio = mapParam.get(ParameterNames.PRECIO).getString();
+				String tienda = mapParam.get(ParameterNames.ID_TIENDA).getString();
+				String oferta = mapParam.get(ParameterNames.OFERTA).getString();
+				String categoria = mapParam.get(ParameterNames.CATEGORIA).getString();
+				String origen = mapParam.get(ParameterNames.ORIGEN).getString();
+				String stock = mapParam.get(ParameterNames.STOCK).getString();
+				try {
+					ProductoIdioma productIdioma = new ProductoIdioma();
+					productIdioma.setIdIdioma("es");
+					productIdioma.setCaractProduct(caractCastellano);
+					productIdioma.setNombreProducto(nombreCast);
+					ProductoIdioma productIdiomaIng = new ProductoIdioma();
+					productIdiomaIng.setIdIdioma("en");
+					productIdiomaIng.setCaractProduct(caractIngles);
+					productIdiomaIng.setNombreProducto(nombreIngles);
+					Producto producto= new Producto();
+					producto.add(productIdiomaIng);
+					producto.add(productIdioma);
+					producto.setNombre(nombreCast);
+					producto.setIdCategoria(Integer.valueOf(categoria));
+					producto.setIdTienda(Long.valueOf(tienda));
+					if(oferta != null) {
+						Oferta ofert;
+						ofert = ofertServ.findById(Long.valueOf(oferta));
+						producto.setOferta(ofert);
+					}
+					producto.setPrecio(Double.valueOf(precio));
+					producto.setStock(Integer.valueOf(stock));
+					producto.setTipoOrigen(origen.charAt(0));	
+					logger.info(producto.getPrecio());
+					Producto product = productoServ.create(producto);	
+	
+					if(mapParam.get(ParameterNames.IMAGEN_PRINCIPAL) != null) {
+						FilesUtils.writerImg(producto.getId(), ParameterNames.IMAGEN_PRINCIPAL,
+								URL, mapParam.get(ParameterNames.IMAGEN_PRINCIPAL));
+					}
+					if(mapParam.get(ParameterNames.IMAGEN_GALERIA) != null) {
+						FilesUtils.writerImg(producto.getId(), ParameterNames.IMAGEN_GALERIA,
+								URL, mapParam.get(ParameterNames.IMAGEN_GALERIA));
+					}
+					if(mapParam.get(ParameterNames.IMAGEN_GALEIRA_SCD) != null) {
+						FilesUtils.writerImg(producto.getId(), ParameterNames.IMAGEN_GALEIRA_SCD,
+								URL, mapParam.get(ParameterNames.IMAGEN_GALEIRA_SCD));
+					}
+					redirect = true;
+					target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR, redirect);
+
+				}	catch(LimitCreationException e) {
+					error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_PRODUCTS);
+					request.setAttribute(AttributesNames.ERROR, error);
+					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
+					logger.warn(e.getMessage(),e);
+				}catch (DataException e) {
+					logger.warn(e.getMessage(),e);
+					error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PRODUCT);
+					request.setAttribute(AttributesNames.ERROR, error);
+					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
+
+
+				} catch (FileUploadException e1) {
+
+					e1.printStackTrace();
 				}
-				producto.setPrecio(Double.valueOf(precio));
-				producto.setStock(Integer.valueOf(stock));
-				producto.setTipoOrigen(origen.charAt(0));	
-				logger.info(producto.getPrecio());
-				productoServ.create(producto);	
-			
-				redirect = true;
-				target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR, redirect);
-				
-			}	catch(LimitCreationException e) {
-				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_PRODUCTS);
-				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
-				logger.warn(e.getMessage(),e);
-			}catch (DataException e) {
-				logger.warn(e.getMessage(),e);
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PRODUCT);
-				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
-				
+			} catch (Exception e) {
+
+				e.printStackTrace();
 			}
 		}
-		
+
 		if(ajax == null) {
 			if(target == null) {
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);

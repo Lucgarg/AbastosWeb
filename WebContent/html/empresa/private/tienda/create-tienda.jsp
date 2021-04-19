@@ -2,7 +2,7 @@
 <%@ page
 	import="java.util.*, com.abastos.model.*, com.abastos.service.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
-
+<%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>
 <section class="block">
 	<div class="block_second">
 </section>
@@ -31,25 +31,25 @@
 				<label>Nombre de la
 				tienda</label> <input type="text"
 				name=<%=ParameterNames.NOMBRE_TIENDA%>
-				value="<%=ParameterUtils.printParam(request, ParameterNames.NOMBRE_TIENDA, 0)%>">
+				value="<%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_TIENDA, 0)%>">
 			<label>Móvil</label> <input type="text"
 				name=<%=ParameterNames.MOVIL%>
-				value="<%=ParameterUtils.printParam(request, ParameterNames.MOVIL, 0)%>">
+				value="<%=ParameterUtils.printParam(parametros, ParameterNames.MOVIL, 0)%>">
 			<label>Teléfono</label> <input type="text"
 				name=<%=ParameterNames.TELEFONO%>
-				value="<%=ParameterUtils.printParam(request, ParameterNames.TELEFONO, 0)%>">
+				value="<%=ParameterUtils.printParam(parametros, ParameterNames.TELEFONO, 0)%>">
 			<label>Correo electrónico</label> <input type="email"
 				name=<%=ParameterNames.EMAIL%>
-				value="<%=ParameterUtils.printParam(request, ParameterNames.EMAIL, 0)%>">
+				value="<%=ParameterUtils.printParam(parametros, ParameterNames.EMAIL, 0)%>">
 			<label>Envio a domicilio</label>
 			<div id="buttons">
 			 <input type="radio"
 				name=<%=ParameterNames.ENVIO_DOMICILIO%> value="true"
-				<%if(ParameterUtils.printParam(request, ParameterNames.ENVIO_DOMICILIO, 0) 
+				<%if(ParameterUtils.printParam(parametros, ParameterNames.ENVIO_DOMICILIO, 0) 
                 		== "true"){%>
 				checked <%}%>>si</input> <input type="radio"
 				name=<%=ParameterNames.ENVIO_DOMICILIO%> value="false"
-				<%if(ParameterUtils.printParam(request, ParameterNames.ENVIO_DOMICILIO, 0) 
+				<%if(ParameterUtils.printParam(parametros, ParameterNames.ENVIO_DOMICILIO, 0) 
                 		== "false"){%>
 				checked <%}%>>no</input>
 				</div>
@@ -57,15 +57,15 @@
 
 			<label>Calle</label> <input type="text"
 				name=<%=ParameterNames.CALLE%>
-				value="<%=ParameterUtils.printParam(request, ParameterNames.CALLE, 0)%>">
+				value="<%=ParameterUtils.printParam(parametros, ParameterNames.CALLE, 0)%>">
 				 <label>Piso</label>
 			<input type="text" name=<%=ParameterNames.PISO%>
-			value="<%=ParameterUtils.printParam(request, ParameterNames.PISO, 0)%>"> <label>Número</label>
+			value="<%=ParameterUtils.printParam(parametros, ParameterNames.PISO, 0)%>"> <label>Número</label>
 			<input type="text" name=<%=ParameterNames.NUMERO%>
-			value="<%=ParameterUtils.printParam(request, ParameterNames.NUMERO, 0)%>">
+			value="<%=ParameterUtils.printParam(parametros, ParameterNames.NUMERO, 0)%>">
 			<label>Código Postal</label> <input type="text"
 				name=<%=ParameterNames.CODIGO_POSTAL%>
-				value="<%=ParameterUtils.printParam(request, ParameterNames.CODIGO_POSTAL, 0)%>"> <label>Pais
+				value="<%=ParameterUtils.printParam(parametros, ParameterNames.CODIGO_POSTAL, 0)%>"> <label>Pais
 			</label> 
 			<label class="select form" for="pais">
 			<select name=<%=ParameterNames.PAIS%> id="pais">

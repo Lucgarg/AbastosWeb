@@ -230,8 +230,12 @@ public class UrlBuilder {
 		return sb.toString();
 
 	}
+	public static String urlRealPath(HttpServletRequest request, String directory) {
+		return new StringBuilder(request.getServletContext().getRealPath("")).append(directory).toString();
+	}
+	
 	public static String decode(String value) {
-
+	
 		byte[] decodedBytes = DECODER.decode(value);
 		String decodedString = new String(decodedBytes);
 		return decodedString;

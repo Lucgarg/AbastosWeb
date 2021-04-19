@@ -26,8 +26,14 @@
 		<filter-name>InitSessionFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-
-	
+	<filter>
+		<filter-name>ImagenFilter</filter-name>
+		<filter-class>com.abastos.market.web.filters.ImagenFilter</filter-class>
+	</filter>
+		<filter-mapping>
+		<filter-name>ImagenFilter</filter-name>
+		<url-pattern>*.jpg</url-pattern>
+	</filter-mapping>
 	<error-page>
 		<error-code>404</error-code>
 		<location>/html/error/404.jsp</location>

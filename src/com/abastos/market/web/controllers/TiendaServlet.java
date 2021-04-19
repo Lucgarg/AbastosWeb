@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,7 @@ import com.abastos.market.web.model.Pagination;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
+import com.abastos.market.web.util.CookieManager;
 import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
@@ -107,13 +109,19 @@ public class TiendaServlet extends HttpServlet {
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			
 			try {
+			
+				
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
 					SessionManager.set(request, AttributesNames.LOCALIDAD, local);
 				}
 
 				local = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
-
+				if(local != null) {
+				String cookieValue = CookieManager.createValue(String.valueOf(local.getId()),
+						UrlBuilder.encode(request.getHeader("User-Agent")));
+				CookieManager.addCookie(response, ParameterNames.LOCALIDAD, cookieValue, "/", 365 * 24 * 60 * 60);
+				}
 			} catch ( DataException e1) {
 				logger.warn(e1.getMessage(),e1);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
@@ -168,10 +176,11 @@ public class TiendaServlet extends HttpServlet {
 					pagination.setPage(page);
 					pagination.setTotalPages(totalPages);
 					request.setAttribute(ParameterNames.PAGE, pagination);
-					//List<Categoria> categorias = categoriaService.findRoot(idioma);
+					List<Categoria> categorias = categoriaService.findRoot(idioma);
+					
 					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
-					//request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					target = ViewPaths.TIENDA_RESULTS;
 
 				}

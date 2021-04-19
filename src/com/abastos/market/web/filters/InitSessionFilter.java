@@ -1,6 +1,8 @@
 package com.abastos.market.web.filters;
 
 import java.io.IOException;
+import java.net.http.HttpResponse;
+import java.util.Arrays;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -10,6 +12,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -26,11 +29,14 @@ import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.model.Empresa;
+import com.abastos.model.Localidad;
 import com.abastos.model.Particular;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
+import com.abastos.service.LocalidadService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.impl.EmpresaServiceImpl;
+import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 
 
@@ -38,9 +44,11 @@ public class InitSessionFilter implements Filter {
 	private static Logger logger = LogManager.getLogger(InitSessionFilter.class);
 	private ParticularService particularService = null;
 	private EmpresaService empresaService = null;
+
 	public InitSessionFilter() {
 		particularService = new ParticularServiceImpl();
 		empresaService = new EmpresaServiceImpl();
+	
 	}
 
 
@@ -51,6 +59,7 @@ public class InitSessionFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		HttpSession session = httpRequest.getSession(false);
 
 		String target = null;
@@ -70,19 +79,28 @@ public class InitSessionFilter implements Filter {
 			carrito = new Carrito();
 			SessionManager.set(httpRequest, AttributesNames.CARRITO, carrito);
 		}
-		//cookies para la funcionalidad de recordar nombre o sesion
-		
-		Cookie cookieRemind = CookieManager.getCookie(httpRequest, ParameterNames.MANTENER_SESION);
+
 		String result = null;
 		String [] cookValue = null;
+		//cookie para idioma
+		Cookie cookieIdioma = CookieManager.getCookie(httpRequest, ParameterNames.IDIOMA);
+		if(cookieIdioma != null) {
+			result = cookieIdioma.getValue();
+			cookValue = result.split(":");
+			if(httpRequest.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[1]))) {
+				SessionManager.set(httpRequest, AttributesNames.IDIOMA, cookValue[0]);
 
-	
+			}
+		}
+		//cookies para la funcionalidad de recordar nombre o sesion
+
+		Cookie cookieRemind = CookieManager.getCookie(httpRequest, ParameterNames.MANTENER_SESION);
+		
+
 		if(cookieRemind != null) {
 			result = cookieRemind.getValue();
 			cookValue = result.split(":");
-		}
-
-		if( cookieRemind != null) {
+	
 
 			if(ActionNames.PARTICULAR.equalsIgnoreCase(cookValue[0])) {
 				Particular particular = null;
@@ -99,10 +117,10 @@ public class InitSessionFilter implements Filter {
 						particular.getEmail().equals(cookValue[3])) {
 
 
-				
-						SessionManager.set(httpRequest, AttributesNames.USUARIO, particular);
 
-					}}
+					SessionManager.set(httpRequest, AttributesNames.USUARIO, particular);
+
+				}}
 
 			if(ActionNames.EMPRESA.equalsIgnoreCase(cookValue[0])) {
 				Empresa empresa = null;
@@ -117,10 +135,10 @@ public class InitSessionFilter implements Filter {
 				if(httpRequest.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[2])) && 
 						empresa.getAlias().equals(cookValue[3])||
 						empresa.getCorreoElectronico().equals(cookValue[3])) {
-		
-						SessionManager.set(httpRequest, AttributesNames.EMPRESA, empresa);
 
-					}}
+					SessionManager.set(httpRequest, AttributesNames.EMPRESA, empresa);
+
+				}}
 
 		}
 

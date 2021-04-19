@@ -35,4 +35,5 @@ public class ActionNames {
 	public static final String CATEGORIA = "categoria";
 	public static final String CONFIRMAR_REGISTRO = "confirmarRegistro";
 	public static final String REMENBER_USER_NAME ="recordarNombre";
+	public static final String RE_INICIO = "reset";
 }

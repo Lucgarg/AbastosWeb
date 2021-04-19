@@ -12,8 +12,9 @@
                     <input type="radio" id="prueba3" name="sli">
                     <ul>
                     <%Producto p = (Producto)request.getAttribute(AttributesNames.PRODUCTO);%>
-                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-principal.jpg" alt="" class="img1"></li>
-                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-galeria.jpg" alt="" class="img2"></li>
+                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%><%=ParameterNames.IMAGEN_PRINCIPAL%>" alt="" class="img1"></li>
+                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%><%=ParameterNames.IMAGEN_GALERIA%>" alt="" class="img2"></li>
+                          <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%><%=ParameterNames.IMAGEN_GALEIRA_SCD%>" alt="" class="img2"></li>
                        
                     </ul>
                     <figcaption>

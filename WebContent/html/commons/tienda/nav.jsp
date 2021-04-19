@@ -17,13 +17,16 @@
 	</section>
 <section>
 		<nav>
+			<button class="Buscar"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, ActionNames.RE_INICIO, "true")%>">
+			Otras localidades
+			</a></button>
 			<label class="menu" for="menu"> <input type="checkbox" />
 				<div></div>
 				<ul>
 					
 					<%
 					
-					List<Categoria> catServ=  (List<Categoria>)CacheManagerImpl.getInstance().get(CacheNames.CATEGORIA).get("es");
+					List<Categoria> catServ=  (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);
 									%>
 					<%
 					String categoria = (String)request.getParameter(ParameterNames.CATEGORIA);

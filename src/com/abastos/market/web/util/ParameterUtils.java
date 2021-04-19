@@ -29,8 +29,9 @@ public class ParameterUtils {
 		}
 		return  sb.toString();
 	}
-	public static final String printParam(HttpServletRequest request, String parameter, int pos) {
-		Map<String, String[]> params = request.getParameterMap();
+
+	public static final String printParam(Map<String, String[]> params, String parameter, int pos) {
+		
 		if(params.get(parameter) == null) {
 			return "";
 		}

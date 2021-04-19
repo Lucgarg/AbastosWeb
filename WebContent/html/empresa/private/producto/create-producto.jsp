@@ -2,11 +2,11 @@
 <%@page import="com.abastos.market.web.util.*"%>
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>
-	
+	<%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>
 	<section class="block">
 		<div class="block_second">
 	</section>
-	
+		
 	<section>
 		<nav>
 		</nav>
@@ -19,23 +19,24 @@
 		<%if(errores.printError(ParameterNames.ERROR) != null){%>
 		<p class="error"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>
-                <form action="<%=UrlBuilder.getUrl(request, ControllerPath.PRODUCTO_PRIVATE)%>" method="post">
+                <form action="<%=UrlBuilder.getUrl(request, ControllerPath.PRODUCTO_PRIVATE)%>" 	
+                enctype="multipart/form-data" method="post">
                 <input type="hidden"name=<%=ActionNames.ACTION%> value=<%=ActionNames.CREAR%>>
                 <fieldset class="centralBlock_form">
                	<label>Nombre producto</label>
                	<label>Castellano</label>
-               	<input type="text" name=<%=ParameterNames.NOMBRE_CASTELLANO%>>
+               	<input type="text" name=<%=ParameterNames.NOMBRE_CASTELLANO%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_CASTELLANO, 0)%>">
                	<label>Inglés</label>
-               	<input type="text" name=<%=ParameterNames.NOMBRE_INGLES%>>
+               	<input type="text" name=<%=ParameterNames.NOMBRE_INGLES%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_INGLES, 0)%>">
                	<label>Caracteristicas del producto</label>
                	<label>Castellano</label>
-               	<input type="text" name=<%=ParameterNames.CARACT_CASTELLANO%>>
+               	<input type="text" name=<%=ParameterNames.CARACT_CASTELLANO%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.CARACT_CASTELLANO, 0)%>">
                	<label>Inglés</label>
-               	<input type="text" name=<%=ParameterNames.CARACT_INGLES%>>
+               	<input type="text" name=<%=ParameterNames.CARACT_INGLES%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.CARACT_INGLES, 0)%>">
                	<label>Precio</label>
-               	<input type="text" name=<%=ParameterNames.PRECIO%>>
+               	<input type="text" name=<%=ParameterNames.PRECIO%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.PRECIO, 0)%>">
                	<label>Stock del producto</label>
-               	<input type="text" name=<%=ParameterNames.STOCK%>>
+               	<input type="text" name=<%=ParameterNames.STOCK%> value="<%=ParameterUtils.printParam(parametros, ParameterNames.STOCK, 0)%>">
                	<label>Selecciona la tienda</label>
                	 <label class="select form" for="tiendaProdCre">
                	 <select id="tiendaProdCre" name=<%=ParameterNames.ID_TIENDA%>>
@@ -67,15 +68,22 @@
                	<label>Elige el origen el producto</label>
                	 <label class="select form" for="origen">
                	<select name=<%=ParameterNames.ORIGEN%> id="origen">
-               		<option value="N">Nacional</option>
-               		<option value="I">Internacional</option>
-               		<option value="L">Local</option>
+               	<%String origen = ParameterUtils.printParam(parametros, ParameterNames.ORIGEN, 0);%>
+               		<option value="N" <%if("N".equals(origen)){%>checked<%}%>>Nacional</option>
+               		<option value="I" <%if("I".equals(origen)){%>checked<%}%>>Internacional</option>
+               		<option value="L" <%if("L".equals(origen)){%>checked<%}%>>Local</option>
                	</select></label>
-               	
+				<input type="file" id="img" name="<%=ParameterNames.IMAGEN_PRINCIPAL%>" accept="image/*">
+					<input type="file" id="img" name="<%=ParameterNames.IMAGEN_GALERIA%>" accept="image/*">
+						<input type="file" id="img" name="<%=ParameterNames.IMAGEN_GALEIRA_SCD%>" accept="image/*">
                		<button class="Buscar" type="submit">crear producto</button>
                		</fieldset>
                 </form>
-                
+                	
+
+	
+	
+
             </div>
         </section>
 		<%@include file="/html/commons/usuario/footer.jsp"%>
