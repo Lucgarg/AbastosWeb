@@ -1,7 +1,7 @@
 body {
 	max-width: 2000px;
 	display: flex;
-	justify-content: space-between;
+	justify-content: space-around;
 	flex-wrap: wrap;
 	margin: 0 auto;
 }
@@ -124,11 +124,12 @@ html {
 }
 /*header*/
 
-/*nav*/
+/*left-nav*/
 .block+section {
 	order: 3;
 	width: 20%;
 	margin-top: 10%;
+	min-width:200px;
 }
 
 nav .menu {
@@ -154,6 +155,13 @@ nav .menu>ul>li {
 nav .menu>ul  input[type=submit] {
 	width: 100%;
 }
+
+.block.search{
+	min-height:0;
+}
+#menuSearch{
+	top:5%;
+}
 /*sección información tienda*/
 header+.block {
 	min-height: 500px;
@@ -161,6 +169,7 @@ header+.block {
 
 header+.block>.block_second>div {
 	display: initial;
+	min-width:200px;
 }
 
 
@@ -189,6 +198,7 @@ header+.block>.block_second h1 {
 	width: 70%;
 	padding: 3%;
 	background-color: orange;
+	min-width: 200px;
 }
 
 header+.block>.block_second>div>figure>figcaption {
@@ -212,12 +222,14 @@ header+.block>.block_second>div>figure>figcaption {
 
 .block_second {
 	overflow: initial;
+	
 }
 /*seccionn lista de productos*/
 .block.block--results {
 	order: 3;
 	flex-basis: 50%;
 	padding-bottom: 0;
+	min-width: 450px;
 }
 
 .block.block--results>.block_second {
@@ -261,9 +273,172 @@ header+.block>.block_second>div>.block_second--detail>.forma {
 	.block.block--results>.block_second>div {
 		flex-basis: 40%;
 	}
-	.block.block--results>.block_second {
-		justify-content: initial;
-	}
+
+	.page{
+	width: 3.5%;
+	padding-bottom:3.5%;
+}
+.page:hover{
+	width: 4%;
+	padding-bottom:4%;
+}
+.page--blank{
+	width: 3.5%;
+	padding-bottom: 3.5%;
+}
+.page.actual{
+	width: 4%;
+	padding-bottom:4%;
+}
+}
+@media (max-width:950px){
+	.header>div {
+	text-align: center;
+	display:flex;
+	flex-direction:column;
+	position:absolute;
+	background-color:white;
+	width:20%;
+	right:0;
+	align-items:center;
+	
+}
+.centralBlock{
+	width:100% !important;
+}
+/**para las secciones de empresa**/
+.block.crear{
+	width: 20%;
+	order: 4;
+	margin-top:20%;
+}
+.block.block--results.bussines{
+	margin-top:20%;
+}
+/**vistas detalles sin contenedor nav**/
+.block.block--results.detail{
+	position: relative;
+	flex-basis:100%;
+}
+body > section.block.block--results.detail > .block_second > div{
+	flex-basis:25%;
+	min-width: 200px;
+}
+/******************************/
+.block{
+	width: 100%;
+	order:1;
+}
+header+.block>.block_second>div{
+	display: flex;
+}
+.block_second{
+	flex-direction: column;
+	margin-bottom: 0;
+}
+header+.block>.block_second h1{
+	width: 100%;
+}
+header+.block>.block_second>div {
+	width: 100%;
+	margin-bottom:0;
+}
+header+.block>.block_second>div>figure{
+	margin-right: 6%;
+}
+
+/*left nav**/
+
+.block + section{
+	position:absolute;
+	top:80%;
+	
+}
+nav .menu>ul {
+	display: none;
+	transform: translate(-200%, 0);
+	position: absolute;
+	width: 100%;
+}
+
+nav .menu>ul>li {
+	display: block;
+	transform: translate(0, 0);
+}
+nav  div {
+	display: block;
+	
+}
+/**secciones**/
+.block + section{
+	margin-top: 20%;
+	left:0;
+}
+.block.block--results{
+	margin-top:0;
+}
+/**boton imagen perfil desplegable*/
+#button_nav{
+	opacity:0;
+    display: inline-block;
+    position: absolute;
+    bottom: -15px;
+    right: -18px;
+    height: 14px;
+}
+
+#foto_perfil{
+	display:inline-block;
+
+}
+/*ocultar todas las secciones**/
+.header > div:nth-child(1) > #foto_perfil ~ label{
+	margin-bottom:20%;
+	display:none;
+}
+#foto_perfil > a:after{
+    display: inline-block;
+    content: '\67';
+    font-family: "icomoon";
+    color: orange;
+ 	margin-left: 10%;
+    font-size: 0.7rem;
+    position: absolute;
+    bottom: 0;
+    border: 1px solid orange;
+    transform: rotate(90deg);
+}
+/*paginacion*/
+.page{
+	width: 4.5%;
+	padding-bottom:4.5%;
+}
+.page:hover{
+	width: 5%;
+	padding-bottom:5%;
+}
+.page--blank{
+	width: 4.5%;
+	padding-bottom: 4.5%;
+}
+.page.actual{
+	width: 5%;
+	padding-bottom:5%;
+}
+/**buscador header*/
+.header>section>h1 {
+	width:70%;
+}
+.header>section>form{
+	width:70%;
+}
+
+
+.block_second{
+
+    display: flex;
+    justify-content: center;
+}
 }
 
 .oferta {

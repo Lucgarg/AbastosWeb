@@ -76,6 +76,10 @@ buttonBack.addEventListener("click", function () { back(buttonBack.parentElement
 /*selectores*/
 let field = document.querySelector(".valoracion");
 let contendButtons  = document.getElementById("buttons");
+let labels = document.querySelectorAll(".header > div:nth-child(1)  label");
+let buttonNav = document.querySelector("#button_nav");
+let windMin = window.matchMedia("(min-width: 950px)");
+let windMax = window.matchMedia("(max-width: 949px)");
 //contador de linea carrito
 let contador = document.getElementById("count");
 
@@ -198,7 +202,41 @@ function updatePuntuacion(valor){
 /****comprobacion de si numero de lineas carrito no es null*/
 if(contador!=null){
 	if(contador.innerHTML.trim() != ""){
-	console.log(contador.innerHTML);
+	
 	contador.style.display = "initial";
 	}
 }
+
+window.matchMedia("(min-width: 950px)").addListener(function(winMin){
+	if(winMin.matches){
+	$("#foto_perfil").css({"margin-bottom":"0"});
+	$(".header > div:nth-child(1)  label").css({"display": "inline-block"});
+}
+});
+window.matchMedia("(max-width: 949px)").addListener(function(winMax){
+	if(winMax.matches){
+	$("#foto_perfil").css({"margin-bottom":"0"});
+	$(".header > div:nth-child(1) > #foto_perfil ~ label").css({"display": "none"});
+	
+	console.log("llega");
+	}
+});
+/**responsive nav**/
+if(labels.length <= 5){
+	$(".header>div:nth-child(1)").css({"position": "relative", "flex-direction":"row", "justify-content": "space-around"});
+	$(".header>div:nth-child(1) label").css({"margin-bottom": "0"});
+}
+$("#button_nav").click(function(){
+	
+	$("#foto_perfil").css({"margin-bottom":"20%"});
+	$(".header > div:nth-child(1)  label").css({"display": "inline-block"});
+})
+
+
+
+$(".header>div:nth-child(1)").mouseleave(function(){
+	if(window.getComputedStyle(buttonNav).getPropertyValue("display") != "none"){
+		$("#foto_perfil").css({"margin-bottom":"0"});
+	$(".header > div:nth-child(1) > #foto_perfil ~ label").css({"display":"none"});
+	}
+})

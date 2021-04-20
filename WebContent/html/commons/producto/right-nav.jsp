@@ -1,5 +1,12 @@
-<section class="block">
+		<%
+	if (empresa != null) {
+	%>
+	<section class="block crear">
 		<div class="block_second">
+		<%}else{%>
+	<section class="block search">
+		<div class="block_second">
+		<%}%>
 			<input type="checkbox">
 			
 			<%if(tienda != null){%>

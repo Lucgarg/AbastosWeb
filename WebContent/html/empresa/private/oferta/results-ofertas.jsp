@@ -1,7 +1,7 @@
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*,
  com.abastos.market.web.util.*,  com.abastos.service.utils.*, com.abastos.cache.impl.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>
-	<section class="block">
+	<section class="block crear">
 		<div class="block_second">
 		<button class="Buscar crear"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.OFERTA, true)%>"> Crear oferta</a></button>
 	</section>
@@ -10,7 +10,7 @@
 			
 		</nav>
 	</section>
-	<section class="block block--results">
+	<section class="block block--results bussines">
 		<%if(errores.printError(ParameterNames.ERROR) != null){%>
 		<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>

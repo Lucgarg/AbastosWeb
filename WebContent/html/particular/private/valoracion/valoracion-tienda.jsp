@@ -1,7 +1,7 @@
 <%@page
 	import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
-<section class="block">
+<section class="block search">
 	<div class="block_second">
 </section>
 <section>

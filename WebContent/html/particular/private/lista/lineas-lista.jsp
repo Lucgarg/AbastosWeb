@@ -2,7 +2,8 @@
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>	
 <%@include file= "/html/particular/private/lista/right-nav.jsp"%>
-	<section class="block block--results">
+
+	<section class="block block--results detail">
 		<div class="block_second">
 		
 		<%

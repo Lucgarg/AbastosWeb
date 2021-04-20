@@ -11,10 +11,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet"
 	href="<%=UrlBuilder.getUrl(request, "css/estilo.css")%>">
-<link rel="stylesheet" media="(min-width: 800px)"
+<link rel="stylesheet" media="(min-width: 700px)"
 	href="<%=UrlBuilder.getUrl(request, "css/desktop.css")%>">
 <script defer src="<%=UrlBuilder.getUrl(request, "js/script.js")%>"></script>
 <script defer src="<%=UrlBuilder.getUrl(request, "js/request.js")%>"></script>
+<script src="<%=UrlBuilder.getUrl(request,"js/jquery-3.6.0.js")%>"></script>
 </head>
 <body>
 	<%@include file="/html/commons/usuario/error.jsp"%>

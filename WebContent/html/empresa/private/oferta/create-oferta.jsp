@@ -2,7 +2,7 @@
 	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
 <%Map<String, String[]> parametros = (Map<String, String[]>)request.getParameterMap();%>
-<section class="block">
+<section class="block search">
 	<div class="block_second">
 </section>
 <section>

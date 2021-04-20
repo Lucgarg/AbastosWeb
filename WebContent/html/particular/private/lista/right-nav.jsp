@@ -1,4 +1,4 @@
-<section class="block">
+<section class="block search">
 		<div class="block_second">
 			<input type="checkbox">
 	

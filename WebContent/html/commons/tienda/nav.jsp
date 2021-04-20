@@ -3,27 +3,32 @@
  import="com.abastos.market.web.util.*, com.abastos.cache.*, 
  com.abastos.service.utils.*, java.util.*, com.abastos.model.*, com.abastos.cache.impl.*"%>
 
-<section class="block">
-		<div class="block_second">
+
 			<%
 	if (empresa != null) {
 	%>
+	<section class="block crear">
+		<div class="block_second">
 	<button class="Buscar crear">
 		<a
 			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, true)%>">
 			Crear tienda</a>
 	</button>
-	<%}%>
+	<%}else{%>
+	<section class="block search">
+		<div class="block_second">
+		<%}%>
 	</section>
-<section>
+<section id="menuSearch">
 		<nav>
-			<button class="Buscar"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, ActionNames.RE_INICIO, "true")%>">
-			Otras localidades
-			</a></button>
+		
 			<label class="menu" for="menu"> <input type="checkbox" />
 				<div></div>
+				
 				<ul>
-					
+						<button class="Buscar"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, ActionNames.RE_INICIO, "true")%>">
+			Otras localidades
+			</a></button>
 					<%
 					
 					List<Categoria> catServ=  (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);

@@ -1,9 +1,28 @@
 <%@page import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <%@include file= "/html/commons/usuario/header.jsp"%>
 <%Pedido pedido = (Pedido)request.getAttribute(AttributesNames.PEDIDO);%>
+<section class="block search">
+		<div class="block_second">
+			<input type="checkbox">
+	
+		
+			<h1><%=pedido.getFechaPedido()%></h1>
 
+			<div>
+				
 
-<section class="block block--results">
+				<div class="block_second--detail">
+					<p>precio final</p>
+					<p><%=pedido.getPrecioTotal()%></p>
+					
+					<p>Numero de productos</p>
+					<p><%=pedido.getLineaPedido().size()%></p>
+					
+				</div>
+			
+			</div>
+	</section>
+<section class="block block--results detail">
 		<%if(errores.hasErrors()){%>
 		<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%}%>

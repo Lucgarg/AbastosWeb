@@ -1,7 +1,7 @@
 
 <%@ page import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.market.web.util.*" %>
 <%@include file= "/html/commons/usuario/header.jsp"%>	
-	<section class="block block--results">
+	<section class="block block--results"style="margin-top:20%">
 	 	<%if(errores.hasErrors()){%>
 	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>

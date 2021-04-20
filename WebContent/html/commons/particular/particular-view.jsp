@@ -5,7 +5,7 @@
 
 	<label
 	 for="logIn" id="foto_perfil" style="background:url('<%=UrlBuilder.getUrlforImg(request, "usuario/particular/" + particular.getId() + "-perfil.jpeg")%>')no-repeat; background-size:cover; ">
-	 <a href="<%=UrlBuilder.getUrl(request, ViewPaths.PERFIL_PARTICULAR) %>">Mi perfil</a></label>
+	 <a href="<%=UrlBuilder.getUrl(request, ViewPaths.PERFIL_PARTICULAR) %>">Mi perfil</a><button type="button" id="button_nav"></button></label>
 	<label primerBloque="&#xe922" id="bloqueListas"for=registro><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.LISTA, ActionNames.BUSCAR, true)%>">Mis listas</a></label><label
 		for="arrow-bottom"><div></div></label><label for="default-checked"><div
 			tercerBloque="z">

@@ -3,7 +3,11 @@
 	import="java.util.*, com.abastos.model.*, com.abastos.service.*, com.abastos.dao.*, com.abastos.market.web.util.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
 <%@include file="/html/commons/tienda/nav.jsp"%>
+<%if(empresa == null){%>
 <section class="block block--results">
+<%}else{%>
+<section class="block block--results bussines">
+<%}%>
 	<%
 		Results<Tienda> results = (Results<Tienda>) request.getAttribute(AttributesNames.RESULTS_TIENDA);
 		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
@@ -73,10 +77,10 @@
 <%if(pagination.getPage() != pagination.getFirstPage() && pagination.getPage() != pagination.getTotalPages()){%>
 <a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.TIENDA,
 		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(pagination.getPage()))%>" 
-		style="padding-bottom: 2%; width: 2%;" class="page"><%=pagination.getPage()%></a>
+		 class="page actual"><%=pagination.getPage()%></a>
 <%}else{%>
 <a href="#" 
-		style="padding-bottom: 2%; width: 2%;" class="page"><%=pagination.getPage()%></a>
+		 class="page actual"><%=pagination.getPage()%></a>
 <%}%>
 <%for(int i = pagination.getPage()+1; i <= pagination.getLastPagedPage(); i++ ){%>
 <%if(i != pagination.getTotalPages()){%>

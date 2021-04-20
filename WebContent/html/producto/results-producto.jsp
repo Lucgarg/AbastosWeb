@@ -6,7 +6,11 @@
 <%@include file="/html/commons/usuario/header.jsp"%>
 <%@include file="/html/commons/producto/right-nav.jsp"%>
 <%@include file="/html/commons/producto/left-nav.jsp"%>
+<%if(empresa == null){%>
 <section class="block block--results">
+<%}else{%>
+<section class="block block--results bussines">
+<%}%>
 		<%if(errores.hasErrors()){%>
 	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
@@ -165,7 +169,7 @@
 
 <a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO,
 		ActionNames.BUSCAR, ParameterNames.PAGE, String.valueOf(pagination.getPage()))%>" 
-		style="padding-bottom: 2%; width: 2%;" class="page"><%=pagination.getPage()%></a>
+		 class="page actual"><%=pagination.getPage()%></a>
 
 <%for(int i = pagination.getPage()+1; i <= pagination.getLastPagedPage(); i++ ){%>
 <%if(i != pagination.getTotalPages()){%>
