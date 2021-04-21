@@ -184,7 +184,7 @@ public class PrecreateServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.TIENDA_BUSQUEDA;
 				}
-			} catch (DataException e) {
+			}catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);

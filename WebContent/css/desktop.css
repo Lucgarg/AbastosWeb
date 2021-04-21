@@ -1,7 +1,7 @@
 body {
 	max-width: 2000px;
 	display: flex;
-	justify-content: space-around;
+	justify-content: center;
 	flex-wrap: wrap;
 	margin: 0 auto;
 }
@@ -87,8 +87,24 @@ html {
 .header>div:nth-child(1)>label:nth-child(3)>div {
 	display: none;
 }
-
-
+/***paginacion****/
+/*paginacion*/
+.page{
+	width: 1.5%;
+	padding-bottom:1.5%;
+}
+.page:hover{
+	width: 2%;
+	padding-bottom:2%;
+}
+.page--blank{
+	width: 1.5%;
+	padding-bottom: 1.5%;
+}
+.page.actual{
+	width: 2%;
+	padding-bottom:2%;
+}
 /*logo header para pantallas*/
 .header>figure {
 	width: 100px;
@@ -273,7 +289,9 @@ header+.block>.block_second>div>.block_second--detail>.forma {
 	.block.block--results>.block_second>div {
 		flex-basis: 40%;
 	}
-
+.select{
+	font-size:0.6rem !important;
+}
 	.page{
 	width: 3.5%;
 	padding-bottom:3.5%;
@@ -305,6 +323,14 @@ header+.block>.block_second>div>.block_second--detail>.forma {
 }
 .centralBlock{
 	width:100% !important;
+}
+/**boton crear**/
+.Buscar.crear.business{
+	    position: absolute;
+    right: 0;
+    width: 20%;
+    bottom: 0;
+    padding: 1%;
 }
 /**para las secciones de empresa**/
 .block.crear{
@@ -346,13 +372,20 @@ header+.block>.block_second>div {
 header+.block>.block_second>div>figure{
 	margin-right: 6%;
 }
+/**selectores**/
 
+.select{
+	font-size:0.6rem !important;
+}
 /*left nav**/
 
 .block + section{
 	position:absolute;
 	top:80%;
-	
+	margin-top:10% !important;
+}
+.block.crear + section{
+	top:10%;
 }
 nav .menu>ul {
 	display: none;
@@ -367,7 +400,13 @@ nav .menu>ul>li {
 }
 nav  div {
 	display: block;
-	
+	width: 2em;
+}
+nav div:after{
+	width:2em;
+}
+nav div:before{
+	width:2em;
 }
 /**secciones**/
 .block + section{
@@ -583,24 +622,7 @@ nav  div {
 	-moz-box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 	box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 }
-/*icono para cerrar ventana*/
-.cerrarLabel {
-	background-color: transparent;
-	border: none;
-	display: initial;
-	position: relative;
-	padding: 0;
-	margin-left: 90%;
-}
 
-.cerrarLabel::after {
-	content: "\31";
-	font-family: "icomoon";
-	font-size: 0.9rem;
-	display: block;
-	text-align: center;
-	color: orange;
-}
 /*eleccion tipo usuario*/
 .header   .tipUsuario {
 	position: fixed;
@@ -650,8 +672,4 @@ nav  div {
 	.header>div>label:nth-child(4)>div:before {
 	content: "\7a";
 	display: block;
-}
-/*footer*/
-footer{
-	order:6;
 }

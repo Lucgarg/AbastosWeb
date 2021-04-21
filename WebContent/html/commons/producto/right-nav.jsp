@@ -1,5 +1,5 @@
 		<%
-	if (empresa != null) {
+	if (empresa != null  && tienda == null) {
 	%>
 	<section class="block crear">
 		<div class="block_second">
@@ -40,7 +40,7 @@
 				<%
 			if(empresa != null){
 			%>
-	<button class="Buscar crear">
+	<button class="Buscar crear <%=tienda==null?"":"business"%>">
 		<a
 			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, true)%>">
 			Crear producto</a>

@@ -1,4 +1,5 @@
 
+<%@page import="com.abastos.market.web.util.ParameterNames"%>
 <%@page import="com.abastos.market.web.util.ActionNames"%>
 <%@page import="com.abastos.market.web.util.ControllerPath"%>
 <%@page import="com.abastos.market.web.util.UrlBuilder"%>
@@ -12,7 +13,7 @@
 		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR, true)%>">Mis
 			ofertas </a></label><label for="arrow-bottom"><div></div></label><label for="default-checked"><div
 			tercerBloque="y" nombre="Valoraciones"></div></label><label cuartoBloque="w" id="cuartoBloque"><a
-		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE, ActionNames.BUSCAR, true)%>">Mis
+		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE, ActionNames.BUSCAR, true, ActionNames.RE_INICIO, ParameterNames.TRUE)%>">Mis
 			productos</a></label> <label quintoBloque="&#xea14" id="quintoBloque"><a
 		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, ActionNames.CERRAR, true)%>">Cerrar
 			sesión</a></label>

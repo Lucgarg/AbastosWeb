@@ -109,6 +109,7 @@ public class ProductoServlet extends HttpServlet {
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_PRODUCTO);
+			String reset = request.getParameter(ActionNames.RE_INICIO);
 			Tienda tienda = null;
 			String tiend = null;
 			ProductoCriteria productoCri = new ProductoCriteria();
@@ -189,6 +190,9 @@ public class ProductoServlet extends HttpServlet {
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					}
 					if(empresa != null) {
+						if(reset != null) {
+							SessionManager.remove(request, AttributesNames.TIENDA);
+						}
 						List<Tienda> tiendaResults = tiendaServ.findByIdEmpresa(empresa.getId());
 						List<Categoria> categorias = categoriaService.findRoot(idioma);
 						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results.getPage(), tiendaResults);

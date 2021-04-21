@@ -282,10 +282,11 @@ body {
 	margin-left: 1%;
 	border-radius: 25%;
 	height: 0;
-	width: 1.5%;
+	width: 4.5%;
+	padding-bottom:4.5%;
 	vertical-align: center;
 	padding-top: 0%;
-	padding-bottom: 1.5%;
+	
 	color: white;
 	-webkit-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
 	-moz-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
@@ -295,21 +296,22 @@ body {
 }
 
 .page:hover {
-	padding-bottom: 2%;
-	width: 2%;
+	width: 5%;
+	padding-bottom:5%;
 }
 .page.actual{
-	width: 2%;
-	padding-bottom:2%;
+	width: 5%;
+	padding-bottom:5%;
 }
 .page--blank {
 	display: inline-block;
 	margin-left: 1%;
 	height: 0;
-	width: 1.5%;
+	width: 4.5%;
+	padding-bottom: 4.5%;
 	vertical-align: center;
 	padding-top: 0%;
-	padding-bottom: 1.5%;
+
 	background-color: none;
 	color: orange;
 	font-size: 1.4rem;
@@ -546,7 +548,7 @@ nav div::before {
 	width: 1em;
 	height: 0.2em;
 	display: block;
-	background-color: orange;
+	background-color: white;
 	position: absolute;
 	border-radius: 3px;
 	opacity: 1;
@@ -559,7 +561,7 @@ nav  div {
 	height: 0.2em;
 	display: block;
 	position: absolute;
-	background-color: orange;
+	background-color: white;
 	border-radius: 3px;
 }
 
@@ -570,10 +572,13 @@ nav  div::after {
 	position: absolute;
 	width: 1em;
 	height: 0.2em;
-	background-color: orange;
+	background-color: white;
 	border-radius: 3px;
 }
+nav>label input:nth-child(1){
+	width:2em;
 
+}
 nav .menu input:checked ~ div::after {
 	transform: rotate(90deg) translate(-6px, 0px);
 	transition: transform 0.5s cubic-bezier(0.445, 0.05, 0.55, 0.95);
@@ -1144,19 +1149,21 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	{
 	display: none;
 }
-/*footer*/
+/*header*/
 .header {
 	position: fixed;
 	bottom: 0;
 	width: 100%;
 	background: white;
 	z-index: 10;
+
 }
 
 .header>div {
 	position: relative;
 	width: 100%;
 	padding: 1% 0 1% 0;
+		display: flex;
 }
 
 .header>figure {
@@ -1198,41 +1205,34 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	text-align: center;
 	display: inline-block;
 	vertical-align: middle;
-	position: absolute;
-	bottom: 35%;
+
+	
 }
 /*carrito*/
 .header>div:nth-child(1)>label:nth-child(4)>div {
 	display: none;
 	width: 3.6em;
-	background-color: orange;
 	text-align: center;
 	display: inline-block;
-	border: 2px green solid;
 	height: 3.6em;
-	border-radius: 100%;
-	padding-top: 10px;
-	padding-bottom: 10px;
+
+
 }
 /*carrito*/
 .header>div:nth-child(1)>label:nth-child(4)>div:before {
-	transform: rotate(0);
+
 	content: attr(tercerBloque);
 	font-family: "icomoon";
-	color: white;
+	color: orange;
 	font-size: 1.9rem;
 }
 /*carrito*/
 .header>div:nth-child(1)>label:nth-child(3)>div {
 	width: 3.6em;
-	background-color: orange;
 	text-align: center;
 	display: inline-block;
-	border: 2px green solid;
 	height: 3.6em;
-	border-radius: 100%;
-	padding-top: 10px;
-	padding-bottom: 10px;
+
 }
 
 .header>div:nth-child(1)>label:nth-child(3)>div:before {
@@ -1244,11 +1244,11 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 }
 /*idiomas*/
 .header>div:nth-child(1)>label:nth-child(5) {
-	width: 40%;
+	width: 20%;
 	font-size: 0.8rem;
 	text-align: center;
 	display: inline-block;
-	margin-left: 20%;
+
 	vertical-align: top;
 	padding-right: 10px;
 }
@@ -1369,14 +1369,7 @@ position: relative;
 	color: orange;
 }
 
-#arrow-bottom:checked ~ .header>div>label:nth-child(4)>div:before,
-	#registro:checked 
-	 ~ .header>div>label:nth-child(4)>div:before, #Idiomas:checked ~
-	.header>div>label:nth-child(4)>div:before, #logIn:checked ~ .header>div>label:nth-child(4)>div:before
-	{
-	content: "\71";
-	display: block;
-}
+
 /*mostrar campos ocultos*/
 #registro:checked ~ .header>.tipUsuario {
 	display: block;
@@ -1416,6 +1409,34 @@ position: relative;
 	display: inline-block;
 }
 
-#cerrarLabel {
-	display: none;
+
+/*icono para cerrar ventana*/
+.cerrarLabel {
+	background-color: transparent;
+	border: none;
+	display: initial;
+	position: relative;
+	padding: 0;
+	margin-left: 0;
+}
+
+.cerrarLabel::after {
+	content: "\71";
+	font-family: "icomoon";
+	font-size: 0.9rem;
+	display: block;
+	text-align: center;
+	color: orange;
+}
+/*footer*/
+footer{
+	 
+    width: 100%;
+    background-color: black;
+    color: white;
+    text-align: center;
+    position: relative;
+    order:6;
+    padding-bottom:20%;
+    margin-top:5%;
 }
