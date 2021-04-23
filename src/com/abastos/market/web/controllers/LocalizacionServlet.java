@@ -60,7 +60,7 @@ public class LocalizacionServlet extends HttpServlet {
 		String buscar = request.getParameter(ActionNames.BUSCAR);
 		String target = null;
 		Errors error = new Errors();
-		
+
 		if(ActionNames.PAIS.equalsIgnoreCase(action)) {
 			String pais = request.getParameter(ParameterNames.PAIS);
 			try {

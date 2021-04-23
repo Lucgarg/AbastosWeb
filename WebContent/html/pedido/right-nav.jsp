@@ -8,10 +8,10 @@
 <section class="block">
 		<div class="block_second">
 			<input type="checkbox">
-			
+			<h1>Mi pedido</h1>
 			
 			<div>
-				<div class="block_second--detail">
+				<div class="block_second--detail cart">
 				 
 					<p>Precio final</p>
 					<p><%=pedido.getPrecioTotal()%></p>

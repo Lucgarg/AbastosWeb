@@ -9,12 +9,21 @@
 	  <a href="<%=UrlBuilder.getUrl(request, ViewPaths.PERFIL_EMPRESA) %>">Mi perfil</a><button type="button" id="button_nav"></button></label>
 	<label primerBloque="p" for=registro id="bloqueListas"><a
 		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, true)%>">Mis
-			tiendas</a></label><label segundoBloque="v" for="logIn" id="segundoBloque"> <a
+			tiendas</a></label><label
+		for="arrow-bottom" style="display:none;"><div></div></label><label for="default-checked" tercerBloque="v">
+				
+			<a
 		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.OFERTA, ActionNames.BUSCAR, true)%>">Mis
-			ofertas </a></label><label for="arrow-bottom"><div></div></label><label for="default-checked"><div
-			tercerBloque="y" nombre="Valoraciones"></div></label><label cuartoBloque="w" id="cuartoBloque"><a
+			ofertas </a>
+		
+		</label><label cuartoBloque="b" for="Idiomas"><a>Idioma</a></label><label
+		quintoBloque="w"><a
 		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE, ActionNames.BUSCAR, true, ActionNames.RE_INICIO, ParameterNames.TRUE)%>">Mis
-			productos</a></label> <label quintoBloque="&#xea14" id="quintoBloque"><a
-		href="<%=UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, ActionNames.CERRAR, true)%>">Cerrar
-			sesión</a></label>
+			productos</a></label>
+		<label
+		sextoBloque="&#xea14"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, ActionNames.CERRAR, true)%>">Cerrar sesión</a></label>
 </div>
+
+
+	
+		

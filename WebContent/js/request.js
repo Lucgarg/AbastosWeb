@@ -184,6 +184,20 @@ function createSelectCategChild(){
 
 /**************Funcion recordar usuario****************/
 function remenberName(){
+nameUser.value = "";
+ $.post("usuario", {
+ action: "recordarNombre",
+ tipUsuario: inputTipParticular.checked?"particular":"empresa",
+ ajax: true,
+ 
+ 
+ }, function(json){
+		nameUser.value=json;
+ })
+}
+
+
+/*function remenberName(){
 		nameUser.value = "";
         request = createRequest();
         if(request == null){
@@ -206,7 +220,7 @@ function createRemenberName(){
 		nameUser.value=name;
 }
 }
-}
+}*/
 
 /***Select productos*/
 function selectProductos(){

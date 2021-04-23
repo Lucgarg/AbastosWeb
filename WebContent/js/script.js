@@ -206,19 +206,37 @@ if(contador!=null){
 	contador.style.display = "initial";
 	}
 }
-
+window.matchMedia("(max-width: 700px)").addListener(function(winMin){
+	if(winMin.matches){
+	$("#foto_perfil").css({"margin-bottom":"0"});
+	$(".header > div:nth-child(1)  label").css({"display": "inline-block"});
+		$(".header > div:nth-child(1)>label:nth-child(3)").css({"display":"none"});
+	
+}
+});
+window.matchMedia("(min-width: 700px)").addListener(function(winMin){
+	if(winMin.matches){
+	$("#foto_perfil").css({"margin-bottom":"0"});
+	$(".header > div:nth-child(1) > #foto_perfil ~ label").css({"display": "none"});
+	
+	
+}
+});
 window.matchMedia("(min-width: 950px)").addListener(function(winMin){
 	if(winMin.matches){
 	$("#foto_perfil").css({"margin-bottom":"0"});
 	$(".header > div:nth-child(1)  label").css({"display": "inline-block"});
+		$(".header > div:nth-child(1)>label:nth-child(3)").css({"display":"none"});
+
 }
 });
+
 window.matchMedia("(max-width: 949px)").addListener(function(winMax){
 	if(winMax.matches){
 	$("#foto_perfil").css({"margin-bottom":"0"});
 	$(".header > div:nth-child(1) > #foto_perfil ~ label").css({"display": "none"});
 	
-	console.log("llega");
+
 	}
 });
 /**responsive nav**/
@@ -230,6 +248,7 @@ $("#button_nav").click(function(){
 	
 	$("#foto_perfil").css({"margin-bottom":"20%"});
 	$(".header > div:nth-child(1)  label").css({"display": "inline-block"});
+	$(".header > div:nth-child(1)>label:nth-child(3)").css({"display":"none"});
 })
 
 

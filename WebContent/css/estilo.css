@@ -242,6 +242,8 @@ body {
 	background: linear-gradient(105deg, rgba(167, 201, 88, 1) 49%,
 		rgba(152, 183, 63, 1) 49%);
 	background-repeat: no-repeat;
+	position:relative;
+	padding-bottom:110px;
 }
 /*********Oferta**********/
 .ofertaCL {
@@ -398,6 +400,7 @@ span {
 	width: 100%;
 	padding: 2%;
 	padding-bottom: 10%;
+	margin-top:110px;
 }
 
 .logo figure {
@@ -457,6 +460,7 @@ span {
 	padding: 5%;
 	
 }
+
 .Buscar.crear > a {
 	color: white;
 }
@@ -603,6 +607,7 @@ nav .menu {
 	position: relative;
 	-webkit-user-select: none;
 	user-select: none;
+	margin-top:110px;
 }
 
 nav .menu>ul {
@@ -730,6 +735,7 @@ nav>label  input {
 	width: 80%;
 	height: auto;
 	margin-bottom: 10%;
+	text-align:center;
 	padding: 2%;
 	background-color: white;
 	-webkit-box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.75);
@@ -741,11 +747,13 @@ nav>label  input {
 	height: 80px;
 	float: left;
 	margin-right: 3%;
+	width:100%;
 }
 
 .block_second>div>figure  img {
 	width: 100%;
 	height: 100%;
+	object-fit:cover;
 }
 
 .block_second>div>p {
@@ -753,6 +761,9 @@ nav>label  input {
 	margin-bottom: 2%;
 }
 
+block_second--detail.cart{
+	display:flex;
+}
 /*precios con descuento*/
 .precio {
 	position: relative;
@@ -1164,14 +1175,52 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	width: 100%;
 	padding: 1% 0 1% 0;
 		display: flex;
+		justify-content:space-between;
 }
 
+
 .header>figure {
-	display: none;
+	/* display: none; */
+	position: fixed;
+	top: 0;
+	width: 30%;
+	max-width:120px;
+	max-height:101px;
 }
 
 .header>section {
-	display: none;
+	max-height: 101px;
+/*	display: none;*/
+    width: 100%;
+    /* display: none; */
+    position: fixed;
+    top: 0;
+    z-index: -1;
+    padding: 3%;
+    align-items: flex-end;
+    /* left: 0; */
+    flex-direction: column;
+    /* right: 17px; */
+    right: 0;
+    text-align: center;
+    display: flex;
+    background-color: white;
+    /* padding: 2%; */
+    /* text-align: center; */
+}
+body > header > div > section > form{
+	    display: flex;
+    flex-direction: inherit;
+    width: 30%;
+    /* margin-bottom: -1%; */
+}
+body > header > div > section > form >input{
+margin-bottom: 2%;
+}
+
+/**opacidad texto*/
+.header > div:nth-child(1)  label a{
+	opacity:0;
 }
 /*icono registro*/
 .header>div:nth-child(1)>label:nth-child(1) {
@@ -1193,10 +1242,17 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 .header>div:nth-child(1)>label:nth-child(3) {
 	width: 20%;
 	text-align: center;
-	display: inline-block;
+	display: none;
 	vertical-align: middle;
-	position: absolute;
-	bottom: 35%;
+	position: relative;
+	
+}
+.header>div:nth-child(1)>label:nth-child(4):before{
+	content: attr(tercerBloque);
+	font-family: "icomoon";
+	color: orange;
+	font-size: 1.9rem;
+	display:block;
 }
 /*input por defecto*/
 .header>div:nth-child(1)>label:nth-child(4) {
@@ -1215,7 +1271,7 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	text-align: center;
 	display: inline-block;
 	height: 3.6em;
-
+	position:relative;
 
 }
 /*carrito*/
@@ -1226,6 +1282,7 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	color: orange;
 	font-size: 1.9rem;
 }
+
 /*carrito*/
 .header>div:nth-child(1)>label:nth-child(3)>div {
 	width: 3.6em;
@@ -1233,6 +1290,22 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	display: inline-block;
 	height: 3.6em;
 
+}
+.header>div:nth-child(1)>label:nth-child(4)>div > a {
+	background-color: blue;
+	border-radius:100%;
+	width: 40%;
+	padding-bottom: 40%;
+	height: 0;
+	height: 24px;
+	width: 24px;
+	padding: 3%;
+	color: white;
+	margin-left:33%;
+	display:none;
+	position:absolute;
+	bottom:10%;
+	left:30%;
 }
 
 .header>div:nth-child(1)>label:nth-child(3)>div:before {
@@ -1244,7 +1317,7 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 }
 /*idiomas*/
 .header>div:nth-child(1)>label:nth-child(5) {
-	width: 20%;
+	
 	font-size: 0.8rem;
 	text-align: center;
 	display: inline-block;
@@ -1252,6 +1325,8 @@ figure>input:nth-child(3):checked ~ figcaption>label:nth-child(3):before
 	vertical-align: top;
 	padding-right: 10px;
 }
+
+
 /*perfil particular mis pedidos*/
 .header>div:nth-child(1)>label:nth-child(6) {
 	width: 10%;
@@ -1373,8 +1448,12 @@ position: relative;
 /*mostrar campos ocultos*/
 #registro:checked ~ .header>.tipUsuario {
 	display: block;
+	text-align:center;
 }
-
+.header>.tipUsuario > label{
+	text-align:center;
+	display:block;
+}
 #logIn:checked ~ .header>.registro {
 	display: block;
 }
@@ -1428,6 +1507,91 @@ position: relative;
 	text-align: center;
 	color: orange;
 }
+.block.block--results{
+	margin-top:110px;
+}
+
+
+/********Oferta******/
+.oferta {
+	box-sizing: inherit;
+	margin: 0;
+	border: 0;
+	font-size: 100%;
+	font-weight: normal;
+	vertical-align: baseline;
+	background: transparent;
+	position: absolute;
+	left: -50px;
+	top: 11px;
+	background-color: red;
+	padding: 5%;
+	width: 82%;
+	transform: rotate(-39deg);
+	text-align: center;
+	box-shadow: 3px 4px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+.oferta  p {
+	text-align: center;
+	box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-weight: normal;
+	vertical-align: baseline;
+	background: transparent;
+	font-size: 1.2rem;
+	color: white;
+}
+
+.block_second>div {
+	overflow: hidden;
+}
+
+.block_second>div>p {
+	text-align: center;
+	
+	font-size: 1.2rem;
+}
+
+.ofertaDetalle {
+	display: none;
+	position: absolute;
+	background-color: white;
+	border: 1px solid black;
+	text-align: center;
+	top:calc(50% - 40%);
+	left:calc(50% - 40%);
+	width:80%;
+	border-radius: 25%/50%;
+	padding: 3%;
+	font-size: 1.2rem;
+}
+/*oferta con precio mostrado*/
+.precio:hover ~ .ofertaDetalle {
+	display: initial;
+}
+
+.precio {
+	display: inline-block;
+}
+
+.precio+p {
+	display: inline-block;
+}
+
+.precioNoMostrado:hover ~ .ofertaDetalle {
+	display: initial;
+}
+
+.precioNoMostrado {
+	display: inline-block;
+}
+
+.precioNoMostrado+p {
+	display: inline-block;
+}
 /*footer*/
 footer{
 	 
@@ -1435,8 +1599,8 @@ footer{
     background-color: black;
     color: white;
     text-align: center;
-    position: relative;
-    order:6;
-    padding-bottom:20%;
+    position: absolute;
+    bottom:0;
+    max-height:110px;
     margin-top:5%;
 }

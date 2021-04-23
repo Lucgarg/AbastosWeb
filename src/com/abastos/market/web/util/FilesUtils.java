@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadException;
@@ -13,7 +15,7 @@ import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 public class FilesUtils {
-
+	private final static String UPLOAD_DIRECTORY = "imgs/";
 	public FilesUtils() {
 
 	}
@@ -35,4 +37,5 @@ public class FilesUtils {
 		String name = new StringBuilder(String.valueOf(id)).append(nameImg).toString();
 		file.write(new File(url + File.separator + name));
 	}
+
 }

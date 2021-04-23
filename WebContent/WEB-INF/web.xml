@@ -60,6 +60,17 @@
 		<servlet-class>com.abastos.market.web.controllers.CarritoServlet</servlet-class>
 
 	</servlet>
+		<servlet-mapping>
+		<servlet-name>UsuarioServlet</servlet-name>
+		<url-pattern>/usuario</url-pattern>
+	</servlet-mapping>
+	<servlet>
+
+		<servlet-name>UsuarioServlet</servlet-name>
+
+		<servlet-class>com.abastos.market.web.controllers.UsuarioServlet</servlet-class>
+
+	</servlet>
 	<servlet-mapping>
 		<servlet-name>CarritoServlet</servlet-name>
 		<url-pattern>/carrito</url-pattern>

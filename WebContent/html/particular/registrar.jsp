@@ -10,6 +10,7 @@
 	</section>
        <section class="centralBlock registro">
         	<div>
+        
           <form action=<%=UrlBuilder.getUrl(request, ControllerPath.PARTICULAR)%> method="post">
           		<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.REGISTRO%>">
           		<fieldset>

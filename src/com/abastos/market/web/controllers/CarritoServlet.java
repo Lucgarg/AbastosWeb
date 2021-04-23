@@ -59,7 +59,7 @@ public class CarritoServlet extends HttpServlet {
 
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		boolean redirect = false;
-
+	
 		if(ActionNames.ADD.equalsIgnoreCase(action)) {
 			String id= request.getParameter(ParameterNames.ID_PRODUCTO);
 			String numeroUnidades = request.getParameter(ParameterNames.NUMERO_UNIDADES);
@@ -100,6 +100,7 @@ public class CarritoServlet extends HttpServlet {
 			Gson gson = new Gson();
 			response.setContentType("application/json");
 			response.getOutputStream().write(gson.toJson(carrito.getLineasCarritoMap().size()).getBytes());
+			
 		}
 		else if(ActionNames.DETALLE_CARRITO.equalsIgnoreCase(action)) {
 			Producto producto = null;

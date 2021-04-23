@@ -40,7 +40,7 @@ import com.google.gson.Gson;
 
 
 
-@WebServlet("/usuario")
+
 public class UsuarioServlet extends HttpServlet {
 
 	private static Logger logger = LogManager.getLogger(UsuarioServlet.class);
