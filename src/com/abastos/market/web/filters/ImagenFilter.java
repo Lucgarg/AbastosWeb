@@ -23,11 +23,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.UrlBuilder;
+import com.abastos.market.web.util.WebConstants;
 
 
 public class ImagenFilter implements Filter {
 	private static Logger logger = LogManager.getLogger(ImagenFilter.class);
-	private final String UPLOAD_DIRECTORY = "imgs/";
+
 	public ImagenFilter() {
 
 	}
@@ -42,7 +43,7 @@ public class ImagenFilter implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-		String url = UrlBuilder.urlRealPath(httpRequest, UPLOAD_DIRECTORY);
+		String url = UrlBuilder.urlRealPath(httpRequest, WebConstants.UPLOAD_DIRECTORY_IMG);
 
 		String [] urlArray = httpRequest.getRequestURI().split("imgs");
 		String img = urlArray[urlArray.length -1];

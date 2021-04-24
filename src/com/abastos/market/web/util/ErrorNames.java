@@ -46,6 +46,7 @@ public class ErrorNames {
 	public static final String ERR_GENERIC_SEARCH_LISTA = "No ha sido posible buscar sus listas";
 	public static final String ERR_GENERIC_DETAIL_LISTA = "La lista no esta disponible";
 	public static final String ERR_GENERIC_CREATE_LISTA = "No ha sido posible crear la lista";
+	public static final String ERR_GENERIC_REGISTRO = "No ha sido posible finalizar el resgistro";
 	public static final String ERR_GENERIC_ADD_LINEA_LIST = "No ha sido posible añadir el producto a la lista";
 	public static final String ERR_GENERIC_DETAIL_CART = "No ha sido posible visualizar su compra";
 }

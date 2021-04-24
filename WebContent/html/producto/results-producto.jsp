@@ -28,7 +28,7 @@
 		<div>
 			<figure>
 				<img
-					src="<%=UrlBuilder.getUrlforImg(request, "productos/" + p.getId() + "-principal.jpg")%>" />
+					src="<%=UrlBuilder.getUrlforImg(request,WebConstants.IMG_PRINCIPAL, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" />
 			</figure>
 			<p>
 				<a

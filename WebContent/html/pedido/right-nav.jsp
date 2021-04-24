@@ -5,7 +5,7 @@
 <%@page import="com.abastos.market.web.util.ControllerPath"%>
 <%@page import="com.abastos.market.web.util.UrlBuilder"%>
 <%@page import="com.abastos.model.*"%>
-<section class="block">
+<section class="block search">
 		<div class="block_second">
 			<input type="checkbox">
 			<h1>Mi pedido</h1>

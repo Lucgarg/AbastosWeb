@@ -23,6 +23,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ValidationUtils;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.DireccionDto;
 import com.abastos.model.Particular;
 import com.abastos.service.ContenidoService;
@@ -94,15 +95,15 @@ public class ParticularServlet extends HttpServlet {
 			}
 			catch(DataException e) {
 				logger.warn(e.getMessage(),e);
-				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC);
+				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC_REGISTRO);
 			}
 			if(!error.hasErrors()) {
 				logger.info(new StringBuilder("enviando email a ").append(particular.getEmail()));
 				Map<String,Object> valores = new HashMap<String,Object>();
 				
-				valores.put("user", particular);
-				valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, 
-						ActionNames.CONFIRMAR_REGISTRO, redirect, ParameterNames.PARTICULAR, String.valueOf(idParticular.getId())));
+				valores.put(WebConstants.USER, particular);
+				valores.put(WebConstants.ENLACE, UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, 
+						ActionNames.CONFIRMAR_REGISTRO, true, ParameterNames.PARTICULAR, String.valueOf(idParticular.getId())));
 				try {
 					mailService.sendMail(valores,3L, particular.getEmail());
 					redirect = true;
@@ -125,7 +126,7 @@ public class ParticularServlet extends HttpServlet {
 			String idParticular = request.getParameter(ParameterNames.PARTICULAR);
 			try {
 				particularService.updateAlta(Long.valueOf(idParticular));
-				redirect = true;
+				request.setAttribute(AttributesNames.CONFIRMAR_REGISTRO, ParameterNames.TRUE);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);

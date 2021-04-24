@@ -29,6 +29,7 @@
 		String name = (String) SessionManager.get(request, AttributesNames.RECORDAR_USUARIO);
 		String nameEmpresa = (String) SessionManager.get(request, AttributesNames.RECORDAR_EMPRESA);
 		Map<Long,String> resultsTienda = (Map<Long, String>) request.getAttribute(AttributesNames.TIENDA_PRODUCTOS);
+		String confirmacion = (String)request.getAttribute(AttributesNames.CONFIRMAR_REGISTRO);
 		%>
 		<input type="radio" id="default-checked" name="seleccion" checked>
 		<input type="radio" id="arrow-bottom" name="seleccion"> <input
@@ -142,6 +143,12 @@
 
 				</form>
 			</div>
+			<%if(confirmacion != null){%>
+			<div class="confirmacion">
+				<button class="cerrarLabel"></button>
+				<p>Felicidades! para empezar a utilizar la aplicación inicie sesión o utilice el buscador</p>
+			</div>
+			<%}%>
 			<figure>
 				<a
 					href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, true)%>"><img

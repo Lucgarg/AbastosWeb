@@ -5,7 +5,7 @@
 <%Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);%>
 <%if(pedido.getLineaPedido().size() > 0){%>
 <%@include file="/html/pedido/right-nav.jsp"%>
-
+<section></section>
 <section class="block block--results">
 	<%if(errores.printError(ActionNames.SEND_EMAIL) != null){%>
 	<p class="error generic"><%=errores.printError(ActionNames.SEND_EMAIL)%></p>

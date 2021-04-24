@@ -12,10 +12,10 @@
                     <input type="radio" id="prueba3" name="sli">
                     <ul>
                     <%Producto p = (Producto)request.getAttribute(AttributesNames.PRODUCTO);%>
-                      
-                        <li> <img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%><%=ParameterNames.IMAGEN_PRINCIPAL%>" alt="" class="img1"></li>
-                        <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%><%=ParameterNames.IMAGEN_GALERIA%>" alt="" class="img2"></li>
-                          <li><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%><%=ParameterNames.IMAGEN_GALEIRA_SCD%>" alt="" class="img2"></li>
+                      	
+                        <li> <img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_PRINCIPAL, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img1"></li>
+                        <li><img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_GALERIA, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img2"></li>
+                          <li><img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_GALEIRA_SCD, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img2"></li>
                        
                     </ul>
                     <figcaption>
@@ -23,9 +23,9 @@
                         <label for="prueba2"></label>
                         <label for="prueba1"></label>
                   <ul>
-                            <li><label for="prueba1"><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-principal.jpg" alt="" class="img2"></label></li>
-                            <li><label for="prueba2"><img src="<%=request.getContextPath()%>/imgs/productos/<%=p.getId()%>-galeria.jpg" alt="" class="img2"></label></li>
-                          
+                            <li><label for="prueba1"><img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_PRINCIPAL, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img2"></label></li>
+                            <li><label for="prueba2"><img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_GALERIA, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img2"></label></li>
+                        	  <li><label for="prueba3"><img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_GALEIRA_SCD, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img2"></label></li>
                 </ul> 
                     </figcaption>
                 </figure> <div class="informacionProducto">

@@ -53,7 +53,7 @@
 					name="<%=ParameterNames.PUNTUACION_PRODUCTO%>"
 					<%if(producto == 5){%>checked<%}%>></label>
 			</fieldset>
-			<button type="submit" class="Buscar"><%if(producto == null){%>Realizar valoración
+			<button type="submit" class="Buscar"><%if(producto == 0){%>Realizar valoración
 			<%}else{%>Actualizar valoración<%}%>
 			</button>
 		</form>

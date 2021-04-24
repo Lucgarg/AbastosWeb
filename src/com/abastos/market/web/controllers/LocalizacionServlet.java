@@ -19,6 +19,7 @@ import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.UrlBuilder;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.ComunidadAutonoma;
 import com.abastos.model.Localidad;
 import com.abastos.model.Provincia;
@@ -72,8 +73,8 @@ public class LocalizacionServlet extends HttpServlet {
 					comunidadAutonoma = comServ.findByIdPais(Long.valueOf(pais));
 				}
 				Gson gson = new Gson();
-				response.setContentType( "application/json");
-				response.getWriter( ).println( gson.toJson(comunidadAutonoma));
+				response.setContentType( WebConstants.CONTENT_TYPE);
+				response.getOutputStream().write(gson.toJson(comunidadAutonoma).getBytes());
 
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -94,8 +95,8 @@ public class LocalizacionServlet extends HttpServlet {
 					provincias = proServ.findByIdComunidad(Long.valueOf(comunidad));
 				}
 				Gson gson = new Gson();
-				response.setContentType( "application/json");
-				response.getWriter( ).println( gson.toJson(provincias));
+				response.setContentType(WebConstants.CONTENT_TYPE);
+				response.getOutputStream().write(gson.toJson(provincias).getBytes());
 			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
@@ -115,8 +116,8 @@ public class LocalizacionServlet extends HttpServlet {
 					localidades = locServ.findByIdProvincia(Long.valueOf(provincia));
 				}
 				Gson gson = new Gson();
-				response.setContentType( "application/json");
-				response.getWriter( ).println( gson.toJson(localidades));
+				response.setContentType( WebConstants.CONTENT_TYPE);
+				response.getOutputStream().write(gson.toJson(localidades).getBytes());
 			} catch ( DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);

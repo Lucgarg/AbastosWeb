@@ -97,7 +97,7 @@ public class ValoracionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				
+
 			}
 
 		}
@@ -105,7 +105,7 @@ public class ValoracionServlet extends HttpServlet {
 		else if(ActionNames.PUNTUACION_PRODUCTO.equalsIgnoreCase(action)){
 			String puntuacion = request.getParameter(ParameterNames.PUNTUACION_PRODUCTO);
 			String producto = request.getParameter(ParameterNames.ID_PRODUCTO);
-		
+
 			try {
 				puntProdService.create(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
@@ -114,7 +114,7 @@ public class ValoracionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, redirect);
-				
+
 			}
 
 		}
@@ -138,7 +138,7 @@ public class ValoracionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.VALORACION, ActionNames.BUSCAR, redirect);
-				
+
 			}
 
 		}
@@ -154,7 +154,7 @@ public class ValoracionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target =  UrlBuilder.urlCallBack(request, true);
-				
+
 			}
 
 
@@ -181,7 +181,7 @@ public class ValoracionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target =  UrlBuilder.urlCallBack(request, true);
-			
+
 			}
 		}
 		if(target == null) {

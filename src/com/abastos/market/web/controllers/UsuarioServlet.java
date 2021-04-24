@@ -22,6 +22,7 @@ import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Empresa;
 
 import com.abastos.model.Particular;
@@ -98,13 +99,13 @@ public class UsuarioServlet extends HttpServlet {
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
 						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(empresa.getId()),
-								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
+								UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)),usuario);
 						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
 					if(ParameterNames.MANTENER_SESION.equalsIgnoreCase(recordarMantener)) {
 						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(empresa.getId()),
-								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
+								UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)),usuario);
 
 						CookieManager.addCookie(response, ParameterNames.MANTENER_SESION, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
@@ -148,14 +149,14 @@ public class UsuarioServlet extends HttpServlet {
 					SessionManager.set(request, AttributesNames.USUARIO, particular);
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
 						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(particular.getId()),
-								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
+								UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)),usuario);
 
 						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
 					if(ParameterNames.MANTENER_SESION.equalsIgnoreCase(recordarMantener)) {
 						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(particular.getId()),
-								UrlBuilder.encode(request.getHeader("User-Agent")),usuario);
+								UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)),usuario);
 
 						CookieManager.addCookie(response, ParameterNames.MANTENER_SESION, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
@@ -190,9 +191,9 @@ public class UsuarioServlet extends HttpServlet {
 				String result = cookie.getValue();
 				cookieResult = result.split(":");
 			
-				if(cookieResult[0].equals(tipUser) &&  request.getHeader("User-Agent").equals(UrlBuilder.decode(cookieResult[2]))) {
+				if(cookieResult[0].equals(tipUser) &&  request.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookieResult[2]))) {
 					Gson gson = new Gson();
-					response.setContentType("application/json");
+					response.setContentType(WebConstants.CONTENT_TYPE);
 					response.getOutputStream().write(gson.toJson(cookieResult[3]).getBytes());
 				}
 			}

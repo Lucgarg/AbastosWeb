@@ -56,7 +56,10 @@ public class CarritoServlet extends HttpServlet {
 		Carrito carrito = (Carrito)SessionManager.get(request, AttributesNames.CARRITO);
 		String target = null;
 		Errors error = new Errors();
-
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		if(idioma == null) {
+			idioma = "es";
+		}
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		boolean redirect = false;
 	
@@ -66,6 +69,7 @@ public class CarritoServlet extends HttpServlet {
 			LineaCarrito linCarrito = new LineaCarrito();
 			linCarrito.setIdProducto(Long.valueOf(id));
 			linCarrito.setNumeroUnidades(Integer.valueOf(numeroUnidades));
+			
 			Producto producto = null;
 			boolean repeticion = false;
 			if(repeticion == false) {
@@ -73,7 +77,7 @@ public class CarritoServlet extends HttpServlet {
 
 					if(lp.getValue().getIdProducto() == linCarrito.getIdProducto()) {
 						try {
-							producto = productoService.findById(linCarrito.getIdProducto(), "es");
+							producto = productoService.findById(linCarrito.getIdProducto(), idioma);
 
 							int numUnidades = lp.getValue().getNumeroUnidades() + linCarrito.getNumeroUnidades();
 							if(numUnidades > producto.getStock()) {
@@ -105,18 +109,19 @@ public class CarritoServlet extends HttpServlet {
 		else if(ActionNames.DETALLE_CARRITO.equalsIgnoreCase(action)) {
 			Producto producto = null;
 			Pedido pedido = new Pedido();
-			long dat = new Date().getTime();
+		
 			try {
 				for(Map.Entry<Long, LineaCarrito> lc: carrito.getLineasCarritoMap().entrySet()) {
 
-					producto = productoService.findById(lc.getValue().getIdProducto(), "es");
+					producto = productoService.findById(lc.getValue().getIdProducto(), idioma);
 					LineaPedido linPedido = new LineaPedido();
 					linPedido.setIdTienda(producto.getIdTienda());
 					linPedido.setNombreProducto(producto.getNombre());
 					linPedido.setNumeroUnidades(lc.getValue().getNumeroUnidades());
 					linPedido.setPrecio(producto.getPrecioFinal());
 					linPedido.setIdProducto(producto.getId());
-					if(producto.getOferta() != null && producto.getOferta().getFechaDesde().getTime() <= dat) {
+					logger.info(producto.getOferta().getFechaDesde());
+					if(producto.getOferta() != null && producto.getOferta().getFechaDesde().before(new Date())) {
 						linPedido.setDenominador(producto.getOferta().getDenominador());
 						linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
 						linPedido.setDescuentoPcn(producto.getOferta().getDescuentoPcn());

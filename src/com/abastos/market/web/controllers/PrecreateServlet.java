@@ -25,6 +25,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Categoria;
 import com.abastos.model.ComunidadAutonoma;
 import com.abastos.model.Empresa;
@@ -171,7 +172,7 @@ public class PrecreateServlet extends HttpServlet {
 					String result = cookieLocal.getValue();
 					String []cookValue = result.split(":");
 					
-					if(request.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[1]))) {
+					if(request.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[1]))) {
 
 						Localidad local = localService.findByIdLocalidad(Long.valueOf(cookValue[0]));
 						SessionManager.set(request, ParameterNames.LOCALIDAD, local);
@@ -207,7 +208,7 @@ public class PrecreateServlet extends HttpServlet {
 				List<Categoria> listCategorias = categoriaService.findByIdPadre(categoria, "es");
 
 				Gson gson = new Gson();
-				response.setContentType("application/json");
+				response.setContentType(WebConstants.CONTENT_TYPE);
 				response.getOutputStream().write(gson.toJson(listCategorias).getBytes("UTF-8"));
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);

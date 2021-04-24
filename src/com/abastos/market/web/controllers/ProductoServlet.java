@@ -33,6 +33,7 @@ import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.market.web.util.ViewPathsctions;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
 import com.abastos.model.Lista;
@@ -67,7 +68,7 @@ public class ProductoServlet extends HttpServlet {
 	private TiendaService tiendaServ = null;
 	private OfertaService ofertServ = null;
 	private ListaService listaService = null;
-	private final String UPLOAD_DIRECTORY = "imgs/productos";
+
 
 	//numero de resultados por pagina
 	private static int pageSize = 5;
@@ -163,7 +164,7 @@ public class ProductoServlet extends HttpServlet {
 					List<Producto> listProducts = productoServ.findByIdTienda(productoCri.getIdTienda(),idioma);
 
 					Gson gson = new Gson();
-					response.setContentType("application/json; charset=ISO-8859-1");
+					response.setContentType(WebConstants.CONTENT_TYPE);
 					response.getOutputStream().write(gson.toJson(listProducts).getBytes());
 				}
 				else {
@@ -252,7 +253,7 @@ public class ProductoServlet extends HttpServlet {
 			Map<String, FileItem> mapParam;
 			try {
 				mapParam = FilesUtils.mapParam(request);
-				String URL = UrlBuilder.urlRealPath(request, UPLOAD_DIRECTORY);
+				String URL = UrlBuilder.urlRealPath(request, WebConstants.UPLOAD_DIRECTORY);
 				String nombreCast = mapParam.get(ParameterNames.NOMBRE_CASTELLANO).getString();
 				String nombreIngles= mapParam.get(ParameterNames.NOMBRE_INGLES).getString();
 				String caractCastellano= mapParam.get(ParameterNames.CARACT_CASTELLANO).getString();

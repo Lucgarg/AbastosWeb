@@ -1,7 +1,8 @@
 package com.abastos.market.web.filters;
 
 import java.io.IOException;
-import java.net.http.HttpResponse;
+
+
 import java.util.Arrays;
 
 import javax.servlet.Filter;
@@ -28,6 +29,7 @@ import com.abastos.market.web.util.ErrorNames;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Empresa;
 import com.abastos.model.Localidad;
 import com.abastos.model.Particular;
@@ -87,7 +89,7 @@ public class InitSessionFilter implements Filter {
 		if(cookieIdioma != null) {
 			result = cookieIdioma.getValue();
 			cookValue = result.split(":");
-			if(httpRequest.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[1]))) {
+			if(httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[1]))) {
 				SessionManager.set(httpRequest, AttributesNames.IDIOMA, cookValue[0]);
 
 			}
@@ -112,7 +114,7 @@ public class InitSessionFilter implements Filter {
 					target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO, false);
 					logger.warn(e.getMessage(),e);
 				}
-				if(httpRequest.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[2])) && 
+				if(httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[2])) && 
 						particular.getAlias().equals(cookValue[3])||
 						particular.getEmail().equals(cookValue[3])) {
 
@@ -132,7 +134,7 @@ public class InitSessionFilter implements Filter {
 					target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
 					logger.warn(e.getMessage(),e);
 				}
-				if(httpRequest.getHeader("User-Agent").equals(UrlBuilder.decode(cookValue[2])) && 
+				if(httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[2])) && 
 						empresa.getAlias().equals(cookValue[3])||
 						empresa.getCorreoElectronico().equals(cookValue[3])) {
 

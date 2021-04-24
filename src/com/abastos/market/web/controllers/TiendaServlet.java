@@ -31,6 +31,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Categoria;
 import com.abastos.model.DireccionDto;
 import com.abastos.model.Empresa;
@@ -119,7 +120,7 @@ public class TiendaServlet extends HttpServlet {
 				local = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
 				if(local != null) {
 				String cookieValue = CookieManager.createValue(String.valueOf(local.getId()),
-						UrlBuilder.encode(request.getHeader("User-Agent")));
+						UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)));
 				CookieManager.addCookie(response, ParameterNames.LOCALIDAD, cookieValue, "/", 365 * 24 * 60 * 60);
 				}
 			} catch ( DataException e1) {
@@ -152,7 +153,7 @@ public class TiendaServlet extends HttpServlet {
 
 					List<Tienda> results = tiendaService.findByIdEmpresa(empresa.getId());
 					Gson gson = new Gson();
-					response.setContentType("application/json; charset=ISO-8859-1");
+					response.setContentType(WebConstants.CONTENT_TYPE);
 					response.getOutputStream().write(gson.toJson(results).getBytes());
 				}
 				else {
@@ -205,7 +206,6 @@ public class TiendaServlet extends HttpServlet {
 				// Pagina solicitada por el usuario (o por defecto la primera
 				// cuando todavia no ha usado el paginador)
 				int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
-				logger.info("pagina " + page);
 				Results<Producto> results = productoService.findBy(productoCrit, idioma, (page-1)*pageSize+1, pageSize);
 				// Datos para paginacion															
 				// (Calculos aqui, datos comodos para renderizar)
@@ -274,7 +274,7 @@ public class TiendaServlet extends HttpServlet {
 			tienda.setIdEmpresa(empresa.getId());
 			try {
 				tiendaService.create(tienda);
-				infoEmail.put("tienda", tienda);
+				infoEmail.put(WebConstants.TIENDA, tienda);
 				mailService.sendMailHtml(infoEmail,6L,tienda.getEmail());	
 
 				redirect = true;

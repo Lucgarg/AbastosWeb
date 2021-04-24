@@ -32,7 +32,7 @@
 		<div>
 			<figure>
 				<img
-					src=" <%=UrlBuilder.getUrlforImg(request, "tiendas/" + t.getId() + "-principal.jpg")%>"
+					src=" <%=UrlBuilder.getUrlforImg(request,  WebConstants.IMG_PRINCIPAL, WebConstants.DIRECTORY_TIENDA,  String.valueOf(t.getId()))%>"
 					alt="">
 			</figure>
 			<p>

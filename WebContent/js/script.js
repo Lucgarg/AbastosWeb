@@ -5,6 +5,9 @@ function cerrar(){
         document.getElementById("registro").checked = false;
         document.getElementById("logIn").checked = false;
         document.getElementById("Idiomas").checked = false;
+        if(document.getElementsByClassName("confirmacion")[0] != null){
+		document.getElementsByClassName("confirmacion")[0].remove();
+		}
 };
 /*funcion para paginar registro */
 function next(valor) {
@@ -101,7 +104,9 @@ if(document.getElementsByClassName("cerrarLabel")[2] != null){
 document.getElementsByClassName("cerrarLabel")[2].onclick = cerrar;
 }
 
-
+if(document.getElementsByClassName("cerrarLabel")[3] != null){
+document.getElementsByClassName("cerrarLabel")[3].onclick = cerrar;
+}
 
 /*funciones para paginar registro*/
 if(document.querySelector(".next") != null){
@@ -254,8 +259,10 @@ $("#button_nav").click(function(){
 
 
 $(".header>div:nth-child(1)").mouseleave(function(){
+if(buttonNav != null){
 	if(window.getComputedStyle(buttonNav).getPropertyValue("display") != "none"){
 		$("#foto_perfil").css({"margin-bottom":"0"});
 	$(".header > div:nth-child(1) > #foto_perfil ~ label").css({"display":"none"});
+	}
 	}
 })

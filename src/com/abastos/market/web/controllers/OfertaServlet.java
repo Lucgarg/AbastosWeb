@@ -86,7 +86,7 @@ public class OfertaServlet extends HttpServlet {
 		}
 		//crea oferta redirect a resultado de ofertas
 		else if (ActionNames.CREAR.equalsIgnoreCase(action)) {
-			String nombre = request.getParameter(ParameterNames.NOMBRE_OFERTA);
+
 			String fechaVigencia = request.getParameter(ParameterNames.FECHA_VIG);
 			String horaVigencia = request.getParameter(ParameterNames.HORA_VIG);
 			String fechaCaducidad = request.getParameter(ParameterNames.FECHA_CAD);

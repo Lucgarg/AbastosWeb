@@ -336,7 +336,47 @@ function countLinea(valor){
             }
             }
             }
+/**funcion para crear select en crear oferta*/
+function createOferta(){
+	remove(tienda);
 
+
+	if(tipoOferta.value == "3"){
+	textInfoCL.style.display = "initial";
+	tienda.style.display = "initial";
+		
+		for (let item of campoSegUnd) {
+	item.value = "";
+	item.style.display = "none";
+	
+	
+	}
+	selectTiendas();
+	
+	}
+	/**ocultar selectores productoOferta*/
+	if(tipoOferta.value=="2" || tipoOferta.value == "1"){
+				$(".buyAndCarry").css({"display":"none"});
+				
+	
+	}
+	if(tipoOferta.value == "2"){
+	for (let item of campoSegUnd) {
+	item.style.display = "initial";
+	
+	}
+
+	}
+	else{
+	for (let item of campoSegUnd) {
+	item.value = "";
+	item.style.display = "none";
+	
+	
+	}
+		
+	}
+	}
  /*variables*/
 let pais = document.getElementById("pais");
 let comunidad = document.getElementById("comunidad");
@@ -345,7 +385,6 @@ let localidad = document.getElementById("localidad");
 let count = document.getElementById("count");
 let carrito = document.getElementsByClassName("carritoCompra");
 let tienda = document.getElementById("tiendaSelect");
-
 let productoOferta = document.getElementById("productoOfertaSelect");
 
 let tipoOferta = document.getElementById("tipOferta");
@@ -383,29 +422,10 @@ if(document.getElementsByClassName("carritoCompra") !=null){
 
 }
 	if(tipoOferta != null){
-	tipoOferta.onchange = function(){
-	remove(tienda);
-	if(tipoOferta.value == "3"){
-	textInfoCL.style.display = "initial";
-	selectTiendas();
+	createOferta();
+	tipoOferta.onchange = createOferta;
+	}
 	
-	}
-	if(tipoOferta.value == "2"){
-	for (let item of campoSegUnd) {
-	item.style.display = "initial";
-	
-	}
-	}
-	else{
-	for (let item of campoSegUnd) {
-	item.value = "";
-	item.style.display = "none";
-	
-	
-	}
-	}
-	}
-	}
 	if(tienda != null){
 	tienda.onchange = selectProductos;
 	}

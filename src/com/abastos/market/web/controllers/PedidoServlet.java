@@ -22,6 +22,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.LineaPedido;
 import com.abastos.model.Particular;
 import com.abastos.model.Pedido;
@@ -88,10 +89,10 @@ public class PedidoServlet extends HttpServlet {
 						productoService.updateStock(lp.getNumeroUnidades(), lp.getIdProducto());
 					}
 					int puntos = pedidoService.calcPuntos(pedido.getPrecioTotal());
-					infoEmail.put("user", particular);
-					infoEmail.put("pedido", pedido);
-					infoEmail.put("lineaP", pedido.getLineaPedido());
-					infoEmail.put("puntos", puntos);
+					infoEmail.put(WebConstants.USER, particular);
+					infoEmail.put(WebConstants.PEDIDO, pedido);
+					infoEmail.put(WebConstants.LINEA_PEDIDO, pedido.getLineaPedido());
+					infoEmail.put(WebConstants.PUNTOS, puntos);
 					mailService.sendMailHtml(infoEmail, 5L, particular.getEmail());
 					SessionManager.remove(request, AttributesNames.CARRITO);
 					SessionManager.remove(request, AttributesNames.PEDIDO);

@@ -30,7 +30,7 @@
 				value="<%=UrlBuilder.urlCallBack(request, false)%>"> <input
 				type="hidden" name="<%=ActionNames.ACTION%>"
 				<%if (puntTienda == null) {%>
-				value="<%=ActionNames.PUNTUACION_TIENDA%>" <%} else {%>
+				value="<%=ActionNames.PUNTUACION_TIENDA%>"> <%} else {%>
 				value="<%=ActionNames.UPDATE_VAL_TIENDA%>">
 			<%
 			}

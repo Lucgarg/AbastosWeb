@@ -24,6 +24,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Categoria;
 import com.abastos.model.DireccionDto;
 import com.abastos.model.Empresa;
@@ -67,6 +68,10 @@ public class EmpresaServlet extends HttpServlet {
 		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		if(idioma == null) {
+			idioma = "es";
+		}
 		//forward a resultado de tiendas de una empresa
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
 			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
@@ -74,13 +79,13 @@ public class EmpresaServlet extends HttpServlet {
 				Empresa empresa = empresaService.findById(Long.valueOf(idEmpresa));
 				if(empresa !=null) {
 					List<Tienda> tienda = tiendaService.findByIdEmpresa(empresa.getId());
-					List<Categoria> categoria = categoriaService.findRoot("es");
+					List<Categoria> categoria = categoriaService.findRoot(idioma);
 					request.setAttribute(AttributesNames.EMPRESA, empresa);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, tienda);
 					request.setAttribute(AttributesNames.CATEGORIAS, categoria);
 					request.setAttribute(AttributesNames.LOCALIDAD, empresa.getDireccion().getIdLocalidad());
 					target = ViewPaths.EMPRESA_RESULTS_TIENDAS;
-					
+
 				}
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
@@ -124,9 +129,9 @@ public class EmpresaServlet extends HttpServlet {
 			try {
 				idEmpresa = empresaService.registrar(empresa);
 				Map<String,Object> valores = new HashMap<String,Object>();
-				valores.put("user", empresa);
-				valores.put("enlace", valores.put("enlace", UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, 
-						ActionNames.CONFIRMAR_REGISTRO, redirect, ParameterNames.EMPRESA, String.valueOf(idEmpresa.getId()))));
+				valores.put(WebConstants.HEADER_AGENT, empresa);
+				valores.put(WebConstants.ENLACE, UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, 
+						ActionNames.CONFIRMAR_REGISTRO, true, ParameterNames.EMPRESA, String.valueOf(idEmpresa.getId())));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
@@ -147,16 +152,17 @@ public class EmpresaServlet extends HttpServlet {
 			}
 		}
 		else if(ActionNames.CONFIRMAR_REGISTRO.equals(action)) {
-			String idParticular = request.getParameter(ParameterNames.PARTICULAR);
+			String idParticular = request.getParameter(ParameterNames.EMPRESA);
 			try {
 				empresaService.updateAlta(Long.valueOf(idParticular));
+				request.setAttribute(AttributesNames.CONFIRMAR_REGISTRO, ParameterNames.TRUE);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				
+
 			}
 		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {

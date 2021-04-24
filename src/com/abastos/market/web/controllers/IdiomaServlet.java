@@ -18,6 +18,7 @@ import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
+import com.abastos.market.web.util.WebConstants;
 
 
 @WebServlet("/idioma")
@@ -44,7 +45,7 @@ public class IdiomaServlet extends HttpServlet {
 			String idioma = request.getParameter(ParameterNames.IDIOMA);
 			SessionManager.set(request, AttributesNames.IDIOMA, idioma);
 			String cookieValue = CookieManager.createValue(String.valueOf(idioma),
-					UrlBuilder.encode(request.getHeader("User-Agent")));
+					UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)));
 			CookieManager.addCookie(response, ParameterNames.IDIOMA, cookieValue, "/", 365 * 24 * 60 * 60);
 			redirect = true;
 			target = url;

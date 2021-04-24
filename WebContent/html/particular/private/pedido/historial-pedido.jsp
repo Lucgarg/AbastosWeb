@@ -6,6 +6,7 @@
 	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
 		<div class="block_second">
+		<input type="checkbox">
 		<h1 id="title_section">Mis compras</h1>
 		<%
 		List<Pedido> results = (List<Pedido>) request.getAttribute(AttributesNames.PEDIDO);

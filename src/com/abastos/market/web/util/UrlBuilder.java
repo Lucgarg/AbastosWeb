@@ -35,14 +35,27 @@ public class UrlBuilder {
 
 	}
 
-	public static String getUrlforImg(HttpServletRequest request, String direct) {
-		return new StringBuilder("http://").append(request.getServerName()).append(":")
+	public static String getUrlforImg(HttpServletRequest request, String nameFile, String...direct) {
+		StringBuilder sb = new StringBuilder("http://").append(request.getServerName()).append(":")
 				.append(request.getServerPort())
-				.append(request.getContextPath()).append("/imgs/").append(direct).toString();
+				.append(request.getContextPath()).append("/").append(WebConstants.UPLOAD_DIRECTORY_IMG);
+		for(String s: direct) {
 
+			sb.append(s).append("/");
+		}
+		sb.delete(sb.length() - 1, sb.length());
+		return sb.append(nameFile).toString();
 
 	}
+	public static String getUrlforImg(HttpServletRequest request, String nameFile) {
+		StringBuilder sb = new StringBuilder("http://").append(request.getServerName()).append(":")
+				.append(request.getServerPort())
+				.append(request.getContextPath()).append("/").append(WebConstants.UPLOAD_DIRECTORY_IMG)
+				.append("/").append(nameFile);
+		
+		return sb.toString();
 
+	}
 	/**metodo para construir url con una lista de parametros
 	 * @param request
 	 * @param controllerPath servlet al que se realiza la peticion
@@ -96,7 +109,7 @@ public class UrlBuilder {
 		return sb.toString();
 
 	}
-	
+
 	/**metodo para contruir la url para guardar parametros de busqueda cuando se utiliza la url
 	 * @param request
 	 * @param context servlet al que se realiza la peticion
@@ -105,7 +118,7 @@ public class UrlBuilder {
 	 * @return url evitando la repeticion de parametros
 	 */
 	public static String getUrlForController(HttpServletRequest request,String context, String action,  Integer categoria) {
-		
+
 
 		Map<String, String[]> valores = request.getParameterMap();
 		StringBuilder sb = new StringBuilder();
@@ -132,7 +145,7 @@ public class UrlBuilder {
 		}
 		//en el caso de elegir la opcion de "todas las categorias" no se hace request del parametro categoria
 		if(categoria != null) {
-		sb.append(ParameterNames.CATEGORIA).append("=").append(String.valueOf(categoria));
+			sb.append(ParameterNames.CATEGORIA).append("=").append(String.valueOf(categoria));
 		}
 		return sb.toString();
 	}
@@ -158,22 +171,22 @@ public class UrlBuilder {
 					||ParameterNames.PAGE.equalsIgnoreCase(m.getKey())){}
 			else {
 				//para evitar la repeticion de categorias en la busqueda
-				
-					//para evitar la repeticion de acciones en la busqueda
-					if(ActionNames.ACTION.equalsIgnoreCase(m.getKey())) {}
-					else {
-						sb.append(m.getKey()).append("=").append(m.getValue()[0]).append("&");
-					}
-				
-				
+
+				//para evitar la repeticion de acciones en la busqueda
+				if(ActionNames.ACTION.equalsIgnoreCase(m.getKey())) {}
+				else {
+					sb.append(m.getKey()).append("=").append(m.getValue()[0]).append("&");
+				}
+
+
 			}
 		}
 		for(int i = 0; i < params.length; i+=2) {
-	
+
 			sb.append(params[i]).append("=").append(params[i+1]).append("&");
-		
+
 		}
- 		return sb.toString();
+		return sb.toString();
 	}
 
 	/**
@@ -184,7 +197,7 @@ public class UrlBuilder {
 	public static String urlCallBack(HttpServletRequest request, boolean forward) {
 
 
-	
+
 		Map<String, String[]> mapParam = request.getParameterMap();
 		StringBuilder sb = new StringBuilder();
 
@@ -224,8 +237,8 @@ public class UrlBuilder {
 				append(request.getAttribute(ActionNames.ACTION));
 			}
 		}
-		
-		
+
+
 		logger.info("url resultante " + sb.toString());
 		return sb.toString();
 
@@ -233,9 +246,9 @@ public class UrlBuilder {
 	public static String urlRealPath(HttpServletRequest request, String directory) {
 		return new StringBuilder(request.getServletContext().getRealPath("")).append(directory).toString();
 	}
-	
+
 	public static String decode(String value) {
-	
+
 		byte[] decodedBytes = DECODER.decode(value);
 		String decodedString = new String(decodedBytes);
 		return decodedString;

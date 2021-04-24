@@ -28,4 +28,5 @@ public class AttributesNames {
 	public static final String FIRST_PAGED_PAGES = "primeraPaginaPaginada";
 	public static final String LAST_PAGED_PAGES = "ultimaPaginaPaginada";
 	public static final String FIRST_PAGE =  "primeraPagina";
+	public static final String CONFIRMAR_REGISTRO = "confirmarRegistro";
 }

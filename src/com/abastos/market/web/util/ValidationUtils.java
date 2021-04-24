@@ -27,7 +27,7 @@ import com.abastos.market.web.controllers.Errors;
  */
 public class ValidationUtils {
 	private static Logger logger = LogManager.getLogger(ValidationUtils.class);
-	private static final Pattern REG_NAME = Pattern.compile("[a-zA-Z][a-zA-Z0-9]{2,31}");
+	private static final Pattern REG_NAME = Pattern.compile("(\\s*[0-9]{0,10}[a-zA-Z]{2,20}[0-9]{0,10}){1,5}");
 	private static final Pattern REG_NUMBER_NOT = Pattern.compile("(\\s*[a-zA-Z]{2,20}){1,5}");
 	private static final Pattern REG_APELLIDOS = Pattern.compile("(\\s*[a-zA-Z]{2,20}){1,5}");
 	private static final Pattern REG_PISO = Pattern.compile("[1-9]{1,2}[a-zA-Z]{1,5}");
@@ -436,15 +436,16 @@ public class ValidationUtils {
 	public static void onlyOneField(Map<String, String[]> mapParameter, String parameter1, String parameter2, Errors error ) {
 		if(mapParameter.get(parameter1) == null &&  mapParameter.get(parameter2) == null) {
 			error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_MANDATORY);
-			error.add(ParameterNames.NUMBERS, ErrorNames.ERR_OFFER_FIELD_MAND);
 			logger.debug(new StringBuilder("errores encontrados en el campo ")
 					.append(ParameterNames.DESCUENTOS).append(" ")
 					.append(error.printError(ParameterNames.DESCUENTOS)).toString());
 			logger.debug(new StringBuilder("errores encontrados en el campo ")
 					.append(ParameterNames.NUMBERS).append(" ")
 					.append(error.printError(ParameterNames.NUMBERS)).toString());
+			
 
 		}
+		else {
 		String parameterA = mapParameter.get(parameter1)[0];
 		String parameterB = mapParameter.get(parameter2)[0];
 		if(StringUtils.trimToEmpty(parameterA) == "" && 
@@ -461,7 +462,7 @@ public class ValidationUtils {
 					.append(ParameterNames.DESCUENTOS).append(" ")
 					.append(error.printError(ParameterNames.DESCUENTOS)).toString());
 		}
-
+		}
 	}
 	/*validacion para comprobar si un campo esta relleno si se elige el tipo de oferta segundaUnidad
 	 * o si estan sin rellenar si se elige el tipo de oferta "descuento"*/
