@@ -123,7 +123,7 @@ public class ValoracionServlet extends HttpServlet {
 			String atencCliente= request.getParameter(ParameterNames.PUNTUACION_ATC);
 			String precio= request.getParameter(ParameterNames.PUNTUACION_PRECIO);
 			String tienda= request.getParameter(ParameterNames.ID_TIENDA);
-			String pedido = request.getParameter(ParameterNames.PEDIDO);
+	
 			try {
 				PuntuacionTienda puntTienda = new PuntuacionTienda();
 				puntTienda.setIdPerfilParticular(particular.getId());
@@ -145,7 +145,7 @@ public class ValoracionServlet extends HttpServlet {
 		else if(ActionNames.UPDATE_VAL_PRODUCTO.equalsIgnoreCase(action)) {
 			String puntuacion = request.getParameter(ParameterNames.PUNTUACION_PRODUCTO);
 			String producto = request.getParameter(ParameterNames.ID_PRODUCTO);
-			String pedido = request.getParameter(ParameterNames.PEDIDO);
+		
 			try {
 				puntProdService.update(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
@@ -165,7 +165,7 @@ public class ValoracionServlet extends HttpServlet {
 			String atencCliente= request.getParameter(ParameterNames.PUNTUACION_ATC);
 			String precio= request.getParameter(ParameterNames.PUNTUACION_PRECIO);
 			String tienda= request.getParameter(ParameterNames.ID_TIENDA);
-			String pedido = request.getParameter(ParameterNames.PEDIDO);
+		
 			try {
 
 				PuntuacionTienda puntTienda = new PuntuacionTienda();

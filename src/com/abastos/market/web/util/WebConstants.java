@@ -28,4 +28,8 @@ public class WebConstants {
 	public static final String IMG_PRINCIPAL = "-principal.jpg";
 	public static final String IMG_GALERIA = "-galeria.jpg";
 	public static final String IMG_PERFIL = "-perfil.jpg";
+
+	//header
+	
+	public static final String MULTIPART = "multipart/form-data";
 }

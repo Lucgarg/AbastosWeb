@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
-import com.abastos.cache.impl.CacheManagerImpl;
+
 import com.abastos.market.web.configuration.ConfigurationManager;
 import com.abastos.dao.Results;
 import com.abastos.market.web.configuration.ConfConstants;
@@ -56,7 +56,6 @@ import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
-import com.abastos.service.utils.CacheNames;
 import com.google.gson.Gson;
 
 

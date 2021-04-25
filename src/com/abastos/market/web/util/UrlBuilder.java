@@ -2,7 +2,6 @@ package com.abastos.market.web.util;
 
 import java.util.Base64;
 
-import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;

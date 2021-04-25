@@ -1,12 +1,10 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -27,29 +25,23 @@ import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Categoria;
-import com.abastos.model.ComunidadAutonoma;
 import com.abastos.model.Empresa;
 import com.abastos.model.Localidad;
 import com.abastos.model.Oferta;
 import com.abastos.model.Pais;
-import com.abastos.model.Provincia;
 import com.abastos.model.Tienda;
 import com.abastos.model.TipoOferta;
 import com.abastos.service.CategoriaService;
-import com.abastos.service.ComunidadAutonomaService;
 import com.abastos.service.DataException;
 import com.abastos.service.LocalidadService;
 import com.abastos.service.OfertaService;
 import com.abastos.service.PaisService;
-import com.abastos.service.ProvinciaService;
 import com.abastos.service.TiendaService;
 import com.abastos.service.TipoOfertaService;
 import com.abastos.service.impl.CategoriaServiceImpl;
-import com.abastos.service.impl.ComunidadAutonomaServiceImpl;
 import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.OfertaServiceImpl;
 import com.abastos.service.impl.PaisServiceImpl;
-import com.abastos.service.impl.ProvinciaServiceImpl;
 import com.abastos.service.impl.TiendaServiceImpl;
 import com.abastos.service.impl.TipoOfertaServiceImpl;
 import com.google.gson.Gson;

@@ -87,6 +87,10 @@ if(request.readyState == 4){
 			tienda.add(optionTienda);
 	}
 }
+	else{
+			error.innerHTML = "No ha sido posible realizar la busqueda";
+			formCreate.insertAdjacentElement("beforebegin", error);
+		}
 }
 }
 /***Select lista */
@@ -140,6 +144,10 @@ function createSelectCategoria(){
 			categoriaSelect.add(optionCategoria);
 	}
 }
+	else{
+			error.innerHTML = "No ha sido posible realizar la busqueda";
+			formCreate.insertAdjacentElement("beforebegin", error);
+		}
 }
 }
 
@@ -179,6 +187,10 @@ function createSelectCategChild(){
 	}
 	}
 }
+	else{
+			error.innerHTML = "No ha sido posible realizar la busqueda";
+			formCreate.insertAdjacentElement("beforebegin", error);
+		}
 }
 }
 
@@ -197,30 +209,6 @@ nameUser.value = "";
 }
 
 
-/*function remenberName(){
-		nameUser.value = "";
-        request = createRequest();
-        if(request == null){
-            return;
-        }
-        let cont = createUrl();
-      
-        var url= cont + "/usuario?action=recordarNombre&tipUsuario=";
-			url += (inputTipParticular.checked ? "particular":"empresa") +  "&ajax=true";
-    	
-    request.open("GET", url, true);
-      
-    request.onreadystatechange = function(){createRemenberName()};
-    request.send(null);
-    }
-function createRemenberName(){
-	if(request.readyState == 4){
-            if(request.status==200){	
-		let name =  JSON.parse(request.responseText);
-		nameUser.value=name;
-}
-}
-}*/
 
 /***Select productos*/
 function selectProductos(){
@@ -239,7 +227,7 @@ function selectProductos(){
     }
 function createSelectProducto(){
 if(request.readyState == 4){
-        
+      
             if(request.status==200){
 		 
 	
@@ -257,6 +245,11 @@ if(request.readyState == 4){
 			productoOferta.add(optionTienda);
 	}
 }
+	else{
+			error.innerHTML = "No ha sido posible realizar la busqueda";
+			formCreate.insertAdjacentElement("beforebegin", error);
+		}
+
 }
 }
 
@@ -286,6 +279,7 @@ function countLinea(valor){
 				
 		count.innerHTML = linea;
 	}
+	
 }
 }
 
@@ -334,6 +328,10 @@ function countLinea(valor){
                 }
                 
             }
+		else{
+			error.innerHTML = "No ha sido posible realizar la busqueda";
+			formSearch.insertAdjacentElement("beforeend", error);
+		}
             }
             }
 /**funcion para crear select en crear oferta*/
@@ -403,9 +401,13 @@ let formSearch = document.getElementById("formSearch");
 let inputTipParticular = document.getElementById("particularLog");
 let inputTipEmp = document.getElementById("empresaLog");
 let nameUser = document.getElementById("nameUser");
+
+let formCreate = document.querySelector(".centralBlock_form");
 /******************
 create elements
 /**********************/
+let error = document.createElement("p");
+error.setAttribute("class","error");
 
 /*
  * flujo

@@ -72,6 +72,7 @@ public class LocalizacionServlet extends HttpServlet {
 				else {
 					comunidadAutonoma = comServ.findByIdPais(Long.valueOf(pais));
 				}
+		
 				Gson gson = new Gson();
 				response.setContentType( WebConstants.CONTENT_TYPE);
 				response.getOutputStream().write(gson.toJson(comunidadAutonoma).getBytes());

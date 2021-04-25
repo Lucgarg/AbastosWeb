@@ -35,7 +35,6 @@ import com.abastos.service.EmpresaService;
 import com.abastos.service.MailService;
 import com.abastos.service.TiendaService;
 import com.abastos.service.exceptions.MailException;
-import com.abastos.service.exceptions.ServiceException;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.EmpresaServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;

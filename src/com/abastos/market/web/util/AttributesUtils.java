@@ -1,7 +1,5 @@
 package com.abastos.market.web.util;
 
-import com.abastos.model.PuntuacionTienda;
-
 public class AttributesUtils {
 
 	public AttributesUtils() {

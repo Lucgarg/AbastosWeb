@@ -1,9 +1,6 @@
 package com.abastos.market.web.util;
 
 import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class ParameterUtils {
 

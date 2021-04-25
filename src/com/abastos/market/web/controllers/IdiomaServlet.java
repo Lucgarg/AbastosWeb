@@ -12,7 +12,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
-import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.CookieManager;
 import com.abastos.market.web.util.ParameterNames;
 import com.abastos.market.web.util.ParameterUtils;

@@ -2,32 +2,26 @@ package com.abastos.market.web.filters;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.WebConstants;
 
 
 public class ImagenFilter implements Filter {
-	private static Logger logger = LogManager.getLogger(ImagenFilter.class);
+
 
 	public ImagenFilter() {
 

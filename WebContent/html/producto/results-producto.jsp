@@ -11,7 +11,7 @@
 <%}else{%>
 <section class="block block--results bussines">
 <%}%>
-		<%if(errores.hasErrors()){%>
+		<%if(errores.printError(ParameterNames.ERROR) != null){%>
 	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
 	<div class="block_second">

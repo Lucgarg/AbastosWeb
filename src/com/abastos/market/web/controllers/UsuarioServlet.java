@@ -1,10 +1,7 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-import java.util.Arrays;
-
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -72,7 +69,7 @@ public class UsuarioServlet extends HttpServlet {
 		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
-			String url = request.getParameter(ParameterNames.URL);
+		
 			//si es empresa...
 			if(ActionNames.EMPRESA.equalsIgnoreCase(tipUsuario)) {
 				String email = null;

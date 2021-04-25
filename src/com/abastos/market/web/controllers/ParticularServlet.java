@@ -26,13 +26,10 @@ import com.abastos.market.web.util.ValidationUtils;
 import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.DireccionDto;
 import com.abastos.model.Particular;
-import com.abastos.service.ContenidoService;
 import com.abastos.service.DataException;
 import com.abastos.service.MailService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.exceptions.ServiceException;
-import com.abastos.service.exceptions.UserNotFoundException;
-import com.abastos.service.impl.ContenidoServiceImpl;
 import com.abastos.service.impl.MailServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 

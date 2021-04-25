@@ -19,8 +19,10 @@
 				<%List<Pais> paises=  (List<Pais>)request.getAttribute(AttributesNames.PAISES);%>
 
 				<option value="0">--selecciona un pais--</option>
+				<%if(paises!= null){%>
 				<%for(Pais p: paises){%>
 				<option value=<%=p.getId()%>><%=p.getNombre()%></option>
+				<%}%>
 				<%}%>
 		</select>
 		</label> <label class="select" for="comunidad"> <select

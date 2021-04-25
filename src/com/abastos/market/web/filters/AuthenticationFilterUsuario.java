@@ -19,7 +19,6 @@ import com.abastos.market.web.util.AttributesNames;
 import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
-import com.abastos.model.Particular;
 
 
 

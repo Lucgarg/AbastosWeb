@@ -49,4 +49,5 @@ public class ErrorNames {
 	public static final String ERR_GENERIC_REGISTRO = "No ha sido posible finalizar el resgistro";
 	public static final String ERR_GENERIC_ADD_LINEA_LIST = "No ha sido posible añadir el producto a la lista";
 	public static final String ERR_GENERIC_DETAIL_CART = "No ha sido posible visualizar su compra";
+
 }

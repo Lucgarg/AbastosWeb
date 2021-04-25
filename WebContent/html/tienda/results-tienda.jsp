@@ -13,7 +13,7 @@
 		Pagination pagination = (Pagination)request.getAttribute(ParameterNames.PAGE);
 		%>
 	<%
-		if (errores.hasErrors()) {
+		if (errores.printError(ParameterNames.ERROR) != null) {
 		%>
 		<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 		<%

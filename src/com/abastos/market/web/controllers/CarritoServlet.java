@@ -1,7 +1,6 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -101,6 +100,7 @@ public class CarritoServlet extends HttpServlet {
 			}
 
 			SessionManager.set(request, AttributesNames.CARRITO, carrito);
+			
 			Gson gson = new Gson();
 			response.setContentType("application/json");
 			response.getOutputStream().write(gson.toJson(carrito.getLineasCarritoMap().size()).getBytes());

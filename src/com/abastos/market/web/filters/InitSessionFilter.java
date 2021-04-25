@@ -3,8 +3,6 @@ package com.abastos.market.web.filters;
 import java.io.IOException;
 
 
-import java.util.Arrays;
-
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -31,14 +29,11 @@ import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Empresa;
-import com.abastos.model.Localidad;
 import com.abastos.model.Particular;
 import com.abastos.service.DataException;
 import com.abastos.service.EmpresaService;
-import com.abastos.service.LocalidadService;
 import com.abastos.service.ParticularService;
 import com.abastos.service.impl.EmpresaServiceImpl;
-import com.abastos.service.impl.LocalidadServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 
 
@@ -61,10 +56,10 @@ public class InitSessionFilter implements Filter {
 
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
-		HttpServletResponse httpResponse = (HttpServletResponse) response;
+
 		HttpSession session = httpRequest.getSession(false);
 
-		String target = null;
+
 		Carrito carrito = null;
 		Errors error  = new Errors();
 		if(session == null) {

@@ -1,24 +1,17 @@
 package com.abastos.market.web.controllers;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import javax.mail.Header;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.fileupload.RequestContext;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
-import org.apache.commons.fileupload.servlet.ServletRequestContext;
-import org.apache.commons.fileupload.util.FileItemHeadersImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,7 +95,12 @@ public class ProductoServlet extends HttpServlet {
 		if(idioma == null) {
 			idioma = "es";
 		}
+		if(action == null) {
+		action = request.getContentType().split(";")[0];
+		}
 		
+		
+	
 	
 	    
 		
@@ -170,8 +168,9 @@ public class ProductoServlet extends HttpServlet {
 
 
 				if(ajax != null) {
+					
 					List<Producto> listProducts = productoServ.findByIdTienda(productoCri.getIdTienda(),idioma);
-
+					
 					Gson gson = new Gson();
 					response.setContentType(WebConstants.CONTENT_TYPE);
 					response.getOutputStream().write(gson.toJson(listProducts).getBytes());
@@ -229,7 +228,7 @@ public class ProductoServlet extends HttpServlet {
 		//Se muestra la vista detalle de un producto
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
-			Tienda tiend = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
+			
 			Long id = Long.valueOf(idProducto);
 
 			try {
@@ -255,7 +254,7 @@ public class ProductoServlet extends HttpServlet {
 
 		}
 		//Se crea producto, se redirige al sevlet producto para recuperar los resultados de productos
-		else if(ServletFileUpload.isMultipartContent(request)) {
+		else if(WebConstants.MULTIPART.equals(action)||ServletFileUpload.isMultipartContent(request)) {
 			
 			logger.info("creando producto...");
 
@@ -303,7 +302,7 @@ public class ProductoServlet extends HttpServlet {
 					producto.setStock(Integer.valueOf(stock));
 					producto.setTipoOrigen(origen.charAt(0));	
 					logger.info(producto.getPrecio());
-					Producto product = productoServ.create(producto);	
+					productoServ.create(producto);	
 	
 					if(mapParam.get(ParameterNames.IMAGEN_PRINCIPAL) != null) {
 						FilesUtils.writerImg(producto.getId(), ParameterNames.IMAGEN_PRINCIPAL,
