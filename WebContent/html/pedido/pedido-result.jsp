@@ -134,8 +134,28 @@
 
 		</div>
 		<%}%>
-	
+		
 </section>
+<%if(particular != null){%>
+<div class="infoPedido">
+<div>
+	     		<label>Direccion</label>
+          		<%for(DireccionDto d: particular.getDireccionDto()){%>
+          		<fieldset>
+          	
+          		<input type="radio" name="direccion"><p><%=new StringBuilder(d.getCalle()).append(", ").append("Número: ").append(d.getNumero())
+          		.append(", ").append(d.getLocalidad()).append("(").append(d.getComunidadAutonoma())
+          				.append("), ").append(d.getPais())%></p>
+          		</fieldset>
+          		<%}%>
+</div>
+<div>
+
+<label>Introduce el número de tu tarjeta de crédito</label>
+<input type="text">
+</div>
+</div>
+<%}%>
 <%}else{%>
 <p
 	style="position: absolute; top: 50%; right: 50%; font-size: 4rem; color: white;">El

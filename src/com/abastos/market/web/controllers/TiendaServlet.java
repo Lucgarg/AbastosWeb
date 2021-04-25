@@ -4,6 +4,7 @@ package com.abastos.market.web.controllers;
 
 import java.io.IOException;
 
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +20,9 @@ import org.apache.logging.log4j.Logger;
 
 
 import com.abastos.cache.impl.CacheManagerImpl;
+import com.abastos.market.web.configuration.ConfigurationManager;
 import com.abastos.dao.Results;
+import com.abastos.market.web.configuration.ConfConstants;
 import com.abastos.market.web.model.Pagination;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
@@ -60,12 +63,14 @@ import com.google.gson.Gson;
 
 public class TiendaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(TiendaServlet.class);
+	private static ConfigurationManager cfg = ConfigurationManager.getInstance();
+
 	//numero de resultados por pagina
-	private static int pageSize = 5;
+	private static int pageSize = Integer.valueOf(cfg.getParameter(ConfConstants.pageSize));
 	//numero de paginas que se muestran alrededor de la navegable
-	private static int pagingPageCount = 3;
+	private static int pagingPageCount = Integer.valueOf(cfg.getParameter(ConfConstants.pagingPageCount));
 	//primera pagina
-	private static int firstPage = 1;
+	private static int firstPage = Integer.valueOf(cfg.getParameter(ConfConstants.firstPage));
 	private TiendaService tiendaService;
 	private ProductoService productoService;
 	private CategoriaService categoriaService;

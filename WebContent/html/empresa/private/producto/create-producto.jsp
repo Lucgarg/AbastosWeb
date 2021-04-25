@@ -73,7 +73,10 @@
                		<option value="I" <%if("I".equals(origen)){%>checked<%}%>>Internacional</option>
                		<option value="L" <%if("L".equals(origen)){%>checked<%}%>>Local</option>
                	</select></label>
+               	<label class="mandatory">Subir imagenes</label>
+               	<label>Imagen de cabezera</label>
 				<input type="file" id="img" name="<%=ParameterNames.IMAGEN_PRINCIPAL%>" accept="image/*">
+				<label>Imagenes para galeria</label>
 					<input type="file" id="img" name="<%=ParameterNames.IMAGEN_GALERIA%>" accept="image/*">
 						<input type="file" id="img" name="<%=ParameterNames.IMAGEN_GALEIRA_SCD%>" accept="image/*">
                		<button class="Buscar" type="submit">crear producto</button>

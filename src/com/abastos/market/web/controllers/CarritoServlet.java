@@ -120,8 +120,8 @@ public class CarritoServlet extends HttpServlet {
 					linPedido.setNumeroUnidades(lc.getValue().getNumeroUnidades());
 					linPedido.setPrecio(producto.getPrecioFinal());
 					linPedido.setIdProducto(producto.getId());
-					logger.info(producto.getOferta().getFechaDesde());
-					if(producto.getOferta() != null && producto.getOferta().getFechaDesde().before(new Date())) {
+				
+					if(producto.getOferta() != null) {
 						linPedido.setDenominador(producto.getOferta().getDenominador());
 						linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
 						linPedido.setDescuentoPcn(producto.getOferta().getDescuentoPcn());

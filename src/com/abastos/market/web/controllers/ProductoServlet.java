@@ -1,25 +1,30 @@
 package com.abastos.market.web.controllers;
 
-import java.io.File;
 import java.io.IOException;
-
-
+import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import javax.mail.Header;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.RequestContext;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.servlet.ServletRequestContext;
+import org.apache.commons.fileupload.util.FileItemHeadersImpl;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.abastos.dao.Results;
+import com.abastos.market.web.configuration.ConfConstants;
+import com.abastos.market.web.configuration.ConfigurationManager;
 import com.abastos.market.web.model.Pagination;
 import com.abastos.market.web.util.ActionNames;
 import com.abastos.market.web.util.AttributesNames;
@@ -32,7 +37,6 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
-import com.abastos.market.web.util.ViewPathsctions;
 import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.Categoria;
 import com.abastos.model.Empresa;
@@ -68,14 +72,14 @@ public class ProductoServlet extends HttpServlet {
 	private TiendaService tiendaServ = null;
 	private OfertaService ofertServ = null;
 	private ListaService listaService = null;
-
+	private static ConfigurationManager cfg = ConfigurationManager.getInstance();
 
 	//numero de resultados por pagina
-	private static int pageSize = 5;
+	private static int pageSize = Integer.valueOf(cfg.getParameter(ConfConstants.pageSize));
 	//numero de paginas que se muestran alrededor de la navegable
-	private static int pagingPageCount = 3;
+	private static int pagingPageCount = Integer.valueOf(cfg.getParameter(ConfConstants.pagingPageCount));
 	//primera pagina
-	private static int firstPage = 1;
+	private static int firstPage = Integer.valueOf(cfg.getParameter(ConfConstants.firstPage));
 	public ProductoServlet() {
 		categoriaService = new CategoriaServiceImpl();
 		productoServ = new ProductoServiceImpl();
@@ -98,7 +102,12 @@ public class ProductoServlet extends HttpServlet {
 		if(idioma == null) {
 			idioma = "es";
 		}
-
+		
+	
+	    
+		
+	
+		
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -247,7 +256,7 @@ public class ProductoServlet extends HttpServlet {
 		}
 		//Se crea producto, se redirige al sevlet producto para recuperar los resultados de productos
 		else if(ServletFileUpload.isMultipartContent(request)) {
-
+			
 			logger.info("creando producto...");
 
 			Map<String, FileItem> mapParam;
@@ -279,10 +288,16 @@ public class ProductoServlet extends HttpServlet {
 					producto.setNombre(nombreCast);
 					producto.setIdCategoria(Integer.valueOf(categoria));
 					producto.setIdTienda(Long.valueOf(tienda));
+					
 					if(oferta != null) {
 						Oferta ofert;
 						ofert = ofertServ.findById(Long.valueOf(oferta));
-						producto.setOferta(ofert);
+						if(ofert == null) {
+							ofert = new Oferta();
+							ofert.setId(Long.valueOf(oferta));
+							producto.setOferta(ofert);	
+						}
+						
 					}
 					producto.setPrecio(Double.valueOf(precio));
 					producto.setStock(Integer.valueOf(stock));

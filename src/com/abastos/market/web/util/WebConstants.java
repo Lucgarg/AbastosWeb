@@ -2,7 +2,7 @@ package com.abastos.market.web.util;
 
 public class WebConstants {
 	public static final String HEADER_AGENT = "User-Agent"; 
-	public static final String CONTENT_TYPE = "application/json; charset=ISO-8859-1";
+	public static final String CONTENT_TYPE = "application/json; utf-8";
 	
 	
 	/////Email constants

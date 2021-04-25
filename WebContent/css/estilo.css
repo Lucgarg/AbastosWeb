@@ -1611,6 +1611,53 @@ position: relative;
 	content:'*';
 	color: red;
 }
+
+/*pedido**/
+.infoPedido{
+	
+	    display: flex;
+    width: 100%;
+    order: 6;
+    flex-direction: column;
+    align-items: center;
+}
+.infoPedido input{
+	margin-bottom:0;
+}
+.infoPedido fieldSet{
+	width: auto;
+	   
+    display: flex;
+    align-items: initial;
+    flex-direction: row;
+    justify-content: center;
+}
+.infoPedido div{
+	text-align:center;
+}
+.infoPedido > div{
+	    padding: 1%;
+    margin-bottom: 2%;
+    width: 50%;
+    background-color: white;
+    padding: 1%;
+    	-webkit-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
+	box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
+}
+.infoPedido > div+ div{
+	    padding: 1%;
+    width: 50%;
+    background-color: white;
+    	-webkit-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
+	-moz-box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
+	box-shadow: 1px 1px 0px 1px rgba(0, 0, 0, 0.75);
+  
+}
+body > .infoPedido > div:nth-child(2) > label{
+	    display: block;
+    margin-bottom: 2%;
+}
 /*footer*/
 footer{
 	 
