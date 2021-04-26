@@ -26,9 +26,10 @@
 				<div></div>
 				
 				<ul>
+				<%if(empresa == null){%>
 						<button class="Buscar"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, ActionNames.RE_INICIO, "true")%>">
 			Otras localidades
-			</a></button>
+			</a></button><%}%>
 					<%
 					
 					List<Categoria> catServ=  (List<Categoria>)request.getAttribute(AttributesNames.CATEGORIAS);

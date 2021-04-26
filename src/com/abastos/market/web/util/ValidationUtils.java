@@ -320,7 +320,8 @@ public class ValidationUtils {
 		}
 		else if(StringUtils.trimToEmpty(number) != ""){
 			try {
-				num = Double.valueOf(number);
+	
+				num = Double.valueOf(number.replace(',', '.'));
 
 			}catch(NumberFormatException e) {
 				logger.warn(e.getMessage(), e);

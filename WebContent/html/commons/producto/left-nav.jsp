@@ -18,11 +18,11 @@
 					<%for(Categoria c: cat) {
 					
 					if(String.valueOf(c.getId()).equals(categParameter)){%>
-						<li style="background-Color:grey"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, c.getId())%>"><%=c.getNombre()%></a>
+						<li categoria="&#x67" style="background-Color:grey"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, c.getId())%>"><%=c.getNombre()%></a>
 					<%
 					}else{
 					%>
-					<li><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, c.getId())%>"><%=c.getNombre()%></a>
+					<li categoria="&#x67"><a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.BUSCAR, c.getId())%>"><%=c.getNombre()%></a>
 					<%
 					}if(c.getCategorias().size() > 0) {
 					%>

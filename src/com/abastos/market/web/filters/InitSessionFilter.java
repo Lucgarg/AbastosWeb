@@ -59,7 +59,7 @@ public class InitSessionFilter implements Filter {
 
 		HttpSession session = httpRequest.getSession(false);
 
-
+		String target = null;
 		Carrito carrito = null;
 		Errors error  = new Errors();
 		if(session == null) {

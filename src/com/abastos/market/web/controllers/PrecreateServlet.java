@@ -73,7 +73,10 @@ public class PrecreateServlet extends HttpServlet {
 		{ action = ActionNames.INICIO;
 		request.setAttribute(AttributesNames.ACTION, action);
 		}
-
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+		if(idioma == null) {
+			idioma = "es";
+		}
 		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
@@ -197,11 +200,11 @@ public class PrecreateServlet extends HttpServlet {
 				else {
 					categoria = Integer.valueOf(idCategoria);
 				}
-				List<Categoria> listCategorias = categoriaService.findByIdPadre(categoria, "es");
+				List<Categoria> listCategorias = categoriaService.findByIdPadre(categoria, idioma);
 
 				Gson gson = new Gson();
 				response.setContentType(WebConstants.CONTENT_TYPE);
-				response.getOutputStream().write(gson.toJson(listCategorias).getBytes("UTF-8"));
+				response.getOutputStream().write(gson.toJson(listCategorias).getBytes());
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);

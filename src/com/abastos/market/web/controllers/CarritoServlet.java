@@ -22,6 +22,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.LineaPedido;
 import com.abastos.model.Pedido;
 import com.abastos.model.Producto;
@@ -102,7 +103,7 @@ public class CarritoServlet extends HttpServlet {
 			SessionManager.set(request, AttributesNames.CARRITO, carrito);
 			
 			Gson gson = new Gson();
-			response.setContentType("application/json");
+			response.setContentType(WebConstants.CONTENT_TYPE);
 			response.getOutputStream().write(gson.toJson(carrito.getLineasCarritoMap().size()).getBytes());
 			
 		}

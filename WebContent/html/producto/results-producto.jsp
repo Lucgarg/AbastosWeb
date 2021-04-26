@@ -95,9 +95,7 @@
 					<%=p.getOferta().getDescuentoPcn()%>
 					%
 
-					<%
-					 									 }
-					 									 %>
+					<% } %>
 				</p>
 				<%
 					 }
@@ -105,7 +103,8 @@
 					 %>
 				<p>
 					Compra y ahorrate del producto
-					<%=ofertPro.get(p.getOferta().getIdProdOferta()).getNombre()%>
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(ofertPro.get(p.getOferta().getIdProdOferta()).getId()))%>">
+					<%=ofertPro.get(p.getOferta().getIdProdOferta()).getNombre()%></a>
 
 					<%
  					 						 			if(p.getOferta().getDescuentoFijo() != 0.0){

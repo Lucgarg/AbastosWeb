@@ -18,7 +18,7 @@
 		<h1 id="title_section">Mis ofertas</h1>
 		<%
 		List<Oferta> results = (List<Oferta>) request.getAttribute(AttributesNames.OFERTAS);
-		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)CacheManagerImpl.getInstance().get(CacheNames.PRODUCTO_OFERTA).get("es");
+		Map<Long, Producto> ofertPro=  (Map<Long,Producto>)request.getAttribute(AttributesNames.PRODUCTO_OFERTA);
 		%>
 		<%
 		for(Oferta o : results){
@@ -27,13 +27,15 @@
 			<div>
 				<p><%=o.getNombreOferta() %></p>
 				<p><%=o.getNombreTipoOfer() %></p>
-				<p><%=o.getFechaDesde() %></p>
-				<p><%=o.getFechaHasta()%></p>
+				<p><%=DateUtils.getDate(o.getFechaDesde())%></p>
+				<p><%=DateUtils.getTime(o.getFechaDesde())%></p>
+				<p><%=DateUtils.getDate(o.getFechaHasta())%></p>
+				<p><%=DateUtils.getTime(o.getFechaHasta())%></p>
 				<%if(o.getIdTipoOferta() == 2){%>
 				<p>numerador: <%=o.getNumerador()%></p>
 				<p>denominador: <%=o.getDenominador()%></p>
 				<%} if(o.getIdTipoOferta() ==3){%>
-				<p>Producto que recibe la oferta: <%=ofertPro.get(o.getIdProdOferta()).getNombre()%></p>
+				<p>Producto que recibe la oferta: <a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(ofertPro.get(o.getIdProdOferta()).getId()))%>"><%=ofertPro.get(o.getIdProdOferta()).getNombre()%></a></p>
 			<%}%>
 				<%if(o.getDescuentoFijo() != 0.0){%>
 				<p>Descuento fijo: <%=o.getDescuentoFijo()%></p>

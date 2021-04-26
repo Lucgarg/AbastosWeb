@@ -228,12 +228,17 @@ public class ProductoServlet extends HttpServlet {
 		//Se muestra la vista detalle de un producto
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
-			
+			Producto proOfert = null;
 			Long id = Long.valueOf(idProducto);
-
+			
 			try {
 				Producto result = productoServ.findById(id, idioma);
-
+				if(result.getOferta() != null) {
+					if(result.getOferta().getIdProdOferta() != 0L) {
+						 proOfert = productoServ.findById(result.getOferta().getIdProdOferta(), idioma);
+					}
+				}
+		
 				if(particular != null) {
 					List<Lista> listas = listaService.findByIdParticular(particular.getId());
 					request.setAttribute(AttributesNames.LISTA, listas);
@@ -241,6 +246,7 @@ public class ProductoServlet extends HttpServlet {
 				List<Categoria> categorias = categoriaService.findRoot(idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, result);
+				request.setAttribute(AttributesNames.PRODUCTO_OFERTA, proOfert);
 
 				target = ViewPaths.PRODUCTO_DETALLE;
 

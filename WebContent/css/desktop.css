@@ -611,7 +611,9 @@ nav div:before{
 .precioNoMostrado:hover ~ .ofertaDetalle {
 	display: initial;
 }
-
+.ofertaDetalle:hover{
+	display:initial;
+}
 .precioNoMostrado {
 	display: inline-block;
 }

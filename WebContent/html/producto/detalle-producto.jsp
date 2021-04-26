@@ -11,7 +11,9 @@
                     <input type="radio" id="prueba2" name="sli">
                     <input type="radio" id="prueba3" name="sli">
                     <ul>
-                    <%Producto p = (Producto)request.getAttribute(AttributesNames.PRODUCTO);%>
+                    <%Producto p = (Producto)request.getAttribute(AttributesNames.PRODUCTO);
+                    	Producto proOfert = (Producto)request.getAttribute(AttributesNames.PRODUCTO_OFERTA);
+                    %>
                       	
                         <li> <img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_PRINCIPAL, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img1"></li>
                         <li><img src="<%=UrlBuilder.getUrlforImg(request, ParameterNames.IMAGEN_GALERIA, WebConstants.DIRECTORY_PRODUCTO, String.valueOf(p.getId()))%>" alt="" class="img2"></li>
@@ -31,12 +33,103 @@
                 </figure> <div class="informacionProducto">
                     <p id="NomPro"><%=p.getNombre()%></p>
                     <span><%=p.getValoracion() %></span>
-                    <p><%=p.getPrecio()%></p>
+                   
+                   	<%
+					if(p.getOferta() != null){
+																	if(p.getOferta().getIdTipoOferta()==1){
+								%>
+			<p class="precio"><%=p.getPrecio()%></p>
+			<%
+				}else{
+				%>
+			<p class="precioNoMostrado"></p>
+			<%
+  				}
+  				%>
+		
+
+			<div>
+				<p><%=p.getOferta().getNombreOferta()%></p>
+				<%
+					 if(p.getOferta().getIdTipoOferta() == 1){
+					 %>
+				<p>
+					-<%
+					 	if(p.getOferta().getDescuentoFijo() !=0.0){
+					 	%>
+					<%=p.getOferta().getDescuentoFijo()%>
+					&euro;
+					<%
+					 			  }else{
+					 			  %>
+					<%=p.getOferta().getDescuentoPcn()%>
+					%
+					<%
+					 }
+					 %>
+				</p>
+				<%
+					 	}
+					 				 				 if(p.getOferta().getIdTipoOferta() == 2){
+					 	%>
+				<p><%=p.getOferta().getDenominador()%>
+					unidad -
+					<%
+					 	if(p.getOferta().getDescuentoFijo() != 0.0){
+					 	%>
+					<%=p.getOferta().getDescuentoFijo()%>
+					&euro;
+					<%
+					 			  }else{
+					 			  %>
+					<%=p.getOferta().getDescuentoPcn()%>
+					%
+
+					<% } %>
+				</p>
+				<%
+					 }
+					 			 			 if(p.getOferta().getIdTipoOferta() == 3){
+					 %>
+				<p>
+					Compra y ahorrate del producto
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(proOfert.getId()))%>">
+					<%=proOfert.getNombre()%></a>
+
+					<%
+ 					 						 			if(p.getOferta().getDescuentoFijo() != 0.0){
+ 					 						 			%>
+					<%=p.getOferta().getDescuentoFijo()%>
+					&euro;
+					<%
+					 			}else{
+					 			%>
+					<%=p.getOferta().getDescuentoPcn()%>
+					%
+					<%
+					 }
+					 %>
+				</p>
+				<%
+					 }
+					 %>
+			</div>
+			<%
+				 }
+				 %>
+
+			<p><%=p.getPrecioFinal()%></p>
+		
+                   
+                   
                     <p><%=p.getCaracteristicas()%></p>
-                    <form> <input type="number" id="quantity" name="quantity" min="1" max="5"> </form>
-                    <p id= "Oferta"></p>
+                    <%if(empresa == null){%>
+                    <form> <input type="number" min="1" max="<%=p.getStock()%>" name="<%=ParameterNames.NUMERO_UNIDADES%>">
+				<button type="button" class="carritoCompra" name="<%=p.getId()%>"></button>
+                     </form>
+               		<%}%>
             
-                   	<button class="Buscar" type="submit">añadir al carrito</button>
+                  
                 </div>
                 	<%if(particular!= null){%>
                 	<%List<Lista> listas = (List<Lista>)request.getAttribute(AttributesNames.LISTA);%>
