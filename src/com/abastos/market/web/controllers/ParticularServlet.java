@@ -87,10 +87,11 @@ public class ParticularServlet extends HttpServlet {
 					logger.info("registrando usuario");
 				
 					idParticular = particularService.registrar(particular);
-			
+		
 			}
 			}
 			catch(DataException e) {
+				
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC_REGISTRO);
 			}

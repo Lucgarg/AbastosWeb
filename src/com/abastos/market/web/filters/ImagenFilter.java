@@ -15,6 +15,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.WebConstants;
@@ -22,6 +24,7 @@ import com.abastos.market.web.util.WebConstants;
 
 public class ImagenFilter implements Filter {
 
+	private static Logger logger = LogManager.getLogger(ImagenFilter.class);
 
 	public ImagenFilter() {
 
@@ -33,7 +36,7 @@ public class ImagenFilter implements Filter {
 	}
 
 
-	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException {
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws ServletException, IOException {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
@@ -50,20 +53,26 @@ public class ImagenFilter implements Filter {
 			httpResponse.setContentType(mime);	
 			File fil = new File(imgUrl);
 			if(fil.exists()) {
-			 file = new FileInputStream(imgUrl);
-			 reader = new BufferedInputStream(file);  
-			 writer = new BufferedOutputStream(httpResponse.getOutputStream()); 
-			int ch = 0;
-			while((ch = reader.read()) != -1) {
-				writer.write(ch);
-			}
-			file.close();
-			reader.close();  
-			writer.close();
+				file = new FileInputStream(imgUrl);
+				reader = new BufferedInputStream(file);  
+				writer = new BufferedOutputStream(httpResponse.getOutputStream()); 
+				int ch = 0;
+				while((ch = reader.read()) != -1) {
+					writer.write(ch);
+				}
+
 			}
 		} catch (IOException e) {
+			logger.warn(e.getMessage(),e);
 
-			e.printStackTrace();
+		}
+		finally {
+
+			file.close();
+			reader.close();  
+			writer.flush();
+			writer.close();
+
 		}
 
 

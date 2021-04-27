@@ -18,34 +18,34 @@
           		<%if(errores.printError(ActionNames.REGISTRO)!= null){%>
           			<p class="error"><%=errores.printError(ActionNames.REGISTRO)%></p>
           		<%}%>
-          		<label>Nombre usuario</label>
+          		<label class="mandatory">Nombre usuario</label>
           		<input type="text" name="<%=ParameterNames.NOMBRE_USUARIO%>" <%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_USUARIO, 0)%>>
-          		<label>Apellidos</label>
+          		<label class="mandatory">Apellidos</label>
           		<input type="text" name="<%=ParameterNames.APELLIDOS%>" value=<%=ParameterUtils.printParam(parametros, ParameterNames.APELLIDOS, 0)%>>
-          		<label>Alias</label>
+          		<label class="mandatory">Alias</label>
           		<input type="text" name="<%=ParameterNames.ALIAS%>" value=<%=ParameterUtils.printParam(parametros, ParameterNames.ALIAS, 0)%>>
           		</fieldset>
           		<fieldset>
-          		<label>Contraseña</label>
+          		<label class="mandatory">Contraseña</label>
           		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=ParameterUtils.printParam(parametros, ParameterNames.PASSWORD, 0)%>>
           		<input type="password" name=<%=ParameterNames.PASSWORD%> value=<%=ParameterUtils.printParam(parametros, ParameterNames.PASSWORD, 1)%>>
           		</fieldset>
           		<fieldset>
-          		<label>CIF</label>
+          		<label class="mandatory">CIF</label>
           		<input type="text" name="<%=ParameterNames.CIF%>" value=<%=ParameterUtils.printParam(parametros, ParameterNames.CIF, 0)%>>
-          		<label>Razón social</label>
+          		<label class="mandatory">Razón social</label>
           		<input type="text" name="<%=ParameterNames.RAZON_SOCIAL%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.RAZON_SOCIAL, 0)%>">
-          		<label>Email</label>
+          		<label class="mandatory">Email</label>
           		<input type="text" name="<%=ParameterNames.EMAIL%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.EMAIL, 0)%>">
           		</fieldset>
           		<fieldset>
-          		<label>Calle</label>
+          		<label class="mandatory">Calle</label>
           		<input type="text" name="<%=ParameterNames.CALLE%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.CALLE, 0)%>">
-          		<label>Número</label>
+          		<label class="mandatory">Número</label>
           		<input type="text" name="<%=ParameterNames.NUMERO%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.NUMERO, 0)%>">
-          		<label>Piso</label>
+          		<label class="mandatory">Piso</label>
           		<input type="text" name="<%=ParameterNames.PISO%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.PISO, 0)%>">
-          			<label>Código postal</label>
+          			<label class="mandatory">Código postal</label>
           		<input type="text" name="<%=ParameterNames.CODIGO_POSTAL%>" value="<%=ParameterUtils.printParam(parametros, ParameterNames.CODIGO_POSTAL, 0)%>">
           		</fieldset>
           		<fieldset>
@@ -73,7 +73,7 @@
   
                 </select></label>
               
-                <label>Localidad</label>
+                <label class="mandatory">Localidad</label>
                  <label class="select form" for="localidad">
                 <select name=<%=ParameterNames.LOCALIDAD%> id="localidad">
              	           <option disabled selected value>--selecciona una localidad--</option>
