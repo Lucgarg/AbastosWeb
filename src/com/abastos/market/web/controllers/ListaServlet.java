@@ -20,6 +20,7 @@ import com.abastos.market.web.util.ParameterUtils;
 import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
+import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.LineaLista;
 import com.abastos.model.Lista;
 import com.abastos.model.Particular;
@@ -28,6 +29,7 @@ import com.abastos.service.LineaListaService;
 import com.abastos.service.ListaService;
 import com.abastos.service.impl.LineaListaServiceImpl;
 import com.abastos.service.impl.ListaServiceImpl;
+import com.google.gson.Gson;
 
 /**
  * Servlet implementation class ListaServlet
@@ -110,23 +112,32 @@ public class ListaServlet extends HttpServlet {
 			}
 		}
 		else if(ActionNames.UPDATE.equalsIgnoreCase(action)) {
-
+			
 			String idLista = request.getParameter(ParameterNames.LISTA);
 			String precio = request.getParameter(ParameterNames.PRECIO);
 			String nombre = UrlBuilder.decode(request.getParameter(ParameterNames.NOMBRE_CASTELLANO));
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
 			LineaLista linList = new LineaLista();
-			linList.setId(Long.valueOf(idLista));
+			Long idPro = Long.valueOf(idProducto);
+			Long idList = Long.valueOf(idLista);
+			linList.setId(idList);
 			linList.setNombreProducto(nombre);
-			linList.setIdProducto(Long.valueOf(idProducto));
+			linList.setIdProducto(idPro);
 			linList.setPrecio(Double.valueOf(precio));
 			try {
+				Gson gson = new Gson();
+				response.setContentType( WebConstants.CONTENT_TYPE);
+				LineaLista linL = lineaListaService.findById(idList, idPro);
+				if(linL == null) {
 				lineaListaService.create(linList);
+				response.getOutputStream().write(gson.toJson(ParameterNames.TRUE).getBytes());
+				}
+				else {
+					response.getOutputStream().write(gson.toJson(ParameterNames.FALSE).getBytes());
+				}
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
-				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_ADD_LINEA_LIST);
-				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+				
 				
 			}
 		}

@@ -52,6 +52,9 @@
 	<servlet-mapping>
 		<servlet-name>PrecreateServlet</servlet-name>
 		<url-pattern>/precreate</url-pattern>
+		<url-pattern>/precreate-private</url-pattern>
+	
+		
 	</servlet-mapping>
 	<servlet>
 
@@ -85,6 +88,7 @@
 		<servlet-name>ProductoServlet</servlet-name>
 		<url-pattern>/producto-public</url-pattern>
 		<url-pattern>/producto-private</url-pattern>
+			<url-pattern>/producto-private-particular</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -187,6 +191,7 @@
 		<url-pattern>/producto-private*</url-pattern>
 		<url-pattern>/oferta</url-pattern>
 		<url-pattern>/tienda-private</url-pattern>
+		<url-pattern>/precreate-private</url-pattern>
 
 	</filter-mapping>
 

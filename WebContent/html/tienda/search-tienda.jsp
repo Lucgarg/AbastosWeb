@@ -11,8 +11,10 @@
 	<%if(errores.printError(ParameterNames.ERROR) != null){%>
 	<p class="error generic"><%=errores.printError(ParameterNames.ERROR)%></p>
 	<%}%>
+	
 	<form action="<%=UrlBuilder.getUrl(request, ControllerPath.TIENDA)%>"
 		method="post" autocomplete="off" id="formSearch">
+		<p>Empieza a buscar tiendas: elige una localidad o bien busca todas las tiendas disponibles</p>
 		<input type="hidden" name=<%=ActionNames.ACTION%>
 			value=<%=ActionNames.BUSCAR%>> <label class="select"
 			for="pais"> <select name=<%=ParameterNames.PAIS%> id="pais">

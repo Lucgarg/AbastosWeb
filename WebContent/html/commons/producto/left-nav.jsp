@@ -50,6 +50,8 @@
 							type="text" name=<%=ParameterNames.PRECIO_DESDE%> placeholder="predioDesde" value=<%=precioDesde!=null?precioDesde:""%>><br>
 						<input type="text" name=<%=ParameterNames.PRECIO_HASTA%> placeholder="precioHasta" value=<%=precioHasta!=null?precioHasta:""%>><br>
 						<h5>origen</h5>
+							<label for="origenDefault">Todos los origenes</label> <input type="radio"
+							name=<%=ParameterNames.ORIGEN%> id="origenDefault" value="D" <%if(origen == null || "D".equals(origen)){%>checked<%}%>><br>
 						<label for="origenN">Nacional</label> <input type="radio"
 							name=<%=ParameterNames.ORIGEN%> id="origenN" value="N" <%if("N".equals(origen)){%>checked<%}%>><br> <label
 							for="origenI">Internacional</label> <input type="radio"

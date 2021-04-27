@@ -49,10 +49,11 @@ public class ImagenFilter implements Filter {
 		FileInputStream file = null;
 		BufferedInputStream reader = null;
 		BufferedOutputStream writer = null; 
+		File fil = new File(imgUrl);
+		if(fil.exists()) {
 		try {
 			httpResponse.setContentType(mime);	
-			File fil = new File(imgUrl);
-			if(fil.exists()) {
+			
 				file = new FileInputStream(imgUrl);
 				reader = new BufferedInputStream(file);  
 				writer = new BufferedOutputStream(httpResponse.getOutputStream()); 
@@ -61,7 +62,7 @@ public class ImagenFilter implements Filter {
 					writer.write(ch);
 				}
 
-			}
+			
 		} catch (IOException e) {
 			logger.warn(e.getMessage(),e);
 
@@ -73,7 +74,7 @@ public class ImagenFilter implements Filter {
 			writer.flush();
 			writer.close();
 
-		}
+		}}
 
 
 	}

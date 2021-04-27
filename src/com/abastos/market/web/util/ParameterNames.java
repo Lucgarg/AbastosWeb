@@ -75,4 +75,5 @@ public class ParameterNames {
 	public static final String IMAGEN_PRINCIPAL = "-principal.jpg"; 
 	public static final String IMAGEN_GALEIRA_SCD = "-scdGaleria.jpg";
 	public static final String TRUE = "true";
+	public static final String FALSE = "false";
 }

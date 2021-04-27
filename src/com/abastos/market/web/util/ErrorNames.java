@@ -40,6 +40,7 @@ public class ErrorNames {
 	public static final String ERR_GENERIC_SEARCH_PRODUCT = "No ha sido posible buscar productos";
 	public static final String ERR_GENERIC_DETAIL_PRODUCT = "La información del producto no se encuentra disponible";
 	public static final String ERR_GENERIC_CREATE_PRODUCT =  "El producto no se ha podido crear";
+	public static final String ERR_GENERIC_UPLOAD_IMAGE = "Ha ocurrido un error al subir la imagen";
 	public static final String ERR_GENERIC_ACCESS_CRE_OFERT = "No se ha posido proceder con la creación de la oferta";
 	public static final String ERR_GENERIC_CREATE_PEDIDO = "No es posible finalizar la compra";
 	public static final String ERR_GENERIC_CREATE_OFERT = "No ha sido posible crear la oferta";

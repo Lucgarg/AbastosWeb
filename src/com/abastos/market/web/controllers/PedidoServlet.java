@@ -134,7 +134,7 @@ public class PedidoServlet extends HttpServlet {
 			String idPedido = request.getParameter(ParameterNames.PEDIDO);
 			try {
 				Pedido pedido = pedidoService.findById(Long.valueOf(idPedido));
-
+				
 				request.setAttribute(AttributesNames.PEDIDO, pedido);
 				target =  ViewPaths.LINEA_PEDIDO;
 			} catch ( DataException e) {

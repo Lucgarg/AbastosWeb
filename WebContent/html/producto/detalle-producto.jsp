@@ -124,9 +124,14 @@
                    
                     <p><%=p.getCaracteristicas()%></p>
                     <%if(empresa == null){%>
+                    <%if(p.getStock() > 0){%>
                     <form> <input type="number" min="1" max="<%=p.getStock()%>" name="<%=ParameterNames.NUMERO_UNIDADES%>">
 				<button type="button" class="carritoCompra" name="<%=p.getId()%>"></button>
                      </form>
+                     <%}else{%>
+                     	<p id="notStock">Actualmente el producto esta sin stock</p>
+                     <%}%>
+                     
                		<%}%>
             
                   

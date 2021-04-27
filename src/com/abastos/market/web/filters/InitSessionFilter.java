@@ -110,7 +110,7 @@ public class InitSessionFilter implements Filter {
 					logger.warn(e.getMessage(),e);
 				}
 				if(httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[2])) && 
-						particular.getAlias().equals(cookValue[3])||
+						particular.getAlias().equals(cookValue[3])||httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[2])) &&
 						particular.getEmail().equals(cookValue[3])) {
 
 
@@ -130,9 +130,9 @@ public class InitSessionFilter implements Filter {
 					logger.warn(e.getMessage(),e);
 				}
 				if(httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[2])) && 
-						empresa.getAlias().equals(cookValue[3])||
+						empresa.getAlias().equals(cookValue[3])|| httpRequest.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[2])) &&
 						empresa.getCorreoElectronico().equals(cookValue[3])) {
-
+		
 					SessionManager.set(httpRequest, AttributesNames.EMPRESA, empresa);
 
 				}}

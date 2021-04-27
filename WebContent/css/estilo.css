@@ -1413,6 +1413,7 @@ position: relative;
 	bottom: -30%;
 	right: 0;
 	left: 0;
+	width:108%;
 }
 /*icono idiomas*/
 .header>div:nth-child(1)>label:nth-child(5)::before {
@@ -1673,4 +1674,13 @@ footer{
     bottom:0;
     max-height:110px;
     margin-top:5%;
+}
+#notStock{
+	margin-top:3%;
+	color:red;
+}
+/*informacion busqueda**/
+#formSearch > p{
+	margin-bottom: 2%;
+	color: white;
 }

@@ -13,8 +13,10 @@ public class ControllerPath {
 	public static final String PEDIDO ="pedido";
 	public static final String PEDIDO_PRIVATE ="pedido-private";
 	public static final String PRECREATE = "precreate";
+	public static final String PRECREATE_PRIVATE = "precreate-private";
 	public static final String PRODUCTO = "producto-public";
 	public static final String PRODUCTO_PRIVATE = "producto-private";
+	public static final String PRODUCTO_PRIVATE_PART = "producto-private-particular";
 	public static final String TIENDA = "tienda";
 	public static final String TIENDA_PRIVATE = "tienda-private";
 	public static final String USUARIO = "usuario";

@@ -100,10 +100,24 @@
 					precio sin descuento</label> <input class="segundaUnidad" type="text"
 					name=<%=ParameterNames.NUMERADOR%>
 					value="<%=ParameterUtils.printParam(parametros, ParameterNames.NUMERADOR, 0)%>">
+						<%
+				if (errores.printError(ParameterNames.NUMERADOR) != null) {
+				%>
+				<p class="error"><%=errores.printError(ParameterNames.NUMERADOR)%></p>
+				<%
+				}
+				%>
 				<label class="segundaUnidad mandatory">Número de unidades necesarias
 					para recibir un descuento</label> <input class="segundaUnidad" type="text"
 					name=<%=ParameterNames.DENOMINADOR%>
 					value="<%=ParameterUtils.printParam(parametros, ParameterNames.DENOMINADOR, 0)%>">
+								<%
+				if (errores.printError(ParameterNames.DENOMINADOR) != null) {
+				%>
+				<p class="error"><%=errores.printError(ParameterNames.DENOMINADOR)%></p>
+				<%
+				}
+				%>
 				<%
 				if (errores.printError(ParameterNames.NUMBERS) != null) {
 				%>

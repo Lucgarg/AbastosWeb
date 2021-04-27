@@ -84,8 +84,8 @@ public class TiendaServlet extends HttpServlet {
 		localidadService = new LocalidadServiceImpl();
 		infoEmail = new HashMap<String, Object>();
 		mailService = new MailServiceImpl();
-	
-		
+
+
 	}
 
 
@@ -112,10 +112,10 @@ public class TiendaServlet extends HttpServlet {
 			String nombre = request.getParameter(ParameterNames.NOMBRE_TIENDA);
 			SessionManager.remove(request, AttributesNames.TIENDA);
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
-			
+
 			try {
-			
-				
+
+
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
 					SessionManager.set(request, AttributesNames.LOCALIDAD, local);
@@ -123,9 +123,9 @@ public class TiendaServlet extends HttpServlet {
 
 				local = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
 				if(local != null) {
-				String cookieValue = CookieManager.createValue(String.valueOf(local.getId()),
-						UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)));
-				CookieManager.addCookie(response, ParameterNames.LOCALIDAD, cookieValue, "/", 365 * 24 * 60 * 60);
+					String cookieValue = CookieManager.createValue(String.valueOf(local.getId()),
+							UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)));
+					CookieManager.addCookie(response, ParameterNames.LOCALIDAD, cookieValue, "/", 365 * 24 * 60 * 60);
 				}
 			} catch ( DataException e1) {
 				logger.warn(e1.getMessage(),e1);
@@ -151,7 +151,7 @@ public class TiendaServlet extends HttpServlet {
 			if(empresa != null) {
 				tienda.setIdEmpresa(empresa.getId());
 			}
-	
+
 			try {
 				if(ajax !=null) {
 
@@ -161,17 +161,17 @@ public class TiendaServlet extends HttpServlet {
 					response.getOutputStream().write(gson.toJson(results).getBytes());
 				}
 				else {
-					
+
 					// Pagina solicitada por el usuario (o por defecto la primera
 					// cuando todavia no ha usado el paginador)
 					int page = ParameterUtils.getPageNumber(request.getParameter(ParameterNames.PAGE), 1);
 					logger.info("pagina " + page);
-					
+
 					Results<Tienda> results = tiendaService.findByCriteria(tienda, (page-1)*pageSize+1, pageSize);
-				
+
 					// Datos para paginacion															
 					// (Calculos aqui, datos comodos para renderizar)
-				
+
 					int totalPages = (int) Math.ceil((double)results.getTotal()/(double)pageSize);
 					int firstPagedPage = Math.max(1, page-pagingPageCount);
 					int lastPagedPage = Math.min(totalPages, page+pagingPageCount);
@@ -182,7 +182,7 @@ public class TiendaServlet extends HttpServlet {
 					pagination.setTotalPages(totalPages);
 					request.setAttribute(ParameterNames.PAGE, pagination);
 					List<Categoria> categorias = categoriaService.findRoot(idioma);
-					
+
 					request.setAttribute(AttributesNames.LOCALIDAD, localidad);
 					request.setAttribute(AttributesNames.RESULTS_TIENDA, results);
 					request.setAttribute(AttributesNames.CATEGORIAS, categorias);
@@ -195,7 +195,7 @@ public class TiendaServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_SEARCH_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				
+
 			}
 
 
@@ -236,7 +236,7 @@ public class TiendaServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-	
+
 			}
 
 
@@ -288,12 +288,12 @@ public class TiendaServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.CREAR, ErrorNames.ERR_LIMIT_CREATION_SHOP);
 				request.setAttribute(AttributesNames.ERROR, error);
-			
+
 			} catch(MailException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.SEND_EMAIL, ErrorNames.ERR_SEND_EMAIL);
 				request.setAttribute(AttributesNames.ERROR, error);
-				
+
 
 			}
 
@@ -301,7 +301,7 @@ public class TiendaServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATION_TIENDA);
 				request.setAttribute(AttributesNames.ERROR, error);
-				
+
 
 			}
 			if(error.hasErrors()) {

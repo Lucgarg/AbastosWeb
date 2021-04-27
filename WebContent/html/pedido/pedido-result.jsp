@@ -2,7 +2,9 @@
 <%@page
 	import="com.abastos.market.web.util.*, java.util.*, com.abastos.model.*"%>
 <%@include file="/html/commons/usuario/header.jsp"%>
-<%Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);%>
+<%Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
+Map<Long, Producto> ofertPro= (Map<Long, Producto>)request.getAttribute(AttributesNames.PRODUCTO_OFERTA);
+%>
 <%if(pedido.getLineaPedido().size() > 0){%>
 <%@include file="/html/pedido/right-nav.jsp"%>
 <section></section>
@@ -95,7 +97,8 @@
 					 %>
 				<p>
 					Compra y ahorrate del producto
-					<%=p.getNombreProdOferta()%>
+					<a href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(ofertPro.get(p.getIdProdOferta()).getId()))%>">
+					<%=ofertPro.get(p.getIdProdOferta()).getNombre()%></a>
 
 					<%
  					 						 			if(p.getDescuentoFijo() != 0.0){

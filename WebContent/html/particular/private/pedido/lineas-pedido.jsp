@@ -39,7 +39,7 @@
 				</figure>
 				<p>
 					<a
-						href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.ID_TIENDA,String.valueOf(p.getIdTienda()))%>"><%=p.getNombreProducto()%></a>
+						href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRODUCTO_PRIVATE_PART, ActionNames.DETALLE, true, ParameterNames.ID_PRODUCTO, String.valueOf(p.getIdProducto()), ParameterNames.ID_TIENDA,String.valueOf(p.getIdTienda()))%>"><%=p.getNombreProducto()%></a>
 				</p>
 				
 				

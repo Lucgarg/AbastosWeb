@@ -41,7 +41,7 @@ public class TiendaSessionFilter implements Filter {
 		String target = null;
 		if(SessionManager.get(httpRequest, AttributesNames.TIENDA) == null && 
 				SessionManager.get(httpRequest, AttributesNames.EMPRESA) == null) {
-			logger.info("Intentando acceder  a seccion sin tienda en sesion..");
+			logger.info("Intentando acceder  a la sección de tienda, sin tienda en sesion..");
 			target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO, true);
 			logger.info("Redirect to..." + target);
 			httpResponse.sendRedirect(target);

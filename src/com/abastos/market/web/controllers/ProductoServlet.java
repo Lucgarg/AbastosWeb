@@ -96,16 +96,16 @@ public class ProductoServlet extends HttpServlet {
 			idioma = "es";
 		}
 		if(action == null) {
-		action = request.getContentType().split(";")[0];
+			action = request.getContentType().split(";")[0];
 		}
-		
-		
-	
-	
-	    
-		
-	
-		
+
+
+
+
+
+
+
+
 		String target = null;
 		boolean redirect = false;
 		//forward a resultado de productos
@@ -138,7 +138,7 @@ public class ProductoServlet extends HttpServlet {
 			}
 
 
-			if(origen != null) {
+			if(origen != null && !"D".equals(origen)) {
 				productoCri.setIdOrigen(origen.charAt(0));
 			}
 			if(oferta != null) {
@@ -168,9 +168,9 @@ public class ProductoServlet extends HttpServlet {
 
 
 				if(ajax != null) {
-					
+
 					List<Producto> listProducts = productoServ.findByIdTienda(productoCri.getIdTienda(),idioma);
-					
+
 					Gson gson = new Gson();
 					response.setContentType(WebConstants.CONTENT_TYPE);
 					response.getOutputStream().write(gson.toJson(listProducts).getBytes());
@@ -228,21 +228,29 @@ public class ProductoServlet extends HttpServlet {
 		//Se muestra la vista detalle de un producto
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
+			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			Producto proOfert = null;
 			Long id = Long.valueOf(idProducto);
-			
+
 			try {
 				Producto result = productoServ.findById(id, idioma);
+
 				if(result.getOferta() != null) {
 					if(result.getOferta().getIdProdOferta() != 0L) {
-						 proOfert = productoServ.findById(result.getOferta().getIdProdOferta(), idioma);
+						proOfert = productoServ.findById(result.getOferta().getIdProdOferta(), idioma);
 					}
 				}
-		
+
 				if(particular != null) {
 					List<Lista> listas = listaService.findByIdParticular(particular.getId());
+					if(idTienda != null) {
+						Tienda tienda = tiendaServ.findById(Long.valueOf(idTienda));				
+						request.setAttribute(AttributesNames.TIENDA, tienda);
+					}
 					request.setAttribute(AttributesNames.LISTA, listas);
+
 				}
+
 				List<Categoria> categorias = categoriaService.findRoot(idioma);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PRODUCTO, result);
@@ -261,7 +269,7 @@ public class ProductoServlet extends HttpServlet {
 		}
 		//Se crea producto, se redirige al sevlet producto para recuperar los resultados de productos
 		else if(WebConstants.MULTIPART.equals(action)||ServletFileUpload.isMultipartContent(request)) {
-			
+
 			logger.info("creando producto...");
 
 			Map<String, FileItem> mapParam;
@@ -274,7 +282,10 @@ public class ProductoServlet extends HttpServlet {
 				String caractIngles = mapParam.get(ParameterNames.CARACT_INGLES).getString();
 				String precio = mapParam.get(ParameterNames.PRECIO).getString();
 				String tienda = mapParam.get(ParameterNames.ID_TIENDA).getString();
-				String oferta = mapParam.get(ParameterNames.OFERTA).getString();
+				String oferta = null;
+				if(mapParam.get(ParameterNames.OFERTA) != null) {
+					oferta = 	mapParam.get(ParameterNames.OFERTA).getString();
+				}
 				String categoria = mapParam.get(ParameterNames.CATEGORIA).getString();
 				String origen = mapParam.get(ParameterNames.ORIGEN).getString();
 				String stock = mapParam.get(ParameterNames.STOCK).getString();
@@ -293,8 +304,8 @@ public class ProductoServlet extends HttpServlet {
 					producto.setNombre(nombreCast);
 					producto.setIdCategoria(Integer.valueOf(categoria));
 					producto.setIdTienda(Long.valueOf(tienda));
-					
-					if(oferta != null) {
+
+					if(oferta != null && !"0".equals(oferta)) {
 						Oferta ofert;
 						ofert = ofertServ.findById(Long.valueOf(oferta));
 						if(ofert == null) {
@@ -302,14 +313,14 @@ public class ProductoServlet extends HttpServlet {
 							ofert.setId(Long.valueOf(oferta));
 							producto.setOferta(ofert);	
 						}
-						
+
 					}
 					producto.setPrecio(Double.valueOf(precio));
 					producto.setStock(Integer.valueOf(stock));
 					producto.setTipoOrigen(origen.charAt(0));	
 					logger.info(producto.getPrecio());
 					productoServ.create(producto);	
-	
+
 					if(mapParam.get(ParameterNames.IMAGEN_PRINCIPAL) != null) {
 						FilesUtils.writerImg(producto.getId(), ParameterNames.IMAGEN_PRINCIPAL,
 								URL, mapParam.get(ParameterNames.IMAGEN_PRINCIPAL));
@@ -322,6 +333,7 @@ public class ProductoServlet extends HttpServlet {
 						FilesUtils.writerImg(producto.getId(), ParameterNames.IMAGEN_GALEIRA_SCD,
 								URL, mapParam.get(ParameterNames.IMAGEN_GALEIRA_SCD));
 					}
+
 					redirect = true;
 					target = UrlBuilder.getUrlForController(request,ControllerPath.PRODUCTO ,ActionNames.BUSCAR, redirect);
 
@@ -338,12 +350,16 @@ public class ProductoServlet extends HttpServlet {
 
 
 				} catch (FileUploadException e1) {
-
-					e1.printStackTrace();
+					logger.warn(e1.getMessage(),e1);
+					error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_UPLOAD_IMAGE);
+					request.setAttribute(AttributesNames.ERROR, error);
+					target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 				}
 			} catch (Exception e) {
-
-				e.printStackTrace();
+				logger.warn(e.getMessage(),e);
+				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_CREATE_PRODUCT);
+				request.setAttribute(AttributesNames.ERROR, error);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, redirect);
 			}
 		}
 

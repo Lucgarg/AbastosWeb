@@ -78,7 +78,7 @@ public class ParticularServlet extends HttpServlet {
 				if(particularService.findByAlias(particular.getAlias()) != null) {
 					error.add(ParameterNames.ALIAS, ErrorNames.ERR_DUPLICATE_ALIAS);
 				}
-				if(particularService.findByAlias(particular.getEmail()) != null) {
+				if(particularService.findByEmail(particular.getEmail()) != null) {
 					error.add(ParameterNames.EMAIL, ErrorNames.ERR_DUPLICATE_EMAIL);
 				}
 			if(!error.hasErrors()) {

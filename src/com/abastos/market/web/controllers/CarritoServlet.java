@@ -24,13 +24,16 @@ import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.ViewPaths;
 import com.abastos.market.web.util.WebConstants;
 import com.abastos.model.LineaPedido;
+import com.abastos.model.Particular;
 import com.abastos.model.Pedido;
 import com.abastos.model.Producto;
 import com.abastos.service.DataException;
 import com.abastos.service.LineaPedidoService;
+import com.abastos.service.ParticularService;
 import com.abastos.service.PedidoService;
 import com.abastos.service.ProductoService;
 import com.abastos.service.impl.LineaPedidoServiceImpl;
+import com.abastos.service.impl.ParticularServiceImpl;
 import com.abastos.service.impl.PedidoServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
 import com.google.gson.Gson;
@@ -41,10 +44,12 @@ public class CarritoServlet extends HttpServlet {
 	private ProductoService productoService;
 	private LineaPedidoService lineaPedidoService;
 	private PedidoService pedidoService;
+	private ParticularService particularService;
 	public CarritoServlet() {
 		productoService = new ProductoServiceImpl();
 		lineaPedidoService = new LineaPedidoServiceImpl();
 		pedidoService = new PedidoServiceImpl();
+		particularService =new ParticularServiceImpl();
 	}
 
 
@@ -110,8 +115,13 @@ public class CarritoServlet extends HttpServlet {
 		else if(ActionNames.DETALLE_CARRITO.equalsIgnoreCase(action)) {
 			Producto producto = null;
 			Pedido pedido = new Pedido();
-		
 			try {
+			Particular parti = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
+			if(parti != null) {
+				parti = particularService.findById(parti.getId());
+				SessionManager.set(request, AttributesNames.USUARIO, parti);
+			}
+		
 				for(Map.Entry<Long, LineaCarrito> lc: carrito.getLineasCarritoMap().entrySet()) {
 
 					producto = productoService.findById(lc.getValue().getIdProducto(), idioma);
@@ -142,7 +152,9 @@ public class CarritoServlet extends HttpServlet {
 
 				pedido.setAplicarDescuento(false);
 				pedido.setPrecioTotal(pedidoService.calcPrecio(pedido));
+				Map<Long, Producto> ofertPro= productoService.findByProductOfert(idioma);
 				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
+				request.setAttribute(AttributesNames.PRODUCTO_OFERTA, ofertPro);
 				target = ViewPaths.PEDIDO_RESULTS;
 				
 			} catch (DataException e) {

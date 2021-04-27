@@ -106,7 +106,21 @@ function updateLista(){
    
     request.open("GET", url, true);
       
-    request.onreadystatechange;
+    request.onreadystatechange = function(){
+	if(request.readyState == 4){
+            if(request.status==200){
+		let result =  JSON.parse(request.responseText);
+		if(result == "true"){
+		duplicate.remove;
+		divLista.insertAdjacentElement("beforeend",addLista);
+		}
+		else{
+			addLista.remove;
+			divLista.insertAdjacentElement("beforeend",duplicate);
+		}
+}
+}};
+	
     request.send(null);
     }
 
@@ -401,14 +415,17 @@ let formSearch = document.getElementById("formSearch");
 let inputTipParticular = document.getElementById("particularLog");
 let inputTipEmp = document.getElementById("empresaLog");
 let nameUser = document.getElementById("nameUser");
-
+let divLista = document.querySelector(".centralBlock div");
 let formCreate = document.querySelector(".centralBlock_form");
 /******************
 create elements
 /**********************/
 let error = document.createElement("p");
 error.setAttribute("class","error");
-
+let addLista = document.createElement("p");
+addLista.innerHTML = "El producto ha sido puesto en la lista";
+let duplicate = document.createElement("p");
+duplicate.innerHTML = "El producto ya esta en la lista";
 /*
  * flujo
  */

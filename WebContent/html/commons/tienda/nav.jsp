@@ -11,7 +11,7 @@
 		<div class="block_second">
 	<button class="Buscar crear">
 		<a
-			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.EMPRESA, true)%>">
+			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE_PRIVATE, ActionNames.EMPRESA, true)%>">
 			Crear tienda</a>
 	</button>
 	<%}else{%>

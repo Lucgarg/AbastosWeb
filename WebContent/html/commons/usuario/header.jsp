@@ -42,6 +42,9 @@
 		<div class="header">
 			<%
 			Tienda tienda = (Tienda) SessionManager.get(request, AttributesNames.TIENDA);
+			if(tienda ==null){
+				tienda = (Tienda)request.getAttribute(AttributesNames.TIENDA);
+			}
 			Particular particular = (Particular) SessionManager.get(request, AttributesNames.USUARIO);
 		
 			%>

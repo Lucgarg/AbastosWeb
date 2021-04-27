@@ -487,8 +487,8 @@ nav div:before{
     display: inline-block;
     position: absolute;
     bottom: -15px;
-    right: -18px;
-    height: 14px;
+    right: -25px;
+    height: 16px;
 }
 
 #foto_perfil{
@@ -500,6 +500,7 @@ nav div:before{
 	margin-bottom:20%;
 	display:none;
 }
+
 #foto_perfil > a:after{
     display: inline-block;
     content: '\67';
@@ -690,6 +691,7 @@ nav div:before{
 /*eleccion tipo usuario*/
 .header   .tipUsuario {
 	position: fixed;
+	min-width:290px;
 	border-radius: 10px;
 	width: 25%;
 	padding: 1% 1% 1% 1%;
@@ -709,6 +711,7 @@ nav div:before{
 .header>.registro {
 	position: fixed;
 	border-radius: 10px;
+	min-width:290px;
 	top: 50%;
 	right: 37.5%;
 	width: 25%;
@@ -719,6 +722,7 @@ nav div:before{
 	box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 }
 .header>.confirmacion{
+	min-width:290px;
 		position: fixed;
 	border-radius: 10px;
 	top: 50%;
@@ -731,6 +735,7 @@ nav div:before{
 	box-shadow: 1px -1px 5px 5px rgba(0, 0, 0, 0.75);
 }
 .header>.idiomas{
+	min-width:290px;
 	position: fixed;
 	top: 50%;
 	right: 37.5%;

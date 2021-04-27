@@ -153,7 +153,7 @@ public class PrecreateServlet extends HttpServlet {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
+				target = ViewPaths.TIENDA_BUSQUEDA;
 
 			}
 		}
@@ -171,20 +171,25 @@ public class PrecreateServlet extends HttpServlet {
 
 						Localidad local = localService.findByIdLocalidad(Long.valueOf(cookValue[0]));
 						SessionManager.set(request, ParameterNames.LOCALIDAD, local);
-
 						target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, true);
 						redirect = true;
+					}
+					else {
+						paises = paisService.findByAll();
+						request.setAttribute(AttributesNames.PAISES, paises);
+						target = ViewPaths.TIENDA_BUSQUEDA;
 					}
 				}else {
 				paises = paisService.findByAll();
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.TIENDA_BUSQUEDA;
 				}
+				
 			}catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
+				target = ViewPaths.TIENDA_BUSQUEDA;
 
 			}
 		}

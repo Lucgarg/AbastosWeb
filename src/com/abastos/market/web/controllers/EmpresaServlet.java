@@ -128,7 +128,7 @@ public class EmpresaServlet extends HttpServlet {
 			try {
 				idEmpresa = empresaService.registrar(empresa);
 				Map<String,Object> valores = new HashMap<String,Object>();
-				valores.put(WebConstants.HEADER_AGENT, empresa);
+				valores.put(WebConstants.USER, empresa);
 				valores.put(WebConstants.ENLACE, UrlBuilder.getUrlForController(request, ControllerPath.EMPRESA, 
 						ActionNames.CONFIRMAR_REGISTRO, true, ParameterNames.EMPRESA, String.valueOf(idEmpresa.getId())));
 				mailService.sendMail(valores,3L, empresa.getCorreoElectronico());

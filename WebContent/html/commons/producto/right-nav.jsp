@@ -42,7 +42,7 @@
 			%>
 	<button class="Buscar crear <%=tienda==null?"":"business"%>">
 		<a
-			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.PRODUCTO, true)%>">
+			href="<%=UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE_PRIVATE, ActionNames.PRODUCTO, true)%>">
 			Crear producto</a>
 	</button>
 	<%}%>

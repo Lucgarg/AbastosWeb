@@ -103,8 +103,12 @@ public class OfertaServlet extends HttpServlet {
 			
 			oferta.setIdEmpresa(empresa.getId());
 			if(oferta.getIdTipoOferta() != null) {
+
+				if(error.printError(ParameterNames.DENOMINADOR) == null && error.printError(ParameterNames.NUMERADOR) == null) {
 			ValidationUtils.onlyFieldEquals(oferta.getIdProdOferta(), error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
+				}
 			ValidationUtils.onlyFieldEquals(error, oferta.getIdTipoOferta(),  oferta.getIdProdOferta(), oferta.getDenominador(), oferta.getNumerador());
+			
 			ValidationUtils.onlyOneField(mapParameter, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
 
 			
