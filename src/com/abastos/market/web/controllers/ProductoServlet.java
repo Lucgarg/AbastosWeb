@@ -91,6 +91,7 @@ public class ProductoServlet extends HttpServlet {
 		Errors error = new Errors();
 		Pagination pagination = new Pagination();
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
+		Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 		//se recupera el idioma si esta en sesión si no se pone como defecto "es"
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		if(idioma == null) {
@@ -109,7 +110,6 @@ public class ProductoServlet extends HttpServlet {
 			String origen = request.getParameter(ParameterNames.ORIGEN);
 			String oferta = request.getParameter(ParameterNames.OFERTA);
 			String categoria = request.getParameter(ParameterNames.CATEGORIA);
-			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			String nombre = request.getParameter(ParameterNames.NOMBRE_PRODUCTO);
 			String reset = request.getParameter(ActionNames.RE_INICIO);
 			Tienda tienda = null;
@@ -231,7 +231,8 @@ public class ProductoServlet extends HttpServlet {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			Producto proOfert = null;
 			Long id = Long.valueOf(idProducto);
-
+			Tienda tienda = null;
+			List<Categoria> categorias = null;
 			try {
 				Producto result = productoServ.findById(id, idioma);
 
@@ -243,16 +244,38 @@ public class ProductoServlet extends HttpServlet {
 
 				if(particular != null) {
 					List<Lista> listas = listaService.findByIdParticular(particular.getId());
+					//se comprueba que el paremetro idTienda no sea null, en caso de que el request 
+					//proceda de la seccion lineaListas o de lineaPedido del historial de pedido
 					if(idTienda != null) {
-						Tienda tienda = tiendaServ.findById(Long.valueOf(idTienda));				
+						tienda = tiendaServ.findById(Long.valueOf(idTienda));
+						categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()),idioma);
+						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 						request.setAttribute(AttributesNames.TIENDA, tienda);
 					}
+					//si el parametro idTienda es null entonces se recupera la tienda de sesesión
+					//y las categorias que son hijas de la categoria a la que pertenece la tienda
+					else {
+						tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
+						categorias = 	categoriaService.findByIdPadre(tienda.getCategoria(),idioma);
+						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					}
 					request.setAttribute(AttributesNames.LISTA, listas);
-
+				}
+				// en el resto de casos si la tienda esta en sesión la categoria que se recupera es la de la propia tienda
+				//en caso contrario se recuperan todas las categorias
+				else {
+					tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
+					if(tienda != null) {
+						categorias  =categoriaService.findByIdPadre(tienda.getCategoria(),idioma);
+						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					}
+					else {
+						categorias = categoriaService.findRoot(idioma);
+						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+					}
 				}
 
-				List<Categoria> categorias = categoriaService.findRoot(idioma);
-				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
+
 				request.setAttribute(AttributesNames.PRODUCTO, result);
 				request.setAttribute(AttributesNames.PRODUCTO_OFERTA, proOfert);
 

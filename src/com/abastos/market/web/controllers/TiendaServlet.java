@@ -162,6 +162,7 @@ public class TiendaServlet extends HttpServlet {
 					Gson gson = new Gson();
 					response.setContentType(WebConstants.CONTENT_TYPE);
 					response.getOutputStream().write(gson.toJson(results).getBytes());
+				
 				}
 				else {
 

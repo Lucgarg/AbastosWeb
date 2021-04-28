@@ -118,7 +118,7 @@
 				 }
 				 %>
 
-			<p><%=p.getPrecioFinal()%></p>
+			<p id="precioForAdd"><%=p.getPrecioFinal()%></p>
 		
                    
                    
