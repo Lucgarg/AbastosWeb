@@ -44,8 +44,13 @@ public class FilesUtils {
 	 */
 	public static void writerImg(Long id, String nameImg, String url, FileItem file ) throws Exception {
 		String name = new StringBuilder(String.valueOf(id)).append(nameImg).toString();
-		file.write(new File(url + File.separator + name));
-		
+		File fil = new File(url + File.separator + name);
+		if(!fil.exists()) {
+			file.write(fil);
+		}
+		else {
+			
+		}
 	}
 
 }

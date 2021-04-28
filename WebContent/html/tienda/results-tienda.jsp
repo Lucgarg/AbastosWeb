@@ -37,7 +37,7 @@
 			</figure>
 			<p>
 				<a
-					href="<%=UrlBuilder.getUrl(request, ViewPathsctions.TIENDA_ACTION_DETALLE)%><%=t.getId()%>"><%=t.getNombre()%></a>
+					href="<%=UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.DETALLE, ParameterNames.ID_TIENDA, String.valueOf(t.getId()))%>"><%=t.getNombre()%></a>
 			</p>
 			<p><%=t.getDireccionDto().getLocalidad()%></p>
 			<span><%=t.getPuntuacionMedia().getValoracionMedia()%></span>

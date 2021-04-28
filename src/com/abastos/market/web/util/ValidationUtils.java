@@ -3,6 +3,7 @@ package com.abastos.market.web.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -396,6 +397,7 @@ public class ValidationUtils {
 				error.add(parameter, ErrorNames.ERR_MANDATORY);
 			}
 			else {
+				df.setLenient(false);
 				data = df.parse(fecha);
 			}
 		}catch(ParseException e) {
@@ -426,12 +428,23 @@ public class ValidationUtils {
 						.append(error.printError(ParameterNames.FECHAS)).toString());
 			}
 
-
+			dateValues(fechaHasta, error);
 
 		}
 
 
 
+	}
+	public static void dateValues(Date date, Errors error) {
+		Calendar cal2 = Calendar.getInstance();
+		Calendar cal = Calendar.getInstance();
+		cal2.setTime(new Date());
+		cal.setTime(date);
+		int actualYear = cal2.get(Calendar.YEAR);
+		int year = cal.get(Calendar.YEAR);
+		if((year - actualYear) > 1) {
+			error.add(ParameterNames.FECHAS, ErrorNames.ERR_VALUE_YEAR);
+		}
 	}
 	/*validacion de los campos de ofertas para verificar que solo uno de los tipos de descuento esta cubierto*/
 	public static void onlyOneField(Map<String, String[]> mapParameter, String parameter1, String parameter2, Errors error ) {

@@ -74,7 +74,7 @@ public class ValoracionServlet extends HttpServlet {
 				if(idTienda != null) {
 					Long tienda = Long.valueOf(idTienda);
 					Tienda t = tiendaService.findById(tienda);
-					PuntuacionTienda puntuacionTienda = puntTiendService.findPuntuacion(tienda, particular.getId());
+					PuntuacionTienda puntuacionTienda = puntTiendService.findPuntuacion(particular.getId(), tienda);
 					request.setAttribute(AttributesNames.VALORACION, puntuacionTienda);
 					request.setAttribute(AttributesNames.TIENDA, t);
 					target =  ViewPaths.VALORACION_TIENDA;
