@@ -28,20 +28,21 @@
 			<input type="hidden" name=<%=ActionNames.ACTION%>
 				value=<%=ActionNames.CREAR%>> 
 				<fieldset class="centralBlock_form">
-				<label>Nombre de la
+				<label class="mandatory">Nombre de la
 				tienda</label> <input type="text"
 				name=<%=ParameterNames.NOMBRE_TIENDA%>
 				value="<%=ParameterUtils.printParam(parametros, ParameterNames.NOMBRE_TIENDA, 0)%>">
-			<label>Móvil</label> <input type="text"
+			<label class="mandatory">información de contacto</label>
+			<label class="mandatory">Móvil</label> <input type="text"
 				name=<%=ParameterNames.MOVIL%>
 				value="<%=ParameterUtils.printParam(parametros, ParameterNames.MOVIL, 0)%>">
-			<label>Teléfono</label> <input type="text"
+			<label class="mandatory">Teléfono</label> <input type="text"
 				name=<%=ParameterNames.TELEFONO%>
 				value="<%=ParameterUtils.printParam(parametros, ParameterNames.TELEFONO, 0)%>">
-			<label>Correo electrónico</label> <input type="email"
+			<label class="mandatory">Correo electrónico</label> <input type="email"
 				name=<%=ParameterNames.EMAIL%>
 				value="<%=ParameterUtils.printParam(parametros, ParameterNames.EMAIL, 0)%>">
-			<label>Envio a domicilio</label>
+			<label class="mandatory">Envio a domicilio</label>
 			<div id="buttons">
 			 <input type="radio"
 				name=<%=ParameterNames.ENVIO_DOMICILIO%> value="true"
@@ -55,15 +56,15 @@
 				</div>
 				 <label>Dirección</label>
 
-			<label>Calle</label> <input type="text"
+			<label class="mandatory">Calle</label> <input type="text"
 				name=<%=ParameterNames.CALLE%>
 				value="<%=ParameterUtils.printParam(parametros, ParameterNames.CALLE, 0)%>">
-				 <label>Piso</label>
+				 <label class="mandatory">Piso</label>
 			<input type="text" name=<%=ParameterNames.PISO%>
 			value="<%=ParameterUtils.printParam(parametros, ParameterNames.PISO, 0)%>"> <label>Número</label>
 			<input type="text" name=<%=ParameterNames.NUMERO%>
 			value="<%=ParameterUtils.printParam(parametros, ParameterNames.NUMERO, 0)%>">
-			<label>Código Postal</label> <input type="text"
+			<label class="mandatory">Código Postal</label> <input type="text"
 				name=<%=ParameterNames.CODIGO_POSTAL%>
 				value="<%=ParameterUtils.printParam(parametros, ParameterNames.CODIGO_POSTAL, 0)%>"> <label>Pais
 			</label> 
@@ -87,12 +88,12 @@
 			  <select name=<%=ParameterNames.PROVINCIA%> id="provincia">
 				<option disabled selected value>--selecciona una provincia--</option>
 			</select> </label>
-			<label>Localidad</label> 
+			<label class="mandatory">Localidad</label> 
 			 <label class="select form" for="localidad">
 			<select name=<%=ParameterNames.LOCALIDAD%> id="localidad">
 				<option disabled selected value>--selecciona una localidad--</option>
 			</select></label>
-			 <label>Seleccionar categoria de la tienda</label> 
+			 <label class="mandatory">Seleccionar categoria de la tienda</label> 
 			  <label class="select form" for="categoriaTienda">
 			 <select name=<%=ParameterNames.CATEGORIA%> id="categoriaTienda">
 				<%List<Categoria> categorias = (List<Categoria>) request.getAttribute(AttributesNames.CATEGORIAS); 

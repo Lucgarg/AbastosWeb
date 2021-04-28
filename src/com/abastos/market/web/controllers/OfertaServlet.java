@@ -49,7 +49,7 @@ public class OfertaServlet extends HttpServlet {
 	public OfertaServlet() {
 		productoService = new ProductoServiceImpl();
 		ofertaService = new OfertaServiceImpl();
-	
+
 	}
 
 
@@ -80,7 +80,7 @@ public class OfertaServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
-				
+
 			}
 		}
 		//crea oferta redirect a resultado de ofertas
@@ -100,20 +100,20 @@ public class OfertaServlet extends HttpServlet {
 			oferta.setNumerador(ValidationUtils.integerValidator(mapParameter , ParameterNames.NUMERADOR, error,1,10, false));
 			oferta.setIdTipoOferta(ValidationUtils.integerValidator(mapParameter , ParameterNames.TIPO_OFERTA, error,1,3, true));
 			oferta.setNombreOferta(ValidationUtils.nameValidator(mapParameter , ParameterNames.NOMBRE_OFERTA, error));
-			
+
 			oferta.setIdEmpresa(empresa.getId());
 			if(oferta.getIdTipoOferta() != null) {
-
+				//se compruba si no hay errores en el campo denominador y numerador, para proceder a comprobar que los campos cumplen con los requisitos
 				if(error.printError(ParameterNames.DENOMINADOR) == null && error.printError(ParameterNames.NUMERADOR) == null) {
-			ValidationUtils.onlyFieldEquals(oferta.getIdProdOferta(), error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
+					ValidationUtils.onlyFieldEquals(oferta.getIdProdOferta(), error, oferta.getIdTipoOferta(),  oferta.getNumerador(), oferta.getDenominador());
 				}
-			ValidationUtils.onlyFieldEquals(error, oferta.getIdTipoOferta(),  oferta.getIdProdOferta(), oferta.getDenominador(), oferta.getNumerador());
-			
-			ValidationUtils.onlyOneField(mapParameter, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
+				ValidationUtils.onlyFieldEquals(error, oferta.getIdTipoOferta(),  oferta.getIdProdOferta(), oferta.getDenominador(), oferta.getNumerador());
 
-			
+				ValidationUtils.onlyOneField(mapParameter, ParameterNames.DESCT_FIJO, ParameterNames.DESCT_PCN, error);
+
+
 			}
-			
+
 			String fechaDesde = new StringBuilder().append(fechaVigencia)
 					.append(" ").append(horaVigencia).append(":00").toString();
 			String fechaHasta = new StringBuilder().append(fechaCaducidad)
@@ -123,7 +123,7 @@ public class OfertaServlet extends HttpServlet {
 				oferta.setFechaDesde(ValidationUtils.dateValidation(request,fechaDesde, fechaVigencia, ParameterNames.FECHA_VIG,error));
 				oferta.setFechaHasta(ValidationUtils.dateValidation(request,fechaHasta, fechaCaducidad, ParameterNames.FECHA_CAD, error));
 				ValidationUtils.dateOrderValidation(oferta.getFechaDesde(), oferta.getFechaHasta(), error);
-				
+
 				if(!error.hasErrors()) {
 					ofertaService.create(oferta);
 					redirect = true;
@@ -137,7 +137,7 @@ public class OfertaServlet extends HttpServlet {
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request,ControllerPath.PRECREATE, ActionNames.OFERTA, redirect);
 			}
-			
+
 		}
 		if(target == null) {
 			target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);

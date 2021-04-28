@@ -67,16 +67,18 @@ public class CarritoServlet extends HttpServlet {
 		}
 		String ajax = request.getParameter(ParameterNames.AJAX);
 		boolean redirect = false;
-	
+		//con una llamada ajax se van añadiendo productos al objeto carrito
 		if(ActionNames.ADD.equalsIgnoreCase(action)) {
 			String id= request.getParameter(ParameterNames.ID_PRODUCTO);
 			String numeroUnidades = request.getParameter(ParameterNames.NUMERO_UNIDADES);
 			LineaCarrito linCarrito = new LineaCarrito();
 			linCarrito.setIdProducto(Long.valueOf(id));
 			linCarrito.setNumeroUnidades(Integer.valueOf(numeroUnidades));
-			
+
 			Producto producto = null;
 			boolean repeticion = false;
+			//se comprueba que no se ha clicado dos veces en el mismo producto para sumar el numero de unidades que se han solicitado la segunda vez 
+			//al número de unidades actuales
 			if(repeticion == false) {
 				for(Map.Entry<Long, LineaCarrito> lp: carrito.getLineasCarritoMap().entrySet()) {
 
@@ -85,6 +87,8 @@ public class CarritoServlet extends HttpServlet {
 							producto = productoService.findById(linCarrito.getIdProducto(), idioma);
 
 							int numUnidades = lp.getValue().getNumeroUnidades() + linCarrito.getNumeroUnidades();
+							// se verifica que el numero de unidades solicitadas no excede el número del stock del producto
+							// en tal caso el número total de productos solicitados será el máximo del stock
 							if(numUnidades > producto.getStock()) {
 								numUnidades = producto.getStock();
 							}
@@ -95,7 +99,7 @@ public class CarritoServlet extends HttpServlet {
 							error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 							request.setAttribute(AttributesNames.ERROR, error);
 							target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-							
+
 						}
 					}
 
@@ -106,22 +110,22 @@ public class CarritoServlet extends HttpServlet {
 			}
 
 			SessionManager.set(request, AttributesNames.CARRITO, carrito);
-			
+
 			Gson gson = new Gson();
 			response.setContentType(WebConstants.CONTENT_TYPE);
 			response.getOutputStream().write(gson.toJson(carrito.getLineasCarritoMap().size()).getBytes());
-			
+
 		}
 		else if(ActionNames.DETALLE_CARRITO.equalsIgnoreCase(action)) {
 			Producto producto = null;
 			Pedido pedido = new Pedido();
 			try {
-			Particular parti = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
-			if(parti != null) {
-				parti = particularService.findById(parti.getId());
-				SessionManager.set(request, AttributesNames.USUARIO, parti);
-			}
-		
+				Particular parti = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
+				if(parti != null) {
+					parti = particularService.findById(parti.getId());
+					SessionManager.set(request, AttributesNames.USUARIO, parti);
+				}
+				//se recupera la información de cada producto
 				for(Map.Entry<Long, LineaCarrito> lc: carrito.getLineasCarritoMap().entrySet()) {
 
 					producto = productoService.findById(lc.getValue().getIdProducto(), idioma);
@@ -131,7 +135,7 @@ public class CarritoServlet extends HttpServlet {
 					linPedido.setNumeroUnidades(lc.getValue().getNumeroUnidades());
 					linPedido.setPrecio(producto.getPrecioFinal());
 					linPedido.setIdProducto(producto.getId());
-				
+					//se verifica si tiene oferta
 					if(producto.getOferta() != null) {
 						linPedido.setDenominador(producto.getOferta().getDenominador());
 						linPedido.setDescuentoFijo(producto.getOferta().getDescuentoFijo());
@@ -149,20 +153,21 @@ public class CarritoServlet extends HttpServlet {
 					linPedido.setIdTienda(producto.getIdTienda());
 					pedido.add(linPedido);
 				}
-
+				//por defecto para que aparezca el precio total se pone aplicar descuento con puntos a false
 				pedido.setAplicarDescuento(false);
 				pedido.setPrecioTotal(pedidoService.calcPrecio(pedido));
+				// se recuperan los productos que pertenecen a la oferta "compra y llevate"
 				Map<Long, Producto> ofertPro= productoService.findByProductOfert(idioma);
 				SessionManager.set(request, AttributesNames.PEDIDO, pedido);
 				request.setAttribute(AttributesNames.PRODUCTO_OFERTA, ofertPro);
 				target = ViewPaths.PEDIDO_RESULTS;
-				
+
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC_DETAIL_CART);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-				
+
 			}
 		}
 		else if(ActionNames.ELIMINAR.equals(action)) {

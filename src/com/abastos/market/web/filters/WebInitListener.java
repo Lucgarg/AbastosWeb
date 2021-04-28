@@ -20,20 +20,22 @@ import com.abastos.service.ProductoService;
 import com.abastos.service.impl.CategoriaServiceImpl;
 import com.abastos.service.impl.PaisServiceImpl;
 import com.abastos.service.impl.ProductoServiceImpl;
+
+//contextListener para meter en cache categorias, paises y productos asociados a la oferta "compra y llevate"
 public class WebInitListener implements ServletContextListener {
 	private static Logger logger = LogManager.getLogger(WebInitListener.class);
 	private CategoriaService categService = null;
 	private PaisService paisService = null;
 	private ProductoService productoService = null;
-    public WebInitListener() {
-    	categService = new CategoriaServiceImpl();
-       paisService = new PaisServiceImpl();
-       productoService = new ProductoServiceImpl();	
-    }
+	public WebInitListener() {
+		categService = new CategoriaServiceImpl();
+		paisService = new PaisServiceImpl();
+		productoService = new ProductoServiceImpl();	
+	}
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		
+
 	}
 
 	@Override
@@ -49,14 +51,14 @@ public class WebInitListener implements ServletContextListener {
 			logger.info("inicializando productos...");
 			productoService.findByProductOfert("es");
 			productoService.findByProductOfert("en");
-		
+
 		} catch (DataException e) {
 			logger.warn(e.getMessage(),e);
 
-			
+
 		}
-		
-		
+
+
 	}
 
 }

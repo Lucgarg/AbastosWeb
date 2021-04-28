@@ -10,6 +10,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 
+/**
+ * @author Usuario
+ *
+ */
+/**
+ * @author Usuario
+ *
+ */
+/**
+ * @author Usuario
+ *
+ */
 public class UrlBuilder {
 
 	private static Logger logger = LogManager.getLogger(UrlBuilder.class); 
@@ -51,7 +63,7 @@ public class UrlBuilder {
 				.append(request.getServerPort())
 				.append(request.getContextPath()).append("/").append(WebConstants.UPLOAD_DIRECTORY_IMG)
 				.append("/").append(nameFile);
-		
+
 		return sb.toString();
 
 	}
@@ -242,16 +254,29 @@ public class UrlBuilder {
 		return sb.toString();
 
 	}
+	/**
+	 * @param request
+	 * @param directory directorio dentro de la ruta absoluta
+	 * @return ruta absoluta
+	 */
 	public static String urlRealPath(HttpServletRequest request, String directory) {
 		return new StringBuilder(request.getServletContext().getRealPath("")).append(directory).toString();
 	}
 
+	/**
+	 * @param value a decodificar en base64
+	 * @return valor descodificado
+	 */
 	public static String decode(String value) {
 
 		byte[] decodedBytes = DECODER.decode(value);
 		String decodedString = new String(decodedBytes);
 		return decodedString;
 	}
+	/**
+	 * @param value a codificar en base 64
+	 * @return valor codificado
+	 */
 	public static String encode(String value) {
 		String encodedString = ENCODER.encodeToString(value.getBytes());
 		return encodedString;

@@ -91,6 +91,7 @@ public class ProductoServlet extends HttpServlet {
 		Errors error = new Errors();
 		Pagination pagination = new Pagination();
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
+		//se recupera el idioma si esta en sesión si no se pone como defecto "es"
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		if(idioma == null) {
 			idioma = "es";
@@ -98,13 +99,6 @@ public class ProductoServlet extends HttpServlet {
 		if(action == null) {
 			action = request.getContentType().split(";")[0];
 		}
-
-
-
-
-
-
-
 
 		String target = null;
 		boolean redirect = false;
@@ -121,6 +115,7 @@ public class ProductoServlet extends HttpServlet {
 			Tienda tienda = null;
 			String tiend = null;
 			ProductoCriteria productoCri = new ProductoCriteria();
+			//si el request no procede de una llamada ajax se procede a recuperar la tienda de sesión.
 			if(ajax == null) {
 				tienda = (Tienda)SessionManager.get(request, AttributesNames.TIENDA);
 				if(empresa != null) {
@@ -166,7 +161,7 @@ public class ProductoServlet extends HttpServlet {
 
 			try {
 
-
+				//si el request procede una llamada ajax, se procede a buscar todos los productos de una tienda para insertarlo en un select de productos
 				if(ajax != null) {
 
 					List<Producto> listProducts = productoServ.findByIdTienda(productoCri.getIdTienda(),idioma);
@@ -194,16 +189,21 @@ public class ProductoServlet extends HttpServlet {
 					pagination.setPage(page);
 					pagination.setTotalPages(totalPages);
 					request.setAttribute(ParameterNames.PAGE, pagination);
+					//si estamos dentro de la sección de productos de una tienda se recupera las categorias que pertenecen a la categoria de la tienda
 					if(tienda != null) {
-						List<Categoria> categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()),"es");
+						List<Categoria> categorias = categoriaService.findByIdPadre(Integer.valueOf(tienda.getCategoria()),idioma);
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 					}
+					//para recuperar todas las tiendas de una empresa
 					if(empresa != null) {
+						//accion para borrar de la sesión la tienda que esta guardada en ese momento y así proceder a mostrar todos los productos de una empresa
+						//con la tienda a la que pertenecen
 						if(reset != null) {
 							SessionManager.remove(request, AttributesNames.TIENDA);
 						}
 						List<Tienda> tiendaResults = tiendaServ.findByIdEmpresa(empresa.getId());
 						List<Categoria> categorias = categoriaService.findRoot(idioma);
+						//mapa para asociar el producto con la tienda a la que pertenecen
 						Map<Long, String> result  = MapBuilder.builderMapTienProdc(results.getPage(), tiendaResults);
 						request.setAttribute(AttributesNames.TIENDA_PRODUCTOS, result);
 						request.setAttribute(AttributesNames.CATEGORIAS, categorias);
@@ -315,7 +315,8 @@ public class ProductoServlet extends HttpServlet {
 						}
 
 					}
-					producto.setPrecio(Double.valueOf(precio));
+
+					producto.setPrecio(Double.valueOf(precio.replace(',', '.')));
 					producto.setStock(Integer.valueOf(stock));
 					producto.setTipoOrigen(origen.charAt(0));	
 					logger.info(producto.getPrecio());

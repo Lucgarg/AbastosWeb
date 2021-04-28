@@ -20,7 +20,8 @@ import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 
 
-
+//filtro para evitar que se acceda a la sección productos desde un usuario 
+//sin iniciar sesión y un particular sin haber selecionada con anterioridad una tienda
 public class TiendaSessionFilter implements Filter {
 
 	private static Logger logger = LogManager.getLogger(TiendaSessionFilter.class);

@@ -21,17 +21,17 @@ import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 
 
-
+//filtro para evitar que el perfil empresa acceda a secciones unicas del perfil particular o usuario sin iniciar sesión
 public class UserParticularFilter implements Filter {
 	private static Logger logger = LogManager.getLogger(UserParticularFilter.class);
- 
-    public UserParticularFilter() {
-  
-    }
 
-	
+	public UserParticularFilter() {
+
+	}
+
+
 	public void destroy() {
-		
+
 	}
 
 
@@ -41,7 +41,7 @@ public class UserParticularFilter implements Filter {
 		String target = null;
 		String action = request.getParameter(ActionNames.ACTION);
 
-	
+
 		if((SessionManager.get(httpRequest, AttributesNames.EMPRESA))!=null
 				&& (ActionNames.INICIO.equals(action) || null == action)) {
 			logger.info("perfilEmpresa intentando acceder a area restringida");
@@ -52,12 +52,12 @@ public class UserParticularFilter implements Filter {
 		else {
 			chain.doFilter(request, response);
 		}
-		
+
 	}
 
 
 	public void init(FilterConfig fConfig) throws ServletException {
-		
+
 	}
 
 }

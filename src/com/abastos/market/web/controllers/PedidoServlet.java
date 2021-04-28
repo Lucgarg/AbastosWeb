@@ -62,7 +62,7 @@ public class PedidoServlet extends HttpServlet {
 		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
-
+		//accion para crear pediedo, se recupera el pedido que se ha guardado en CarritoServlet de sesión
 		if(ActionNames.CREAR.equalsIgnoreCase(action)) {
 			Pedido pedido = (Pedido)SessionManager.get(request, AttributesNames.PEDIDO);
 			String aplicarDescuento = request.getParameter(ParameterNames.APLICAR_DESCUENTO);
@@ -70,6 +70,8 @@ public class PedidoServlet extends HttpServlet {
 			if(aplicarDescuento != null) {
 			dsct = true;
 			}
+			//se comprueba si el particular esta en sesión, si no es así se vuelve a redirigir a la misma página y se le informa
+			// de que tiene que iniciar sesión.
 			if(particular == null) {
 				
 				error.add(ActionNames.CREAR_PEDIDO, ErrorNames.ERR_NOT_USER_LOG);
@@ -85,9 +87,12 @@ public class PedidoServlet extends HttpServlet {
 				pedido.setIdEstado('S');
 				try {
 					pedidoService.create(pedido);
+					//una vez creado el pedido, se procede a actualizar el stock de cada uno de los productos
 					for(LineaPedido lp: pedido.getLineaPedido()) {
+						
 						productoService.updateStock(lp.getNumeroUnidades(), lp.getIdProducto());
 					}
+					//se recupera el numero de puntos adquiridos por el particular para informarle a través de un email
 					int puntos = pedidoService.calcPuntos(pedido.getPrecioTotal());
 					infoEmail.put(WebConstants.USER, particular);
 					infoEmail.put(WebConstants.PEDIDO, pedido);

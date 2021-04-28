@@ -58,17 +58,19 @@ public class ValoracionServlet extends HttpServlet {
 		String target = null;
 		boolean redirect = false;
 		Errors error = new Errors();
-
 		Particular particular = (Particular)SessionManager.get(request, AttributesNames.USUARIO);
 		if(ActionNames.BUSCAR.equalsIgnoreCase(action)) {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			String idProducto = request.getParameter(ParameterNames.ID_PRODUCTO);
 			String pedido = request.getParameter(ParameterNames.PEDIDO);
+			//se recupera el idioma si esta en sesión si no se pone como defecto "es"
 			String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 			if(idioma == null) {
 				idioma = "es";
 			}
 			try {
+				//se comprueba si se esta accediendo a la opción de valorar producto o tienda y se comprueba si existen las puntuaciones, en función de su existencia
+				//en la jsp se procedera a cambiar la acción del formulario a puntuar o actualizar
 				if(idTienda != null) {
 					Long tienda = Long.valueOf(idTienda);
 					Tienda t = tiendaService.findById(tienda);
@@ -123,7 +125,7 @@ public class ValoracionServlet extends HttpServlet {
 			String atencCliente= request.getParameter(ParameterNames.PUNTUACION_ATC);
 			String precio= request.getParameter(ParameterNames.PUNTUACION_PRECIO);
 			String tienda= request.getParameter(ParameterNames.ID_TIENDA);
-	
+
 			try {
 				PuntuacionTienda puntTienda = new PuntuacionTienda();
 				puntTienda.setIdPerfilParticular(particular.getId());
@@ -145,7 +147,7 @@ public class ValoracionServlet extends HttpServlet {
 		else if(ActionNames.UPDATE_VAL_PRODUCTO.equalsIgnoreCase(action)) {
 			String puntuacion = request.getParameter(ParameterNames.PUNTUACION_PRODUCTO);
 			String producto = request.getParameter(ParameterNames.ID_PRODUCTO);
-		
+
 			try {
 				puntProdService.update(particular.getId(), Long.valueOf(producto), Integer.valueOf(puntuacion));
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
@@ -165,7 +167,7 @@ public class ValoracionServlet extends HttpServlet {
 			String atencCliente= request.getParameter(ParameterNames.PUNTUACION_ATC);
 			String precio= request.getParameter(ParameterNames.PUNTUACION_PRECIO);
 			String tienda= request.getParameter(ParameterNames.ID_TIENDA);
-		
+
 			try {
 
 				PuntuacionTienda puntTienda = new PuntuacionTienda();

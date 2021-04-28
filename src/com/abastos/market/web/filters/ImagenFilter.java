@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import com.abastos.market.web.util.UrlBuilder;
 import com.abastos.market.web.util.WebConstants;
 
-
+//filtro para recuperar imagenes desde el absolutePath
 public class ImagenFilter implements Filter {
 
 	private static Logger logger = LogManager.getLogger(ImagenFilter.class);

@@ -21,7 +21,7 @@ import com.abastos.market.web.util.SessionManager;
 import com.abastos.market.web.util.UrlBuilder;
 
 
-
+//filtro para que evitar que un particular o una empresa acceden a secciones unicas de un usuario sin iniciar sesión
 public class AuthenticationFilterUsuario implements Filter {
 
 	private static Logger logger = LogManager.getLogger(AuthenticationFilterUsuario.class);

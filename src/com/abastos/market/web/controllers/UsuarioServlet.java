@@ -69,7 +69,7 @@ public class UsuarioServlet extends HttpServlet {
 		//comprobamos el tipo de usuario
 		if(ActionNames.LOG_IN.equalsIgnoreCase(action)) {
 			String tipUsuario = request.getParameter(ParameterNames.TIP_USUARIO);
-		
+
 			//si es empresa...
 			if(ActionNames.EMPRESA.equalsIgnoreCase(tipUsuario)) {
 				String email = null;
@@ -93,10 +93,14 @@ public class UsuarioServlet extends HttpServlet {
 					if(usuario == null) {
 						usuario = email;
 					}
+
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
+					//se comprueba que radioButton se ha marcado, si recordar usuario o mantener usuario
+					//independientemente de la opción escogida se recuperar el getHeader user-agent y se codifica en base64
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {
 						String cookieValue = CookieManager.createValue(tipUsuario, String.valueOf(empresa.getId()),
 								UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)),usuario);
+						//se elimina la cookie asociada a la accion de recordar usuario y se asocia un neuvo usuario.
 						CookieManager.removeCookie(response, ParameterNames.RECORDAR_USUARIO, "/");
 						CookieManager.addCookie(response, ParameterNames.RECORDAR_USUARIO, cookieValue, "/", 365 * 24 * 60 * 60);
 					}
@@ -179,6 +183,8 @@ public class UsuarioServlet extends HttpServlet {
 
 				}
 			}}
+		//request de tipo ajax para verificar que la cookie con key "recordarUsuario" es la misma que se ha guardado para el actual usuario
+		//como la request puede venir de cualquiera de las paginas a las que tiene acceso un usuario sin iniciar sesión, se recupera mediante ajax.
 		else if(ActionNames.REMENBER_USER_NAME.equals(action)) {
 			ajax = request.getParameter(ParameterNames.AJAX);
 			Cookie cookie = CookieManager.getCookie(request, ParameterNames.RECORDAR_USUARIO);
@@ -187,7 +193,7 @@ public class UsuarioServlet extends HttpServlet {
 			if(cookie != null) {
 				String result = cookie.getValue();
 				cookieResult = result.split(":");
-			
+
 				if(cookieResult[0].equals(tipUser) &&  request.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookieResult[2]))) {
 					Gson gson = new Gson();
 					response.setContentType(WebConstants.CONTENT_TYPE);

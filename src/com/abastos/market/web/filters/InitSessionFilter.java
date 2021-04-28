@@ -36,7 +36,7 @@ import com.abastos.service.ParticularService;
 import com.abastos.service.impl.EmpresaServiceImpl;
 import com.abastos.service.impl.ParticularServiceImpl;
 
-
+//filtro para meter en sesion el carrito y verificar que existen determinadas cookies
 public class InitSessionFilter implements Filter {
 	private static Logger logger = LogManager.getLogger(InitSessionFilter.class);
 	private ParticularService particularService = null;

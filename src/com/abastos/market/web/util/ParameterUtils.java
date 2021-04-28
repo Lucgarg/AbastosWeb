@@ -2,6 +2,10 @@ package com.abastos.market.web.util;
 
 import java.util.Map;
 
+/**
+ * @author Usuario
+ *
+ */
 public class ParameterUtils {
 
 
@@ -26,7 +30,13 @@ public class ParameterUtils {
 		}
 		return  sb.toString();
 	}
-
+	
+	/**
+	 * @param params mapa de parametros
+	 * @param parameter parametros a recuperar del mapa de parametros
+	 * @param pos posicion cuando el parametro solicitado tiene más de un valor
+	 * @return el parametro solitado si existe o sino un string vacio
+	 */
 	public static final String printParam(Map<String, String[]> params, String parameter, int pos) {
 		
 		if(params.get(parameter) == null) {
@@ -37,6 +47,10 @@ public class ParameterUtils {
 			return params.get(parameter)[pos];
 		}
 	}
+	/**
+	 * @param s parametro
+	 * @return tras comprobar si el parametro es  diferente a null, se devuelve el mismo parametro o un string vacio
+	 */
 	public static final String printParam(String s) {
 		if(null != s) {
 			return s;

@@ -81,24 +81,24 @@ public class ParticularServlet extends HttpServlet {
 				if(particularService.findByEmail(particular.getEmail()) != null) {
 					error.add(ParameterNames.EMAIL, ErrorNames.ERR_DUPLICATE_EMAIL);
 				}
-			if(!error.hasErrors()) {
-				
-				
+				if(!error.hasErrors()) {
+
+
 					logger.info("registrando usuario");
-				
+
 					idParticular = particularService.registrar(particular);
-		
-			}
+
+				}
 			}
 			catch(DataException e) {
-				
+
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.REGISTRO, ErrorNames.ERR_GENERIC_REGISTRO);
 			}
 			if(!error.hasErrors()) {
 				logger.info(new StringBuilder("enviando email a ").append(particular.getEmail()));
 				Map<String,Object> valores = new HashMap<String,Object>();
-				
+
 				valores.put(WebConstants.USER, particular);
 				valores.put(WebConstants.ENLACE, UrlBuilder.getUrlForController(request, ControllerPath.PARTICULAR, 
 						ActionNames.CONFIRMAR_REGISTRO, true, ParameterNames.PARTICULAR, String.valueOf(idParticular.getId())));
@@ -114,7 +114,7 @@ public class ParticularServlet extends HttpServlet {
 			if(error.hasErrors()) {
 
 				request.setAttribute(AttributesNames.ERROR, error);
-				
+
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.REGISTRO, redirect,
 						ParameterNames.TIP_USUARIO, ActionNames.PARTICULAR);
 			}
@@ -129,7 +129,7 @@ public class ParticularServlet extends HttpServlet {
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.CONFIRMAR_REGISTRO, ErrorNames.ERR_GENERIC);
-				
+
 			}
 			if(error.hasErrors()) {
 				request.setAttribute(AttributesNames.ERROR, error);
@@ -139,16 +139,16 @@ public class ParticularServlet extends HttpServlet {
 		}
 		else if(ActionNames.CERRAR.equalsIgnoreCase(action)) {
 			SessionManager.remove(request, AttributesNames.USUARIO);
-	
+
 			CookieManager.removeCookie(response, ParameterNames.MANTENER_SESION, "/");
 			redirect = true;
 			target   = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
-			
+
 		}
 		if(target == null) {
-		target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+			target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
 		}
-		
+
 		if(redirect) { 
 			logger.info("Redirect to..." + target);
 			response.sendRedirect(target);
@@ -157,8 +157,8 @@ public class ParticularServlet extends HttpServlet {
 			logger.info("Forwarding to..." + target);
 			request.getRequestDispatcher(target).forward(request, response);
 		}
-		}
-	
+	}
+
 
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

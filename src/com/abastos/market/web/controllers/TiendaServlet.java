@@ -95,10 +95,12 @@ public class TiendaServlet extends HttpServlet {
 		}
 		String action = request.getParameter(ActionNames.ACTION);
 		String ajax = request.getParameter(ParameterNames.AJAX);
-		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
+
 		Errors error = new Errors();
 		Pagination pagination = new Pagination();
 		Localidad local = null;
+		//se recupera el idioma si esta en sesión si no se pone como defecto "es"
+		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		if(idioma == null) {
 			idioma = "es";
 		}
@@ -115,12 +117,13 @@ public class TiendaServlet extends HttpServlet {
 
 			try {
 
-
+				//se comprueba si el parametro localidad viene cubierto, si es así se recupera la localidad y se guarda en sesión
 				if(localidad!=null) {
 					local = localidadService.findByIdLocalidad(Long.valueOf(localidad));
 					SessionManager.set(request, AttributesNames.LOCALIDAD, local);
 				}
-
+				//se recupera la localidad de sesión, si existe, entonces se crea una cookie para que cuando el usuario o particular se conecte de nuevo aparezca por defecto en la 
+				//sección de busqueda de tiendas
 				local = (Localidad)SessionManager.get(request, AttributesNames.LOCALIDAD);
 				if(local != null) {
 					String cookieValue = CookieManager.createValue(String.valueOf(local.getId()),
@@ -200,6 +203,7 @@ public class TiendaServlet extends HttpServlet {
 
 
 		}
+		//acción para entrar por primera vez en la sección de productos de una tienda.
 		else if(ActionNames.DETALLE.equalsIgnoreCase(action)) {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			Long id = Long.valueOf(idTienda);
@@ -277,9 +281,10 @@ public class TiendaServlet extends HttpServlet {
 			tienda.setNumeroTelefono(telefono);
 			tienda.setIdEmpresa(empresa.getId());
 			try {
+				//se envia un email para informar de que se ha creado con exito la tienda.
 				tiendaService.create(tienda);
 				infoEmail.put(WebConstants.TIENDA, tienda);
-				mailService.sendMailHtml(infoEmail,6L,tienda.getEmail());	
+				mailService.sendMailHtml(infoEmail,6L,empresa.getCorreoElectronico());	
 
 				redirect = true;
 				target = UrlBuilder.getUrlForController(request,ControllerPath.TIENDA ,ActionNames.BUSCAR, redirect); 

@@ -136,7 +136,7 @@ public class ValidationUtils {
 		if(!REG_NUMBER_NOT.matcher(nombre).matches()) {
 			error.add(parameter, ErrorNames.ERR_NAME);
 		}
-	
+
 		if(error.printError(parameter) == null) {
 			return nombre;
 		}
@@ -179,7 +179,7 @@ public class ValidationUtils {
 		if(mapParameter.get(param[0]) == null && mapParameter.get(param[1]) == null) {
 			error.add(ParameterNames.CONTACTO, ErrorNames.ERR_MANDATORY);
 			return null;
-			
+
 		}
 		if(StringUtils.trimToEmpty(mapParameter.get(param[0])[0]) == "" 
 				&& StringUtils.trimToEmpty(mapParameter.get(param[1])[0]) == "") {
@@ -187,21 +187,21 @@ public class ValidationUtils {
 			return null;
 		}
 		for(String s: param) {
-		String telefono = mapParameter.get(s)[0];
-		telefono = telefono.trim();
-	
-		if(!REG_TELEPHONE.matcher(telefono).matches() && StringUtils.trimToEmpty(telefono) != "") {
-			error.add(s, ErrorNames.ERR_NAME);
-		}
-		
-		if(error.printError(s) == null) {
-			return telefono;
-		}
-		else {
-			logger.debug(new StringBuilder("errores encontrados en el campo ")
-					.append(s).append(" ")
-					.append(error.printError(s)).toString());
-		}
+			String telefono = mapParameter.get(s)[0];
+			telefono = telefono.trim();
+
+			if(!REG_TELEPHONE.matcher(telefono).matches() && StringUtils.trimToEmpty(telefono) != "") {
+				error.add(s, ErrorNames.ERR_NAME);
+			}
+
+			if(error.printError(s) == null) {
+				return telefono;
+			}
+			else {
+				logger.debug(new StringBuilder("errores encontrados en el campo ")
+						.append(s).append(" ")
+						.append(error.printError(s)).toString());
+			}
 
 		}
 		return null;
@@ -256,6 +256,7 @@ public class ValidationUtils {
 
 
 	public static Integer integerValidator(Map<String, String[]> mapParameter, String parameter, Errors error, Integer minValue, Integer maxValue, Boolean mandatory) {
+
 		if(mapParameter.get(parameter) == null && mandatory ==true) {
 			error.add(parameter, ErrorNames.ERR_MANDATORY);
 			return null;
@@ -320,7 +321,7 @@ public class ValidationUtils {
 		}
 		else if(StringUtils.trimToEmpty(number) != ""){
 			try {
-	
+
 				num = Double.valueOf(number.replace(',', '.'));
 
 			}catch(NumberFormatException e) {
@@ -364,7 +365,7 @@ public class ValidationUtils {
 		else if(StringUtils.trimToEmpty(number) != ""){
 			try {
 				num = Long.valueOf(number);
-				
+
 			}catch(NumberFormatException e) {
 				logger.warn(e.getMessage(), e);
 				error.add(parameter, ErrorNames.NOT_NUMBER_FORMAT);
@@ -376,7 +377,7 @@ public class ValidationUtils {
 						.append(parameter).append(" ")
 						.append(error.printError(parameter)).toString());
 				return null;
-		}
+			}
 			return num;
 		}
 		return num;
@@ -442,26 +443,26 @@ public class ValidationUtils {
 			logger.debug(new StringBuilder("errores encontrados en el campo ")
 					.append(ParameterNames.NUMBERS).append(" ")
 					.append(error.printError(ParameterNames.NUMBERS)).toString());
-			
+
 
 		}
 		else {
-		String parameterA = mapParameter.get(parameter1)[0];
-		String parameterB = mapParameter.get(parameter2)[0];
-		if(StringUtils.trimToEmpty(parameterA) == "" && 
-				StringUtils.trimToEmpty(parameterB) == ""	) {
-			error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_MANDATORY);
-			logger.debug(new StringBuilder("errores encontrados en el campo ")
-					.append(ParameterNames.DESCUENTOS).append(" ")
-					.append(error.printError(ParameterNames.DESCUENTOS)).toString());
-		}
-		else if(StringUtils.trimToEmpty(parameterA) != ""
-				&& StringUtils.trimToEmpty(parameterB) != "") {
-			error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_ONLY_ONE_FIELD);
-			logger.debug(new StringBuilder("errores encontrados en el campo ")
-					.append(ParameterNames.DESCUENTOS).append(" ")
-					.append(error.printError(ParameterNames.DESCUENTOS)).toString());
-		}
+			String parameterA = mapParameter.get(parameter1)[0];
+			String parameterB = mapParameter.get(parameter2)[0];
+			if(StringUtils.trimToEmpty(parameterA) == "" && 
+					StringUtils.trimToEmpty(parameterB) == ""	) {
+				error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_MANDATORY);
+				logger.debug(new StringBuilder("errores encontrados en el campo ")
+						.append(ParameterNames.DESCUENTOS).append(" ")
+						.append(error.printError(ParameterNames.DESCUENTOS)).toString());
+			}
+			else if(StringUtils.trimToEmpty(parameterA) != ""
+					&& StringUtils.trimToEmpty(parameterB) != "") {
+				error.add(ParameterNames.DESCUENTOS, ErrorNames.ERR_ONLY_ONE_FIELD);
+				logger.debug(new StringBuilder("errores encontrados en el campo ")
+						.append(ParameterNames.DESCUENTOS).append(" ")
+						.append(error.printError(ParameterNames.DESCUENTOS)).toString());
+			}
 		}
 	}
 	/*validacion para comprobar si un campo esta relleno si se elige el tipo de oferta segundaUnidad

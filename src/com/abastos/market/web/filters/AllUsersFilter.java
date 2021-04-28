@@ -16,7 +16,8 @@ import com.abastos.market.web.util.ControllerPath;
 import com.abastos.market.web.util.UrlBuilder;
 
 
-@WebFilter("/AllUsersFilter")
+
+//filtro para evitar que toda persona que entre en la web no pueda acceder directamente a determinadas secciones
 public class AllUsersFilter implements Filter {
 
 
@@ -31,6 +32,7 @@ public class AllUsersFilter implements Filter {
 
 	
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+	
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 		String target = UrlBuilder.getUrlForController(httpRequest, ControllerPath.PRECREATE, ActionNames.INICIO, true);
@@ -40,7 +42,7 @@ public class AllUsersFilter implements Filter {
 
 	
 	public void init(FilterConfig fConfig) throws ServletException {
-		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -14,12 +14,12 @@
 				<div class="block_second--detail cart">
 				 
 					<p>Precio final</p>
-					<p><%=pedido.getPrecioTotal()%></p>
+					<p class="precioFinal"><%=pedido.getPrecioTotal()%></p>
 					<form action="<%=UrlBuilder.getUrl(request,ControllerPath.PEDIDO)%>" method="post">
 					<input type="hidden" name="<%=ParameterNames.URL%>" value="<%=UrlBuilder.urlCallBack(request, false)%>">
 					<input type="hidden" name="<%=ActionNames.ACTION%>" value="<%=ActionNames.CREAR%>">
 					<%if(particular!=null){%>
-					<label>Tienes <%=particular.getPuntos()%> puntos para gastar</label><br>
+					<label>Tienes <label id="puntos"><%=particular.getPuntos()%></label> puntos para gastar</label><br>
 					<label>Aplicar descuento</label>
 					<input type="checkbox" name="<%=ParameterNames.APLICAR_DESCUENTO%>"><br>
 					<%}%>

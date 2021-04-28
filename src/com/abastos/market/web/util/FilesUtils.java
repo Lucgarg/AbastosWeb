@@ -16,6 +16,11 @@ public class FilesUtils {
 	public FilesUtils() {
 
 	}
+	/**
+	 * @param request
+	 * @return un mapa de parametros y objeto FileItem, para facilitar la recuperacion de parametros en formulario multipart
+	 * @throws FileUploadException
+	 */
 	public static Map<String, FileItem> mapParam(HttpServletRequest request) throws FileUploadException {
 		
 		Map <String, FileItem> mapParam = new HashMap<String, FileItem>();
@@ -30,6 +35,13 @@ public class FilesUtils {
 		return mapParam;
 	
 	}
+	/**
+	 * @param id del producto
+	 * @param nameImg tipo de imagen
+	 * @param url 
+	 * @param file 
+ 	 * @throws Exception
+	 */
 	public static void writerImg(Long id, String nameImg, String url, FileItem file ) throws Exception {
 		String name = new StringBuilder(String.valueOf(id)).append(nameImg).toString();
 		file.write(new File(url + File.separator + name));

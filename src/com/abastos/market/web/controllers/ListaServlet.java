@@ -89,6 +89,7 @@ public class ListaServlet extends HttpServlet {
 				
 			}
 		}
+		
 		else if(ActionNames.CREAR.equalsIgnoreCase(action)){
 			String nombre = request.getParameter(ParameterNames.NOMBRE_LISTA);
 		
@@ -111,6 +112,7 @@ public class ListaServlet extends HttpServlet {
 				
 			}
 		}
+		// desde una llamada ajax se añáde desde el detalle de producto, este a una determinada lista.
 		else if(ActionNames.UPDATE.equalsIgnoreCase(action)) {
 			
 			String idLista = request.getParameter(ParameterNames.LISTA);

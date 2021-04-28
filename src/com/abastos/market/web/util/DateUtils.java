@@ -8,6 +8,8 @@ public class DateUtils {
 	public DateUtils() {
 		
 	}
+	
+	//para obtener la hora de un objeto Date
 	public static String getTime(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);
@@ -17,6 +19,7 @@ public class DateUtils {
 		
 		return new StringBuilder().append(hours).append(":").append(minutes).append(":").append(second).toString();
 	}
+	//para obtener la fecha de un objecto Date
 	public static String getDate(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);

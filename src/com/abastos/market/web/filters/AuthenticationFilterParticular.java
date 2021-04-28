@@ -22,7 +22,7 @@ import com.abastos.market.web.util.UrlBuilder;
 
 
 
-
+//filtro para que una empresa o un usuario sin registrar puedan acceder a una seccion unica del particular
 public class AuthenticationFilterParticular implements Filter {
 	private static Logger logger = LogManager.getLogger(AuthenticationFilterEmpresa.class);
 	public AuthenticationFilterParticular() {

@@ -83,6 +83,12 @@ let labels = document.querySelectorAll(".header > div:nth-child(1)  label");
 let buttonNav = document.querySelector("#button_nav");
 let windMin = window.matchMedia("(min-width: 950px)");
 let windMax = window.matchMedia("(max-width: 949px)");
+let detailCart = document.querySelector(".block_second--detail.cart");
+let inputCart = document.querySelector(".block_second--detail form > input[type=checkbox]");
+let precioFinal = document.querySelector(".precioFinal");
+let puntosTotales = document.querySelector("#puntos");
+
+
 //contador de linea carrito
 let contador = document.getElementById("count");
 
@@ -146,6 +152,31 @@ for(let i = 0; i <=4; i++){
     }
 }
   } )
+
+/**funcion para calcular precio con descuento por puntos***/
+function calcPrecio(){
+
+if(inputCart.checked){
+	let punts = parseInt(puntos.innerHTML);
+	let tPunts = parseInt(punts/10);
+	let pTotal = parseFloat(precioFinal.innerHTML) - tPunts;
+	if(pTotal < 0){
+		pTotal = 0;
+	}
+ 	pTotal = pTotal.toFixed(2);
+	precioFinal.innerHTML = pTotal;	
+}
+
+else if(inputCart.checked == false){
+	let punts = parseInt(puntos.innerHTML);
+	let tPunts = parseInt(punts/10);
+	let pTotal = parseFloat(precioFinal.innerHTML) + tPunts;
+	
+ pTotal = pTotal.toFixed(2);
+	precioFinal.innerHTML = pTotal;	
+}
+
+}
 /*funcion para puntuar productor y tiendas*/
 if(field != null){
 field.querySelectorAll("fieldset").forEach(Element => {
@@ -266,3 +297,9 @@ if(buttonNav != null){
 	}
 	}
 })
+
+/////calculo precio carrito con descuento con puntos//////
+if(detailCart != null){
+	let precioInicio = precioFinal.innerHTML;
+	inputCart.addEventListener("click", calcPrecio);
+}

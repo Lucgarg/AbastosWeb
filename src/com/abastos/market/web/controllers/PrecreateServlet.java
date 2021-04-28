@@ -69,10 +69,8 @@ public class PrecreateServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String action = request.getParameter(ActionNames.ACTION);
-		if(action == null)
-		{ action = ActionNames.INICIO;
-		request.setAttribute(AttributesNames.ACTION, action);
-		}
+		String ajax = request.getParameter(ParameterNames.AJAX);
+		//se recupera el idioma si esta en sesión si no se pone como defecto "es"
 		String idioma = (String)SessionManager.get(request, AttributesNames.IDIOMA);
 		if(idioma == null) {
 			idioma = "es";
@@ -80,18 +78,17 @@ public class PrecreateServlet extends HttpServlet {
 		Errors error = new Errors();
 		String target = null;
 		boolean redirect = false;
-		String ajax = request.getParameter(ParameterNames.AJAX);
+
 		if(logger.isDebugEnabled()) {
 			logger.debug(ParameterUtils.print(request.getParameterMap()));
 		}
+		//accion para cargar paises y categorias a la hora de crear tienda con perfil empresa
 		if(ActionNames.EMPRESA.equalsIgnoreCase(action)) {
-			String idEmpresa = request.getParameter(ParameterNames.ID_EMPRESA);
+
 			try {
-
-
 				List<Categoria> categorias = categoriaService.findRoot("es");
 				List<Pais> paises = paisService.findByAll();
-				request.setAttribute(AttributesNames.EMPRESA, idEmpresa);
+
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
 				request.setAttribute(AttributesNames.PAISES, paises);
 				target = ViewPaths.EMPRESA_CREATE_TIENDA;
@@ -101,6 +98,7 @@ public class PrecreateServlet extends HttpServlet {
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, redirect);
 				logger.warn(e.getMessage(),e);
 			}
+			//se recuperar los tipos de oferta a la hora de crear una oferta en perfil empresa
 		}else if(ActionNames.OFERTA.equalsIgnoreCase(action)){
 
 			try {
@@ -117,13 +115,14 @@ public class PrecreateServlet extends HttpServlet {
 
 			}
 		}
+		//se recuperan listas de tiendas y oferta de una empresa, y las categorias a la hora de crear un producto en perfil empresa
 		else if(ActionNames.PRODUCTO.equalsIgnoreCase(action)) {
 
 			Empresa empresa = (Empresa)SessionManager.get(request, AttributesNames.EMPRESA);
 			try {
 				List<Tienda> listTienda = tiendaService.findByIdEmpresa(empresa.getId());
 				List<Oferta> listOferta = ofertaService.findByIdEmpresa(empresa.getId());
-				List<Categoria> categorias=	categoriaService.findRoot("es");
+				List<Categoria> categorias=	categoriaService.findRoot(idioma);
 				request.setAttribute(AttributesNames.RESULTS_TIENDA, listTienda);
 				request.setAttribute(AttributesNames.OFERTAS, listOferta);
 				request.setAttribute(AttributesNames.CATEGORIAS, categorias);
@@ -166,7 +165,7 @@ public class PrecreateServlet extends HttpServlet {
 				if(cookieLocal != null && !ParameterNames.TRUE.equals(reset)) {
 					String result = cookieLocal.getValue();
 					String []cookValue = result.split(":");
-					
+
 					if(request.getHeader(WebConstants.HEADER_AGENT).equals(UrlBuilder.decode(cookValue[1]))) {
 
 						Localidad local = localService.findByIdLocalidad(Long.valueOf(cookValue[0]));
@@ -180,11 +179,11 @@ public class PrecreateServlet extends HttpServlet {
 						target = ViewPaths.TIENDA_BUSQUEDA;
 					}
 				}else {
-				paises = paisService.findByAll();
-				request.setAttribute(AttributesNames.PAISES, paises);
-				target = ViewPaths.TIENDA_BUSQUEDA;
+					paises = paisService.findByAll();
+					request.setAttribute(AttributesNames.PAISES, paises);
+					target = ViewPaths.TIENDA_BUSQUEDA;
 				}
-				
+
 			}catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
@@ -193,7 +192,7 @@ public class PrecreateServlet extends HttpServlet {
 
 			}
 		}
-	
+		//request de tipo ajax, se recuperan las categorias hijas de la ctegoria padre
 		else if(ActionNames.CATEGORIA.equalsIgnoreCase(action)) {
 			String idTienda = request.getParameter(ParameterNames.ID_TIENDA);
 			String idCategoria  = request.getParameter(ParameterNames.CATEGORIA);

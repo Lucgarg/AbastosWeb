@@ -23,11 +23,11 @@ import com.abastos.market.web.util.WebConstants;
 @WebServlet("/idioma")
 public class IdiomaServlet extends HttpServlet {
 	private static Logger logger = LogManager.getLogger(IdiomaServlet.class);
-       
-   
-    public IdiomaServlet() {
-        
-    }
+
+
+	public IdiomaServlet() {
+
+	}
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -37,18 +37,19 @@ public class IdiomaServlet extends HttpServlet {
 		String action = request.getParameter(ActionNames.ACTION);
 		String target = null;
 		boolean redirect = false;
-		
-	
+
+
 		if(ActionNames.SELECCIONAR.equals(action)) {
 			String url = request.getParameter(ParameterNames.URL);
 			String idioma = request.getParameter(ParameterNames.IDIOMA);
+			//se crea una cookie para guardar el idioma
 			SessionManager.set(request, AttributesNames.IDIOMA, idioma);
 			String cookieValue = CookieManager.createValue(String.valueOf(idioma),
 					UrlBuilder.encode(request.getHeader(WebConstants.HEADER_AGENT)));
 			CookieManager.addCookie(response, ParameterNames.IDIOMA, cookieValue, "/", 365 * 24 * 60 * 60);
 			redirect = true;
 			target = url;
-		
+
 		}
 
 		if(redirect) { 
@@ -62,7 +63,7 @@ public class IdiomaServlet extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
 		doGet(request, response);
 	}
 

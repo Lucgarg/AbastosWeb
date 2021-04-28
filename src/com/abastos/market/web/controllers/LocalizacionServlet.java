@@ -72,7 +72,7 @@ public class LocalizacionServlet extends HttpServlet {
 				else {
 					comunidadAutonoma = comServ.findByIdPais(Long.valueOf(pais));
 				}
-		
+
 				Gson gson = new Gson();
 				response.setContentType( WebConstants.CONTENT_TYPE);
 				response.getOutputStream().write(gson.toJson(comunidadAutonoma).getBytes());
@@ -82,7 +82,7 @@ public class LocalizacionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
-				
+
 			}
 		}
 		else if(ActionNames.COMUNIDAD.equalsIgnoreCase(action)) {
@@ -103,7 +103,7 @@ public class LocalizacionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
-				
+
 			}
 		}
 		else if(ActionNames.PROVINCIA.equalsIgnoreCase(action)) {
@@ -124,7 +124,7 @@ public class LocalizacionServlet extends HttpServlet {
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);
 				request.setAttribute(AttributesNames.ERROR, error);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.TIENDA, ActionNames.BUSCAR, false);
-				
+
 			}
 		}
 		if(error.hasErrors()) {
