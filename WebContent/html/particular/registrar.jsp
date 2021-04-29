@@ -88,7 +88,7 @@
           		 <label>Pais</label>
           		<label class="select form" for="pais">
                 <select  name=<%=ParameterNames.PAIS%> id="pais">
-                <option disabled selected value>--selecciona un pais--</option>
+                <option value="0">--selecciona un pais--</option>
                 <%List<Pais> paises = (List<Pais>) request.getAttribute(AttributesNames.PAISES); 
                 for(Pais p: paises){ %>
                 <option value="<%=p.getId()%>"><%=p.getNombre()%></option>
@@ -98,21 +98,21 @@
                 <label>Comunidad</label>
                 	<label class="select form" for="comunidad">
                  <select name=<%=ParameterNames.COMUNIDAD%> id="comunidad">
-                          <option disabled selected value>--selecciona una comunidad--</option>
+                          <option value="0">--selecciona una comunidad--</option>
                 </select></label>
                 
                  <label>Provincia</label>
                  <label class="select form" for="provincia">
                  <select name=<%=ParameterNames.PROVINCIA%> id="provincia">
                      
-                <option disabled selected value>--selecciona una provincia--</option>
+                <option value="0">--selecciona una provincia--</option>
   				
                 </select></label>
               
                 <label class="mandatory">Localidad</label>
                 <label class="select form" for="localidad">
                 <select name=<%=ParameterNames.LOCALIDAD%> id="localidad">
-             	           <option disabled selected value>--selecciona una localidad--</option>
+             	           <option value="0">--selecciona una localidad--</option>
              	           
             		</select></label>
             	<%if(errores.printError(ParameterNames.LOCALIDAD)!= null){%>

@@ -69,7 +69,7 @@ public class ParticularServlet extends HttpServlet {
 			DireccionDto direccion = new DireccionDto();
 			direccion.setCalle(ValidationUtils.numberNotValidator(mapParameter,ParameterNames.CALLE,error));
 			direccion.setNumero(ValidationUtils.integerValidator(mapParameter, ParameterNames.NUMERO, error,0, 1000, true));
-			direccion.setIdLocalidad(ValidationUtils.longValidator(mapParameter, ParameterNames.LOCALIDAD, error,0L, Long.MAX_VALUE, true));
+			direccion.setIdLocalidad(ValidationUtils.longValidator(mapParameter, ParameterNames.LOCALIDAD, error,1L, Long.MAX_VALUE, true));
 			direccion.setPiso(ValidationUtils.pisoValidator(mapParameter, error));
 			direccion.setCodigoPostal(ValidationUtils.cdValidator(mapParameter, error));
 			direccion.setIdTipoDireccion(1);
