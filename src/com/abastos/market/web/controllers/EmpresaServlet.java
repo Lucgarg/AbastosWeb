@@ -153,9 +153,11 @@ public class EmpresaServlet extends HttpServlet {
 		else if(ActionNames.CONFIRMAR_REGISTRO.equals(action)) {
 			String idParticular = request.getParameter(ParameterNames.EMPRESA);
 			try {
+			
 				empresaService.updateAlta(Long.valueOf(idParticular));
+				
 				request.setAttribute(AttributesNames.CONFIRMAR_REGISTRO, ParameterNames.TRUE);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect,  ActionNames.RE_INICIO, ParameterNames.TRUE);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ParameterNames.ERROR, ErrorNames.ERR_GENERIC);

@@ -25,7 +25,7 @@
 						Jardin y hogar<br>
 						<%=tienda.getDireccionDto().getCalle()%><br>
 						<%=tienda.getDireccionDto().getPiso()%><br>
-						<%if(tienda.getNumeroMovil()!=null){%>tienda.getNumeroMovil()<%}%><br>
+						<%if(tienda.getNumeroMovil()!=null){%><%=tienda.getNumeroMovil()%><%}%><br>
 						<%if(tienda.getNumeroTelefono()!=null){%><%=tienda.getNumeroTelefono()%><%}%><br>
 						<%=tienda.getEmail()%></p>
 					<label class="forma">Atencion al cliente

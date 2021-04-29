@@ -121,11 +121,14 @@ public class ParticularServlet extends HttpServlet {
 
 		}
 		else if(ActionNames.CONFIRMAR_REGISTRO.equals(action)) {
+			logger.info("confirmando registro..");
 			String idParticular = request.getParameter(ParameterNames.PARTICULAR);
 			try {
+				
 				particularService.updateAlta(Long.valueOf(idParticular));
+				
 				request.setAttribute(AttributesNames.CONFIRMAR_REGISTRO, ParameterNames.TRUE);
-				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect);
+				target = UrlBuilder.getUrlForController(request, ControllerPath.PRECREATE, ActionNames.INICIO, redirect, ActionNames.RE_INICIO, ParameterNames.TRUE);
 			} catch (DataException e) {
 				logger.warn(e.getMessage(),e);
 				error.add(ActionNames.CONFIRMAR_REGISTRO, ErrorNames.ERR_GENERIC);
