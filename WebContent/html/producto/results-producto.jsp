@@ -124,6 +124,11 @@
 					 }
 					 %>
 			</div>
+			<div>
+			<p>Fin oferta:</p>
+			<p class="fecha"><%=DateUtils.getDate(p.getOferta().getFechaHasta())%> <%=DateUtils.getTime(p.getOferta().getFechaHasta())%></p>
+			<p></p>
+			</div>
 			<%
 				 }
 				 %>

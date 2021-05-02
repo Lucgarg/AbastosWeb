@@ -75,8 +75,7 @@ public class UsuarioServlet extends HttpServlet {
 				String email = null;
 				String usuario = request.getParameter(ParameterNames.NOMBRE_USUARIO);
 				String recordarMantener = request.getParameter(ParameterNames.MANTENER_RECORDAR);
-				SessionManager.remove(request, AttributesNames.TIENDA);
-				SessionManager.remove(request, AttributesNames.LOCALIDAD);
+			
 				//Comprobamos si en el parametro nombre se introduzco el email o el nombre de usuario
 				if (usuario.contains("@")) {
 					//String email = usuario.matches("^(.+)@(.+)$")? usuario: null;
@@ -95,6 +94,8 @@ public class UsuarioServlet extends HttpServlet {
 					}
 
 					SessionManager.set(request, AttributesNames.EMPRESA, empresa);
+					SessionManager.remove(request, AttributesNames.TIENDA);
+					SessionManager.remove(request, AttributesNames.LOCALIDAD);
 					//se comprueba que radioButton se ha marcado, si recordar usuario o mantener usuario
 					//independientemente de la opción escogida se recuperar el getHeader user-agent y se codifica en base64
 					if(ParameterNames.RECORDAR_USUARIO.equalsIgnoreCase(recordarMantener)) {

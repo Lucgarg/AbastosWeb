@@ -1,4 +1,45 @@
+/***funcion para intervalo de fecha en oferta */
 
+function counterDate(){
+	
+	let dat2 = new Date();
+	let faltan = "";
+	for(item2 of data){
+	for(item of dataClone){
+		console.log(map.get(item));
+		if(item2.parentElement.isEqualNode(map.get(item))){
+			
+	 faltan = item2.parentElement.querySelector(".fecha + p");
+	
+	let	dat1 = new Date(item.innerHTML);
+	let diferencia = Math.abs( dat1 - dat2);
+	let seconds = diferencia / 1000;
+	let diferenciaYears = Math.abs(dat1.getFullYear() - dat2.getFullYear());
+	let diferenciaMeses = Math.abs((dat1.getMonth()) - dat2.getMonth());
+	let dias = Math.floor(seconds/86400)%30;
+	seconds -= dias * 86400;
+	let horas = Math.floor(seconds/3600)%24;
+	seconds -= horas * 3600;
+	let minutes = Math.floor(seconds / 60) % 60;
+	seconds -= minutes * 60;
+	let segundos = Math.floor(seconds % 60);
+	console.log(diferenciaMeses);
+	if(diferenciaMeses > 0){
+		item2.innerHTML = diferenciaMeses;
+		faltan.innerHTML = "meses";
+	}
+	else if(dias > 0){
+			item2.innerHTML = dias;
+		faltan.innerHTML = "dias";
+	}
+	else {
+			item2.innerHTML = horas + ":" + minutes + ":" + segundos;
+		faltan.innerHTML = "Quedan";
+	}
+	}
+	}
+	}
+}
 
 /*funcion para cerrar ventanas emergentes */
 function cerrar(){
@@ -69,12 +110,7 @@ function back(valor) {
  
 
 
-/*creacion de elementos*/
-let buttonBack = document.createElement("button");
-buttonBack.innerHTML = "atras";
-buttonBack.setAttribute("class", "back Buscar");
-buttonBack.setAttribute("type", "button");
-buttonBack.addEventListener("click", function () { back(buttonBack.parentElement.parentElement) });
+
 
 /*selectores*/
 let field = document.querySelector(".valoracion");
@@ -87,6 +123,25 @@ let detailCart = document.querySelector(".block_second--detail.cart");
 let inputCart = document.querySelector(".block_second--detail form > input[type=checkbox]");
 let precioFinal = document.querySelector(".precioFinal");
 let puntosTotales = document.querySelector("#puntos");
+let data = document.querySelectorAll(".fecha");
+let map = new Map();
+let dataClone = [];
+if(data != null){
+	for(item of data){
+		let node = item.cloneNode(true);
+		dataClone.push(node);
+		map.set(node, item.parentElement);
+	}
+	
+}
+
+/*creacion de elementos*/
+let buttonBack = document.createElement("button");
+buttonBack.innerHTML = "atras";
+buttonBack.setAttribute("class", "back Buscar");
+buttonBack.setAttribute("type", "button");
+buttonBack.addEventListener("click", function () { back(buttonBack.parentElement.parentElement) });
+
 
 
 //contador de linea carrito
@@ -177,6 +232,9 @@ else if(inputCart.checked == false){
 }
 
 }
+
+
+
 /*funcion para puntuar productor y tiendas*/
 if(field != null){
 field.querySelectorAll("fieldset").forEach(Element => {
@@ -302,4 +360,10 @@ if(buttonNav != null){
 if(detailCart != null){
 	let precioInicio = precioFinal.innerHTML;
 	inputCart.addEventListener("click", calcPrecio);
+}
+
+if(data != null){
+	setInterval(function(){
+	counterDate();},1000);
+	
 }
