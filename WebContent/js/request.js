@@ -33,7 +33,7 @@ function createRequest(){
             return request;
         
     }
-/*function para localizacion */ 
+/*function para localizacion se pasa el valor del id que sirbe como referencia para la peticion y como parametro al que se le asocia el valor*/ 
 function getDetails(e){
         request = createRequest();
         if(request == null){
@@ -51,7 +51,7 @@ function getDetails(e){
     request.send(null);
     }
 
-/*function para productoOferta*/
+/*function para productoOferta  en el formulario de creacion de oferta*/
 
 /***Select tiendas*/
 function selectTiendas(){
@@ -67,6 +67,7 @@ function selectTiendas(){
     request.onreadystatechange = function(){createSelectTienda()};
     request.send(null);
     }
+    //creacion de select de tiendas en formulario creacion de oferta
 function createSelectTienda(){
 if(request.readyState == 4){
         
@@ -93,7 +94,8 @@ if(request.readyState == 4){
 		}
 }
 }
-/***Select lista */
+
+/***Select lista para el detalle de un producto cuando el usuario particular esta en sesión, permite añadir productos a la lista de deseos sin necesidad de volver a recargar la página*/
 function updateLista(){
 		
         request = createRequest();
@@ -125,8 +127,9 @@ function updateLista(){
     }
 
 
-/*****Select categorias*****/
+/*****Select categorias para formulario de creacion de productos***/
 function selectCategorias(){
+//primero se eliminan las ofertas para evitar que se produzcan resultados no deseados cuando se elige otra categoria
 		remove(categoriaSelect);
 		remove(categChild);
         request = createRequest();
@@ -141,6 +144,7 @@ function selectCategorias(){
     request.onreadystatechange = function(){createSelectCategoria()};
     request.send(null);
     }
+    //creacion del select de categoria
 function createSelectCategoria(){
 	if(request.readyState == 4){
             if(request.status==200){	
@@ -224,7 +228,7 @@ nameUser.value = "";
 
 
 
-/***Select productos*/
+/***Select productos para el formulario de creacion de oferta, se muestran todos los productos de una determinada tienda*/
 function selectProductos(){
 		remove(productoOferta);
         request = createRequest();
@@ -239,6 +243,7 @@ function selectProductos(){
     request.onreadystatechange = function(){createSelectProducto()};
     request.send(null);
     }
+    //creacion del select de productos
 function createSelectProducto(){
 if(request.readyState == 4){
       
@@ -267,7 +272,7 @@ if(request.readyState == 4){
 }
 }
 
-/*function para carrito */
+/*function para añadir productos a carrito cada vez que clica en el boton del carrito, se toma el valor del numero de unidades como el id del producto que esta en el campo name del button*/
 function AddProducts(e){
     request = createRequest();
     if(request == null){
@@ -298,7 +303,7 @@ function countLinea(valor){
 }
 
 
-/*funcion para rellenar selects de localizacion */
+/*funcion para rellenar selects de localizacion cuando se elige un pais, una provincia o comunidad*/
     function displayDetails(valor){
      
         if(request.readyState == 4){
@@ -348,11 +353,11 @@ function countLinea(valor){
 		}
             }
             }
-/**funcion para crear select en crear oferta*/
+/**funcion para crear select en crear oferta y mostrar los campos pertinentes*/
 function createOferta(){
 	remove(tienda);
 
-
+	// si se elige la oferta compra y llevate se ocultan los campos de numero de unidades y se cargan las tiendas y los productos mediante una llamada ajax
 	if(tipoOferta.value == "3"){
 	textInfoCL.style.display = "initial";
 	tienda.style.display = "initial";
@@ -372,6 +377,7 @@ function createOferta(){
 				
 	
 	}
+	//si se eligen el tipo de oferta segunda unidad, se eliminan los select asociados a la oferta compra y llevate
 	if(tipoOferta.value == "2"){
 	for (let item of campoSegUnd) {
 	item.style.display = "initial";
