@@ -35,7 +35,7 @@ function counterDate() {
           faltan.innerHTML = "dias";
         } else {
           item2.innerHTML = horas + ":" + minutes + ":" + segundos;
-          faltan.innerHTML = "Quedan";
+         
         }
       }
     }
