@@ -429,8 +429,10 @@ create elements
 let error = document.createElement("p");
 error.setAttribute("class","error");
 let addLista = document.createElement("p");
+addLista.setAttribute("class", "addLista");
 addLista.innerHTML = "El producto ha sido puesto en la lista";
 let duplicate = document.createElement("p");
+duplicate.setAttribute("class", "addLista");
 duplicate.innerHTML = "El producto ya esta en la lista";
 /*
  * flujo

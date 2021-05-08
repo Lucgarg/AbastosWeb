@@ -27,10 +27,10 @@ import com.abastos.market.web.controllers.Errors;
  */
 public class ValidationUtils {
 	private static Logger logger = LogManager.getLogger(ValidationUtils.class);
-	private static final Pattern REG_NAME = Pattern.compile("(\\s*[0-9]{0,10}[a-zA-Z]{2,20}[0-9]{0,10}){1,5}");
-	private static final Pattern REG_NUMBER_NOT = Pattern.compile("(\\s*[a-zA-Z]{2,20}){1,5}");
-	private static final Pattern REG_APELLIDOS = Pattern.compile("(\\s*[a-zA-Z]{2,20}){1,5}");
-	private static final Pattern REG_PISO = Pattern.compile("[1-9]{0,2}[a-zA-Z]{1,5}");
+	private static final Pattern REG_NAME = Pattern.compile("(\\s*[0-9]{0,10}[a-zA-ZÀ-úñÑ]{2,20}[0-9]{0,10}){1,5}");
+	private static final Pattern REG_NUMBER_NOT = Pattern.compile("(\\s*[a-zA-ZÀ-úñÑ]{2,20}){1,5}");
+	private static final Pattern REG_APELLIDOS = Pattern.compile("(\\s*[a-zA-ZÀ-úñÑ]{2,20}){1,5}");
+	private static final Pattern REG_PISO = Pattern.compile("[1-9]{0,2}[a-zA-ZÀ-úñÑ]{1,5}");
 	private static final Pattern REG_TELEPHONE = Pattern.compile("^[6,8,9][0-9]{8}$|^\\\\+[0-9]{2}\\\\s[1-9][0-9]{8}$");
 	private static final Pattern REG_CODPOSTAL = Pattern.compile("^\\d{5}-\\d{4}|\\d{5}|[A-Z]\\d[A-Z] \\d[A-Z]\\d$");
 	private static EmailValidator mail  = EmailValidator.getInstance();

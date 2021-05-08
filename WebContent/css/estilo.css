@@ -1689,3 +1689,13 @@ footer{
 	margin-bottom: 2%;
 	color: white;
 }
+
+.informacionProducto + .select.form{
+	margin-top:2%;
+	width:40%;
+}
+.addLista{
+	    width: 100%;
+    margin-top: 2%;
+    text-align: left;
+}
