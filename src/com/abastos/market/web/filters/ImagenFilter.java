@@ -25,7 +25,7 @@ import com.abastos.market.web.util.WebConstants;
 public class ImagenFilter implements Filter {
 
 	private static Logger logger = LogManager.getLogger(ImagenFilter.class);
-
+	private static final String spl = "imgs";
 	public ImagenFilter() {
 
 	}
@@ -42,7 +42,7 @@ public class ImagenFilter implements Filter {
 
 		String url = UrlBuilder.urlRealPath(httpRequest, WebConstants.UPLOAD_DIRECTORY_IMG);
 
-		String [] urlArray = httpRequest.getRequestURI().split("imgs");
+		String [] urlArray = httpRequest.getRequestURI().split(spl);
 		String img = urlArray[urlArray.length -1];
 		String imgUrl = new StringBuilder(url).append(img).toString();
 		String mime = httpRequest.getServletContext().getMimeType(imgUrl);
@@ -51,9 +51,9 @@ public class ImagenFilter implements Filter {
 		BufferedOutputStream writer = null; 
 		File fil = new File(imgUrl);
 		if(fil.exists()) {
-		try {
-			httpResponse.setContentType(mime);	
-			
+			try {
+				httpResponse.setContentType(mime);	
+
 				file = new FileInputStream(imgUrl);
 				reader = new BufferedInputStream(file);  
 				writer = new BufferedOutputStream(httpResponse.getOutputStream()); 
@@ -62,19 +62,19 @@ public class ImagenFilter implements Filter {
 					writer.write(ch);
 				}
 
-			
-		} catch (IOException e) {
-			logger.warn(e.getMessage(),e);
 
-		}
-		finally {
+			} catch (IOException e) {
+				logger.warn(e.getMessage(),e);
 
-			file.close();
-			reader.close();  
-			writer.flush();
-			writer.close();
+			}
+			finally {
 
-		}}
+				file.close();
+				reader.close();  
+				writer.flush();
+				writer.close();
+
+			}}
 
 
 	}
