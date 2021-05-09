@@ -988,7 +988,7 @@ header+.block>.block_second>div>figure {
 
 header+.block>.block_second>div>figure>img {
 	width: 100%;
-	background-color: rebeccapurple;
+	background-color: white;
 }
 
 header+.block>.block_second>div>figure>figcaption>form>.puntuacion {
