@@ -131,7 +131,9 @@ public class ValoracionServlet extends HttpServlet {
 				puntTienda.setIdPerfilParticular(particular.getId());
 				puntTienda.setValoracionAtncCliente(Integer.valueOf(atencCliente));
 				puntTienda.setValoracionPrecio(Integer.valueOf(precio));
+				if(servDomicilio != null) {
 				puntTienda.setValoracionServDomicilio(Integer.valueOf(servDomicilio));
+				}
 				puntTienda.setIdTienda(Long.valueOf(tienda));
 				puntTiendService.create(puntTienda);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);
@@ -174,7 +176,9 @@ public class ValoracionServlet extends HttpServlet {
 				puntTienda.setIdPerfilParticular(particular.getId());
 				puntTienda.setValoracionAtncCliente(Integer.valueOf(atencCliente));
 				puntTienda.setValoracionPrecio(Integer.valueOf(precio));
+				if(servDomicilio != null) {
 				puntTienda.setValoracionServDomicilio(Integer.valueOf(servDomicilio));
+				}
 				puntTienda.setIdTienda(Long.valueOf(tienda));
 				puntTiendService.update(puntTienda);
 				target = UrlBuilder.getUrlForController(request, ControllerPath.PEDIDO, ActionNames.DETALLE, redirect);

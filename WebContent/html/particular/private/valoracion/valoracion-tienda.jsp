@@ -56,6 +56,7 @@
 					value="5" name="<%=ParameterNames.PUNTUACION_ATC%>"
 					<% if (puntTienda !=null) {if (puntTienda.getValoracionAtncCliente() == 5) {%> checked <%}}%>></label>
 			</fieldset>
+			<%if(t.getEnvioDomicilio() == true){%>
 			<fieldset class="centralBlock_form--valoracion">
 				<legend>Atención a domicilio</legend>
 				<label class="star-blank"><input type="radio" id="6"
@@ -74,6 +75,7 @@
 					value="5" name="<%=ParameterNames.PUNTUACION_ATD%>"
 					<%if (puntTienda !=null) {if (puntTienda.getValoracionServDomicilio() == 5) {%> checked <%}}%>></label>
 			</fieldset>
+			<%} %>
 			<fieldset class="centralBlock_form--valoracion">
 				<legend>Precios</legend>
 				<label class="star-blank"><input type="radio" id="11"
