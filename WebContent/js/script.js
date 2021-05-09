@@ -223,7 +223,7 @@ function updatePuntuacion(valor) {
 //***funcion para comprobar campos formulario empresa**/
 function testRegEmp(e) {
   let nombre = new RegExp("(\\s*[0-9]{0,10}[a-zA-Z]{2,20}[0-9]{0,10}){1,5}");
-  let apellidos = new RegExp("(\\s*[a-zA-Z]{2,20}){1,5}");
+  let apellidos = new RegExp(/(\s*[a-zA-Z\u00C0-\u024F\u1E00-\u1EFF]{2,20}$){1,5}/);
   let email = new RegExp("[a-zA_Z1-9]+@[a-zA-Z1-9]+.[a-zA-Z]+");
   let numberNotValidator = new RegExp("(\\s*[a-zA-Z]{2,20}){1,5}");
   let pisoValidator = new RegExp("[1-9]{0,2}[a-zA-Z]{1,5}");
@@ -237,7 +237,7 @@ function testRegEmp(e) {
 if(actualInput == inputEmpresa[1]){
   test(
     inputEmpresa[1],
-    nombre,
+    apellidos,
     "El nombre no cumple con el formato"
   );
 }
